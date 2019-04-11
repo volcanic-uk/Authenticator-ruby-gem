@@ -23,12 +23,12 @@ module Volcanic
     def self.create_token(name, secret)
       Connection.new.token({name: name, secret: secret})
     end
-    #
-    # # Validate token at cache and at Auth service
-    # def self.validate_token(token)
-    #   Connection.new.validate(token)
-    # end
-    #
+
+    # Validate token at cache and at Auth service
+    def self.validate_token(token)
+      Connection.new.validate(token)
+    end
+
     # # Delete token at cache and AAG
     # def self.delete_token(token)
     #   Connection.new.delete(token)
