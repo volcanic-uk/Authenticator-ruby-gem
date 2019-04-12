@@ -1,5 +1,6 @@
 require 'volcanic/authenticator/v1/cache'
 require 'volcanic/authenticator/v1/connection'
+require 'volcanic/authenticator/v1/header'
 
 module Volcanic
   module Authenticator

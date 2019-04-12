@@ -2,7 +2,6 @@ require 'httparty'
 require 'redis'
 require 'dotenv/load'
 
-
 module Volcanic::Authenticator
   class Connection
     include HTTParty
@@ -10,26 +9,32 @@ module Volcanic::Authenticator
     # default_timeout 30 #hard timeout
 
     def identity(payload, header= nil)
-      request '/api/v1/identity', options(payload, header), 'POST'
+      req = request '/api/v1/identity', options(payload, header), 'POST'
+      req.body
     end
 
     def authority(payload, header= nil)
-      request '/api/v1/authority', options(payload, header), 'POST'
+      req = request '/api/v1/authority', options(payload, header), 'POST'
+      req.body
     end
 
     def group(payload, header= nil)
-      request '/api/v1/group', options(payload, header), 'POST'
+      req = request '/api/v1/group', options(payload, header), 'POST'
+      req.body
     end
 
     def token(payload, header= nil)
       req = request '/api/v1/authenticate', options(payload, header), 'POST'
-      caching req
-      req
+      caching req.body
+      req.body
     end
 
     def validate(token)
       return true if token_exists? token
-
+      req = request '/api/v1/token', options(nil, {
+          Authorization: Header.bearer(token)
+      }), 'GET'
+      req.success?
     end
 
     private
@@ -43,7 +48,7 @@ module Volcanic::Authenticator
       end
 
       return error(req.body, req.code) if req.bad_gateway?
-      req.body
+      req
     end
 
     def caching(payload)

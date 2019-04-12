@@ -32,4 +32,16 @@ RSpec.describe Volcanic::Authenticator do
     end
   end
 
+  describe '.validate_token' do
+    let(:validate_token) {Volcanic::Authenticator.validate_token('identiy_name')}
+
+    it 'valid token' do
+      expect(validate_token).to eq(true)
+    end
+
+    it 'invalid token' do
+      expect(validate_token).to eq(false)
+    end
+  end
+
 end
