@@ -1,10 +1,12 @@
 require 'httparty'
 require 'redis'
+require 'dotenv/load'
+
 
 module Volcanic::Authenticator
   class Connection
     include HTTParty
-    base_uri "https://5fb6ed6f-03de-4211-a9bf-4952bcb45548.mock.pstmn.io"
+    base_uri ENV['AUTHENTICATOR_DOMAIN'] || ENV['auth_domain']
     # default_timeout 30 #hard timeout
 
     def identity(payload, header= nil)

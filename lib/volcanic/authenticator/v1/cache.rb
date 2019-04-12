@@ -4,10 +4,11 @@ module Volcanic::Authenticator
 
   class Cache
 
-    KEY = 'volcanic-authenticator-gem'
+    KEY = ENV['REDIS_KEY'] || ENV['r_key']
+    URL = ENV['REDIS_URL'] || ENV['r_url']
 
     def initialize
-      @redis = Redis.new
+      @redis = Redis.new(url: URL)
       configure
     end
 

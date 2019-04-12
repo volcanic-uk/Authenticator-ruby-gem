@@ -15,7 +15,9 @@ Gemfile.lock
 
 *.gem
 *.rbc
+.env
 /.config
+/config
 /InstalledFiles
 /pkg/
 /spec/examples.txt
