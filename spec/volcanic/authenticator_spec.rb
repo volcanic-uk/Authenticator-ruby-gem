@@ -44,4 +44,34 @@ RSpec.describe Volcanic::Authenticator do
     end
   end
 
+  describe '.delete_token' do
+    let(:delete_token) {Volcanic::Authenticator.delete_token('identiy_name')}
+
+    it 'Success delete token' do
+      expect(delete_token).to eq(true)
+    end
+
+    it 'Failed delete token' do
+      expect(delete_token).to eq(false)
+    end
+  end
+
+  describe '.clear' do
+    let(:clear) {Volcanic::Authenticator.clear}
+
+    it 'Success clear cache' do
+      expect(clear).to eq('OK')
+    end
+
+  end
+
+  describe '.list' do
+    let(:list) {Volcanic::Authenticator.list}
+
+    it 'List all cache token' do
+      expect(list).not_to be_nil
+    end
+
+  end
+
 end

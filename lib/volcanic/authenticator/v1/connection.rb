@@ -37,14 +37,25 @@ module Volcanic::Authenticator
       req.success?
     end
 
+    def delete(token)
+      # return true unless token_exists? token
+      req = request '/api/v1/token', options(nil, {
+          Authorization: Header.bearer(token)
+      }), 'DELETE'
+      req.success?
+    end
+
     private
 
-    def request(url, options, method)
+    def request(url, options, method, return_method = false)
 
-      if method == 'GET'
-        req = self.class.get(url, options)
-      else
+      case method
+      when 'POST'
         req = self.class.post(url, options)
+      when 'DELETE'
+        req = self.class.delete(url, options)
+      else
+        req = self.class.get(url, options)
       end
 
       return error(req.body, req.code) if req.bad_gateway?

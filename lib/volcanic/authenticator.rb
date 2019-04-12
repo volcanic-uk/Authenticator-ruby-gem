@@ -30,20 +30,20 @@ module Volcanic
       Connection.new.validate(token)
     end
 
-    # # Delete token at cache and AAG
-    # def self.delete_token(token)
-    #   Connection.new.delete(token)
-    # end
-    #
-    # #clear cache token
-    # def self.clear
-    #   Cache.clear
-    # end
-    #
-    # #clear cache token
-    # def self.list
-    #   Cache.get_all
-    # end
+    # Delete token at cache and AAG
+    def self.delete_token(token)
+      Connection.new.delete(token)
+    end
+
+    #clear cache token
+    def self.clear
+      Cache.new.clear
+    end
+
+    #clear cache token
+    def self.list
+      Cache.new.get_all
+    end
 
   end
 end
