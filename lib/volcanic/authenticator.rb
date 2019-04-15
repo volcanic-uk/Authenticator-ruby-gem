@@ -6,7 +6,7 @@ require 'volcanic/authenticator/v1/token'
 
 module Volcanic
   module Authenticator
-
+    
     # Request new identity
     def self.create_identity(name= nil, ids= [])
       Connection.new.identity({name: name, ids: ids})

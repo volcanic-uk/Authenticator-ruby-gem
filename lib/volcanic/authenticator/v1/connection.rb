@@ -25,20 +25,20 @@ module Volcanic::Authenticator
 
     def token(payload, header= nil)
       res = request '/api/v1/authenticate', payload, header, 'POST'
-      res_token = Response.token res
-      caching(res_token) if JSON.parse(res_token)['status'] == 'success'
-      res_token
+      Response.token res
     end
 
     def validate(token)
       return true if token_exists? token
       res = request '/api/v1/token', nil, token, 'GET'
+      Response.token res
       res.success?
     end
 
     def delete(token)
       # return true unless token_exists? token
       res = request '/api/v1/token', nil, token, 'DELETE'
+      delete_cache token
       res.success?
     end
 
@@ -58,14 +58,12 @@ module Volcanic::Authenticator
       respond
     end
 
-    def caching(payload)
-      token = JSON.parse(payload)['token']
-      return if token.nil?
-      Cache.new.set token
-    end
-
     def token_exists?(token)
       Cache.new.valid? token
+    end
+
+    def delete_cache(token)
+      Cache.new.delete token
     end
 
   end

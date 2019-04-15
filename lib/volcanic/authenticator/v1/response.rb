@@ -29,8 +29,10 @@ module Volcanic::Authenticator
     #return for issue token
     def self.token(response)
       return build_error response unless response.success?
+      token = JSON.parse(response.body)['token']
+      caching token
       build_payload({
-                        token: JSON.parse(response.body)['token']
+                        token: token
                     })
     end
 
@@ -53,6 +55,11 @@ module Volcanic::Authenticator
 
     def self.build_boolean_return(response)
       return true
+    end
+
+    def self.caching(token)
+      return if token.nil?
+      Cache.new.set token
     end
 
   end
