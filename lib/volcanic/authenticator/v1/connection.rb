@@ -25,7 +25,9 @@ module Volcanic::Authenticator
 
     def token(payload, header= nil)
       res = request '/api/v1/authenticate', payload, header, 'POST'
-      Response.token res
+      res_token = Response.token res
+      caching(res_token) if JSON.parse(res_token)['status'] == 'success'
+      res_token
     end
 
     def validate(token)

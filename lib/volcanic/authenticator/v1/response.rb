@@ -30,18 +30,14 @@ module Volcanic::Authenticator
     def self.token(response)
       return build_error response unless response.success?
       build_payload({
-
+                        token: JSON.parse(response.body)['token']
                     })
     end
 
     private
 
     def self.build_payload(body)
-      {
-          status: 'success',
-          body: body
-
-      }.to_json
+      {status: 'success'}.merge(body).to_json
     end
 
     def self.build_error(error)
@@ -53,6 +49,10 @@ module Volcanic::Authenticator
               reason: JSON.parse(error.body)['reason'].nil? ? nil : JSON.parse(error.body)['reason']
           }
       }.to_json
+    end
+
+    def self.build_boolean_return(response)
+      return true
     end
 
   end

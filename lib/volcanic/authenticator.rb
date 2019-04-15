@@ -2,6 +2,7 @@ require 'volcanic/authenticator/v1/cache'
 require 'volcanic/authenticator/v1/connection'
 require 'volcanic/authenticator/v1/header'
 require 'volcanic/authenticator/v1/response'
+require 'volcanic/authenticator/v1/token'
 
 module Volcanic
   module Authenticator
@@ -44,6 +45,10 @@ module Volcanic
     #clear cache token
     def self.list
       Cache.new.get_all
+    end
+
+    def self.decode(token)
+      Token.decode token
     end
 
   end
