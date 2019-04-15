@@ -9,57 +9,51 @@ module Volcanic::Authenticator
     # default_timeout 30 #hard timeout
 
     def identity(payload, header= nil)
-      req = request '/api/v1/identity', options(payload, header), 'POST'
-      req.body
+      res = request '/api/v1/identity', payload, header, 'POST'
+      Response.identity res
     end
 
     def authority(payload, header= nil)
-      req = request '/api/v1/authority', options(payload, header), 'POST'
-      req.body
+      res = request '/api/v1/authority', payload, header, 'POST'
+      Response.authority res
     end
 
     def group(payload, header= nil)
-      req = request '/api/v1/group', options(payload, header), 'POST'
-      req.body
+      res = request '/api/v1/group', payload, header, 'POST'
+      Response.group res
     end
 
     def token(payload, header= nil)
-      req = request '/api/v1/authenticate', options(payload, header), 'POST'
-      caching req.body
-      req.body
+      res = request '/api/v1/authenticate', payload, header, 'POST'
+      Response.token res
     end
 
     def validate(token)
       return true if token_exists? token
-      req = request '/api/v1/token', options(nil, {
-          Authorization: Header.bearer(token)
-      }), 'GET'
-      req.success?
+      res = request '/api/v1/token', nil, token, 'GET'
+      res.success?
     end
 
     def delete(token)
       # return true unless token_exists? token
-      req = request '/api/v1/token', options(nil, {
-          Authorization: Header.bearer(token)
-      }), 'DELETE'
-      req.success?
+      res = request '/api/v1/token', nil, token, 'DELETE'
+      res.success?
     end
 
     private
 
-    def request(url, options, method, return_method = false)
+    def request(url, payload, header, method)
 
       case method
       when 'POST'
-        req = self.class.post(url, options)
+        respond = self.class.post(url, body: payload.to_json, headers: header)
       when 'DELETE'
-        req = self.class.delete(url, options)
+        respond = self.class.delete(url, body: payload.to_json, headers: header)
       else
-        req = self.class.get(url, options)
+        respond = self.class.get(url, body: payload.to_json, headers: header)
       end
 
-      return error(req.body, req.code) if req.bad_gateway?
-      req
+      respond
     end
 
     def caching(payload)
@@ -71,23 +65,6 @@ module Volcanic::Authenticator
     def token_exists?(token)
       Cache.new.valid? token
     end
-
-    def options(payload, header)
-      {
-          body: payload,
-          headers: header
-      }
-    end
-
-    def error(msg, code)
-      {
-          error: {
-              code: code,
-              reason: msg.to_json
-          }
-      }
-    end
-
 
   end
 end

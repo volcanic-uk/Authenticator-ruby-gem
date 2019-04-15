@@ -1,6 +1,7 @@
 require 'volcanic/authenticator/v1/cache'
 require 'volcanic/authenticator/v1/connection'
 require 'volcanic/authenticator/v1/header'
+require 'volcanic/authenticator/v1/response'
 
 module Volcanic
   module Authenticator
@@ -30,7 +31,7 @@ module Volcanic
       Connection.new.validate(token)
     end
 
-    # Delete token at cache and AAG
+    # Delete token at cache and Auth service
     def self.delete_token(token)
       Connection.new.delete(token)
     end
