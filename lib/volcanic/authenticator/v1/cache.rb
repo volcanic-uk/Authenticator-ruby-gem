@@ -11,7 +11,7 @@ module Volcanic::Authenticator
     attr_accessor :token
 
     def initialize(token= nil)
-      @redis = Redis.new
+      @redis = Redis.new(url: ENV['volcanic_authentication_redis'])
       @token = token
     end
 

@@ -113,17 +113,18 @@ RSpec.describe Volcanic::Authenticator do
     before :all do
       create_identity = Volcanic::Authenticator.create_identity(SecureRandom.hex(6))
       @parsed = JSON.parse(create_identity)
+      @create_token = Volcanic::Authenticator.create_token(@parsed['identity_name'], @parsed['identity_secret'])
     end
 
-    let(:create_token) {Volcanic::Authenticator.create_token(@parsed['identity_name'], @parsed['identity_secret'])}
+    # let(:create_token) {Volcanic::Authenticator.create_token(@parsed['identity_name'], @parsed['identity_secret'])}
 
     context 'Token created' do
       it 'return "success" status' do
-        expect(JSON.parse(create_token)['status']).to eq('success')
+        expect(JSON.parse(@create_token)['status']).to eq('success')
       end
 
       it 'return token' do
-        expect(JSON.parse(create_token)['token']).not_to be_empty
+        expect(JSON.parse(@create_token)['token']).not_to be_empty
       end
     end
 

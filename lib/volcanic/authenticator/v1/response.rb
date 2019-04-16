@@ -23,7 +23,8 @@ module Volcanic::Authenticator
     def return_group(response)
       return build_error response unless response.success?
       build_payload({
-
+                        group_name: JSON.parse(response.body)['group']['name'],
+                        group_id: JSON.parse(response.body)['group']['id']
                     })
     end
 
