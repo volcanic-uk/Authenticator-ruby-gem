@@ -2,38 +2,47 @@ RSpec.describe Volcanic::Authenticator do
 
   describe '.create_identity' do
 
+    before :all do
+      @random_name = SecureRandom.hex 6
+    end
+
     context 'Success create identity' do
-      let(:create_identity) {Volcanic::Authenticator.create_identity(SecureRandom.hex 6)}
+
+      before :all do
+        @create_identity = Volcanic::Authenticator.create_identity(@random_name)
+      end
 
       it 'Success?' do
-        p JSON.parse(create_identity)['body']
-        expect(JSON.parse(create_identity)['status']).to eq('success')
+        expect(JSON.parse(@create_identity)['status']).to eq('success')
       end
 
       it 'identity_name created' do
-        expect(JSON.parse(create_identity)['identity_name']).not_to be_empty
+        expect(JSON.parse(@create_identity)['identity_name']).not_to be_empty
       end
 
       it 'identity_name created' do
-        expect(JSON.parse(create_identity)['identity_secret']).not_to be_empty
+        expect(JSON.parse(@create_identity)['identity_secret']).not_to be_empty
       end
     end
 
-    # context 'Failed create identity' do
-    #   let(:create_identity) {Volcanic::Authenticator.create_identity('')}
-    #
-    #   it 'return "error" status' do
-    #     expect(JSON.parse(create_identity)['status']).to eq('success')
-    #   end
-    #
-    #   it 'return error body' do
-    #     expect(JSON.parse(create_identity)['respond']['identity_name']).not_to be_empty
-    #   end
-    # end
+    context 'Failed create identity' do
+      before :all do
+        @create_identity = Volcanic::Authenticator.create_identity(@random_name)
+      end
 
-    # it 'identity_secret created' do
-    #   expect(JSON.parse(create_identity)['identity_secret']).not_to be_empty
-    # end
+      it 'return "error" status' do
+        expect(JSON.parse(@create_identity)['status']).to eq('error')
+      end
+
+      it 'Duplicate name error' do
+      end
+
+      it 'Validation Error' do
+        error_req = Volcanic::Authenticator.create_identity(nil)
+        expect(JSON.parse(error_req)['error']['reason']['message']).to eq("ValidationError")
+      end
+    end
+
   end
   #
   # describe '.create_authority' do
@@ -100,11 +109,11 @@ RSpec.describe Volcanic::Authenticator do
   # end
   #
 
-  describe '.decode' do
-    let(:decode) {Volcanic::Authenticator.decode 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJudW1iZXIiOiIxMjM0NTY2NzgifQ.tFEad0F_ET8NRe_-KiTI5nl61OhQi7f4u-As3Ar6a48'}
-    it 'Success decode' do
-      expect(decode).not_to be_nil
-    end
-  end
+  # describe '.decode' do
+  #   let(:decode) {Volcanic::Authenticator.decode 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJudW1iZXIiOiIxMjM0NTY2NzgifQ.tFEad0F_ET8NRe_-KiTI5nl61OhQi7f4u-As3Ar6a48'}
+  #   it 'Success decode' do
+  #     expect(decode).not_to be_nil
+  #   end
+  # end
 
 end
