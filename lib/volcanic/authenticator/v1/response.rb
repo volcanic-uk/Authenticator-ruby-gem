@@ -2,7 +2,7 @@ module Volcanic::Authenticator
   module Response
 
     #return for create identity
-    def self.identity(response)
+    def return_identity(response)
       return build_error response unless response.success?
       build_payload({
                         identity_name: JSON.parse(response.body)['identity']['name'],
@@ -11,15 +11,16 @@ module Volcanic::Authenticator
     end
 
     #return for create Authority
-    def self.authority(response)
+    def return_authority(response)
       return build_error response unless response.success?
       build_payload({
-
+                        authority_name: JSON.parse(response.body)['authority']['name'],
+                        authority_id: JSON.parse(response.body)['authority']['id']
                     })
     end
 
     #return for create Group
-    def self.group(response)
+    def return_group(response)
       return build_error response unless response.success?
       build_payload({
 
@@ -27,22 +28,21 @@ module Volcanic::Authenticator
     end
 
     #return for issue token
-    def self.token(response)
+    def return_token(response)
       return build_error response unless response.success?
-      token = JSON.parse(response.body)['token']
-      caching token
+      caching get_token(response)
       build_payload({
-                        token: token
+                        token: get_token(response)
                     })
     end
 
     private
 
-    def self.build_payload(body)
+    def build_payload(body)
       {status: 'success'}.merge(body).to_json
     end
 
-    def self.build_error(error)
+    def build_error(error)
       {
           status: 'error',
           error: {
@@ -53,13 +53,17 @@ module Volcanic::Authenticator
       }.to_json
     end
 
-    def self.build_boolean_return(response)
+    def build_boolean_return(response)
       return true
     end
 
-    def self.caching(token)
+    def caching(token)
       return if token.nil?
-      Cache.new.set token
+      Cache.new(token).save
+    end
+
+    def get_token(jsonObject)
+      JSON.parse(jsonObject.body)['token']
     end
 
   end

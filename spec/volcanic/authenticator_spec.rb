@@ -6,13 +6,13 @@ RSpec.describe Volcanic::Authenticator do
       @random_name = SecureRandom.hex 6
     end
 
-    context 'Success create identity' do
+    context 'Identity created' do
 
       before :all do
         @create_identity = Volcanic::Authenticator.create_identity(@random_name)
       end
 
-      it 'Success?' do
+      it 'return "success" status' do
         expect(JSON.parse(@create_identity)['status']).to eq('success')
       end
 
@@ -46,13 +46,62 @@ RSpec.describe Volcanic::Authenticator do
   end
 
 
-  # describe '.create_authority' do
-  #   let(:create_authority) {Volcanic::Authenticator.create_authority('new')}
-  #   it 'Authority created' do
-  #     expect(JSON.parse(create_authority)['status']).to eq('Authority has been added')
-  #   end
-  # end
-  #
+  describe '.create_authority' do
+
+    before :all do
+      @random_name = SecureRandom.hex 6
+    end
+
+    context 'Authority created' do
+
+      before :all do
+        @authority = Volcanic::Authenticator.create_authority(@random_name, 1)
+      end
+
+      it 'return "success" status' do
+        expect(JSON.parse(@authority)['status']).to eq('success')
+      end
+
+      it 'return authority name' do
+        expect(JSON.parse(@authority)['authority_name']).to eq(@random_name)
+      end
+
+      it 'return authority id' do
+        expect(JSON.parse(@authority)['authority_id']).not_to be_nil
+      end
+    end
+
+    context 'Duplicate name' do
+      before :all do
+        @authority = Volcanic::Authenticator.create_authority(@random_name, 1)
+      end
+
+      it 'return "error" status' do
+        expect(JSON.parse(@authority)['status']).to eq('error')
+      end
+
+      it 'return "Duplicate" message' do
+        expect(JSON.parse(@authority)['error']['reason']['message']).to eq("Duplicate entry #{@random_name}")
+      end
+
+    end
+
+    context "Validation error" do
+      it 'error missing name' do
+        res = Volcanic::Authenticator.create_authority(nil, 1)
+        expect(JSON.parse(res)['status']).to eq('error')
+        expect(JSON.parse(res)['error']['reason']['name'].first).to eq('The name is required')
+      end
+
+      it 'error missing creator_id' do
+        res = Volcanic::Authenticator.create_authority(@random_name, nil)
+        expect(JSON.parse(res)['status']).to eq('error')
+        expect(JSON.parse(res)['error']['reason']['creator_id'].first).to eq('The creator is required')
+      end
+    end
+
+  end
+
   # describe '.create_group' do
   #   let(:create_group) {Volcanic::Authenticator.create_group('new', [])}
   #   it 'Group created' do
@@ -110,12 +159,12 @@ RSpec.describe Volcanic::Authenticator do
   # end
   #
 
-  describe '.decode' do
-    let(:decode) {Volcanic::Authenticator.decode_token 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOjE1MTYyMzkwMjJ9.4Adcj3UFYzPUVaVF43FmMab6RlaQD8A9V8wFzzht-KQ'}
-    it 'Success decode' do
-      p decode
-      expect(decode).not_to be_nil
-    end
-  end
+  # describe '.decode' do
+  #   let(:decode) {Volcanic::Authenticator.decode_token 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOjE1MTYyMzkwMjJ9.4Adcj3UFYzPUVaVF43FmMab6RlaQD8A9V8wFzzht-KQ'}
+  #   it 'Success decode' do
+  #     p decode
+  #     expect(decode).not_to be_nil
+  #   end
+  # end
 
 end

@@ -13,13 +13,13 @@ module Volcanic
     end
 
     # Request new authority
-    def self.create_authority(name)
-      Connection.new.authority({name: name})
+    def self.create_authority(name, creator_id)
+      Connection.new.authority({name: name, creator_id: creator_id})
     end
 
     # Request new authority group
-    def self.create_group(name, authorities = [])
-      Connection.new.group({name: name, authorities: authorities})
+    def self.create_group(name, creator_id, authorities = [])
+      Connection.new.group({name: name, creator_id: creator_id, authorities: authorities})
     end
 
     # Request new token
@@ -39,16 +39,16 @@ module Volcanic
 
     #clear cache token
     def self.clear
-      Cache.new.clear
+      # Cache.new.clear
     end
 
     #clear cache token
     def self.list
-      Cache.new.get_all
+      # Cache.new.get_all
     end
 
     def self.decode_token(token)
-      Token.new(token).expiry_time
+      # Token.new(token).expiry_time
     end
 
   end

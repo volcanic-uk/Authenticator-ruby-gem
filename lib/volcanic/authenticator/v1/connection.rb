@@ -1,43 +1,47 @@
 require 'httparty'
 require 'redis'
 require 'dotenv/load'
+require 'volcanic/authenticator/v1/response'
+require 'volcanic/authenticator/v1/header'
 
 module Volcanic::Authenticator
   class Connection
     include HTTParty
-    base_uri ENV['AUTHENTICATOR_DOMAIN'] || ENV['auth_domain']
+    include Response
+    include Header
+
+    base_uri ENV['volcanic_authentication_domain']
     # default_timeout 30 #hard timeout
 
     def identity(payload, header= nil)
       res = request '/api/v1/identity', payload, header, 'POST'
-      Response.identity res
+      return_identity res
     end
 
     def authority(payload, header= nil)
       res = request '/api/v1/authority', payload, header, 'POST'
-      Response.authority res
+      return_authority res
     end
 
     def group(payload, header= nil)
       res = request '/api/v1/group', payload, header, 'POST'
-      Response.group res
+      return_group res
     end
 
     def token(payload, header= nil)
-      res = request '/api/v1/authenticate', payload, header, 'POST'
-      Response.token res
+      res = request '/api/v1/identity/login', payload, header, 'POST'
+      return_token res
     end
 
     def validate(token)
-      return true if token_exists? token
-      res = request '/api/v1/identity/login', nil, token, 'GET'
-      Response.token res
+      return true if token_valid? token
+      res = request '/api/v1/identity/login', nil, bearer_header(token), 'POST'
+      token res
       res.success?
     end
 
     def delete(token)
-      # return true unless token_exists? token
-      res = request '/api/v1/token', nil, token, 'DELETE'
+      res = request '/api/v1/token', nil, bearer_header(token), 'DELETE'
       delete_cache token
       res.success?
     end
@@ -58,12 +62,12 @@ module Volcanic::Authenticator
       respond
     end
 
-    def token_exists?(token)
-      Cache.new.valid? token
+    def token_valid?(token)
+      Cache.new(token).valid?
     end
 
     def delete_cache(token)
-      Cache.new.delete token
+      Cache.new(token).delete
     end
 
   end
