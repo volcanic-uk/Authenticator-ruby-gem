@@ -50,7 +50,7 @@ module Volcanic::Authenticator
     end
 
     def perform_set(key)
-      @redis.set key, Time.now
+      @redis.set key, Token.new(key).expiry_time
     end
 
     def perform_del(token)
