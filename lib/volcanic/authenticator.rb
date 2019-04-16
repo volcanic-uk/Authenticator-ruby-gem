@@ -8,7 +8,7 @@ module Volcanic
   module Authenticator
     
     # Request new identity
-    def self.create_identity(name= nil, ids= [])
+    def self.create_identity(name, ids= [])
       Connection.new.identity({name: name, ids: ids})
     end
 
@@ -47,8 +47,8 @@ module Volcanic
       Cache.new.get_all
     end
 
-    def self.decode(token)
-      Token.decode token
+    def self.decode_token(token)
+      Token.new(token).expiry_time
     end
 
   end

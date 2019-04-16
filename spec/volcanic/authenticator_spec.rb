@@ -44,7 +44,8 @@ RSpec.describe Volcanic::Authenticator do
     end
 
   end
-  #
+
+
   # describe '.create_authority' do
   #   let(:create_authority) {Volcanic::Authenticator.create_authority('new')}
   #   it 'Authority created' do
@@ -109,11 +110,12 @@ RSpec.describe Volcanic::Authenticator do
   # end
   #
 
-  # describe '.decode' do
-  #   let(:decode) {Volcanic::Authenticator.decode 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJudW1iZXIiOiIxMjM0NTY2NzgifQ.tFEad0F_ET8NRe_-KiTI5nl61OhQi7f4u-As3Ar6a48'}
-  #   it 'Success decode' do
-  #     expect(decode).not_to be_nil
-  #   end
-  # end
+  describe '.decode' do
+    let(:decode) {Volcanic::Authenticator.decode_token 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOjE1MTYyMzkwMjJ9.4Adcj3UFYzPUVaVF43FmMab6RlaQD8A9V8wFzzht-KQ'}
+    it 'Success decode' do
+      p decode
+      expect(decode).not_to be_nil
+    end
+  end
 
 end

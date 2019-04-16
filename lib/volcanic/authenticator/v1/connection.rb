@@ -30,7 +30,7 @@ module Volcanic::Authenticator
 
     def validate(token)
       return true if token_exists? token
-      res = request '/api/v1/token', nil, token, 'GET'
+      res = request '/api/v1/identity/login', nil, token, 'GET'
       Response.token res
       res.success?
     end
