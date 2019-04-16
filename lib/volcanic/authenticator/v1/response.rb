@@ -53,10 +53,6 @@ module Volcanic::Authenticator
       }.to_json
     end
 
-    def build_boolean_return(response)
-      return true
-    end
-
     def caching(token)
       return if token.nil?
       Cache.new(token).save
