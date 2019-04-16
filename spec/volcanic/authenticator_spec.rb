@@ -102,45 +102,63 @@ RSpec.describe Volcanic::Authenticator do
   #
   # end
 
-  # describe '.create_group' do
-  #   let(:create_group) {Volcanic::Authenticator.create_group('new', [])}
-  #   it 'Group created' do
-  #     expect(JSON.parse(create_group)['status']).to eq('group has been created')
-  #   end
-  # end
-  #
-  describe '.create_token' do
+  describe '.create_group' do
     before :all do
-      create_identity = Volcanic::Authenticator.create_identity(SecureRandom.hex(6))
-      @parsed = JSON.parse(create_identity)
-      @create_token = Volcanic::Authenticator.create_token(@parsed['identity_name'], @parsed['identity_secret'])
+      @name = SecureRandom.hex 6
+      @creator = Volcanic::Authenticator.create_identity(SecureRandom.hex(6))
+      @creator_id = JSON.parse(@creator)['identity_id'].to_i
+      @authority = Volcanic::Authenticator.create_authority(SecureRandom.hex(6), @creator_id)
+      @authority_id = JSON.parse(@creator)['authority_id'].to_i
+      @group = Volcanic::Authenticator.create_group(@name, @creator_id, [@authority_id])
     end
 
-    # let(:create_token) {Volcanic::Authenticator.create_token(@parsed['identity_name'], @parsed['identity_secret'])}
-
-    context 'Token created' do
+    context 'Group created' do
       it 'return "success" status' do
-        expect(JSON.parse(@create_token)['status']).to eq('success')
+        expect(JSON.parse(@group)['status']).to eq('success')
       end
 
-      it 'return token' do
-        expect(JSON.parse(@create_token)['token']).not_to be_empty
-      end
-    end
-
-    context 'return "invalid identity name or secret"' do
-      it 'missing identity' do
-        res = Volcanic::Authenticator.create_token('', '9993a115f14856b8d2e28546f0e1aa006b9ba469')
-        expect(JSON.parse(res)['error']['reason']['message']).to eq('invalid identity name or secret')
+      it 'return group name' do
+        expect(JSON.parse(@group)['group_name']).to eq(@name)
       end
 
-      it 'missing secret' do
-        res = Volcanic::Authenticator.create_token('new_identity_10', '')
-        expect(JSON.parse(res)['error']['reason']['message']).to eq('invalid identity name or secret')
+      it 'return group id' do
+        expect(JSON.parse(@group)['group_id']).not_to be_nil
       end
     end
-
   end
+
+  # describe '.create_token' do
+  #   before :all do
+  #     create_identity = Volcanic::Authenticator.create_identity(SecureRandom.hex(6))
+  #     @parsed = JSON.parse(create_identity)
+  #     @create_token = Volcanic::Authenticator.create_token(@parsed['identity_name'], @parsed['identity_secret'])
+  #   end
+  #
+  #   # let(:create_token) {Volcanic::Authenticator.create_token(@parsed['identity_name'], @parsed['identity_secret'])}
+  #
+  #   context 'Token created' do
+  #     it 'return "success" status' do
+  #       expect(JSON.parse(@create_token)['status']).to eq('success')
+  #     end
+  #
+  #     it 'return token' do
+  #       expect(JSON.parse(@create_token)['token']).not_to be_empty
+  #     end
+  #   end
+  #
+  #   context 'return "invalid identity name or secret"' do
+  #     it 'missing identity' do
+  #       res = Volcanic::Authenticator.create_token('', '9993a115f14856b8d2e28546f0e1aa006b9ba469')
+  #       expect(JSON.parse(res)['error']['reason']['message']).to eq('invalid identity name or secret')
+  #     end
+  #
+  #     it 'missing secret' do
+  #       res = Volcanic::Authenticator.create_token('new_identity_10', '')
+  #       expect(JSON.parse(res)['error']['reason']['message']).to eq('invalid identity name or secret')
+  #     end
+  #   end
+  #
+  # end
 
   # describe '.validate_token' do
   #   let(:validate_token) {Volcanic::Authenticator.validate_token('identiy_name')}

@@ -6,7 +6,8 @@ module Volcanic::Authenticator
       return build_error response unless response.success?
       build_payload({
                         identity_name: JSON.parse(response.body)['identity']['name'],
-                        identity_secret: JSON.parse(response.body)['identity']['secret']
+                        identity_secret: JSON.parse(response.body)['identity']['secret'],
+                        identity_id: JSON.parse(response.body)['identity']['id']
                     })
     end
 
