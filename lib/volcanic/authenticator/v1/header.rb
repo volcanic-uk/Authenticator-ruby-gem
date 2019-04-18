@@ -3,8 +3,9 @@ module Volcanic::Authenticator
 
     def bearer_header(token)
       {
-          Authorization: "Bearer #{token}"
-      }.to_json
+          "Authorization": "Bearer #{token}",
+          "Content-Type": "application/json"
+      }
     end
   end
 end

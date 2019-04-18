@@ -18,9 +18,9 @@ module Volcanic::Authenticator
     # Validate token, return bool
     def valid?
       return false if @token.nil?
-      t = perform_get
-      return false if t.nil?
-      return false if Time.at(t) < Time.now
+      exp = perform_get # get expiry time of token
+      return false if exp.nil?
+      return false if Time.at(exp.to_i) < Time.now
       true
     end
 

@@ -32,9 +32,11 @@ module Volcanic::Authenticator
     #return for issue token
     def return_token(response)
       return build_error response unless response.success?
-      caching get_token(response)
+      token = get_token response
+      return nil if token.nil?
+      caching token
       build_payload({
-                        token: get_token(response)
+                        token: token
                     })
     end
 

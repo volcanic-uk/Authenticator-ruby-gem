@@ -35,13 +35,13 @@ module Volcanic::Authenticator
 
     def validate(token)
       return true if token_valid? token
-      res = request '/api/v1/identity/login', nil, bearer_header(token), 'POST'
-      token res
+      res = request '/api/v1/identity/validate', {token: token}, bearer_header(token), 'POST'
+      return_token res
       res.success?
     end
 
     def delete(token)
-      res = request '/api/v1/token', nil, bearer_header(token), 'DELETE'
+      res = request '/api/v1/token', {token: token}, bearer_header(token), 'DELETE'
       delete_cache token
       res.success?
     end
