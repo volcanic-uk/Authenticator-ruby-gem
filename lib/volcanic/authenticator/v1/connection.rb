@@ -1,6 +1,5 @@
 require 'httparty'
 require 'redis'
-require 'dotenv/load'
 require 'volcanic/authenticator/v1/response'
 require 'volcanic/authenticator/v1/header'
 
@@ -10,8 +9,13 @@ module Volcanic::Authenticator
     include Response
     include Header
 
-    base_uri ENV['volcanic_authentication_domain']
+    # YML = YAML::load_file(File.join(Dir.pwd, 'config.yml'))
+    # base_uri ENV['volcanic_authenticator_domain'] || "http://0.0.0.0:3000"
     # default_timeout 30 #hard timeout
+
+    def initialize
+      self.class.base_uri ENV['volcanic_authenticator_domain']
+    end
 
     def identity(payload, header= nil)
       res = request '/api/v1/identity', payload, header, 'POST'
@@ -36,8 +40,9 @@ module Volcanic::Authenticator
     def validate(token)
       return true if token_valid? token
       res = request '/api/v1/identity/validate', {token: token}, bearer_header(token), 'POST'
-      return_token res
-      res.success?
+      return false unless res.success?
+      caching JSON.parse(res.body)['token']
+      true
     end
 
     def delete(token)

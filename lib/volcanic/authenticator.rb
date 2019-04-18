@@ -4,11 +4,13 @@ require 'volcanic/authenticator/v1/header'
 require 'volcanic/authenticator/v1/response'
 require 'volcanic/authenticator/v1/token'
 
+
 module Volcanic
   module Authenticator
-    
+
     # Request new identity
     def self.create_identity(name, ids= [])
+      # ENV['volcanic_authenticator_domain'] || 'asda'
       Connection.new.identity({name: name, ids: ids})
     end
 

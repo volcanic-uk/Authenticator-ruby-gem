@@ -7,11 +7,10 @@ module Volcanic::Authenticator
   class Cache
 
     include Token
-
     attr_accessor :token
 
     def initialize(token= nil)
-      @redis = Redis.new(url: ENV['volcanic_authentication_redis'])
+      @redis = Redis.new(url: ENV['volcanic_authentication_redis'] || "redis://localhost:6379/1")
       @token = token
     end
 
@@ -19,9 +18,10 @@ module Volcanic::Authenticator
     def valid?
       return false if @token.nil?
       exp = perform_get # get expiry time of token
-      return false if exp.nil?
-      return false if Time.at(exp.to_i) < Time.now
-      true
+      # return false if exp.nil?
+      # return false if Time.at(exp.to_i) < Time.now
+      # true
+      exp.nil?
     end
 
     # Store token to cache

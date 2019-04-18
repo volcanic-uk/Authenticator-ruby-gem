@@ -40,6 +40,11 @@ module Volcanic::Authenticator
                     })
     end
 
+    def caching(token)
+      return if token.nil?
+      Cache.new(token).save
+    end
+
     private
 
     def build_payload(body)
@@ -47,19 +52,15 @@ module Volcanic::Authenticator
     end
 
     def build_error(error)
-      {
-          status: 'error',
-          error: {
-              code: error.code,
-              result: JSON.parse(error.body)['result'].nil? ? nil : JSON.parse(error.body)['result'],
-              reason: JSON.parse(error.body)['reason'].nil? ? nil : JSON.parse(error.body)['reason']
-          }
-      }.to_json
-    end
-
-    def caching(token)
-      return if token.nil?
-      Cache.new(token).save
+      # {
+      #     status: 'error',
+      #     error: {
+      #         code: error.code,
+      #         result: JSON.parse(error.body)['result'].nil? ? nil : JSON.parse(error.body)['result'],
+      #         reason: JSON.parse(error.body)['reason'].nil? ? nil : JSON.parse(error.body)['reason']
+      #     }
+      # }.to_json
+      error.body
     end
 
     def get_token(jsonObject)

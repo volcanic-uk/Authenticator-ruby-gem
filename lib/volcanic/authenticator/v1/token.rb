@@ -19,7 +19,8 @@ module Volcanic::Authenticator
 
     def validate_expiry(exp)
       token_exp = exp.to_i
-      default_exp = (Time.now + ENV['volcanic_authentication_cache_expiry_hour'].to_i * 60 * 60).to_i
+      exp_hour = ENV['volcanic_authenticator_redis_expiry_time'] || 5
+      default_exp = (Time.now + exp_hour.to_i * 60 * 60).to_i
 
       return default_exp if token_exp < Time.now.to_i
       return token_exp if token_exp < default_exp
