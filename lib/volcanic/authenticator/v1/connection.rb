@@ -1,6 +1,6 @@
 require 'httparty'
 require 'redis'
-# require 'dotenv/load'
+require 'dotenv/load'
 require 'volcanic/authenticator/v1/response'
 require 'volcanic/authenticator/v1/header'
 
