@@ -1,6 +1,7 @@
 require "base64"
 
-module Volcanic::Authenticator
+module Volcanic
+  module Authenticator
   module Token
 
     def expiry_time(token)
@@ -28,6 +29,7 @@ module Volcanic::Authenticator
     end
 
 
+  end
   end
 end
 

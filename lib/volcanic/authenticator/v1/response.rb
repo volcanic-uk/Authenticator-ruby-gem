@@ -1,4 +1,5 @@
-module Volcanic::Authenticator
+module Volcanic
+  module Authenticator
   module Response
 
     #return for create identity
@@ -67,5 +68,6 @@ module Volcanic::Authenticator
       JSON.parse(jsonObject.body)['token']
     end
 
+  end
   end
 end

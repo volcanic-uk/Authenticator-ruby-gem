@@ -1,4 +1,5 @@
-module Volcanic::Authenticator
+module Volcanic
+  module Authenticator
   module Header
 
     def bearer_header(token)
@@ -7,5 +8,6 @@ module Volcanic::Authenticator
           "Content-Type": "application/json"
       }
     end
+  end
   end
 end

@@ -2,11 +2,12 @@ require 'redis'
 require 'time'
 require 'volcanic/authenticator/v1/token'
 
-module Volcanic::Authenticator
+module Volcanic
+  module Authenticator
 
   class Cache
 
-    include Token
+    include Volcanic::Authenticator::Token
     attr_accessor :token
 
     def initialize(token= nil)
@@ -69,5 +70,5 @@ module Volcanic::Authenticator
     end
 
   end
-
+  end
 end
