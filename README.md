@@ -27,14 +27,14 @@ Volcanic::Authenticator.generate_identity(identity_name , group_ids) #eg. ('new_
 Volcanic::Authenticator.generate_token(identity_name, identity_secret) #eg. ('new_identity', 'qwertyuio1234567890')
 
 # To validate token.
- Volcanic::Authenticator.validate_token(token) 
+Volcanic::Authenticator.validate_token(token) 
  
 # To blacklist/revoke token.
- Volcanic::Authenticator.delete_token(token)
+Volcanic::Authenticator.delete_token(token)
  
 # To create Authority.
- Volcanic::Authenticator.create_authority(authority_name, identity_id) #eg. ('new_authority', 1)
+Volcanic::Authenticator.create_authority(authority_name, identity_id) #eg. ('new_authority', 1)
  
 # To create Group.
- Volcanic::Authenticator.create_group(group_name, identity_id, authority_ids) #eg. ('new_group', 1, [1,2])
+Volcanic::Authenticator.create_group(group_name, identity_id, authority_ids) #eg. ('new_group', 1, [1,2])
 ```
