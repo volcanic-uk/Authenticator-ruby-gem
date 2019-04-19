@@ -8,9 +8,9 @@ module Volcanic
     def return_identity(response)
       return response.body unless response.success?
       build_payload({
-                        identity_name: JSON.parse(response.body)['identity']['name'],
-                        identity_secret: JSON.parse(response.body)['identity']['secret'],
-                        identity_id: JSON.parse(response.body)['identity']['id']
+                        identity_name: parser(response.body)['identity']['name'],
+                        identity_secret: parser(response.body)['identity']['secret'],
+                        identity_id: parser(response.body)['identity']['id']
                     })
     end
 
@@ -18,8 +18,8 @@ module Volcanic
     def return_authority(response)
       return response.body unless response.success?
       build_payload({
-                        authority_name: JSON.parse(response.body)['authority']['name'],
-                        authority_id: JSON.parse(response.body)['authority']['id']
+                        authority_name: parser(response.body)['authority']['name'],
+                        authority_id: parser(response.body)['authority']['id']
                     })
     end
 
@@ -27,15 +27,15 @@ module Volcanic
     def return_group(response)
       return response.body unless response.success?
       build_payload({
-                        group_name: JSON.parse(response.body)['group']['name'],
-                        group_id: JSON.parse(response.body)['group']['id']
+                        group_name: parser(response.body)['group']['name'],
+                        group_id: parser(response.body)['group']['id']
                     })
     end
 
     #return for issue token
     def return_token(response)
       return response.body unless response.success?
-      token = get_token response
+      token = parser(response.body)['token']
       return nil if token.nil?
       caching token
       build_payload({
@@ -54,8 +54,8 @@ module Volcanic
       {status: 'success'}.merge(body).to_json
     end
 
-    def get_token(jsonObject)
-      JSON.parse(jsonObject.body)['token']
+    def parser(json)
+      JSON.parse(json)
     end
 
   end
