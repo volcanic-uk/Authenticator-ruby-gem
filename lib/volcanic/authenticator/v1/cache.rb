@@ -19,10 +19,10 @@ module Volcanic
     def valid?
       return false if @token.nil?
       exp = perform_get # get expiry time of token
-      # return false if exp.nil?
-      # return false if Time.at(exp.to_i) < Time.now
-      # true
-      exp.nil?
+      return false if exp.nil?
+      return false if Time.at(exp.to_i) < Time.now
+      true
+      # exp.nil?
     end
 
     # Store token to cache
