@@ -1,3 +1,5 @@
+require "volcanic/authenticator/v1/cache"
+
 module Volcanic
   module Authenticator
   module Response
