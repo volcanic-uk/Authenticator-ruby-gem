@@ -26,16 +26,19 @@ And then execute:
 ```ruby
 require 'volcanic/authenticator'
 
-# Return Identity name and secret.
+# To create new Identity. This will return name, secret and id of identity.
 Volcanic::Authenticator.generate_identity(identity_name , group_ids) #eg. ('new_identity', [1,2])
+
+# To deactivate Identity. This will return boolean value
+Volcanic::Authenticator.deactivate_identity(identity_id, token) #eg. (1, 'qwertyuio1234567890.Bioasdknji029837y4rb')
 
 # To issue a token. This will return a token
 Volcanic::Authenticator.generate_token(identity_name, identity_secret) #eg. ('new_identity', 'qwertyuio1234567890')
 
-# To validate token.
+# To validate token. Return boolean value
 Volcanic::Authenticator.validate_token(token) 
  
-# To blacklist/revoke token.
+# To blacklist/revoke token. Return boolean value
 Volcanic::Authenticator.delete_token(token)
  
 # To create Authority.
