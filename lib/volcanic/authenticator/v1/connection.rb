@@ -14,23 +14,18 @@ module Volcanic
         self.class.base_uri ENV['volcanic_authenticator_domain'] || 'http://localhost:3000'
       end
 
-    def identity(payload, header= nil)
-      res = request '/api/v1/identity', payload, header, 'POST'
-      return_identity res
-    end
-
-      def authority(payload, header= nil)
-        res = request '/api/v1/authority', payload, header, 'POST'
-        return_authority res
+      def identity(payload)
+        res = request '/api/v1/identity', payload, bearer_header, 'POST'
+        return_identity res
       end
 
-      def group(payload, header= nil)
-        res = request '/api/v1/group', payload, header, 'POST'
-        return_group res
+      def deactivate_identity(identity_id, token)
+        res = request "/api/v1/identity/deactivate/#{identity_id}", nil,  bearer_header(token), 'POST'
+        res.success?
       end
 
-      def token(payload, header= nil)
-        res = request '/api/v1/identity/login', payload, header, 'POST'
+      def token(payload)
+        res = request '/api/v1/identity/login', payload, nil, 'POST'
         return_token res
       end
 
@@ -43,9 +38,19 @@ module Volcanic
       end
 
       def delete(token)
-        res = request '/api/v1/token', {token: token}, bearer_header(token), 'DELETE'
+        res = request '/api/v1/identity/logout', {token: token}, bearer_header(token), 'POST'
         delete_cache token
         res.success?
+      end
+
+      def authority(payload, header= nil)
+        res = request '/api/v1/authority', payload, header, 'POST'
+        return_authority res
+      end
+
+      def group(payload, header= nil)
+        res = request '/api/v1/group', payload, header, 'POST'
+        return_group res
       end
 
       private

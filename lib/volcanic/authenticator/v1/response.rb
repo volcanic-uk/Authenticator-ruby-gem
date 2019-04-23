@@ -14,6 +14,13 @@ module Volcanic
                     })
     end
 
+    # def return_deactivate_identity(response)
+    #   return response.body unless response.success?
+    #   build_payload({
+    #                       message: parser(response.body)['message']
+    #                 })
+    # end
+
     #return for create Authority
     def return_authority(response)
       return response.body unless response.success?
