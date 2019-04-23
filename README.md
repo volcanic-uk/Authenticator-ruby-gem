@@ -11,6 +11,12 @@ Add this line to your application's Gemfile:
 gem "volcanic-authenticator", git: "git@github.com:volcanic-uk/Authenticator-ruby-gem.git"
 ```
 
+or `dev` branch:
+
+```ruby
+gem "volcanic-authenticator", git: "git@github.com:volcanic-uk/Authenticator-ruby-gem.git" , branch: 'dev'
+```
+
 And then execute:
 
     $ bundle install
