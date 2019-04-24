@@ -44,6 +44,14 @@ module Volcanic
         build_payload(token: token)
       end
 
+      def return_key(response)
+        body = build_body response
+        return body unless response.success?
+
+        build_payload('requestID': parser(body, %w[requestID]),
+                      'key': parser(body, %w[key]))
+      end
+
       def caching(token)
         return if token.nil?
 

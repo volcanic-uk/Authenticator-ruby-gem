@@ -77,6 +77,15 @@ module Volcanic
         return_group res
       end
 
+      def public_key
+        res = request('/api/v1/key/public',
+                      nil,
+                      bearer_header,
+                      'GET')
+        p res
+        return_key res
+      end
+
       private
 
       def request(url, payload, header, method)
