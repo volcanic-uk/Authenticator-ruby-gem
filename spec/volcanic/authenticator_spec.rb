@@ -1,13 +1,10 @@
 RSpec.describe Volcanic::Authenticator do
-
   describe '.create_identity' do
-
     before :all do
       @random_name = SecureRandom.hex 6
     end
 
     context 'Identity created' do
-
       before :all do
         @create_identity = Volcanic::Authenticator.generate_identity(@random_name)
       end
@@ -26,7 +23,6 @@ RSpec.describe Volcanic::Authenticator do
     end
 
     context 'Failed create identity' do
-
       it 'Duplicate name' do
         name = SecureRandom.hex(5)
         Volcanic::Authenticator.generate_identity(name)
@@ -36,20 +32,19 @@ RSpec.describe Volcanic::Authenticator do
 
       it 'Name too short or too long' do
         error_req = Volcanic::Authenticator.generate_identity(SecureRandom.hex(1))
-        expect(JSON.parse(error_req)['reason']['data']['name'].first).to eq("Name must be between 5 and 32 characters.")
+        expect(JSON.parse(error_req)['reason']['data']['name'].first).to eq('Name must be between 5 and 32 characters.')
       end
 
       it 'Name too short or too long' do
         error_req = Volcanic::Authenticator.generate_identity(SecureRandom.hex(33))
-        expect(JSON.parse(error_req)['reason']['data']['name'].first).to eq("Name must be between 5 and 32 characters.")
+        expect(JSON.parse(error_req)['reason']['data']['name'].first).to eq('Name must be between 5 and 32 characters.')
       end
 
       it 'Validation Error' do
         error_req = Volcanic::Authenticator.generate_identity(nil)
-        expect(JSON.parse(error_req)['reason']['message']).to eq("ValidationError")
+        expect(JSON.parse(error_req)['reason']['message']).to eq('ValidationError')
       end
     end
-
   end
 
   describe '.create_token' do
@@ -82,7 +77,6 @@ RSpec.describe Volcanic::Authenticator do
         expect(JSON.parse(res)['reason']['message']).to eq('invalid identity name or secret')
       end
     end
-
   end
 
   describe '.deactivate_identity' do
@@ -94,16 +88,14 @@ RSpec.describe Volcanic::Authenticator do
       @token = JSON.parse(create_token)['token']
     end
 
-    let(:deactivate_identity) {Volcanic::Authenticator.deactivate_identity(@parsed['identity_id'], @token)}
+    let(:deactivate_identity) { Volcanic::Authenticator.deactivate_identity(@parsed['identity_id'], @token) }
 
     it 'Success deactivate' do
       expect(deactivate_identity).to eq true
     end
-
   end
 
   describe '.validate_token' do
-
     before :all do
       create_identity = Volcanic::Authenticator.generate_identity(SecureRandom.hex(6))
       identity_name = JSON.parse(create_identity)['identity_name']
@@ -119,7 +111,6 @@ RSpec.describe Volcanic::Authenticator do
     end
 
     context 'Invalid token' do
-
       it 'return false when nil token' do
         res = Volcanic::Authenticator.validate_token(nil)
         expect(res).to eq false
@@ -129,7 +120,6 @@ RSpec.describe Volcanic::Authenticator do
         res = Volcanic::Authenticator.validate_token(SecureRandom.hex(4))
         expect(res).to eq false
       end
-
     end
   end
 
@@ -142,7 +132,7 @@ RSpec.describe Volcanic::Authenticator do
       @token = JSON.parse(create_token)['token']
     end
 
-    let(:delete_token) {Volcanic::Authenticator.delete_token(@token)}
+    let(:delete_token) { Volcanic::Authenticator.delete_token(@token) }
 
     it 'Success delete token' do
       expect(delete_token).to eq(true)
@@ -163,13 +153,11 @@ RSpec.describe Volcanic::Authenticator do
   # end
 
   describe '.create_authority' do
-
     before :all do
       @random_name = SecureRandom.hex 6
     end
 
     context 'Authority created' do
-
       before :all do
         @authority = Volcanic::Authenticator.create_authority(@random_name, 1)
       end
@@ -186,7 +174,6 @@ RSpec.describe Volcanic::Authenticator do
         expect(JSON.parse(@authority)['authority_id']).not_to be_nil
       end
     end
-
 
     context "Validation error" do
       it 'Missing name' do
@@ -206,9 +193,7 @@ RSpec.describe Volcanic::Authenticator do
         expect(JSON.parse(authority)['reason']['message']).to eq("Duplicate entry #{@random_name}")
       end
     end
-
   end
-
 
   describe '.create_group' do
     before :all do
@@ -241,25 +226,5 @@ RSpec.describe Volcanic::Authenticator do
         expect(JSON.parse(error_group)['reason']['message']).to eq("Duplicate entry #{@name}")
       end
     end
-
   end
-
-  #
-  # describe '.list' do
-  #   let(:list) {Volcanic::Authenticator.list}
-  #
-  #   it 'List all cache token' do
-  #     expect(list).not_to be_nil
-  #   end
-  #
-  # end
-  #
-
-  # describe '.decode' do
-  #   let(:decode) {Volcanic::Authenticator.decode_token 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOjE1MTYyMzkwMjJ9.4Adcj3UFYzPUVaVF43FmMab6RlaQD8A9V8wFzzht-KQ'}
-  #   it 'Success decode' do
-  #     p decode
-  #     expect(decode).not_to be_nil
-  #   end
-  # end
 end
