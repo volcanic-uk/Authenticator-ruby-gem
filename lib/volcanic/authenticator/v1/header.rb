@@ -1,14 +1,21 @@
 module Volcanic
   module Authenticator
-  module Header
+    # Helper for header creation
+    module Header
+      def bearer_header(token = nil)
+        { "Authorization": "Bearer #{auth_token token}",
+          "Content-Type": 'application/json' }
+      end
 
-    def bearer_header(token = nil)
-      api_token = token || "eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NTY4NTQyOTUsImlhdCI6MTU1NTk5MDI5NSwiaXNzIjoiVm9sY2FuaWMgYmV0dGVyIHBlb3BsZSB0ZWNobm9sb2d5IiwianRpIjoiNGJlMjhjOTAtNjU3OC0xMWU5LTk3OTktYmYyMWMyYmM2MGE4In0.AKe-V5X9e5kKNAjyB_Dg-1mUFnePpjCLAnEUDbwwXVNDqDzE9rKOJHkZEEGV2lhgt4E4uiYcBPCwX7LGB1TnUrwRAZqMqo2m-EdEtRnSJiJPnG2k034cQe9vMvcVfNMzk7QtFybAdG3wX_GdoQQ7DJsp3d5jXUDBRn3B1Jno2eKyEUgJ"
-      {
-          "Authorization": "Bearer #{api_token}",
-          "Content-Type": "application/json"
-      }
+      private
+
+      def auth_token(token)
+        token || local_token
+      end
+
+      def local_token
+        'eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NTY5Mzg5MzEsImlhdCI6MTU1NjA3NDkzMSwiaXNzIjoiVm9sY2FuaWMgYmV0dGVyIHBlb3BsZSB0ZWNobm9sb2d5IiwianRpIjoiNWE5MTIyOTAtNjYzZC0xMWU5LThjMWYtZjczMzg2ODMwMjk0In0.AdrS6inPA3eK0KSdnp1trkCfP3AFG5xDzry7iP0Uqt7eyZ28scsXHHON0byfY_BKMmNcmaXbcjtib1GQf81fE1UpAGEwl1uatpVqMaGnKN51K_5EqxP_fQd7NuAjqx7ggqCuBPKYNAjd35C3Vu_ZQqnakNwknEoKugi7PHFsGWzr3BrG'
+      end
     end
-  end
   end
 end
