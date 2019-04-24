@@ -175,7 +175,7 @@ RSpec.describe Volcanic::Authenticator do
       end
     end
 
-    context "Validation error" do
+    context 'Validation error' do
       it 'Missing name' do
         res = Volcanic::Authenticator.create_authority(nil, 1)
         # expect(JSON.parse(res)['status']).to eq('error')
@@ -220,11 +220,18 @@ RSpec.describe Volcanic::Authenticator do
     end
 
     context 'Error on create group' do
-
       it 'Duplicate name' do
         error_group = Volcanic::Authenticator.create_group(@name, @creator_id, [@authority_id])
         expect(JSON.parse(error_group)['reason']['message']).to eq("Duplicate entry #{@name}")
       end
+    end
+  end
+
+  describe 'Generate public key' do
+    it 'key created' do
+      public_key = Volcanic::Authenticator.generate_public_key
+      Volcanic::Authenticator.decrypt_token 'eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NTY5NTQ5NjIsImlhdCI6MTU1NjA5MDk2MiwiaXNzIjoiVm9sY2FuaWMgYmV0dGVyIHBlb3BsZSB0ZWNobm9sb2d5IiwianRpIjoiYWUxMWM4YTAtNjY2Mi0xMWU5LTk0ODItZmI0YmE4OTE5ZWMyIn0.AFslpYHGHpATTuI15A0yS-f9Qqhy0luK8D-8MsnMDZ7pbB61THyBiQbyTseNQfnWsdAZb4XP_qxAwefkoGLuwd2-ASzI5zgi-UmxGtHeRVEU8Pornd6FYU0hlydw8O1j_mFou0cer7a4Ty7uMsWgu0tdnZv-z4DYijDZ1O4MQvEwjTHV'
+      expect(JSON.parse(public_key)['key']).not_to be_empty
     end
   end
 end

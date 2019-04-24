@@ -1,4 +1,5 @@
 require 'volcanic/authenticator/v1/connection'
+require 'volcanic/authenticator/v1/token'
 
 module Volcanic
   # Authenticator
@@ -40,6 +41,14 @@ module Volcanic
       Connection.new.group(name: name,
                            creator_id: creator_id,
                            authorities: authorities)
+    end
+
+    def self.generate_public_key
+      Connection.new.public_key
+    end
+
+    def self.decrypt_token(token)
+      # p Token.decrypt token
     end
 
     # clear cache token
