@@ -20,7 +20,7 @@ module Volcanic
                       payload,
                       bearer_header,
                       'POST')
-        return_identity res
+        build_response res, 'identity'
       end
 
       def deactivate_identity(identity_id, token)
@@ -36,7 +36,7 @@ module Volcanic
                       payload,
                       nil,
                       'POST')
-        return_token res
+        build_response res, 'token'
       end
 
       def validate(token)
@@ -66,7 +66,7 @@ module Volcanic
                       payload,
                       nil,
                       'POST')
-        return_authority res
+        build_response res, 'authority'
       end
 
       def group(payload)
@@ -74,7 +74,7 @@ module Volcanic
                       payload,
                       nil,
                       'POST')
-        return_group res
+        build_response res, 'group'
       end
 
       def public_key
@@ -82,8 +82,7 @@ module Volcanic
                       nil,
                       bearer_header,
                       'GET')
-        p res
-        return_key res
+        build_response res, 'key'
       end
 
       private

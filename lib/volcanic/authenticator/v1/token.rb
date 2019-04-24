@@ -1,4 +1,5 @@
 require 'base64'
+require 'jwt'
 
 module Volcanic
   module Authenticator
@@ -7,6 +8,10 @@ module Volcanic
       def expiry_time(token)
         exp = JSON.parse(decode(token))['exp']
         validate_expiry(exp)
+      end
+
+      def self.decrypt(token)
+        JWT.decode token, public_key, true, algorithm: 'ES512'
       end
 
       def decode(token)
@@ -18,6 +23,10 @@ module Volcanic
       end
 
       private
+
+      def public_key
+        "-----BEGIN PUBLIC KEY-----\nMIGbMBAGByqGSM49AgEGBSuBBAAjA4GGAAQARs3UaQ82aORFh4BMUstcXHV85KT+\n6ZgAiWswUiGiAPvvrt4DPBj1MM81uSt46AKLllybGgjDbmxsxKR6GJxZZSsAbhRo\n351VCzTAc3IrzYpXAkvwpH5xpN0HEUFqYfdB54fz5EsV9Ib97lNCKceGUJH4fotS\nPnFgCjz0Z094WOKNimI=\n-----END PUBLIC KEY-----"
+      end
 
       def validate_expiry(exp)
         token_exp = exp.to_i
