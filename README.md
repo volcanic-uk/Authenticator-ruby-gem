@@ -23,7 +23,7 @@ And then execute:
     
 ## Setup
 
-add these to envonrment variable:
+add these to environment variable:
 
 ```.yaml
 vol_auth_domain: http://0.0.0.0:3000
