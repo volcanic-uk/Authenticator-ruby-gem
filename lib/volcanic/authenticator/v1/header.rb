@@ -14,7 +14,15 @@ module Volcanic
       end
 
       def local_token
-        'eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NTcwMjUwNTAsImlhdCI6MTU1NjE2MTA1MCwiaXNzIjoiVm9sY2FuaWMgYmV0dGVyIHBlb3BsZSB0ZWNobm9sb2d5IiwianRpIjoiZGRkNjU3NjAtNjcwNS0xMWU5LWIzNzctOTU1YWU2NmFlZDA0In0.AR8qU6OyEPSmPCbZRM2xlm2ml4DdnfCoKQYb-zA1bZNOsHULoqusW6GUexBZZucC5oCqSlRbVFk4nwFTGLkunMIvAId8mZ9EAlgSKbWv_daJdovYRdTv7cJUZhyNDZodk0lDNy9_urs3j3DG0im6m3ZDwQ2rQ195S9agtEhbVsok3BH9'
+        token = Cache.new.mtoken
+        return token unless token.nil?
+
+        perform_get_token
+      end
+
+      def perform_get_token
+        res = Connection.new.main_token
+        JSON.parse(res)['token']
       end
     end
   end

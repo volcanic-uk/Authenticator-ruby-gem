@@ -64,7 +64,7 @@ module Volcanic
       def authority(payload)
         res = request('/api/v1/authority',
                       payload,
-                      nil,
+                      bearer_header,
                       'POST')
         build_response res, 'authority'
       end
@@ -72,7 +72,7 @@ module Volcanic
       def group(payload)
         res = request('/api/v1/group',
                       payload,
-                      nil,
+                      bearer_header,
                       'POST')
         build_response res, 'group'
       end
@@ -83,6 +83,16 @@ module Volcanic
                       bearer_header,
                       'GET')
         build_response res, 'key'
+      end
+
+      def main_token
+        name = ENV['vol_auth_identity_name'] || 'volcanic'
+        secret = ENV['vol_auth_identity_secret'] || '3ddaac80b5830cef8d5ca39d958954b3f4afbba2'
+        res = request('/api/v1/identity/login',
+                      { name: name, secret: secret },
+                      nil,
+                      'POST')
+        build_response res, 'mtoken'
       end
 
       private

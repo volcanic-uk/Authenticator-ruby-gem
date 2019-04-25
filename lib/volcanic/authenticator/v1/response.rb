@@ -20,43 +20,54 @@ module Volcanic
           res_token body
         when 'key'
           res_key body
+        when 'mtoken'
+          res_token body, true
         else
           body
         end
       end
 
-      def caching(token)
+      def caching(token, is_mtoken = false)
         return if token.nil?
 
-        Cache.new.save_token token
+        if is_mtoken
+          Cache.new.save_mtoken token
+        else
+          Cache.new.save_token token
+        end
       end
 
       private
 
       def res_identity(body)
-        build_payload(identity_name: parser(body, %w[identity name]),
-                      identity_secret: parser(body, %w[identity secret]),
-                      identity_id: parser(body, %w[identity id]))
+        build_payload(identity_name: parser(body, %w[response name]),
+                      identity_secret: parser(body, %w[response secret]),
+                      identity_id: parser(body, %w[response id]))
       end
 
-      def res_token(body)
-        token = parser(body, %w[token])
-        caching token
+      def res_token(body, is_mtoken = false)
+        token = parser(body, %w[response token])
+        # id = parser(body, %w[response id])
+        if is_mtoken
+          caching token, true
+        else
+          caching token
+        end
         build_payload(token: token)
       end
 
       def res_authority(body)
-        build_payload(authority_name: parser(body, %w[authority name]),
-                      authority_id: parser(body, %w[authority id]))
+        build_payload(authority_name: parser(body, %w[response name]),
+                      authority_id: parser(body, %w[response id]))
       end
 
       def res_group(body)
-        build_payload(group_name: parser(body, %w[group name]),
-                      group_id: parser(body, %w[group id]))
+        build_payload(group_name: parser(body, %w[response name]),
+                      group_id: parser(body, %w[response id]))
       end
 
       def res_key(body)
-        public_key = parser(body, %w[key])
+        public_key = parser(body, %w[response key])
         Cache.new.save_pkey public_key
         build_payload('requestID': parser(body, %w[requestID]),
                       'key': public_key)
