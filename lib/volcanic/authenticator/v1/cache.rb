@@ -7,8 +7,8 @@ module Volcanic
     # Cache class
     class Cache
       include Volcanic::Authenticator::Token
-      PKEY = 'public_key'.freeze
-
+      PKEY = 'p_key'.freeze
+      MAIN_TOKEN = 'm_token'.freeze
       def initialize
         @redis = Redis.new(url: redis_url)
       end
@@ -34,7 +34,19 @@ module Volcanic
       end
 
       def save_pkey(key)
-        perform_set key, false
+        perform_set key, PKEY
+      end
+
+      def save_mtoken(token)
+        perform_set token, MAIN_TOKEN
+      end
+
+      def pkey
+        perform_get PKEY
+      end
+
+      def mtoken
+        perform_get MAIN_TOKEN
       end
 
       def delete_token(token)
@@ -63,19 +75,24 @@ module Volcanic
         ENV['vol_auth_redis'] || 'redis://localhost:6379/1'
       end
 
-      def perform_get(token)
-        @redis.get token
+      def perform_get(value)
+        @redis.get value
       end
 
-      def perform_set(value, is_token = true)
-        if is_token
-          # set token
-          @redis.set value, expiry_time(value)
-          @redis.expire value, (ENV['vol_auth_redis_exp_token_time'] || 5) * 60 # token is deleted when expired.
-        else
+      def perform_set(value, type = nil)
+        case type
+        when MAIN_TOKEN
+          # set main token
+          @redis.set MAIN_TOKEN, value
+          @redis.expire value, (ENV['vol_auth_redis_exp_internal_token_time'] || 1) * 24 * 60 * 60 # public key is deleted when expired.
+        when PKEY
           # set public key
           @redis.set PKEY, value
           @redis.expire value, (ENV['vol_auth_redis_exp_pkey_time'] || 1) * 24 * 60 * 60 # public key is deleted when expired.
+        else
+          # set token
+          @redis.set value, expiry_time(value)
+          @redis.expire value, (ENV['vol_auth_redis_exp_external_token_time'] || 5) * 60 # token is deleted when expired.
         end
       end
 
@@ -91,6 +108,7 @@ module Volcanic
       def perform_get_all
         keys = @redis.keys # get all tokens
         keys.pop PKEY
+        keys.pop MAIN_TOKEN
         keys
       end
     end
