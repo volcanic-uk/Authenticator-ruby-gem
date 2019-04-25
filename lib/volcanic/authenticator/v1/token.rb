@@ -6,8 +6,8 @@ module Volcanic
     # Helper for Token handling
     module Token
       def expiry_time(token)
-        exp = JSON.parse(decode(token))['exp']
-        validate_expiry(exp)
+        JSON.parse(decode(token))['exp']
+        # validate_expiry(exp)
       end
 
       def self.decrypt(token)

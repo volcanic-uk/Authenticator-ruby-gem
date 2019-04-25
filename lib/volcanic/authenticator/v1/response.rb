@@ -28,7 +28,7 @@ module Volcanic
       def caching(token)
         return if token.nil?
 
-        Cache.new(token).save
+        Cache.new.save_token token
       end
 
       private

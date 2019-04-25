@@ -12,7 +12,7 @@ module Volcanic
       include Volcanic::Authenticator::Header
 
       def initialize
-        self.class.base_uri ENV['volcanic_authenticator_domain'] || 'http://localhost:3000'
+        self.class.base_uri ENV['vol_auth_domain'] || 'http://localhost:3000'
       end
 
       def identity(payload)
@@ -99,11 +99,11 @@ module Volcanic
       end
 
       def token_valid?(token)
-        Cache.new(token).valid?
+        Cache.new.valid? token
       end
 
       def delete_cache(token)
-        Cache.new(token).delete
+        Cache.new.delete_token token
       end
     end
   end

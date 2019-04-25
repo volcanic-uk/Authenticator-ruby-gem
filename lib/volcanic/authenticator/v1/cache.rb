@@ -7,36 +7,44 @@ module Volcanic
     # Cache class
     class Cache
       include Volcanic::Authenticator::Token
-      attr_accessor :token
+      PKEY = 'public_key'.freeze
 
-      def initialize(token = nil)
+      def initialize
         @redis = Redis.new(url: redis_url)
-        @token = token
       end
 
       # Validate token, return bool
-      def valid?
-        return false if @token.nil?
-
-        exp = perform_get # get expiry time of token
+      def valid?(token)
+        exp = perform_get token
         return false if exp.nil?
-        return false if Time.at(exp.to_i) < Time.now
+
+        if Time.at(exp.to_i) < Time.now # if token is expired
+          delete_token token
+          return false
+        end
 
         true
       end
 
       # Store token to cache
-      def save
-        return nil if @token.nil?
-        return 'OK' if valid?
+      def save_token(token)
+        return if valid? token
 
-        perform_set
+        perform_set token
       end
 
-      def delete
-        return nil if @token.nil?
+      def save_pkey(key)
+        perform_set key, false
+      end
 
-        perform_del @token
+      def delete_token(token)
+        return nil if token.nil?
+
+        perform_del token
+      end
+
+      def delete_pkey
+        perform_del
       end
 
       # Clear all token at cache
@@ -55,24 +63,35 @@ module Volcanic
         ENV['vol_auth_redis'] || 'redis://localhost:6379/1'
       end
 
-      def perform_get
-        @redis.get @token
+      def perform_get(token)
+        @redis.get token
       end
 
-      def perform_set
-        @redis.set @token, expiry_time(@token)
+      def perform_set(value, is_token = true)
+        if is_token
+          # set token
+          @redis.set value, expiry_time(value)
+          @redis.expire value, (ENV['vol_auth_redis_exp_token_time'] || 5) * 60 # token is deleted when expired.
+        else
+          # set public key
+          @redis.set PKEY, value
+          @redis.expire value, (ENV['vol_auth_redis_exp_pkey_time'] || 1) * 24 * 60 * 60 # public key is deleted when expired.
+        end
       end
 
-      def perform_del(token)
-        @redis.del token
+      def perform_del(token = nil)
+        @redis.del PKEY if token.nil? # delete public key
+        @redis.del token # delete token
       end
 
       def perform_clear_all
-        @redis.keys.each(&method(:perform_del))
+        @redis.keys.each(&method(:perform_del)) # delete each tokens
       end
 
       def perform_get_all
-        @redis.keys
+        keys = @redis.keys # get all tokens
+        keys.pop PKEY
+        keys
       end
     end
   end
