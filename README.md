@@ -20,6 +20,17 @@ gem "volcanic-authenticator", git: "git@github.com:volcanic-uk/Authenticator-rub
 And then execute:
 
     $ bundle install
+    
+## Setup
+
+add these to envonrment variable:
+
+```.yaml
+vol_auth_domain: http://0.0.0.0:3000
+vol_auth_redis: redis://localhost:6379/1
+vol_auth_redis_exp_token_time: 5 # in minutes
+vol_auth_redis_exp_pkey_time: 1 # in days
+```
 
 ## Usage
 
