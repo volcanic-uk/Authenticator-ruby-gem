@@ -26,10 +26,13 @@ And then execute:
 add these to environment variable:
 
 ```.yaml
-vol_auth_domain: http://0.0.0.0:3000
-vol_auth_redis: redis://localhost:6379/1
-vol_auth_redis_exp_token_time: 5 # in minutes
-vol_auth_redis_exp_pkey_time: 1 # in days
+vol_auth_domain: http://0.0.0.0:3000 # Authenticator url
+vol_auth_redis: redis://localhost:6379/1 # Redis url
+vol_auth_identity_name: identity_name # eg volcanic
+vol_auth_identity_secret: identity_secret
+vol_auth_redis_exp_external_token_time: 5 # in minutes. default 5 minutes
+vol_auth_redis_exp_internal_token_time: 1 # in days. default 1 days
+vol_auth_redis_exp_pkey_time: 1 # in days. default 1 days
 ```
 
 ## Usage
