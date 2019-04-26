@@ -32,6 +32,8 @@ module Volcanic
       end
 
       def decode(token)
+        return nil if token.nil?
+
         tokens = token.split('.')
         return nil unless tokens.length == 3
         return nil if tokens[1].nil? || tokens[1].empty?
