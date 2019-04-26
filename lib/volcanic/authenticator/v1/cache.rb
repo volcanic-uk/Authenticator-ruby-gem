@@ -13,13 +13,15 @@ module Volcanic
         @redis = Redis.new(url: redis_url)
       end
 
-      # Validate token, return bool
       def valid?(token)
-        exp = perform_get token
+        token_id = jti token
+        return false if token_id.nil?
+
+        exp = JSON.parse(perform_get(token_id))['exp']
         return false if exp.nil?
 
-        if Time.at(exp.to_i) < Time.now # if token is expired
-          delete_token token
+        if expiration_check exp
+          delete_token token_id
           return false
         end
 
@@ -28,8 +30,6 @@ module Volcanic
 
       # Store token to cache
       def save_token(token)
-        return if valid? token
-
         perform_set token
       end
 
@@ -91,7 +91,7 @@ module Volcanic
           @redis.expire value, (ENV['vol_auth_redis_exp_pkey_time'] || 1) * 24 * 60 * 60 # public key is deleted when expired.
         else
           # set token
-          @redis.set value, expiry_time(value)
+          @redis.set jti(value), { token: value, exp: expiry_time(value) }.to_json
           @redis.expire value, (ENV['vol_auth_redis_exp_external_token_time'] || 5) * 60 # token is deleted when expired.
         end
       end
@@ -110,6 +110,11 @@ module Volcanic
         keys.pop PKEY
         keys.pop MAIN_TOKEN
         keys
+      end
+
+      # Validate token, return bool
+      def expiration_check(exp)
+        Time.at(exp.to_i) < Time.now # if token is expired
       end
     end
   end
