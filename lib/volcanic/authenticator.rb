@@ -47,9 +47,9 @@ module Volcanic
       Connection.new.public_key
     end
 
-    def self.decrypt_token(token)
-      # p Token.decrypt token
-    end
+    # def self.decrypt_token(token)
+    #   # p Token.decrypt token
+    # end
 
     # clear cache token
     # def self.clear

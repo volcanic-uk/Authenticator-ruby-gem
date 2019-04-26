@@ -227,10 +227,10 @@ RSpec.describe Volcanic::Authenticator do
     end
   end
 
-  describe 'Generate public key' do
-    it 'key created' do
-      public_key = Volcanic::Authenticator.generate_public_key
-      expect(JSON.parse(public_key)['key']).not_to be_empty
-    end
-  end
+  # describe 'Generate public key' do
+  #   it 'key created' do
+  #     public_key = Volcanic::Authenticator.generate_public_key
+  #     expect(JSON.parse(public_key)['key']).not_to be_empty
+  #   end
+  # end
 end
