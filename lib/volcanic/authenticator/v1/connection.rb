@@ -114,9 +114,9 @@ module Volcanic
         Cache.new.valid? token
       end
 
-      def delete_cache(token)
-        Cache.new.delete_token token
-      end
+      # def delete_cache(token)
+      #   Cache.new.delete_token token
+      # end
     end
   end
 end

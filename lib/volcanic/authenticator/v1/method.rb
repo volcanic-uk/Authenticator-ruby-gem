@@ -2,6 +2,7 @@ require 'httparty'
 require 'mini_cache'
 require 'volcanic/authenticator/v1/response'
 require 'volcanic/authenticator/v1/header'
+require 'volcanic/authenticator/v1/token'
 
 module Volcanic
   module Authenticator
@@ -29,28 +30,75 @@ module Volcanic
       def initialize
         self.class.base_uri ENV['vol_auth_domain'] || 'http://localhost:3000'
         @cache = MiniCache::Store.new
-        # public_key
-        pkey
-        mtoken
       end
 
       def identity_register(name, ids = [])
         payload = { name: name, ids: ids }
-        res = request(IDENTITY_REGISTER, payload, bearer_header(@mtoken), 'POST')
+        res = request(IDENTITY_REGISTER, payload, bearer_header(mtoken), 'POST')
         build_response res, 'identity'
       end
 
-      def identity_login; end
+      def identity_login(name, secret)
+        payload = { name: name, secret: secret }
+        res = request(IDENTITY_LOGIN, payload, bearer_header(mtoken), 'POST')
+        return nil unless res.success?
 
-      def identity_logout; end
+        token = parser(res.body, %w[response token])
+        caching(Token.new(token, pkey).jti,
+                { token: token }.to_json,
+                (ENV['vol_auth_redis_exp_external_token_time'] || 5) * 1)
+        token
+      end
 
-      def identity_deactivate; end
+      def identity_logout(token)
+        res = request(IDENTITY_LOGOUT,
+                      { token: token },
+                      bearer_header(token),
+                      'POST')
+        remove_cache Token.new(token, pkey).jti
+        res.success?
+      end
 
-      def identity_validate; end
+      def identity_deactivate(identity_id, token)
+        res = request("/api/v1/identity/deactivate/#{identity_id}",
+                      nil,
+                      bearer_header(token),
+                      'POST')
+        remove_cache Token.new(token, pkey).jti
+        res.success?
+      end
 
-      def authority_create; end
+      def identity_validate
 
-      def group_create; end
+      end
+
+      def authority_create(name, creator_id)
+        payload = { name: name, creator_id: creator_id }
+        res = request(AUTHORITY,
+                      payload,
+                      bearer_header(mtoken),
+                      'POST')
+        build_response res, 'authority'
+      end
+
+      def group_create(name, creator_id, authorities = [])
+        payload = { name: name,
+                    creator_id: creator_id,
+                    authorities: authorities }
+        res = request(GROUP,
+                      payload,
+                      bearer_header(mtoken),
+                      'POST')
+        build_response res, 'group'
+      end
+
+      def list_caches
+        array = []
+        @cache.each do |o|
+          array << o
+        end
+        array
+      end
 
       private
 
@@ -63,8 +111,8 @@ module Volcanic
       end
 
       def public_key_request
-        pkey = @cache.get PKEY
-        return pkey unless pkey.nil? # get public key from cache
+        p_key = @cache.get PKEY
+        return p_key unless p_key.nil? # get public key from cache
 
         res = request('/api/v1/key/public',
                       nil,
@@ -73,9 +121,8 @@ module Volcanic
         return nil unless res.success?
 
         build_response res, 'key'
-
         res_pkey = parser(res.body, %w[response key])
-        caching PKEY, res_pkey
+        caching PKEY, res_pkey, (ENV['vol_auth_redis_exp_internal_token_time'] || 1) * 24 * 60 * 60
         res_pkey
       end
 
@@ -92,12 +139,16 @@ module Volcanic
         return nil unless res.success?
 
         res_mtoken = parser(res.body, %w[response token])
-        caching MTOKEN, res_mtoken
+        caching MTOKEN, res_mtoken, (ENV['vol_auth_redis_exp_internal_token_time'] || 1) * 24 * 60 * 60
         res_mtoken
       end
 
-      def caching(key, value)
-        @cache.set key, value
+      def caching(key, value, exp)
+        @cache.set key, value, expires_in: exp
+      end
+
+      def remove_cache(key)
+        @cache.unset key
       end
 
       def request(url, payload, header, method)
@@ -113,10 +164,6 @@ module Volcanic
 
       def token_valid?(token)
         Cache.new.valid? token
-      end
-
-      def delete_cache(token)
-        Cache.new.delete_token token
       end
     end
   end

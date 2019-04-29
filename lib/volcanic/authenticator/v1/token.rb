@@ -7,8 +7,7 @@ module Volcanic
     class Token
       attr_accessor :dec_token
 
-      def initialize(token)
-        pem = Cache.new.pkey || Connection.new.public_key
+      def initialize(token, pem)
         @dec_token = decode token, pem
       end
 
