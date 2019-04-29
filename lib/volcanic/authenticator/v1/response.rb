@@ -21,7 +21,7 @@ module Volcanic
         when 'key'
           res_key body
         when 'mtoken'
-          res_token body, true
+          res_token body
         else
           body
         end
@@ -45,14 +45,8 @@ module Volcanic
                       identity_id: parser(body, %w[response id]))
       end
 
-      def res_token(body, is_mtoken = false)
+      def res_token(body)
         token = parser(body, %w[response token])
-        # id = parser(body, %w[response id])
-        # if is_mtoken
-        #   caching token, true
-        # else
-        #   caching token
-        # end
         build_payload(token: token)
       end
 

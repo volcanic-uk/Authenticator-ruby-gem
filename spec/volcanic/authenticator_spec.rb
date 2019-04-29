@@ -6,7 +6,7 @@ RSpec.describe Volcanic::Authenticator do
 
     context 'Identity created' do
       before :all do
-        @create_identity = Volcanic::Authenticator::Method.new.identity_register(SecureRandom.hex 6)
+        @create_identity = Volcanic::Authenticator::Method.new.identity_register(SecureRandom.hex(6))
       end
 
       it 'return "success" status' do
