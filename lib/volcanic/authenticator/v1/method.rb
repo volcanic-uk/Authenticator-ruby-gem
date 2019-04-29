@@ -41,13 +41,13 @@ module Volcanic
       def identity_login(name, secret)
         payload = { name: name, secret: secret }
         res = request(IDENTITY_LOGIN, payload, bearer_header(mtoken), 'POST')
-        return nil unless res.success?
+        return res.body unless res.success?
 
-        token = parser(res.body, %w[response token])
+        response, token = build_response res, 'token'
         caching(Token.new(token, pkey).jti,
                 { token: token }.to_json,
-                (ENV['vol_auth_redis_exp_external_token_time'] || 5) * 1)
-        token
+                (ENV['vol_auth_redis_exp_external_token_time'] || 5) * 60)
+        response
       end
 
       def identity_logout(token)

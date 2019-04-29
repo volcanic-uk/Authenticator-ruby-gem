@@ -61,24 +61,24 @@ RSpec.describe Volcanic::Authenticator do
     # let(:create_token) {Volcanic::Authenticator.create_token(@parsed['identity_name'], @parsed['identity_secret'])}
 
     context 'Token created' do
-      # it 'return "success" status' do
-      #   expect(JSON.parse(@create_token)['status']).to eq('success')
-      # end
+      it 'return "success" status' do
+        expect(JSON.parse(@create_token)['status']).to eq('success')
+      end
 
       it 'return token' do
-        expect(@create_token).not_to be_nil
+        expect(JSON.parse(@create_token)['token']).not_to be_empty
       end
     end
 
     context 'return "invalid identity name or secret"' do
       it 'missing identity' do
         res = @auth.identity_login('', SecureRandom.hex(12))
-        expect(res).to be_nil
+        expect(JSON.parse(res)['reason']['message']).to eq('invalid identity name or secret')
       end
 
       it 'missing secret' do
         res = @auth.identity_login( SecureRandom.hex(12), '')
-        expect(res).to be_nil
+        expect(JSON.parse(res)['reason']['message']).to eq('invalid identity name or secret')
       end
     end
   end
@@ -88,8 +88,8 @@ RSpec.describe Volcanic::Authenticator do
       random_name = SecureRandom.hex 6
       create_identity =@auth.identity_register(random_name)
       @parsed = JSON.parse(create_identity)
-      @token = @auth.identity_login(@parsed['identity_name'], @parsed['identity_secret'])
-      # @token = JSON.parse(create_token)['token']
+      create_token = @auth.identity_login(@parsed['identity_name'], @parsed['identity_secret'])
+      @token = JSON.parse(create_token)['token']
     end
 
     let(:deactivate_identity) { @auth.identity_deactivate(@parsed['identity_id'], @token) }
@@ -132,8 +132,8 @@ RSpec.describe Volcanic::Authenticator do
       random_name = SecureRandom.hex 6
       create_identity = @auth.identity_register(random_name)
       @parsed = JSON.parse(create_identity)
-      @token = @auth.identity_login(@parsed['identity_name'], @parsed['identity_secret'])
-      # @token = JSON.parse(create_token)['token']
+      create_token = @auth.identity_login(@parsed['identity_name'], @parsed['identity_secret'])
+      @token = JSON.parse(create_token)['token']
     end
 
     let(:delete_token) { @auth.identity_logout(@token) }
