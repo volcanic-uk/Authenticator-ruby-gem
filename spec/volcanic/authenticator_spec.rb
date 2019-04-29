@@ -99,33 +99,33 @@ RSpec.describe Volcanic::Authenticator do
     end
   end
 
-  # describe '.validate_token' do
-  #   before :all do
-  #     create_identity = @auth.identity_register(SecureRandom.hex(6))
-  #     identity_name = JSON.parse(create_identity)['identity_name']
-  #     identity_secret = JSON.parse(create_identity)['identity_secret']
-  #     create_token = @auth.identity_login(identity_name, identity_secret)
-  #     @validate_token = Volcanic::Authenticator.validate_token(JSON.parse(create_token)['token'])
-  #   end
-  #
-  #   context 'Valid token' do
-  #     it 'return true value' do
-  #       expect(@validate_token).to eq true
-  #     end
-  #   end
-  #
-  #   context 'Invalid token' do
-  #     it 'return false when nil token' do
-  #       res = Volcanic::Authenticator.validate_token(nil)
-  #       expect(res).to eq false
-  #     end
-  #
-  #     it 'return false when when token invalid' do
-  #       res = Volcanic::Authenticator.validate_token(SecureRandom.hex(4))
-  #       expect(res).to eq false
-  #     end
-  #   end
-  # end
+  describe '.validate_token' do
+    before :all do
+      create_identity = @auth.identity_register(SecureRandom.hex(6))
+      identity_name = JSON.parse(create_identity)['identity_name']
+      identity_secret = JSON.parse(create_identity)['identity_secret']
+      create_token = @auth.identity_login(identity_name, identity_secret)
+      @validate_token = @auth.identity_validate(JSON.parse(create_token)['token'])
+    end
+
+    context 'Valid token' do
+      it 'return true value' do
+        expect(@validate_token).to eq true
+      end
+    end
+
+    context 'Invalid token' do
+      it 'return false when nil token' do
+        res = @auth.identity_validate(nil)
+        expect(res).to eq false
+      end
+
+      it 'return false when when token invalid' do
+        res = @auth.identity_validate(SecureRandom.hex(4))
+        expect(res).to eq false
+      end
+    end
+  end
   
   describe '.delete_token' do
     before :all do

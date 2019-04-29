@@ -19,6 +19,10 @@ module Volcanic
         perform_get_claim 'jti'
       end
 
+      def valid?
+        @dec_token.nil?
+      end
+
       private
 
       def perform_get_claim(object)

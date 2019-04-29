@@ -68,8 +68,19 @@ module Volcanic
         res.success?
       end
 
-      def identity_validate
+      def identity_validate(token)
+        return true if token_valid? token
 
+        res = request('/api/v1/identity/validate',
+                      { token: token },
+                      bearer_header(token),
+                      'POST')
+        return false unless res.success?
+
+        caching(Token.new(token, pkey).jti,
+                { token: token }.to_json,
+                (ENV['vol_auth_redis_exp_external_token_time'] || 5) * 60)
+        true
       end
 
       def authority_create(name, creator_id)
@@ -127,8 +138,8 @@ module Volcanic
       end
 
       def main_token_request
-        mtoken = @cache.get MTOKEN
-        return mtoken unless mtoken.nil? # get public key from cache
+        m_token = @cache.get MTOKEN
+        return m_token unless m_token.nil? # get public key from cache
 
         payload = { name: ENV['vol_auth_identity_name'] || 'volcanic',
                     secret: ENV['vol_auth_identity_secret'] || '3ddaac80b5830cef8d5ca39d958954b3f4afbba2' }
@@ -144,10 +155,18 @@ module Volcanic
       end
 
       def caching(key, value, exp)
+        return if key.nil?
+
         @cache.set key, value, expires_in: exp
       end
 
+      def cache_exists?(key)
+        @cache.get key
+      end
+
       def remove_cache(key)
+        return if key.nil?
+
         @cache.unset key
       end
 
@@ -162,8 +181,27 @@ module Volcanic
         end
       end
 
-      def token_valid?(token)
-        Cache.new.valid? token
+      def token_valid?(value)
+        return false if value.nil?
+
+        token = Token.new(value, pkey)
+        return false if token.valid?
+
+        exp = token.exp
+        jti = token.jti
+        return false unless cache_exists? jti
+
+        if expiration_check exp
+          delete_token jti
+          return false
+        end
+
+        true
+      end
+
+      # Validate token, return bool
+      def expiration_check(exp)
+        Time.at(exp.to_i) < Time.now # if token is expired
       end
     end
   end
