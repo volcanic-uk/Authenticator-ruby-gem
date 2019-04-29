@@ -69,8 +69,7 @@ module Volcanic
       def res_key(body)
         public_key = parser(body, %w[response key])
         Cache.new.save_pkey public_key
-        build_payload('requestID': parser(body, %w[requestID]),
-                      'key': public_key)
+        public_key
       end
 
       def build_body(response)

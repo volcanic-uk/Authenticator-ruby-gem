@@ -1,24 +1,31 @@
 require 'base64'
+require 'jwt'
 
 module Volcanic
   module Authenticator
     # Helper for Token handling
-    module Token
-      def expiry_time(token)
-        perform_get_claim token, 'exp'
+    class Token
+      attr_accessor :dec_token
+
+      def initialize(token)
+        pem = Cache.new.pkey || Connection.new.public_key
+        @dec_token = decode token, pem
       end
 
-      def jti(token)
-        perform_get_claim token, 'jti'
+      def exp
+        perform_get_claim 'exp'
+      end
+
+      def jti
+        perform_get_claim 'jti'
       end
 
       private
 
-      def perform_get_claim(token, object)
-        decoded = decode token
-        return nil if decoded.nil?
+      def perform_get_claim(object)
+        return nil if @dec_token.nil?
 
-        JSON.parse(decoded)[object]
+        JSON.parse(@dec_token.to_json)[0][object.to_s]
       end
 
       def validate_expiry(exp)
@@ -31,17 +38,14 @@ module Volcanic
         default_exp
       end
 
-      def decode(token)
+      def decode(token, pem)
         return nil if token.nil?
 
-        tokens = token.split('.')
-        return nil unless tokens.length == 3
-        return nil if tokens[1].nil? || tokens[1].empty?
-
         begin
-          Base64.decode64(tokens[1])
-        rescue ArgumentError
-          nil
+          pkey = OpenSSL::PKey.read(pem)
+          return JWT.decode token, pkey, true, algorithm: 'ES512'
+        rescue StandardError
+          return nil
         end
       end
     end

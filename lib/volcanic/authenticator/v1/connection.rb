@@ -82,6 +82,8 @@ module Volcanic
                       nil,
                       bearer_header,
                       'GET')
+        return nil unless res.success?
+
         build_response res, 'key'
       end
 

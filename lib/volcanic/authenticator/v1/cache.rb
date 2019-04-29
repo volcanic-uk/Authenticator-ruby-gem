@@ -6,7 +6,6 @@ module Volcanic
   module Authenticator
     # Cache class
     class Cache
-      include Volcanic::Authenticator::Token
       PKEY = 'p_key'.freeze
       MAIN_TOKEN = 'm_token'.freeze
       def initialize
@@ -14,14 +13,20 @@ module Volcanic
       end
 
       def valid?(token)
-        token_id = jti token
-        return false if token_id.nil?
+        # check for valid signature
+        req_token = Token.new(token)
+        return false if req_token.nil?
 
-        exp = JSON.parse(perform_get(token_id))['exp']
-        return false if exp.nil?
+        exp = req_token.exp
+        jti = req_token.jti
 
+        # check for exist in cache
+        cache_token = perform_get req_token.jti
+        return false if cache_token.nil?
+
+        # check for expiration
         if expiration_check exp
-          delete_token token_id
+          delete_token jti
           return false
         end
 
@@ -91,7 +96,8 @@ module Volcanic
           @redis.expire value, (ENV['vol_auth_redis_exp_pkey_time'] || 1) * 24 * 60 * 60 # public key is deleted when expired.
         else
           # set token
-          @redis.set jti(value), { token: value, exp: expiry_time(value) }.to_json
+          token = Token.new value
+          @redis.set token.jti, { token: value }.to_json
           @redis.expire value, (ENV['vol_auth_redis_exp_external_token_time'] || 5) * 60 # token is deleted when expired.
         end
       end
@@ -107,7 +113,7 @@ module Volcanic
 
       def perform_get_all
         keys = @redis.keys # get all tokens
-        keys.pop PKEY
+        keys.pop PKEY, ''
         keys.pop MAIN_TOKEN
         keys
       end
