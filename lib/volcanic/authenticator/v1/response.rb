@@ -48,11 +48,11 @@ module Volcanic
       def res_token(body, is_mtoken = false)
         token = parser(body, %w[response token])
         # id = parser(body, %w[response id])
-        if is_mtoken
-          caching token, true
-        else
-          caching token
-        end
+        # if is_mtoken
+        #   caching token, true
+        # else
+        #   caching token
+        # end
         build_payload(token: token)
       end
 

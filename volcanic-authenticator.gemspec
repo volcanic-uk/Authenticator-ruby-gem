@@ -23,6 +23,7 @@ Gem::Specification.new do |spec|
 
   spec.add_runtime_dependency 'httparty'
   spec.add_runtime_dependency 'jwt'
+  spec.add_runtime_dependency 'mini_cache'
   spec.add_runtime_dependency 'redis'
   spec.add_development_dependency 'bundler', '~> 1.17'
   spec.add_development_dependency 'rake', '~> 10.0'
