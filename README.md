@@ -14,7 +14,7 @@ gem "volcanic-authenticator", git: "git@github.com:volcanic-uk/Authenticator-rub
 or `mini-cache` branch:
 
 ```ruby
-gem "volcanic-authenticator", git: "git@github.com:volcanic-uk/Authenticator-ruby-gem.git" , branch: 'mini-cache'
+gem "volcanic-authenticator", git: "git@github.com:volcanic-uk/Authenticator-ruby-gem.git" , branch: 'v1'
 ```
 
 And then execute:
