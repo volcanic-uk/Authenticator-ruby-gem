@@ -47,7 +47,7 @@ module Volcanic
         response, token = build_response res, 'token'
         caching(Token.new(token, pkey).jti,
                 { token: token }.to_json,
-                (ENV['vol_auth_cache_exp_external_token_time'] || 5) * 60)
+                (ENV['vol_auth_cache_exp_external_token_time'].to_i || 5) * 60)
         response
       end
 
@@ -80,7 +80,7 @@ module Volcanic
 
         caching(Token.new(token, pkey).jti,
                 { token: token }.to_json,
-                (ENV['vol_auth_cache_exp_external_token_time'] || 5) * 60)
+                (ENV['vol_auth_cache_exp_external_token_time'].to_i || 5) * 60)
         true
       end
 
@@ -134,7 +134,7 @@ module Volcanic
 
         build_response res, 'key'
         res_pkey = parser(res.body, %w[response key])
-        caching PKEY, res_pkey, (ENV['vol_auth_cache_exp_internal_token_time'] || 1) * 24 * 60 * 60
+        caching PKEY, res_pkey, (ENV['vol_auth_cache_exp_internal_token_time'].to_i || 1) * 24 * 60 * 60
         res_pkey
       end
 
@@ -151,7 +151,7 @@ module Volcanic
         return nil unless res.success?
 
         res_mtoken = parser(res.body, %w[response token])
-        caching MTOKEN, res_mtoken, (ENV['vol_auth_cache_exp_internal_token_time'] || 1) * 24 * 60 * 60
+        caching MTOKEN, res_mtoken, (ENV['vol_auth_cache_exp_internal_token_time'].to_i || 1) * 24 * 60 * 60
         res_mtoken
       end
 
