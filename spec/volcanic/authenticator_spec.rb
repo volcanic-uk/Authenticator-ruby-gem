@@ -1,6 +1,6 @@
 RSpec.describe Volcanic::Authenticator do
   before :all do
-    @auth = Volcanic::Authenticator::Method.new
+    @auth = Volcanic::Authenticator::V1::Method.new
   end
 
   describe '.create_identity' do
@@ -77,7 +77,7 @@ RSpec.describe Volcanic::Authenticator do
       end
 
       it 'missing secret' do
-        res = @auth.identity_login( SecureRandom.hex(12), '')
+        res = @auth.identity_login(SecureRandom.hex(12), '')
         expect(JSON.parse(res)['reason']['message']).to eq('invalid identity name or secret')
       end
     end
@@ -86,7 +86,7 @@ RSpec.describe Volcanic::Authenticator do
   describe '.deactivate_identity' do
     before :all do
       random_name = SecureRandom.hex 6
-      create_identity =@auth.identity_register(random_name)
+      create_identity = @auth.identity_register(random_name)
       @parsed = JSON.parse(create_identity)
       create_token = @auth.identity_login(@parsed['identity_name'], @parsed['identity_secret'])
       @token = JSON.parse(create_token)['token']
@@ -126,7 +126,7 @@ RSpec.describe Volcanic::Authenticator do
       end
     end
   end
-  
+
   describe '.delete_token' do
     before :all do
       random_name = SecureRandom.hex 6
