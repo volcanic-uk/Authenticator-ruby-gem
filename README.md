@@ -38,7 +38,7 @@ To setup main identity variables. These configuration is use to create `main_tok
 
 To setup `main_token` expiration time.
 ```ruby
- Volcanic::Authenticator.config.exp_main_token = 24 * 60 * 60 # value is base in seconds
+ Volcanic::Authenticator.config.exp_main_token = 24 * 60 * 60 
 ```
 
 To setup `public_key` expiration time.
@@ -50,6 +50,8 @@ To setup token expiration time.
 ```ruby
  Volcanic::Authenticator.config.exp_token = 5 * 60
 ```
+
+Note: all expiration time are base in seconds
 
 ## Usage
 
