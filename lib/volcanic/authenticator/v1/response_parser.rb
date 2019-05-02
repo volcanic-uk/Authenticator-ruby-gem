@@ -1,0 +1,48 @@
+module Volcanic
+  module Authenticator
+    module V1
+      module ResponseParser
+        def res_identity(body)
+          build_payload(identity_name: parser(body, %w[response name]),
+                        identity_secret: parser(body, %w[response secret]),
+                        identity_id: parser(body, %w[response id]))
+        end
+
+        def res_token(body)
+          token = parser(body, %w[response token])
+          [build_payload(token: token), token]
+        end
+
+        def res_authority(body)
+          build_payload(authority_name: parser(body, %w[response name]),
+                        authority_id: parser(body, %w[response id]))
+        end
+
+        def res_group(body)
+          build_payload(group_name: parser(body, %w[response name]),
+                        group_id: parser(body, %w[response id]))
+        end
+
+        def res_key(body)
+          parser(body, %w[response key])
+        end
+
+        def build_body(response)
+          response.body
+        end
+
+        def build_payload(body)
+          { status: 'success' }.merge(body).to_json
+        end
+
+        def parser(json, object)
+          value = JSON.parse(json)
+          object.each do |o|
+            value = value[o]
+          end
+          value
+        end
+      end
+    end
+  end
+end
