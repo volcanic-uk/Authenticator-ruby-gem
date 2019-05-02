@@ -11,26 +11,20 @@ Add this line to your application's Gemfile:
 gem "volcanic-authenticator", git: "git@github.com:volcanic-uk/Authenticator-ruby-gem.git"
 ```
 
-or `mini-cache` branch:
-
-```ruby
-gem "volcanic-authenticator", git: "git@github.com:volcanic-uk/Authenticator-ruby-gem.git" , branch: 'v1'
-```
-
 And then execute:
 
     $ bundle install
     
 ## Setup
 
-Add these to `application.rb`
+Add these to `application.rb`:
 
 To setup authenticator url.
 ```ruby
  Volcanic::Authenticator.config.auth_url = 'http://0.0.0.0:3000'
 ```
 
-To setup main identity variables. These configuration is use to create `main_token`, where this token is use to request `identity_register` for the first time.
+To setup main identity variables. These configuration is use to create `main_token`, where this token is use to request `.identity_register` for the first time.
 ```ruby
  Volcanic::Authenticator.config.identity_name = 'Volcanic'
  Volcanic::Authenticator.config.identity_secret = '3ddaac80b5830cef8d5ca39d958954b3f4afbba2'
