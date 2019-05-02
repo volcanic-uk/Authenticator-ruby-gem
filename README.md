@@ -52,24 +52,26 @@ Note: all expiration time are base in seconds
 ```ruby
 require 'volcanic/authenticator'
 
+auth = Volcanic::Authenticator::V1::Method.new
+
 # To create new Identity. This will return name, secret and id of identity.
-Volcanic::Authenticator::V1::Method.identity_register(identity_name , group_ids) #eg. ('new_identity', [1,2])
+auth.identity_register(identity_name , group_ids) #eg. ('new_identity', [1,2])
 
 # To deactivate Identity. This will return boolean value
-Volcanic::Authenticator::V1::Method.identity_deactivate(identity_id, token) #eg. (1, 'qwertyuio1234567890.Bioasdknji029837y4rb')
+auth.identity_deactivate(identity_id, token) #eg. (1, 'qwertyuio1234567890.Bioasdknji029837y4rb')
 
 # To issue a token. This will return a token
-Volcanic::Authenticator::V1::Method.identity_login(identity_name, identity_secret) #eg. ('new_identity', 'qwertyuio1234567890')
+auth.identity_login(identity_name, identity_secret) #eg. ('new_identity', 'qwertyuio1234567890')
 
 # To validate token. Return boolean value
-Volcanic::Authenticator::V1::Method.identity_validate(token) 
+auth.identity_validate(token) 
  
 # To blacklist/revoke token. Return boolean value
-Volcanic::Authenticator::V1::Method.identity_logout(token)
+auth.identity_logout(token)
  
 # To create Authority.
-Volcanic::Authenticator::V1::Method.authority_create(authority_name, identity_id) #eg. ('new_authority', 1)
+auth.authority_create(authority_name, identity_id) #eg. ('new_authority', 1)
  
 # To create Group.
-Volcanic::Authenticator::V1::Method.group_create(group_name, identity_id, authority_ids) #eg. ('new_group', 1, [1,2])
+auth.group_create(group_name, identity_id, authority_ids) #eg. ('new_group', 1, [1,2])
 ```
