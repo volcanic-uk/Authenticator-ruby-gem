@@ -30,7 +30,7 @@ module Volcanic
         MTOKEN = 'mtoken'.freeze
 
         def initialize
-          self.class.base_uri ENV['vol_auth_domain'] || 'http://localhost:3000'
+          self.class.base_uri Volcanic::Authenticator.config.auth_url
           @cache = MiniCache::Store.new
         end
 
@@ -52,7 +52,7 @@ module Volcanic
           response, token = build_response res, 'token'
           caching(Token.new(token, pkey).jti,
                   { token: token }.to_json,
-                  (ENV['vol_auth_cache_exp_external_token_time'].to_i || 5) * 60)
+                  Volcanic::Authenticator.config.exp_token)
           response
         end
 
@@ -85,7 +85,7 @@ module Volcanic
 
           caching(Token.new(token, pkey).jti,
                   { token: token }.to_json,
-                  (ENV['vol_auth_cache_exp_external_token_time'].to_i || 5) * 60)
+                  Volcanic::Authenticator.config.exp_token)
           true
         end
 
@@ -139,7 +139,7 @@ module Volcanic
 
           build_response res, 'key'
           res_pkey = parser(res.body, %w[response key])
-          caching PKEY, res_pkey, (ENV['vol_auth_cache_exp_internal_token_time'].to_i || 1) * 24 * 60 * 60
+          caching PKEY, res_pkey, Volcanic::Authenticator.config.exp_public_key
           res_pkey
         end
 
@@ -147,8 +147,8 @@ module Volcanic
           m_token = @cache.get MTOKEN
           return m_token unless m_token.nil? # get public key from cache
 
-          payload = { name: ENV['vol_auth_identity_name'] || 'volcanic',
-                      secret: ENV['vol_auth_identity_secret'] || '3ddaac80b5830cef8d5ca39d958954b3f4afbba2' }
+          payload = { name: Volcanic::Authenticator.config.identity_name,
+                      secret: Volcanic::Authenticator.config.identity_secret }
           res = request(IDENTITY_LOGIN,
                         payload,
                         nil,
@@ -156,7 +156,7 @@ module Volcanic
           return nil unless res.success?
 
           res_mtoken = parser(res.body, %w[response token])
-          caching MTOKEN, res_mtoken, (ENV['vol_auth_cache_exp_internal_token_time'].to_i || 1) * 24 * 60 * 60
+          caching MTOKEN, res_mtoken, Volcanic::Authenticator.config.exp_main_token
           res_mtoken
         end
 
