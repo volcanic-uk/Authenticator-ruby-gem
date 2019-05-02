@@ -32,16 +32,6 @@ module Volcanic
           JSON.parse(@dec_token.to_json)[0][object.to_s]
         end
 
-        def validate_expiry(exp)
-          token_exp = exp.to_i
-          exp_hour = ENV['volcanic_authenticator_redis_expiry_time'] || 5
-          default_exp = (Time.now + exp_hour.to_i * 60 * 60).to_i
-          return default_exp if token_exp < Time.now.to_i
-          return token_exp if token_exp < default_exp
-
-          default_exp
-        end
-
         def decode(token, pem)
           return nil if token.nil?
 
