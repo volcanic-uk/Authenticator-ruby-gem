@@ -23,15 +23,32 @@ And then execute:
     
 ## Setup
 
-add these to environment variable:
+Add these to `application.rb`
 
-```.yaml
-vol_auth_domain: http://0.0.0.0:3000 # Authenticator url
-vol_auth_identity_name: identity_name # eg volcanic
-vol_auth_identity_secret: identity_secret
-vol_auth_cache_exp_external_token_time: 5 # in minutes. default 5 minutes
-vol_auth_cache_exp_internal_token_time: 1 # in days. default 1 days
-vol_auth_cache_exp_pkey_time: 1 # in days. default 1 days
+To setup authenticator url.
+```ruby
+ Volcanic::Authenticator.config.auth_url = 'http://0.0.0.0:3000'
+```
+
+To setup main identity variables. These configuration is use to create `main_token`, where this token is use to request `identity_register` for the first time.
+```ruby
+ Volcanic::Authenticator.config.identity_name = 'Volcanic'
+ Volcanic::Authenticator.config.identity_secret = '3ddaac80b5830cef8d5ca39d958954b3f4afbba2'
+```
+
+To setup `main_token` expiration time.
+```ruby
+ Volcanic::Authenticator.config.exp_main_token = 24 * 60 * 60 # value is base in seconds
+```
+
+To setup `public_key` expiration time.
+```ruby
+ Volcanic::Authenticator.config.exp_public_key = 24 * 60 * 60
+```
+
+To setup token expiration time.
+```ruby
+ Volcanic::Authenticator.config.exp_token = 5 * 60
 ```
 
 ## Usage
