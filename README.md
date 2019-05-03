@@ -26,8 +26,9 @@ To setup authenticator url.
 
 To setup main identity variables. These configuration is use to create `main_token`, where this token is use to request `.identity_register` for the first time.
 ```ruby
+ # example of using volcanic identity
  Volcanic::Authenticator.config.identity_name = 'Volcanic'
- Volcanic::Authenticator.config.identity_secret = '3ddaac80b5830cef8d5ca39d958954b3f4afbba2'
+ Volcanic::Authenticator.config.identity_secret = '3ddaac80b5830cef8d5ca39d958954b3f4afbba2' 
 ```
 
 To setup `main_token` expiration time.
