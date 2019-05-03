@@ -10,7 +10,9 @@ module Volcanic
 
         def res_token(body)
           token = parser(body, %w[response token])
-          [build_payload(token: token), token]
+          id = parser(body, %w[response id])
+          [build_payload(token: token,
+                         id: id), token]
         end
 
         def res_authority(body)
