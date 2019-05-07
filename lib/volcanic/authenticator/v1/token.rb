@@ -13,11 +13,11 @@ module Volcanic
         end
 
         def exp
-          perform_get_claim 'exp'
+          @dec_token[0]['exp']
         end
 
         def jti
-          perform_get_claim 'jti'
+          @dec_token[0]['jti']
         end
 
         def valid?
@@ -25,12 +25,6 @@ module Volcanic
         end
 
         private
-
-        def perform_get_claim(object)
-          return nil if @dec_token.nil?
-
-          JSON.parse(@dec_token.to_json)[0][object.to_s]
-        end
 
         def decode(token, pem)
           return nil if token.nil?
