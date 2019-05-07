@@ -1,5 +1,4 @@
 require 'httparty'
-require 'mini_cache'
 require 'volcanic/authenticator/v1/response'
 require 'volcanic/authenticator/v1/header'
 require 'volcanic/authenticator/v1/token'
@@ -13,7 +12,7 @@ module Volcanic
         include HTTParty
         include Volcanic::Authenticator::V1::Response
         include Volcanic::Authenticator::V1::Header
-        # attr_accessor :pkey, :mtoken
+        # base_uri Volcanic::Authenticator.config.auth_url
 
         # URLS
         IDENTITY_REGISTER = '/api/v1/identity'.freeze
@@ -31,11 +30,6 @@ module Volcanic
 
         def initialize
           self.class.base_uri Volcanic::Authenticator.config.auth_url
-          @cache = MiniCache::Store.new
-        end
-
-        def test
-          true
         end
 
         def identity_register(name, ids = [])
@@ -111,13 +105,17 @@ module Volcanic
 
         def list_caches
           array = []
-          @cache.each do |o|
+          cache.each do |o|
             array << o
           end
           array
         end
 
         private
+
+        def cache
+          Volcanic::Authenticator.cache
+        end
 
         def pkey
           @pkey ||= public_key_request
@@ -128,7 +126,7 @@ module Volcanic
         end
 
         def public_key_request
-          p_key = @cache.get PKEY
+          p_key = cache.get PKEY
           return p_key unless p_key.nil? # get public key from cache
 
           res = request('/api/v1/key/public',
@@ -144,7 +142,7 @@ module Volcanic
         end
 
         def main_token_request
-          m_token = @cache.get MTOKEN
+          m_token = cache.get MTOKEN
           return m_token unless m_token.nil? # get public key from cache
 
           payload = { name: Volcanic::Authenticator.config.identity_name,
@@ -163,17 +161,17 @@ module Volcanic
         def caching(key, value, exp)
           return if key.nil?
 
-          @cache.set key, value, expires_in: exp
+          cache.set key, value, expires_in: exp
         end
 
         def cache_exists?(key)
-          @cache.get key
+          cache.get key
         end
 
         def remove_cache(key)
           return if key.nil?
 
-          @cache.unset key
+          cache.unset key
         end
 
         def request(url, payload, header, method)
@@ -185,6 +183,8 @@ module Volcanic
           else
             self.class.get(url, body: payload.to_json, headers: header)
           end
+        rescue RuntimeError
+          nil
         end
 
         def token_valid?(value)
