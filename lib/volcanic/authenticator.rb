@@ -1,5 +1,6 @@
 require 'volcanic/authenticator/v1/method'
 require 'volcanic/authenticator/config'
+require 'mini_cache'
 
 module Volcanic
   # Authenticator
@@ -9,8 +10,8 @@ module Volcanic
         Thread.current[:volcanic_authenticator_config] ||= Volcanic::Authenticator::Config.new
       end
 
-      def config=(value)
-        Thread.current[:volcanic_authenticator_config] = value
+      def cache
+        Thread.current[:volcanic_authenticator_cache] ||= MiniCache::Store.new
       end
     end
 
