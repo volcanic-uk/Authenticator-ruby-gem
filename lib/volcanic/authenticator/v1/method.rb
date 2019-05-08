@@ -183,8 +183,6 @@ module Volcanic
           else
             self.class.get(url, body: payload.to_json, headers: header)
           end
-        rescue RuntimeError
-          nil
         end
 
         def token_valid?(value)
