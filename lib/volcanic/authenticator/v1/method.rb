@@ -131,7 +131,7 @@ module Volcanic
 
           res = request('/api/v1/key/public',
                         nil,
-                        bearer_header(@mtoken),
+                        bearer_header(mtoken),
                         'GET')
           return nil unless res.success?
 
