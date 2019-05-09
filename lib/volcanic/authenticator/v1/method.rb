@@ -122,8 +122,9 @@ module Volcanic
         end
 
         def public_key_request
-          p_key = cache.get PKEY
-          return p_key unless p_key.nil? # get public key from cache
+          cache.fetch PKEY
+        rescue
+          # return p_key unless p_key.nil? # get public key from cache
 
           res = request('/api/v1/key/public',
                         nil,
@@ -138,8 +139,10 @@ module Volcanic
         end
 
         def main_token_request
-          m_token = cache.get MTOKEN
-          return m_token unless m_token.nil? # get public key from cache
+          cache.fetch MTOKEN
+        rescue
+          # m_token = cache.fetch MTOKEN
+          # return m_token unless m_token.nil? # get public key from cache
 
           payload = { name: Volcanic::Authenticator.config.identity_name,
                       secret: Volcanic::Authenticator.config.identity_secret }
