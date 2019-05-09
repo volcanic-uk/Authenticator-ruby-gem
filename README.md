@@ -22,7 +22,6 @@ And then execute:
 
 Add these configuration to `application.rb`:
 
-######required
 To configure the Authenticator server url.
 ```ruby
  Volcanic::Authenticator.config.auth_url = 'http://0.0.0.0:3000' 
@@ -32,7 +31,7 @@ To generate `main_token`, below configurations are required. `main_token` is nee
  Volcanic::Authenticator.config.identity_name = 'Volcanic'
  Volcanic::Authenticator.config.identity_secret = '3ddaac80b5830cef8d5ca39d958954b3f4afbba2' 
 ```
-######optional
+
 To configure `main_token` expiration time. Default 1 day
 ```ruby
  Volcanic::Authenticator.config.exp_main_token = 24 * 60 * 60 
