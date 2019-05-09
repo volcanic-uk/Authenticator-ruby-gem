@@ -104,11 +104,7 @@ module Volcanic
         end
 
         def list_caches
-          array = []
-          cache.each do |o|
-            array << o
-          end
-          array
+          nil
         end
 
         private
@@ -161,17 +157,21 @@ module Volcanic
         def caching(key, value, exp)
           return if key.nil?
 
-          cache.set key, value, expires_in: exp
+          # cache.set key, value, expires_in: exp
+          cache.fetch key, expire_in: exp do
+            value
+          end
         end
 
         def cache_exists?(key)
-          cache.get key
+          # cache.get key
+          cache.key? key
         end
 
         def remove_cache(key)
           return if key.nil?
 
-          cache.unset key
+          cache.evict! key
         end
 
         def request(url, payload, header, method)
