@@ -77,6 +77,9 @@ auth.identity_logout(token)
 1. Register/Create Identity
     ```ruby
     Volcanic::Authenticator::V1::Method.new.identity_register('new_identity', [1,2])
+    # 'new_identity' => identity name
+    # [1,2] => group ids 
+ 
     ```
     return a json object:
     ```json
@@ -90,6 +93,8 @@ auth.identity_logout(token)
 2. Login Identity
     ```ruby
     Volcanic::Authenticator::V1::Method.new.identity_login('new_identity', 'e9b0...525c')
+    # 'new_identity' => identity name
+    # 'e9b0...525c' => identity secret
     ```
     return a json object:
     ```json
@@ -102,13 +107,18 @@ auth.identity_logout(token)
 3. Logout Identity (return boolean)
     ```ruby
     Volcanic::Authenticator::V1::Method.new.identity_logout('eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCJ...PvFD3Cwb')
+    # 'eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCJ...PvFD3Cwb' => token
     ```    
 4. Deactivate Identity (return boolean)
    ```ruby
-    Volcanic::Authenticator::V1::Method.new.identity_deactivate('99392900-7224-11e9-8abf-2d8af972204e','eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCJ...PvFD3Cwb')
+    Volcanic::Authenticator::V1::Method.new.identity_deactivate(1117,'eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCJ...PvFD3Cwb')
+    # 1117 => identity id
+    # 'eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCJ...PvFD3Cwb' => token
+ 
     ```    
 5. Validate Identity (return boolean)
     ```ruby
     Volcanic::Authenticator::V1::Method.new.identity_validate('eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCJ...PvFD3Cwb')
+    # 'eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCJ...PvFD3Cwb' => token
     ```
 
