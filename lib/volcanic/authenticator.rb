@@ -15,7 +15,7 @@ module Volcanic
       end
 
       def cache2
-        Thread.current[:volcanic_authenticator_cache2] ||= Volcanic::Cache::Cache.new
+        Thread.current[:volcanic_authenticator_cache2] ||= Vache::Cache::Cache.new
       end
     end
 
