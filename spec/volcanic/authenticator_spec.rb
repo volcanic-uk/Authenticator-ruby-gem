@@ -26,6 +26,24 @@ RSpec.describe Volcanic::Authenticator do
       end
     end
 
+    context 'Identity created using password' do
+      before :all do
+        @create_identity = @auth.identity_register(SecureRandom.hex(6), [], "secure_password")
+      end
+
+      it 'return "success" status' do
+        expect(JSON.parse(@create_identity)['status']).to eq('success')
+      end
+
+      it 'identity_name created' do
+        expect(JSON.parse(@create_identity)['identity_name']).not_to be_empty
+      end
+
+      it 'identity_secret created' do
+        expect(JSON.parse(@create_identity)['identity_secret']).not_to be_empty
+      end
+    end
+
     context 'Failed create identity' do
       it 'Duplicate name' do
         name = SecureRandom.hex(5)

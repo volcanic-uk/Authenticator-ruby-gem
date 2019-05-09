@@ -32,7 +32,7 @@ module Volcanic
           self.class.base_uri Volcanic::Authenticator.config.auth_url
         end
 
-        def identity_register(name, ids = [])
+        def identity_register(name, ids = [], password = nil)
           payload = { name: name, ids: ids }
           res = request(IDENTITY_REGISTER, payload, bearer_header(mtoken), 'POST')
           build_response res, 'identity'
