@@ -7,7 +7,7 @@ module Volcanic
   module Authenticator
     module Base
       def config
-        Thread.current[:volcanic_authenticator_config] ||= Volcanic::Authenticator::Config.new
+        Volcanic::Authenticator::Config
       end
 
       def cache

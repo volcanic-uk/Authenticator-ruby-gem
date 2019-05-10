@@ -18,7 +18,7 @@ module Volcanic
         IDENTITY_REGISTER = '/api/v1/identity'.freeze
         IDENTITY_LOGIN = '/api/v1/identity/login'.freeze
         IDENTITY_LOGOUT = '/api/v1/identity/logout'.freeze
-        IDENTITY_DEACTIVATE = '/api/v1/identity/deactivate/'.freeze
+        IDENTITY_DEACTIVATE = '/api/v1/identity/deactivate'.freeze
         IDENTITY_VALIDATE = '/api/v1/identity/validate'.freeze
         AUTHORITY = '/api/v1/authority'.freeze
         GROUP = '/api/v1/group'.freeze
@@ -28,19 +28,28 @@ module Volcanic
         PKEY = 'pkey'.freeze
         MTOKEN = 'mtoken'.freeze
 
+        # attr_accessor :error
+
         def initialize
           self.class.base_uri Volcanic::Authenticator.config.auth_url
+          @error = ''
         end
 
         def identity_register(name, ids = [], password = nil)
-          payload = { name: name, ids: ids }
+          payload = { name: name,
+                      ids: ids,
+                      password: password }
           res = request(IDENTITY_REGISTER, payload, bearer_header(mtoken), 'POST')
+          return error_response if res.nil?
+
           build_response res, 'identity'
         end
 
         def identity_login(name, secret)
           payload = { name: name, secret: secret }
           res = request(IDENTITY_LOGIN, payload, bearer_header(mtoken), 'POST')
+          return error_response if res.nil?
+
           return res.body unless res.success?
 
           response, token = build_response res, 'token'
@@ -55,15 +64,20 @@ module Volcanic
                         { token: token },
                         bearer_header(token),
                         'POST')
+          return false if res.nil?
+
           remove_cache Token.new(token, pkey).jti
+
           res.success?
         end
 
         def identity_deactivate(identity_id, token)
-          res = request("/api/v1/identity/deactivate/#{identity_id}",
+          res = request("#{IDENTITY_DEACTIVATE}/#{identity_id}",
                         nil,
                         bearer_header(token),
                         'POST')
+          return false if res.nil?
+
           remove_cache Token.new(token, pkey).jti
           res.success?
         end
@@ -71,10 +85,11 @@ module Volcanic
         def identity_validate(token)
           return true if token_valid? token
 
-          res = request('/api/v1/identity/validate',
+          res = request(IDENTITY_VALIDATE,
                         { token: token },
                         bearer_header(token),
                         'POST')
+          return false if res.nil?
           return false unless res.success?
 
           caching(Token.new(token, pkey).jti,
@@ -133,7 +148,7 @@ module Volcanic
                         nil,
                         bearer_header(mtoken),
                         'GET')
-          return nil unless res.success?
+          return nil if res.nil? || !res.success?
 
           build_response res, 'key'
           res_pkey = parser(res.body, %w[response key])
@@ -151,7 +166,7 @@ module Volcanic
                         payload,
                         nil,
                         'POST')
-          return nil unless res.success?
+          return nil if res.nil? || !res.success?
 
           res_mtoken = parser(res.body, %w[response token])
           caching MTOKEN, res_mtoken, Volcanic::Authenticator.config.exp_main_token
@@ -183,6 +198,9 @@ module Volcanic
           else
             self.class.get(url, body: payload.to_json, headers: header)
           end
+        rescue StandardError => e
+          @error = e
+          nil
         end
 
         def token_valid?(value)
@@ -206,6 +224,11 @@ module Volcanic
         # Validate token, return bool
         def expiration_check(exp)
           Time.at(exp.to_i) < Time.now # if token is expired
+        end
+
+        def error_response
+          { 'status': 'error',
+            'reason': @error }.to_json
         end
       end
     end
