@@ -1,4 +1,4 @@
-require 'volcanic/authenticator/v1/method'
+require 'volcanic/authenticator/v1/identity'
 require 'volcanic/authenticator/config'
 
 module Volcanic
