@@ -26,11 +26,7 @@ module Volcanic
         end
 
         def res_key(body)
-          parser(body, %w[response key])
-        end
-
-        def build_body(response)
-          response.body
+          parser body, %w[response key]
         end
 
         def build_payload(body)

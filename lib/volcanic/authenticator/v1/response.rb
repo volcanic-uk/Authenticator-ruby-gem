@@ -8,8 +8,12 @@ module Volcanic
         include ResponseParser
         # return for create identity
         def build_response(response, method)
-          body = build_body response
-          return body unless response.success?
+
+          body = response.body
+
+          raise InvalidAppToken if response.code == 400 and method == 'app_token'
+          raise ValidationError, parser(body, %w[reason message]) if response.code == 400
+          raise AuthorizationError, parser(body, %w[error message]) if response.code == 401
 
           case method
           when 'identity'
@@ -20,10 +24,10 @@ module Volcanic
             res_group body
           when 'token'
             res_token body
-          when 'key'
-            res_key body
-          when 'mtoken'
+          when 'app_token'
             res_token body
+          when 'pkey'
+            res_key body
           else
             body
           end

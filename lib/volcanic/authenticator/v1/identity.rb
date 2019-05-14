@@ -44,15 +44,17 @@ module Volcanic
         end
 
         def logout(token)
-          res = request_post IDENTITY_LOGOUT, { token: token }, bearer_header(token)
+          request_post IDENTITY_LOGOUT, { token: token }, bearer_header(token)
           cache_remove! export_token_id(token)
-          res.success?
+        rescue InvalidToken
+          nil
         end
 
         def deactivate(identity_id, token)
-          res = request_post "#{IDENTITY_DEACTIVATE}/#{identity_id}", nil, bearer_header(token)
+          request_post "#{IDENTITY_DEACTIVATE}/#{identity_id}", nil, bearer_header(token)
           cache_remove! export_token_id(token)
-          res.success?
+        rescue InvalidToken
+          nil
         end
 
         def validation(token)
@@ -62,7 +64,7 @@ module Volcanic
           caching(token, cache_token_exp_time) and return true if res.success?
 
           false
-        rescue
+        rescue InvalidToken
           false
         end
 
@@ -94,15 +96,16 @@ module Volcanic
 
         def public_key_request
           res = request_get PUBLIC_KEY, nil, bearer_header(main_token_request)
-          pem = parser(res.body, %w[response key])
+          pem = build_response res, 'pkey'
           generate_pkey(pem)
         end
 
         def main_token_request
-          payload = { name: Volcanic::Authenticator.config.identity_name,
-                      secret: Volcanic::Authenticator.config.identity_secret }
+          payload = { name: Volcanic::Authenticator.config.app_name,
+                      secret: Volcanic::Authenticator.config.app_secret }
           res = request_post IDENTITY_LOGIN, payload
-          parser(res.body, %w[response token])
+          _, token = build_response res, 'app_token'
+          token
         end
 
         def token_request(payload)
