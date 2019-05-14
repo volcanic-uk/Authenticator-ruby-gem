@@ -28,8 +28,8 @@ To configure the Authenticator server url.
 ```
 To generate `main_token`, below configurations are required. `main_token` is needed as the authorization header when requesting `auth.identity_register()`
 ```ruby
- Volcanic::Authenticator.config.identity_name = 'Volcanic'
- Volcanic::Authenticator.config.identity_secret = '3ddaac80b5830cef8d5ca39d958954b3f4afbba2' 
+ Volcanic::Authenticator.config.app_name = ''
+ Volcanic::Authenticator.config.app_secret = '' 
 ```
 
 To configure `main_token` expiration time. Default 1 day
@@ -54,28 +54,28 @@ Note: all expiration time are base in seconds
 ```ruby
 require 'volcanic/authenticator'
 
-auth = Volcanic::Authenticator::V1::Method.new
+auth = Volcanic::Authenticator::V1::Identity.new
 
 # To create new Identity. This will return name, secret and id of identity.
-auth.identity_register(identity_name , group_ids) #eg. ('new_identity', [1,2])
+auth.register(identity_name , group_ids) #eg. ('new_identity', [1,2])
 
 # To deactivate Identity. This will return boolean value
-auth.identity_deactivate(identity_id, token) #eg. (1, 'qwertyuio1234567890.Bioasdknji029837y4rb')
+auth.deactivate(identity_id, token) #eg. (1, 'qwertyuio1234567890.Bioasdknji029837y4rb')
 
 # To issue a token. This will return a token
-auth.identity_login(identity_name, identity_secret) #eg. ('new_identity', 'qwertyuio1234567890')
+auth.login(identity_name, identity_secret) #eg. ('new_identity', 'qwertyuio1234567890')
 
 # To validate token. Return boolean value
-auth.identity_validate(token) 
+auth.validation(token) 
  
 # To blacklist/revoke token. Return boolean value
-auth.identity_logout(token)
+auth.logout(token)
 
 ```
 
 1. Register/Create Identity
     ```ruby
-    Volcanic::Authenticator::V1::Method.new.identity_register('new_identity', [1,2])
+    Volcanic::Authenticator::V1::Identity.new.register('new_identity', [1,2])
     # 'new_identity' => identity name
     # [1,2] => group ids 
  
@@ -91,7 +91,7 @@ auth.identity_logout(token)
     ```
 2. Login Identity
     ```ruby
-    Volcanic::Authenticator::V1::Method.new.identity_login('new_identity', 'e9b0...525c')
+    Volcanic::Authenticator::V1::Identity.new.login('new_identity', 'e9b0...525c')
     # 'new_identity' => identity name
     # 'e9b0...525c' => identity secret
     ```
@@ -103,21 +103,21 @@ auth.identity_logout(token)
         "id": "99392900-7224-11e9-8abf-2d8af972204e"
     }
     ```
-3. Logout Identity (return boolean)
+3. Logout Identity 
     ```ruby
-    Volcanic::Authenticator::V1::Method.new.identity_logout('eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCJ...PvFD3Cwb')
+    Volcanic::Authenticator::V1::Identity.new.logout('eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCJ...PvFD3Cwb')
     # 'eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCJ...PvFD3Cwb' => token
     ```    
-4. Deactivate Identity (return boolean)
+4. Deactivate Identity 
    ```ruby
-    Volcanic::Authenticator::V1::Method.new.identity_deactivate(1117,'eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCJ...PvFD3Cwb')
+    Volcanic::Authenticator::V1::Identity.new.deactivate(1117,'eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCJ...PvFD3Cwb')
     # 1117 => identity id
     # 'eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCJ...PvFD3Cwb' => token
  
     ```    
 5. Validate Identity (return boolean)
     ```ruby
-    Volcanic::Authenticator::V1::Method.new.identity_validate('eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCJ...PvFD3Cwb')
+    Volcanic::Authenticator::V1::Identity.new.validation('eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCJ...PvFD3Cwb')
     # 'eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCJ...PvFD3Cwb' => token
     ```
 
