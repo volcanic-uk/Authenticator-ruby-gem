@@ -11,7 +11,7 @@ module Volcanic
 
           body = response.body
 
-          raise InvalidAppToken if response.code == 400 and method == 'app_token'
+          raise InvalidAppToken if response.code == 400 && method == 'app_token'
           raise ValidationError, parser(body, %w[reason message]) if response.code == 400
           raise AuthorizationError, parser(body, %w[error message]) if response.code == 401
 
