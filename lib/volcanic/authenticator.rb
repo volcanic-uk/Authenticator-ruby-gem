@@ -1,5 +1,6 @@
 require 'volcanic/authenticator/v1/identity'
 require 'volcanic/authenticator/config'
+require 'volcanic/authenticator/exception'
 
 module Volcanic
   # Authenticator
