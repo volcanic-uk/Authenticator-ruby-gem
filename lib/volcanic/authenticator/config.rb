@@ -2,7 +2,7 @@ module Volcanic
   module Authenticator
     class Config
       class << self
-        attr_accessor :auth_url, :identity_name, :identity_secret
+        attr_accessor :auth_url, :app_name, :app_secret
         attr_reader :exp_token, :exp_app_token, :exp_public_key
 
         def exp_token=(value)
