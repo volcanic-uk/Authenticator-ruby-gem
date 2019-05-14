@@ -5,6 +5,8 @@ require 'volcanic/authenticator/exception'
 module Volcanic
   # Authenticator
   module Authenticator
+    ##
+    # config helper
     module Base
       def config
         Volcanic::Authenticator::Config

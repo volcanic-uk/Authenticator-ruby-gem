@@ -1,6 +1,8 @@
 module Volcanic
   module Authenticator
     module V1
+      ##
+      # Response parser helper
       module ResponseParser
         def res_identity(body)
           build_payload(identity_name: parser(body, %w[response name]),

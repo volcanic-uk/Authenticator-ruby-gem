@@ -1,6 +1,10 @@
 module Volcanic
   module Authenticator
+    ##
+    # Config class
     class Config
+      ##
+      # singleton
       class << self
         attr_accessor :auth_url, :app_name, :app_secret
         attr_reader :exp_token, :exp_app_token, :exp_public_key

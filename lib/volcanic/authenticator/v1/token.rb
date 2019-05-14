@@ -20,7 +20,7 @@ module Volcanic
 
           begin
             return JWT.decode token, pkey, true, algorithm: 'ES512'
-          rescue
+          rescue JWT::DecodeError
             raise InvalidToken
           end
         end

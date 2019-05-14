@@ -61,7 +61,10 @@ module Volcanic
           return true if token_exists? token
 
           res = request_post IDENTITY_VALIDATE, { token: token }, bearer_header(token)
-          caching(token, cache_token_exp_time) and return true if res.success?
+          if res.success?
+            caching(token, cache_token_exp_time)
+            return true
+          end
 
           false
         rescue InvalidToken
