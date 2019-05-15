@@ -8,9 +8,9 @@ end
 RSpec.describe Volcanic::Authenticator do
   Volcanic::Authenticator.config.auth_url = 'http://0.0.0.0:3000'
   let(:configuration) { Configuration }
-  let(:name) { SecureRandom.hex 6 }
-  let(:password) { :name }
-  subject(:identity) { Volcanic::Authenticator::V1::Identity.new }
+  let(:mock_name) { SecureRandom.hex 6 }
+  let(:mock_secret) { 'mock_secret' }
+  subject(:identity_instance) { Volcanic::Authenticator::V1::Identity }
 
   describe 'Application token' do
     let(:app_name) { Volcanic::Authenticator.config.app_name }
@@ -19,7 +19,7 @@ RSpec.describe Volcanic::Authenticator do
     let(:app_token) { cache.fetch 'application_token' }
 
     context 'When application setting is missing' do
-      it { expect { identity.register(name) }.to raise_error Volcanic::Authenticator::InvalidAppToken }
+      it { expect { identity_instance.new(mock_name) }.to raise_error Volcanic::Authenticator::InvalidAppToken }
     end
 
     context 'When missing or invalid credentials' do
@@ -27,12 +27,12 @@ RSpec.describe Volcanic::Authenticator do
       Volcanic::Authenticator.config.app_secret = 'app_secret'
       it { expect(app_name).to eq 'app_name' }
       it { expect(app_secret).to eq 'app_secret' }
-      it { expect { identity.register(name) }.to raise_error Volcanic::Authenticator::InvalidAppToken }
+      it { expect { identity_instance.new(mock_name) }.to raise_error Volcanic::Authenticator::InvalidAppToken }
     end
 
     context 'When valid credentials' do
       before { configuration.new }
-      it { expect { identity.register(name) }.not_to raise_error }
+      it { expect { identity_instance.new(mock_name) }.not_to raise_error }
       it('should store token to cache')\
           { expect(app_token).not_to be_empty }
     end
@@ -40,11 +40,7 @@ RSpec.describe Volcanic::Authenticator do
 
   describe 'Identity' do
     before { configuration.new }
-    subject(:register) { identity.register(name) }
-    let(:i_name) { JSON.parse(register)['identity_name'] }
-    let(:i_secret) { JSON.parse(register)['identity_secret'] }
-    let(:login) { identity.login(i_name, i_secret) }
-    let(:token) { JSON.parse(login)['token'] }
+    subject(:identity) { identity_instance.new(mock_name) }
 
     describe 'registering' do
       context 'When missing name' do
@@ -52,35 +48,50 @@ RSpec.describe Volcanic::Authenticator do
       end
 
       context 'When duplicate name' do
-        duplicate_name = SecureRandom.hex(6)
+        let(:duplicate_name) { SecureRandom.hex 6 }
         before { identity.register(duplicate_name) }
-        it { expect { identity.register(duplicate_name) }.to raise_error Volcanic::Authenticator::ValidationError }
+        it { expect{ identity.register(duplicate_name) }.to raise_error Volcanic::Authenticator::ValidationError }
       end
 
-      context 'When name short' do
+      context 'When name too short' do
         it { expect { identity.register('shrt') }.to raise_error Volcanic::Authenticator::ValidationError }
       end
 
       context 'When identity created' do
-        it { expect { register }.not_to raise_error }
-        it { should_not be_empty }
+        it { is_expected.to be_an identity_instance }
+        its(:name) { should_not be nil }
+        its(:secret) { should_not be nil }
+        its(:id) { should_not be nil }
+      end
+
+      context 'When register other new identity' do
+        before { identity.register(SecureRandom.hex 6) }
+        it { should be_an identity_instance }
       end
 
       context 'When identity created with password' do
-        subject(:register_with_password) { identity.register(name, nil, 'password') }
-        it { expect { register_with_password }.not_to raise_error }
-        it { should_not be_empty }
-        it { expect(JSON.parse(register_with_password)['identity_secret']).to eq 'password' }
+        subject(:register_with_password) { identity_instance.new(mock_name, mock_secret) }
+        it { is_expected.to be_an identity_instance }
+        its(:name) { should_not be nil }
+        its(:secret) { should eq('mock_secret') }
+        its(:id) { should_not be nil }
+
+
+        context 'Password to short' do
+          it { expect{ identity_instance.new(mock_name, 'shrt') }.to raise_error Volcanic::Authenticator::ValidationError }
+        end
       end
     end
 
     describe 'login' do
+      # subject(:login) { identity_instance.new(mock_name) }
+
       context 'When missing name' do
-        it { expect { identity.login(nil, password) }.to raise_error Volcanic::Authenticator::ValidationError }
+        it { expect { identity.login(nil, mock_secret) }.to raise_error Volcanic::Authenticator::ValidationError }
       end
 
       context 'When missing password' do
-        it { expect { identity.login(name, nil) }.to raise_error Volcanic::Authenticator::ValidationError }
+        it { expect { identity.login(mock_name, nil) }.to raise_error Volcanic::Authenticator::ValidationError }
       end
 
       context 'When invalid name or password' do
@@ -88,56 +99,66 @@ RSpec.describe Volcanic::Authenticator do
       end
 
       context 'When token created' do
-        subject { identity.login(i_name, i_secret) }
-        it { should_not be raise_error }
-        it { should_not be_empty }
+        before { identity.login }
+        its(:token) { is_expected.not_to be nil }
+        its(:source_id) { is_expected.not_to be nil }
       end
     end
 
     describe 'Validating' do
+      subject { identity.validation }
       context 'When missing token' do
-        it { expect(identity.validation(nil)).to eq false }
-        it { expect(identity.validation('')).to eq false }
+        it { expect(identity.validation(nil)).to be false }
+        it { expect(identity.validation('')).to be false }
       end
 
       context 'When token is invalid' do
-        subject { identity.validation(name) }
-        it { should eq false }
+        subject { identity.validation(mock_name) }
+        it { should be false }
       end
 
       context 'When token is valid' do
-        subject { identity.validation(token) }
-        it { should eq true }
-      end
-    end
-
-    describe 'Deactivating' do
-      let(:identity_id) { JSON.parse(login)['id'] }
-      context 'When missing identity id' do
-        # subject { identity.deactivate(nil, token) }
-        # it { should eq nil }
-      end
-
-      context 'When missing or invalid token' do
-        subject { identity.deactivate(identity_id, nil) }
-        it { should eq nil }
-      end
-
-      context 'When success' do
-        subject { identity.deactivate(identity_id, token) }
-        it { should eq 'OK' }
+        before { identity.login }
+        it { should be true }
       end
     end
 
     describe 'Logout' do
+      before { identity.login }
       context 'When missing or invalid token' do
-        subject { identity.logout(nil) }
-        it { should eq nil }
+        it { expect{ identity.logout(nil) }.to raise_error Volcanic::Authenticator::InvalidToken }
       end
 
       context 'When success' do
-        subject { identity.logout(token) }
-        it { should eq 'OK' }
+        before { identity.logout }
+        its(:token) { should be nil }
+        its(:source_id) { should be nil }
+      end
+    end
+
+    describe 'Deactivating' do
+      before { identity.login }
+
+      context 'When missing or invalid identity id' do
+        before { identity.deactivate(nil, identity.token) }
+        its(:name) { should_not be nil }
+        its(:secret) { should_not be nil }
+        its(:id) { should_not be nil }
+        its(:token) { should_not be nil }
+        its(:source_id) { should_not be nil }
+      end
+
+      context 'When missing or invalid token' do
+        it { expect{ identity.deactivate(identity.id, nil) }.to raise_error Volcanic::Authenticator::InvalidToken }
+      end
+
+      context 'When success' do
+        before { identity.deactivate }
+        its(:name) { should be nil }
+        its(:secret) { should be nil }
+        its(:id) { should be nil }
+        its(:token) { should be nil }
+        its(:source_id) { should be nil }
       end
     end
   end

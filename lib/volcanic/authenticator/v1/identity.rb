@@ -25,41 +25,42 @@ module Volcanic
         PKEY = 'pkey'.freeze
         APP_TOKEN = 'application_token'.freeze
 
-        def initialize
+        attr_reader :name, :secret, :id, :source_id, :token
+
+        def initialize(name = nil, password = nil, ids = [])
           self.class.base_uri Volcanic::Authenticator.config.auth_url
+          register(name, password, ids) unless name.nil?
         end
 
-        def register(name, ids = [], password = nil)
+        def register(name = @name, password = @password, ids = [])
           payload = { name: name, ids: ids, password: password }
           res = request_post IDENTITY_REGISTER, payload, bearer_header(app_token)
-          build_response res, 'identity'
+          _, @name, @secret, @id = build_response res, 'identity'
         end
 
-        def login(name, secret)
+        def login(name = @name, secret = @secret)
           payload = { name: name, secret: secret }
           res = request_post IDENTITY_LOGIN, payload, bearer_header(app_token)
-          response, token = build_response res, 'token'
-          caching token, cache_token_exp_time # cache token key and value with exp time
-          response
+          @name, @secret = [name, secret]
+          _, @token, @source_id = build_response res, 'token'
+          caching @token, cache_token_exp_time # cache token key and value with exp time
         end
 
-        def logout(token)
-          request_post IDENTITY_LOGOUT, { token: token }, bearer_header(token)
+        def logout(token = @token)
+          res = request_post IDENTITY_LOGOUT, { token: token }, bearer_header(token)
           cache_remove! export_token_id(token)
+          remove_token_attr if res.success?
           'OK'
-        rescue InvalidToken
-          nil
         end
 
-        def deactivate(identity_id, token)
-          request_post "#{IDENTITY_DEACTIVATE}/#{identity_id}", nil, bearer_header(token)
+        def deactivate(identity_id = @id, token = @token)
+          res = request_post "#{IDENTITY_DEACTIVATE}/#{identity_id}", nil, bearer_header(token)
           cache_remove! export_token_id(token)
+          remove_all_attr if res.success?
           'OK'
-        rescue InvalidToken
-          nil
         end
 
-        def validation(token)
+        def validation(token = @token)
           return true if token_exists? token
 
           res = request_post IDENTITY_VALIDATE, { token: token }, bearer_header(token)
@@ -109,12 +110,8 @@ module Volcanic
           payload = { name: Volcanic::Authenticator.config.app_name,
                       secret: Volcanic::Authenticator.config.app_secret }
           res = request_post IDENTITY_LOGIN, payload
-          _, token = build_response res, 'app_token'
+          _, token, = build_response res, 'app_token'
           token
-        end
-
-        def token_request(payload)
-          request_post(IDENTITY_LOGIN, payload, bearer_header(app_token))
         end
 
         def generate_pkey(pem)
@@ -150,6 +147,19 @@ module Volcanic
 
         def token_exists?(token)
           cache_exists? export_token_id(token)
+        end
+
+        def remove_token_attr
+          @token = nil
+          @source_id = nil
+        end
+
+        def remove_all_attr
+          @name = nil
+          @secret = nil
+          @id = nil
+          @token = nil
+          @source_id = nil
         end
       end
     end

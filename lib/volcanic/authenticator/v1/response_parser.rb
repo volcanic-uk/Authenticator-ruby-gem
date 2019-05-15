@@ -5,16 +5,20 @@ module Volcanic
       # Response parser helper
       module ResponseParser
         def res_identity(body)
-          build_payload(identity_name: parser(body, %w[response name]),
-                        identity_secret: parser(body, %w[response secret]),
-                        identity_id: parser(body, %w[response id]))
+          name = parser(body, %w[response name])
+          secret = parser(body, %w[response secret])
+          id = parser(body, %w[response id])
+          [build_payload(identity_name: name,
+                        identity_secret: secret,
+                        identity_id: parser(body, %w[response id])),
+           name, secret, id]
         end
 
         def res_token(body)
           token = parser(body, %w[response token])
           id = parser(body, %w[response id])
           [build_payload(token: token,
-                         id: id), token]
+                         id: id), token, id]
         end
 
         def res_authority(body)
