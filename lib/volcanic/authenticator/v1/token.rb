@@ -16,13 +16,9 @@ module Volcanic
         private
 
         def decode(token, pkey)
-          return nil if token.nil?
-
-          begin
-            return JWT.decode token, pkey, true, algorithm: 'ES512'
-          rescue JWT::DecodeError
-            raise InvalidToken
-          end
+          JWT.decode token, pkey, true, algorithm: 'ES512'
+        rescue JWT::DecodeError
+          raise InvalidToken
         end
       end
     end
