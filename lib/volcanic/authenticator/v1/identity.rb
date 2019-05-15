@@ -46,6 +46,7 @@ module Volcanic
         def logout(token)
           request_post IDENTITY_LOGOUT, { token: token }, bearer_header(token)
           cache_remove! export_token_id(token)
+          'OK'
         rescue InvalidToken
           nil
         end
@@ -53,6 +54,7 @@ module Volcanic
         def deactivate(identity_id, token)
           request_post "#{IDENTITY_DEACTIVATE}/#{identity_id}", nil, bearer_header(token)
           cache_remove! export_token_id(token)
+          'OK'
         rescue InvalidToken
           nil
         end
