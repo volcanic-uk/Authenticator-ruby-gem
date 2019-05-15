@@ -1,5 +1,7 @@
 require 'bundler/setup'
 require 'volcanic/authenticator'
+require 'volcanic/cache'
+require 'volcanic/authenticator/v1/response_parser'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
