@@ -11,8 +11,7 @@ Add this line to your application's Gemfile:
 gem 'volcanic-cache', git: 'git@github.com:volcanic-uk/ruby-cache.git'
 gem 'volcanic-authenticator', git: 'git@github.com:volcanic-uk/Authenticator-ruby-gem.git'
 ```
-`volcanic-cache` gem is required to run `volcanic-authenticator`, so both gems must be gem 'volcanic-cache', git: 'git@github.com:volcanic-uk/ruby-cache.git'
- to application gemfile. 
+`volcanic-cache` gem is required to run `volcanic-authenticator`. Both gems are required to be added at the `Gemfile`
 
 And then execute:
 
@@ -22,102 +21,139 @@ And then execute:
 
 Add these configuration to `application.rb`:
 
-To configure the Authenticator server url.
+To configure the Authenticator server url. Required to configure.
 ```ruby
- Volcanic::Authenticator.config.auth_url = 'http://0.0.0.0:3000' 
+Volcanic::Authenticator.config.auth_url = 'http://vauth.com' 
 ```
-To generate `main_token`, below configurations are required. `main_token` is needed as the authorization header when requesting `auth.identity_register()`
+To generate `app_token`, below configurations are required. `app_token` is needed as the main authorization header. Required to configure.
 ```ruby
- Volcanic::Authenticator.config.app_name = ''
- Volcanic::Authenticator.config.app_secret = '' 
-```
-
-To configure `main_token` expiration time. Default 1 day
-```ruby
- Volcanic::Authenticator.config.exp_main_token = 24 * 60 * 60 
+Volcanic::Authenticator.config.app_name = 'app_name'
+Volcanic::Authenticator.config.app_secret = 'app_secret' 
 ```
 
-To configure `public_key` expiration time. Default 1 day
+To configure `app_token` expiration time. If not set, it default to 1 day.
 ```ruby
- Volcanic::Authenticator.config.exp_public_key = 24 * 60 * 60
+Volcanic::Authenticator.config.exp_app_token = 24 * 60 * 60 
 ```
 
-To configure token expiration time. Default 5 minutes
+To configure `public_key` expiration time. If not set, it default to 1 day.
 ```ruby
- Volcanic::Authenticator.config.exp_token = 5 * 60
+Volcanic::Authenticator.config.exp_public_key = 24 * 60 * 60
 ```
 
-Note: all expiration time are base in seconds
+To configure token expiration time. If not set, it default to 5 minutes.
+```ruby
+Volcanic::Authenticator.config.exp_token = 5 * 60
+```
+Note: all expiration time are seconds basis.
 
 ## Usage
 
+Register/Create
+```ruby
+# 1) Standard identity register
+identity = Volcanic::Authenticator::V1::Identity.new('app_name')
+# identity.name => 'app_name'
+# identity.secret => '<GENERATED_SECRET>'
+# identity.id => '<GENERATED_ID>' 
+ 
+# 2) With secret and group ids
+identity = Volcanic::Authenticator::V1::Identity.new('app_name', 'app_secret', [1,2])
+# identity.secret => 'app_secret'
+  
+# 3) Also available as below
+identity = Volcanic::Authenticator::V1::Identity.new.register('new_name', 'new_password', [3,4])
+# identity.name => 'new_name'
+# identity.secret => 'new_password'
+# identity.id => '<GENERATED_ID>'
+```
+    
+   
+Login
+```ruby
+# 1) by using current identity name and secret
+identity.login
+# identity.name => 'app_name'
+# identity.secret => 'app_secret'
+# identity.token => '<GENERATED_TOKEN>'
+# identity.source_id => '<GENERATED_SOURCE_ID>'
+# note: source_id is the token id (jti) 
+  
+# 2) by using other identity name and secret
+identity_other = Volcanic::Authenticator::V1::Identity.new.login('other_name', 'other_name')
+# identity_other.name => 'other_name'
+# identity_other.secret => 'other_name'
+# identity_other.token => '<GENERATED_TOKEN>'
+# identity_other.source_id => '<GENERATED_SOURCE_ID>'
+```
+Validation
+```ruby
+# 1) Validate current token
+identity.validation 
+# => true/false
+ 
+# 2) Validate other token
+Volcanic::Authenticator::V1::Identity.new.validation(token)
+# => true/false
+```
+Logout 
+```ruby
+# 1) by using current identity name and secret
+identity.logout
+# identity.name => 'app_name'
+# identity.secret => 'app_secret'
+# identity.token => nil
+# identity.source_id => nil
+ 
+# 2) by using other token
+Volcanic::Authenticator::V1::Identity.new.logout(token)
+# note: this will logout the token given.
+```  
+Deactivate. 
+```ruby
+# 1) by using current identity name and secret
+identity.deactivate
+# identity.name => 'nil'
+# identity.secret => 'nil'
+# identity.token => nil
+# identity.source_id => nil
+
+# 2) by using other token and id
+Volcanic::Authenticator::V1::Identity.new.deactivate(id, token)
+# id is the identity id 
+ 
+# note: Running this will deactivate the identity and login with the same identity (name and secret) will return an error.
+ 
+``` 
+ 
+Example
 ```ruby
 require 'volcanic/authenticator'
 
-auth = Volcanic::Authenticator::V1::Identity.new
+# REGISTER
+identity = Volcanic::Authenticator::V1::Identity.new('<IDENTITY_NAME>','<IDENTITY_SECRET')
 
-# To create new Identity. This will return name, secret and id of identity.
-auth.register(identity_name , group_ids) #eg. ('new_identity', [1,2])
+identity.name
+# => '<IDENTITY_NAME>' 
+identity.secret 
+# => '<IDENTITY_SECRET>'
+identity.id 
+# => 1
 
-# To deactivate Identity. This will return boolean value
-auth.deactivate(identity_id, token) #eg. (1, 'qwertyuio1234567890.Bioasdknji029837y4rb')
-
-# To issue a token. This will return a token
-auth.login(identity_name, identity_secret) #eg. ('new_identity', 'qwertyuio1234567890')
-
-# To validate token. Return boolean value
-auth.validation(token) 
+# LOGIN 
+identity.login
+identity.token
+# => '<GENERATED_TOKEN>'
+identity.source_id
+# => '<GENERATED_SOURCE_ID>'
  
-# To blacklist/revoke token. Return boolean value
-auth.logout(token)
+# VALIDATE
+identity.validation
+# => true
 
+# LOGOUT
+identity.logout
+
+# DEACTIVATE
+identity.deactivate  
 ```
-
-1. Register/Create Identity
-    ```ruby
-    Volcanic::Authenticator::V1::Identity.new.register('new_identity', [1,2])
-    # 'new_identity' => identity name
-    # [1,2] => group ids 
- 
-    ```
-    return a json object:
-    ```json
-    {
-        "status": "success",
-        "identity_name": "new_identity",
-        "identity_secret": "e9b0...525c",
-        "identity_id": 1117
-    }
-    ```
-2. Login Identity
-    ```ruby
-    Volcanic::Authenticator::V1::Identity.new.login('new_identity', 'e9b0...525c')
-    # 'new_identity' => identity name
-    # 'e9b0...525c' => identity secret
-    ```
-    return a json object:
-    ```json
-    {
-        "status": "success",
-        "token": "eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCJ...PvFD3Cwb",
-        "id": "99392900-7224-11e9-8abf-2d8af972204e"
-    }
-    ```
-3. Logout Identity 
-    ```ruby
-    Volcanic::Authenticator::V1::Identity.new.logout('eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCJ...PvFD3Cwb')
-    # 'eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCJ...PvFD3Cwb' => token
-    ```    
-4. Deactivate Identity 
-   ```ruby
-    Volcanic::Authenticator::V1::Identity.new.deactivate(1117,'eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCJ...PvFD3Cwb')
-    # 1117 => identity id
-    # 'eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCJ...PvFD3Cwb' => token
- 
-    ```    
-5. Validate Identity (return boolean)
-    ```ruby
-    Volcanic::Authenticator::V1::Identity.new.validation('eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCJ...PvFD3Cwb')
-    # 'eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCJ...PvFD3Cwb' => token
-    ```
-
