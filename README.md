@@ -19,29 +19,30 @@ And then execute:
     
 ## Setup
 
-Add these configuration to `config/application.rb`:
+Add these configurations to `config/application.rb`:
 
-To configure the Authenticator server url. This is required.
+This is the authenticator server url. It is required for the gem.
 ```ruby
 Volcanic::Authenticator.config.auth_url = 'http://vauth.com' 
 ```
-To generate `app_token`, below configurations are required. `app_token` is needed as the main authorization header key. This is required.
+This is the `app_token` configurations. It is required to generate `app_token`. This token is use as an authorization header when register identity. 
 ```ruby
 Volcanic::Authenticator.config.app_name = 'app_name'
 Volcanic::Authenticator.config.app_secret = 'app_secret' 
 ```
+note: if all the above configurations is not set, error will occur.
 
-To configure `app_token` expiration time. If not set, it default to 1 day.
+This is the expiration cache time for `app_token`. Default to 1 day.
 ```ruby
 Volcanic::Authenticator.config.exp_app_token = 24 * 60 * 60 
 ```
 
-To configure `public_key` expiration time. If not set, it default to 1 day.
+This is the expiration cache time for `public_key`. Default to 1 day. This key is use to validate (decode) token. 
 ```ruby
 Volcanic::Authenticator.config.exp_public_key = 24 * 60 * 60
 ```
 
-To configure token expiration time. If not set, it default to 5 minutes.
+This is the expiration cache time for token. Default to 5 minutes
 ```ruby
 Volcanic::Authenticator.config.exp_token = 5 * 60
 ```
@@ -49,7 +50,7 @@ Note: all expiration time are seconds basis.
 
 ## Usage
 
-Register/Create
+Register
 ```ruby
 # 1) Standard identity register
 identity = Volcanic::Authenticator::V1::Identity.new('app_name')
