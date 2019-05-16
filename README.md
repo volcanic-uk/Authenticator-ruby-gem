@@ -21,30 +21,32 @@ And then execute:
 
 Add these configurations to `config/application.rb`:
 
-This is the authenticator server url. It is required for the gem.
+This is the authenticator server url:
 ```ruby
-Volcanic::Authenticator.config.auth_url = 'http://vauth.com' 
+Volcanic::Authenticator.config.auth_url = 'http://vauth.com' # this is required
 ```
-This is the `app_token` configurations. It is required to generate `app_token`. This token is use as an authorization header when register identity. 
+This is the `app_token` configurations:
 ```ruby
+# It is required to generate `app_token`. 
+# This token is use as an authorization header when register identity. 
 Volcanic::Authenticator.config.app_name = 'app_name'
 Volcanic::Authenticator.config.app_secret = 'app_secret' 
 ```
-note: if all the above configurations is not set, error will occur.
 
-This is the expiration cache time for `app_token`. Default to 1 day.
+This is the expiration cache time for `app_token`: 
 ```ruby
-Volcanic::Authenticator.config.exp_app_token = 24 * 60 * 60 
+Volcanic::Authenticator.config.exp_app_token = 24 * 60 * 60 # Default to 1 day.
 ```
 
-This is the expiration cache time for `public_key`. Default to 1 day. This key is use to validate (decode) token. 
+This is the expiration cache time for `public_key`: 
 ```ruby
-Volcanic::Authenticator.config.exp_public_key = 24 * 60 * 60
+# This key is use to validate (decode) token.
+Volcanic::Authenticator.config.exp_public_key = 24 * 60 * 60  # Default to 1 day. 
 ```
 
-This is the expiration cache time for token. Default to 5 minutes
+This is the expiration cache time for token:
 ```ruby
-Volcanic::Authenticator.config.exp_token = 5 * 60
+Volcanic::Authenticator.config.exp_token = 5 * 60 # Default to 5 minutes
 ```
 Note: all expiration time are seconds basis.
 
