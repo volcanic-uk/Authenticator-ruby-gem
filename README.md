@@ -79,7 +79,7 @@ identity.login
 # identity.source_id => '<GENERATED_SOURCE_ID>'
 # note: source_id is the token id (jti) 
   
-# 2) by using other identity name and secret
+# 2) To login other identity
 identity_other = Volcanic::Authenticator::V1::Identity.new.login('other_name', 'other_name')
 # identity_other.name => 'other_name'
 # identity_other.secret => 'other_name'
@@ -98,27 +98,27 @@ Volcanic::Authenticator::V1::Identity.new.validation(token)
 ```
 Logout 
 ```ruby
-# 1) by using current identity name and secret
+# 1) by using current token
 identity.logout
 # identity.name => 'app_name'
 # identity.secret => 'app_secret'
 # identity.token => nil
 # identity.source_id => nil
  
-# 2) by using other token
+# 2) To logout other token
 Volcanic::Authenticator::V1::Identity.new.logout(token)
 # note: this will logout the token given.
 ```  
 Deactivate. 
 ```ruby
-# 1) by using current identity name and secret
+# 1) by using current identity 
 identity.deactivate
 # identity.name => 'nil'
 # identity.secret => 'nil'
 # identity.token => nil
 # identity.source_id => nil
 
-# 2) by using other token and id
+# 2) To deactivate other identity
 Volcanic::Authenticator::V1::Identity.new.deactivate(id, token)
 # id is the identity id 
  
