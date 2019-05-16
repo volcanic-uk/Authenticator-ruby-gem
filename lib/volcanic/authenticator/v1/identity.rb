@@ -32,7 +32,7 @@ module Volcanic
           register(name, password, ids) unless name.nil?
         end
 
-        def register(name = @name, password = @password, ids = [])
+        def register(name, password = nil, ids = [])
           payload = { name: name, ids: ids, password: password }
           res = request_post IDENTITY_REGISTER, payload, bearer_header(app_token)
           _, @name, @secret, @id = build_response res, 'identity'
@@ -139,10 +139,14 @@ module Volcanic
 
         def request_post(url, body, header = nil)
           self.class.post(url, body: body.to_json, headers: header)
+        rescue StandardError
+          raise URLError
         end
 
         def request_get(url, body, header = nil)
           self.class.get(url, body: body.to_json, headers: header)
+        rescue StandardError
+          raise URLError
         end
 
         def token_exists?(token)

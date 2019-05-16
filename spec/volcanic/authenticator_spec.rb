@@ -1,36 +1,40 @@
 class Configuration
   def initialize
+    Volcanic::Authenticator.config.auth_url = 'http://0.0.0.0:3000'
     Volcanic::Authenticator.config.app_name = 'volcanic'
     Volcanic::Authenticator.config.app_secret = '60c700b893c858b1abc667efcf71b9c006de7f8a'
   end
 end
 
 RSpec.describe Volcanic::Authenticator do
-  Volcanic::Authenticator.config.auth_url = 'http://0.0.0.0:3000'
   let(:configuration) { Configuration }
   let(:mock_name) { SecureRandom.hex 6 }
   let(:mock_secret) { 'mock_secret' }
   subject(:identity_instance) { Volcanic::Authenticator::V1::Identity }
 
-  describe 'Application token' do
+  describe 'Configuration' do
+    let(:auth_url) { Volcanic::Authenticator.config.auth_url }
     let(:app_name) { Volcanic::Authenticator.config.app_name }
     let(:app_secret) { Volcanic::Authenticator.config.app_secret }
     let(:cache) { Volcanic::Cache::Cache.instance }
     let(:app_token) { cache.fetch 'application_token' }
 
-    context 'When application setting is missing' do
-      it { expect { identity_instance.new(mock_name) }.to raise_error Volcanic::Authenticator::InvalidAppToken }
+    context 'When missing or invalid auth_url' do
+      it { expect { identity_instance.new(mock_name) }.to raise_error Volcanic::Authenticator::URLError }
     end
 
-    context 'When missing or invalid credentials' do
-      Volcanic::Authenticator.config.app_name = 'app_name'
-      Volcanic::Authenticator.config.app_secret = 'app_secret'
+    context 'When missing or invalid app_name and app_secret' do
+      before do
+        Volcanic::Authenticator.config.auth_url = 'http://0.0.0.0:3000'
+        Volcanic::Authenticator.config.app_name = 'app_name'
+        Volcanic::Authenticator.config.app_secret = 'app_secret'
+      end
       it { expect(app_name).to eq 'app_name' }
       it { expect(app_secret).to eq 'app_secret' }
       it { expect { identity_instance.new(mock_name) }.to raise_error Volcanic::Authenticator::InvalidAppToken }
     end
 
-    context 'When valid credentials' do
+    context 'When valid configuration' do
       before { configuration.new }
       it { expect { identity_instance.new(mock_name) }.not_to raise_error }
       it('should store token to cache')\

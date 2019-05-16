@@ -16,5 +16,9 @@ module Volcanic
     ##
     # When authorization header is missing or invalid (expired, wrong signature, etc..)
     class AuthorizationError < StandardError; end
+    ##
+    # When missing or invalid authentication url
+    # When .deactivate missing identity id at path.
+    class URLError < StandardError; end
   end
 end
