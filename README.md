@@ -19,13 +19,13 @@ And then execute:
     
 ## Setup
 
-Add these configuration to `application.rb`:
+Add these configuration to `config/application.rb`:
 
-To configure the Authenticator server url. Required to configure.
+To configure the Authenticator server url. This is required.
 ```ruby
 Volcanic::Authenticator.config.auth_url = 'http://vauth.com' 
 ```
-To generate `app_token`, below configurations are required. `app_token` is needed as the main authorization header. Required to configure.
+To generate `app_token`, below configurations are required. `app_token` is needed as the main authorization header key. This is required.
 ```ruby
 Volcanic::Authenticator.config.app_name = 'app_name'
 Volcanic::Authenticator.config.app_secret = 'app_secret' 
@@ -80,9 +80,9 @@ identity.login
 # note: source_id is the token id (jti) 
   
 # 2) To login other identity
-identity_other = Volcanic::Authenticator::V1::Identity.new.login('other_name', 'other_name')
+identity_other = Volcanic::Authenticator::V1::Identity.new.login('other_name', 'other_secret')
 # identity_other.name => 'other_name'
-# identity_other.secret => 'other_name'
+# identity_other.secret => 'other_secret'
 # identity_other.token => '<GENERATED_TOKEN>'
 # identity_other.source_id => '<GENERATED_SOURCE_ID>'
 ```
@@ -102,6 +102,7 @@ Logout
 identity.logout
 # identity.name => 'app_name'
 # identity.secret => 'app_secret'
+# identity.id => 1
 # identity.token => nil
 # identity.source_id => nil
  
@@ -113,8 +114,9 @@ Deactivate.
 ```ruby
 # 1) by using current identity 
 identity.deactivate
-# identity.name => 'nil'
-# identity.secret => 'nil'
+# identity.name => nil
+# identity.secret => nil
+# identity.id => nil
 # identity.token => nil
 # identity.source_id => nil
 
@@ -153,7 +155,12 @@ identity.validation
 
 # LOGOUT
 identity.logout
+# identity.token => nil
+# identity.source_id => nil
 
 # DEACTIVATE
 identity.deactivate  
+# identity.name => nil
+# identity.secret => nil
+# identity.id => nil
 ```
