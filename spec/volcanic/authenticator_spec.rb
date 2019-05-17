@@ -31,7 +31,7 @@ RSpec.describe Volcanic::Authenticator do
       end
       it { expect(app_name).to eq 'app_name' }
       it { expect(app_secret).to eq 'app_secret' }
-      it { expect { identity_instance.new(mock_name) }.to raise_error Volcanic::Authenticator::InvalidAppToken }
+      it { expect { identity_instance.new(mock_name) }.to raise_error Volcanic::Authenticator::InvalidAppIdentityError }
     end
 
     context 'When valid configuration' do
@@ -91,26 +91,26 @@ RSpec.describe Volcanic::Authenticator do
       # subject(:login) { identity_instance.new(mock_name) }
 
       context 'When missing name' do
-        it { expect { identity.login(nil, mock_secret) }.to raise_error Volcanic::Authenticator::ValidationError }
+        it { expect { identity.login(nil, mock_secret) }.to raise_error Volcanic::Authenticator::InvalidIdentityError }
       end
 
       context 'When missing password' do
-        it { expect { identity.login(mock_name, nil) }.to raise_error Volcanic::Authenticator::ValidationError }
+        it { expect { identity.login(mock_name, nil) }.to raise_error Volcanic::Authenticator::InvalidIdentityError }
       end
 
       context 'When invalid name or password' do
-        it { expect { identity.login('name', 'password') }.to raise_error Volcanic::Authenticator::ValidationError }
+        it { expect { identity.login('name', 'password') }.to raise_error Volcanic::Authenticator::InvalidIdentityError }
       end
 
       context 'When token created' do
-        before { identity.login }
+        before { identity.login(identity.name, identity.secret) }
         its(:token) { is_expected.not_to be nil }
         its(:source_id) { is_expected.not_to be nil }
       end
     end
 
     describe 'Validating' do
-      subject { identity.validation }
+      subject { identity.validation(identity.token) }
       context 'When missing token' do
         it { expect(identity.validation(nil)).to be false }
         it { expect(identity.validation('')).to be false }
@@ -122,42 +122,41 @@ RSpec.describe Volcanic::Authenticator do
       end
 
       context 'When token is valid' do
-        before { identity.login }
+        before { identity.login(identity.name, identity.secret) }
         it { should be true }
       end
     end
 
     describe 'Logout' do
-      before { identity.login }
+      before { identity.login(identity.name, identity.secret) }
       context 'When missing or invalid token' do
-        it { expect{ identity.logout(nil) }.to raise_error Volcanic::Authenticator::InvalidToken }
+        it { expect{ identity.logout('') }.to raise_error Volcanic::Authenticator::AuthorizationError }
       end
 
       context 'When success' do
-        before { identity.logout }
+        before { identity.logout(identity.token) }
         its(:token) { should be nil }
         its(:source_id) { should be nil }
       end
     end
 
     describe 'Deactivating' do
-      before { identity.login }
+      before { identity.login(identity.name, identity.secret) }
 
-      context 'When missing or invalid identity id' do
-        before { identity.deactivate(nil, identity.token) }
-        its(:name) { should_not be nil }
-        its(:secret) { should_not be nil }
-        its(:id) { should_not be nil }
-        its(:token) { should_not be nil }
-        its(:source_id) { should_not be nil }
+      context 'When missing identity id' do
+        it { expect{ identity.deactivate(nil, identity.token) }.to raise_error Volcanic::Authenticator::URLError }
+      end
+
+      context 'When invalid identity id' do
+        it { expect{ identity.deactivate('wrng', identity.token) }.to raise_error Volcanic::Authenticator::ValidationError }
       end
 
       context 'When missing or invalid token' do
-        it { expect{ identity.deactivate(identity.id, nil) }.to raise_error Volcanic::Authenticator::InvalidToken }
+        it { expect{ identity.deactivate(identity.id, nil) }.to raise_error Volcanic::Authenticator::AuthorizationError }
       end
 
       context 'When success' do
-        before { identity.deactivate }
+        before { identity.deactivate(identity.id, identity.token) }
         its(:name) { should be nil }
         its(:secret) { should be nil }
         its(:id) { should be nil }
