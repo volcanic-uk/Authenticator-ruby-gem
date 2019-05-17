@@ -9,7 +9,7 @@ module Volcanic
         # return for create identity
         def build_response(response, method)
           body = response.body
-          raise_error response, method, body
+          raise_exception_if_error response, method
 
           case method
           when 'identity'
@@ -29,10 +29,12 @@ module Volcanic
           end
         end
 
-        def raise_error(response, method, body)
-          raise InvalidAppToken if response.code == 400 && method == 'app_token'
-          raise ValidationError, parser(body, %w[reason message]) if response.code == 400
-          raise AuthorizationError, parser(body, %w[error message]) if response.code == 401
+        def raise_exception_if_error(response, method = nil)
+          raise ValidationError, parser(response.body, %w[reason message]) if response.code == 400
+          raise AuthorizationError, parser(response.body, %w[error message]) if response.code == 401
+          raise InvalidAppIdentityError if response.code == 403 && method == 'app_token'
+          raise InvalidIdentityError, parser(response.body, %w[reason message]) if response.code == 403 && method == 'token'
+          raise URLError if response.code == 404
         end
       end
     end
