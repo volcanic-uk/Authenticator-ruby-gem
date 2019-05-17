@@ -1,4 +1,5 @@
 require 'httparty'
+require 'forwardable'
 require 'volcanic/authenticator/v1/response'
 require 'volcanic/authenticator/v1/header'
 require 'volcanic/authenticator/v1/token'
@@ -9,6 +10,8 @@ module Volcanic
       ##
       # This class contains all Authenticator method
       class Identity
+        extend SingleForwardable
+
         include HTTParty
         include Volcanic::Authenticator::V1::Response
         include Volcanic::Authenticator::V1::Header
@@ -25,7 +28,16 @@ module Volcanic
         PKEY = 'pkey'.freeze
         APP_TOKEN = 'application_token'.freeze
 
+        def_delegators :instance, :register, :login, :logout, :deactivate, :validation, :name, :secret, :id, :source_id, :token
         attr_reader :name, :secret, :id, :source_id, :token
+
+        class << self
+          ##
+          # singleton class
+          def instance
+            @identity ||= Identity.new
+          end
+        end
 
         def initialize(name = nil, password = nil, ids = [])
           self.class.base_uri Volcanic::Authenticator.config.auth_url
@@ -38,39 +50,36 @@ module Volcanic
           _, @name, @secret, @id = build_response res, 'identity'
         end
 
-        def login(name = @name, secret = @secret)
+        def login(name, secret)
           payload = { name: name, secret: secret }
           res = request_post IDENTITY_LOGIN, payload, bearer_header(app_token)
-          @name, @secret = [name, secret]
           _, @token, @source_id = build_response res, 'token'
+          @name, @secret = [name, secret]
           caching @token, cache_token_exp_time # cache token key and value with exp time
         end
 
-        def logout(token = @token)
+        def logout(token)
           res = request_post IDENTITY_LOGOUT, { token: token }, bearer_header(token)
+          raise_exception_if_error res
           cache_remove! export_token_id(token)
-          remove_token_attr if res.success?
-          'OK'
+          remove_token_attr
         end
 
-        def deactivate(identity_id = @id, token = @token)
+        def deactivate(identity_id, token)
           res = request_post "#{IDENTITY_DEACTIVATE}/#{identity_id}", nil, bearer_header(token)
+          raise_exception_if_error res
           cache_remove! export_token_id(token)
-          remove_all_attr if res.success?
-          'OK'
+          remove_all_attr
         end
 
-        def validation(token = @token)
+        def validation(token)
           return true if token_exists? token
 
           res = request_post IDENTITY_VALIDATE, { token: token }, bearer_header(token)
-          if res.success?
-            caching(token, cache_token_exp_time)
-            return true
-          end
-
-          false
-        rescue InvalidToken
+          raise_exception_if_error res
+          caching(token, cache_token_exp_time)
+          true
+        rescue InvalidTokenError
           false
         end
 
@@ -139,13 +148,13 @@ module Volcanic
 
         def request_post(url, body, header = nil)
           self.class.post(url, body: body.to_json, headers: header)
-        rescue StandardError
+        rescue Timeout::Error, Errno::EINVAL, Errno::ECONNREFUSED, Errno::ECONNRESET, EOFError
           raise URLError
         end
 
         def request_get(url, body, header = nil)
           self.class.get(url, body: body.to_json, headers: header)
-        rescue StandardError
+        rescue Timeout::Error, Errno::EINVAL, Errno::ECONNREFUSED, Errno::ECONNRESET, EOFError
           raise URLError
         end
 
