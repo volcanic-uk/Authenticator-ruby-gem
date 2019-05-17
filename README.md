@@ -56,29 +56,28 @@ Register
 ```ruby
 # 1) Standard identity register
 identity = Volcanic::Authenticator::V1::Identity.new('app_name')
-# identity.name => 'app_name'
-# identity.secret => '<GENERATED_SECRET>'
-# identity.id => '<GENERATED_ID>' 
+identity.name # => 'app_name'
+identity.secret # => 'app_secret'
+identity.id # => '<GENERATED_ID>'
  
 # 2) With secret and group ids
 identity = Volcanic::Authenticator::V1::Identity.new('app_name', 'app_secret', [1,2])
-# identity.name => 'app_name'
-# identity.secret => 'app_secret'
-# identity.id => '<GENERATED_ID>'   
+identity.name # => 'app_name'
+identity.secret # => 'app_secret'
+identity.id # => '<GENERATED_ID>'
   
 # 3) Also available as below
 identity = Volcanic::Authenticator::V1::Identity.new
 identity.register('app_name', 'app_secret', [3,4])
-# identity.name => 'app_name'
-# identity.secret => 'app_secret'
-# identity.id => '<GENERATED_ID>'
+identity.name # => 'app_name'
+identity.secret # => 'app_secret'
+identity.id # => '<GENERATED_ID>'
 
 # 4) or using instance 
-Volcanic::Authenticator::V1::Identity.instance
 Volcanic::Authenticator::V1::Identity.register('app_name', 'app_secret', [3,4])
-# Volcanic::Authenticator::V1::Identity.name => 'app_name'
-# Volcanic::Authenticator::V1::Identity.secret => 'app_secret'
-# Volcanic::Authenticator::V1::Identity.id => '<GENERATED_ID>'  
+Volcanic::Authenticator::V1::Identity.name # => 'app_name'
+Volcanic::Authenticator::V1::Identity.secret # => 'app_secret'
+Volcanic::Authenticator::V1::Identity.id # => '<GENERATED_ID>'  
 ```
     
    
