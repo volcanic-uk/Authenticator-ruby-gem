@@ -67,10 +67,18 @@ identity = Volcanic::Authenticator::V1::Identity.new('app_name', 'app_secret', [
 # identity.id => '<GENERATED_ID>'   
   
 # 3) Also available as below
-identity = Volcanic::Authenticator::V1::Identity.new.register('new_name', 'new_password', [3,4])
-# identity.name => 'new_name'
-# identity.secret => 'new_password'
+identity = Volcanic::Authenticator::V1::Identity.new
+identity.register('app_name', 'app_secret', [3,4])
+# identity.name => 'app_name'
+# identity.secret => 'app_secret'
 # identity.id => '<GENERATED_ID>'
+
+# 4) or using instance 
+Volcanic::Authenticator::V1::Identity.instance
+Volcanic::Authenticator::V1::Identity.register('app_name', 'app_secret', [3,4])
+# Volcanic::Authenticator::V1::Identity.name => 'app_name'
+# Volcanic::Authenticator::V1::Identity.secret => 'app_secret'
+# Volcanic::Authenticator::V1::Identity.id => '<GENERATED_ID>'  
 ```
     
    
