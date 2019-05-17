@@ -62,7 +62,9 @@ identity = Volcanic::Authenticator::V1::Identity.new('app_name')
  
 # 2) With secret and group ids
 identity = Volcanic::Authenticator::V1::Identity.new('app_name', 'app_secret', [1,2])
+# identity.name => 'app_name'
 # identity.secret => 'app_secret'
+# identity.id => '<GENERATED_ID>'   
   
 # 3) Also available as below
 identity = Volcanic::Authenticator::V1::Identity.new.register('new_name', 'new_password', [3,4])
@@ -74,61 +76,52 @@ identity = Volcanic::Authenticator::V1::Identity.new.register('new_name', 'new_p
    
 Login
 ```ruby
-# 1) by using current identity name and secret
-identity.login
-# identity.name => 'app_name'
-# identity.secret => 'app_secret'
+identity.login('other_name', 'other_secret')
+# identity.name => 'other_name'
+# identity.secret => 'other_secret'
+# identity.id => '<GENERATED_ID>' 
 # identity.token => '<GENERATED_TOKEN>'
 # identity.source_id => '<GENERATED_SOURCE_ID>'
-# note: source_id is the token id (jti) 
-  
-# 2) To login other identity
-identity_other = Volcanic::Authenticator::V1::Identity.new.login('other_name', 'other_secret')
-# identity_other.name => 'other_name'
-# identity_other.secret => 'other_secret'
-# identity_other.token => '<GENERATED_TOKEN>'
-# identity_other.source_id => '<GENERATED_SOURCE_ID>'
+ 
+## or
+ 
+Volcanic::Authenticator::V1::Identity.login('other_name', 'other_secret')
+# Volcanic::Authenticator::V1::Identity.name => 'other_name'
+# Volcanic::Authenticator::V1::Identity.secret => 'other_secret'
+# Volcanic::Authenticator::V1::Identity.id => <GENERATED_ID>'
+# Volcanic::Authenticator::V1::Identity.token => '<GENERATED_TOKEN>'
+# Volcanic::Authenticator::V1::Identity.source_id => '<GENERATED_SOURCE_ID>'
 ```
 Validation
 ```ruby
-# 1) Validate current token
-identity.validation 
+identity.validation('<TOKEN>')
 # => true/false
  
-# 2) Validate other token
-Volcanic::Authenticator::V1::Identity.new.validation(token)
+## or
+ 
+Volcanic::Authenticator::V1::Identity.validation('<TOKEN>')
 # => true/false
+ 
+# '<TOKEN>' is identity.token 
 ```
 Logout 
 ```ruby
-# 1) by using current token
-identity.logout
-# identity.name => 'app_name'
-# identity.secret => 'app_secret'
-# identity.id => 1
-# identity.token => nil
-# identity.source_id => nil
+identity.logout('<TOKEN>')
  
-# 2) To logout other token
-Volcanic::Authenticator::V1::Identity.new.logout(token)
-# note: this will logout the token given.
+## or
+  
+Volcanic::Authenticator::V1::Identity.logout('<TOKEN>')
 ```  
 Deactivate. 
 ```ruby
-# 1) by using current identity 
-identity.deactivate
-# identity.name => nil
-# identity.secret => nil
-# identity.id => nil
-# identity.token => nil
-# identity.source_id => nil
-
-# 2) To deactivate other identity
-Volcanic::Authenticator::V1::Identity.new.deactivate(id, token)
-# id is the identity id 
+identity.deactivate('<IDENTITY_ID>','<TOKEN>')
  
+## or
+  
+Volcanic::Authenticator::V1::Identity.deactivate('<IDENTITY_ID>','<TOKEN>')
+ 
+# '<IDENTITY_ID>' is identity.id 
 # note: Running this will deactivate the identity and login with the same identity (name and secret) will return an error.
- 
 ``` 
  
 Example
@@ -146,24 +139,26 @@ identity.id
 # => 1
 
 # LOGIN 
-identity.login
+identity.login(identity.name, identity.secret)
 identity.token
 # => '<GENERATED_TOKEN>'
 identity.source_id
 # => '<GENERATED_SOURCE_ID>'
  
 # VALIDATE
-identity.validation
+identity.validation(identity.token)
 # => true
-
+ 
 # LOGOUT
-identity.logout
+identity.logout(identity.token)
 # identity.token => nil
 # identity.source_id => nil
 
 # DEACTIVATE
-identity.deactivate  
+identity.deactivate(identity.id, identity.token)
 # identity.name => nil
 # identity.secret => nil
 # identity.id => nil
+ 
+ 
 ```
