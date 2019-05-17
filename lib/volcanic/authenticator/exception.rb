@@ -2,14 +2,17 @@ module Volcanic
   module Authenticator
     ##
     # When token key is missing or invalid (expired, wrong signature, etc..)
-    class InvalidToken < StandardError; end
+    class InvalidTokenError < StandardError; end
     ##
     # When failed issuing app token (invalid app name or secret)
-    class InvalidAppToken < InvalidToken
+    class InvalidAppIdentityError < InvalidTokenError
       def initialize(msg = 'Invalid app identity name or secret')
         super
       end
     end
+    ##
+    # When failed issuing/login identity, due to wrong credentials or identity suspended
+    class InvalidIdentityError < InvalidTokenError; end
     ##
     # When http response 400 (missing or wrong type of parameters)
     class ValidationError < StandardError; end
