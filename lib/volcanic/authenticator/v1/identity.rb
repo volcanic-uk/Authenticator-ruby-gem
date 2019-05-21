@@ -138,14 +138,18 @@ module Volcanic
 
         def request_post(url, body, header = nil)
           self.class.post(url, body: body.to_json, headers: header)
-        rescue Timeout::Error, Errno::EINVAL, Errno::ECONNREFUSED, Errno::ECONNRESET, EOFError
-          raise URLError
+        rescue Timeout::Error, Errno::EINVAL, Errno::ECONNREFUSED, Errno::ECONNRESET, EOFError => e
+          raise URLError, e
+        rescue Net::HTTPServerError
+          raise ServerError
         end
 
         def request_get(url, body, header = nil)
           self.class.get(url, body: body.to_json, headers: header)
-        rescue Timeout::Error, Errno::EINVAL, Errno::ECONNREFUSED, Errno::ECONNRESET, EOFError
-          raise URLError
+        rescue Timeout::Error, Errno::EINVAL, Errno::ECONNREFUSED, Errno::ECONNRESET, EOFError => e
+          raise URLError, e
+        rescue Net::HTTPServerError
+          raise ServerError
         end
 
         def token_exists?(token)
