@@ -11,6 +11,7 @@ module Volcanic
       # This class contains all Authenticator method
       class Identity
         extend SingleForwardable
+        extend Forwardable
 
         include HTTParty
         include Volcanic::Authenticator::V1::Response
@@ -29,13 +30,18 @@ module Volcanic
         APP_TOKEN = 'application_token'.freeze
 
         def_delegators :instance, :register, :login, :logout, :deactivate, :validation, :name, :secret, :id, :source_id, :token
+        def_instance_delegator 'Volcanic::Cache::Cache'.to_sym, :instance, :cache
+        def_instance_delegators 'Volcanic::Authenticator.config'.to_sym, :exp_token, :exp_app_token, :exp_public_key
+
         attr_reader :name, :secret, :id, :source_id, :token
+
+        @_singleton_mutex = Mutex.new
 
         class << self
           ##
           # singleton class
           def instance
-            @identity ||= Identity.new
+            @_singleton_mutex.synchronize { @_singleton_instance ||= new }
           end
         end
 
@@ -55,7 +61,7 @@ module Volcanic
           res = request_post IDENTITY_LOGIN, payload, bearer_header(app_token)
           _, @token, @source_id = build_response res, 'token'
           @name, @secret = [name, secret]
-          caching @token, cache_token_exp_time # cache token key and value with exp time
+          caching @token, exp_token # cache token key and value with exp time
         end
 
         def logout(token)
@@ -77,36 +83,20 @@ module Volcanic
 
           res = request_post IDENTITY_VALIDATE, { token: token }, bearer_header(token)
           raise_exception_if_error res
-          caching(token, cache_token_exp_time)
+          caching(token, exp_token)
           true
-        rescue InvalidTokenError
+        rescue TokenError
           false
         end
 
         private
 
-        def cache
-          Volcanic::Cache::Cache.instance
-        end
-
-        def cache_token_exp_time
-          Volcanic::Authenticator.config.exp_token
-        end
-
-        def cache_app_token_exp_time
-          Volcanic::Authenticator.config.exp_app_token
-        end
-
-        def cache_pkey_exp_time
-          Volcanic::Authenticator.config.exp_public_key
-        end
-
         def pkey
-          cache.fetch PKEY, expire_in: cache_pkey_exp_time, &method(:public_key_request)
+          cache.fetch PKEY, expire_in: exp_public_key, &method(:public_key_request)
         end
 
         def app_token
-          cache.fetch APP_TOKEN, expire_in: cache_app_token_exp_time, &method(:main_token_request)
+          cache.fetch APP_TOKEN, expire_in: exp_app_token, &method(:main_token_request)
         end
 
         def public_key_request
