@@ -31,7 +31,7 @@ RSpec.describe Volcanic::Authenticator do
       end
       it { expect(app_name).to eq 'app_name' }
       it { expect(app_secret).to eq 'app_secret' }
-      it { expect { identity_instance.new(mock_name) }.to raise_error Volcanic::Authenticator::InvalidAppIdentityError }
+      it { expect { identity_instance.new(mock_name) }.to raise_error Volcanic::Authenticator::AppIdentityError }
     end
 
     context 'When valid configuration' do
@@ -91,15 +91,15 @@ RSpec.describe Volcanic::Authenticator do
       # subject(:login) { identity_instance.new(mock_name) }
 
       context 'When missing name' do
-        it { expect { identity.login(nil, mock_secret) }.to raise_error Volcanic::Authenticator::InvalidIdentityError }
+        it { expect { identity.login(nil, mock_secret) }.to raise_error Volcanic::Authenticator::IdentityError }
       end
 
       context 'When missing password' do
-        it { expect { identity.login(mock_name, nil) }.to raise_error Volcanic::Authenticator::InvalidIdentityError }
+        it { expect { identity.login(mock_name, nil) }.to raise_error Volcanic::Authenticator::IdentityError }
       end
 
       context 'When invalid name or password' do
-        it { expect { identity.login('name', 'password') }.to raise_error Volcanic::Authenticator::InvalidIdentityError }
+        it { expect { identity.login('name', 'password') }.to raise_error Volcanic::Authenticator::IdentityError }
       end
 
       context 'When token created' do

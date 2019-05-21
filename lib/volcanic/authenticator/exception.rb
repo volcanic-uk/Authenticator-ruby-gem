@@ -1,27 +1,60 @@
 module Volcanic
   module Authenticator
+    class AuthenticatorError < StandardError; end
     ##
     # When token key is missing or invalid (expired, wrong signature, etc..)
-    class InvalidTokenError < StandardError; end
+    class TokenError < AuthenticatorError; end
     ##
-    # When failed issuing app token (invalid app name or secret)
-    class InvalidAppIdentityError < InvalidTokenError
-      def initialize(msg = 'Invalid app identity name or secret')
+    # When failed issuing/login identity, due to wrong credentials (name or secret) or identity suspended
+    class IdentityError < AuthenticatorError; end
+    ##
+    # When http response 400 (missing or wrong type of parameters)
+    class ValidationError < AuthenticatorError; end
+    ##
+    # When authorization header is missing or invalid (expired, wrong signature, etc..)
+    class AuthorizationError < AuthenticatorError; end
+    ##
+    # When missing or invalid authentication url
+    # When .deactivate missing identity id at path.
+    class URLError < AuthenticatorError; end
+    ##
+    # When authenticator server return 5xx
+    class ServerError < AuthorizationError
+      def initialize(msg = 'Authenticator server error.')
+        super
+      end
+    end
+
+    ##
+    #
+    class ConfigurationError < AuthorizationError; end
+    ##
+    # When parsing invalid integer values to config.exp_token
+    class ExpTokenError < ConfigurationError
+      def initialize(msg = 'Getting non-integer value. Please check your configurations.')
         super
       end
     end
     ##
-    # When failed issuing/login identity, due to wrong credentials or identity suspended
-    class InvalidIdentityError < InvalidTokenError; end
+    # When parsing invalid integer values to config.exp_app_token
+    class ExpAppTokenError < ConfigurationError
+      def initialize(msg = 'Getting non-integer value. Please check your configurations.')
+        super
+        end
+    end
     ##
-    # When http response 400 (missing or wrong type of parameters)
-    class ValidationError < StandardError; end
+    # When parsing invalid integer values to config.exp_public_key
+    class ExpPublicKeyError < ConfigurationError
+      def initialize(msg = 'Getting non-integer value. Please check your configurations.')
+        super
+      end
+    end
     ##
-    # When authorization header is missing or invalid (expired, wrong signature, etc..)
-    class AuthorizationError < StandardError; end
-    ##
-    # When missing or invalid authentication url
-    # When .deactivate missing identity id at path.
-    class URLError < StandardError; end
+    # When parsing invalid application identity name or secret (config.app_name or config.app_secret)
+    class AppIdentityError < ConfigurationError
+      def initialize(msg = 'Invalid app identity name or secret. Please check your configurations.')
+        super
+      end
+    end
   end
 end
