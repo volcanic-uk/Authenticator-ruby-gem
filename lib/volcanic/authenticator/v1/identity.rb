@@ -29,7 +29,7 @@ module Volcanic
         PKEY = 'pkey'.freeze
         APP_TOKEN = 'application_token'.freeze
 
-        def_delegators :instance, :register, :login, :logout, :deactivate, :validation, :name, :secret, :id, :source_id, :token
+        def_single_delegators :instance, :register, :login, :logout, :deactivate, :validation, :name, :secret, :id, :source_id, :token
         def_instance_delegator 'Volcanic::Cache::Cache'.to_sym, :instance, :cache
         def_instance_delegators 'Volcanic::Authenticator.config'.to_sym, :exp_token, :exp_app_token, :exp_public_key
 
