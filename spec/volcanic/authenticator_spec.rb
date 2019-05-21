@@ -54,7 +54,7 @@ RSpec.describe Volcanic::Authenticator do
       context 'When duplicate name' do
         let(:duplicate_name) { SecureRandom.hex 6 }
         before { identity.register(duplicate_name) }
-        it { expect{ identity.register(duplicate_name) }.to raise_error Volcanic::Authenticator::ValidationError }
+        it { expect { identity.register(duplicate_name) }.to raise_error Volcanic::Authenticator::ValidationError }
       end
 
       context 'When name too short' do
@@ -69,7 +69,7 @@ RSpec.describe Volcanic::Authenticator do
       end
 
       context 'When register other new identity' do
-        before { identity.register(SecureRandom.hex 6) }
+        before { identity.register(SecureRandom.hex(6)) }
         it { should be_an identity_instance }
       end
 
@@ -80,9 +80,8 @@ RSpec.describe Volcanic::Authenticator do
         its(:secret) { should eq('mock_secret') }
         its(:id) { should_not be nil }
 
-
         context 'Password to short' do
-          it { expect{ identity_instance.new(mock_name, 'shrt') }.to raise_error Volcanic::Authenticator::ValidationError }
+          it { expect { identity_instance.new(mock_name, 'shrt') }.to raise_error Volcanic::Authenticator::ValidationError }
         end
       end
     end
@@ -130,7 +129,7 @@ RSpec.describe Volcanic::Authenticator do
     describe 'Logout' do
       before { identity.login(identity.name, identity.secret) }
       context 'When missing or invalid token' do
-        it { expect{ identity.logout('') }.to raise_error Volcanic::Authenticator::AuthorizationError }
+        it { expect { identity.logout('') }.to raise_error Volcanic::Authenticator::AuthorizationError }
       end
 
       context 'When success' do
@@ -144,15 +143,15 @@ RSpec.describe Volcanic::Authenticator do
       before { identity.login(identity.name, identity.secret) }
 
       context 'When missing identity id' do
-        it { expect{ identity.deactivate(nil, identity.token) }.to raise_error Volcanic::Authenticator::URLError }
+        it { expect { identity.deactivate(nil, identity.token) }.to raise_error Volcanic::Authenticator::URLError }
       end
 
       context 'When invalid identity id' do
-        it { expect{ identity.deactivate('wrng', identity.token) }.to raise_error Volcanic::Authenticator::ValidationError }
+        it { expect { identity.deactivate('wrng', identity.token) }.to raise_error Volcanic::Authenticator::ValidationError }
       end
 
       context 'When missing or invalid token' do
-        it { expect{ identity.deactivate(identity.id, nil) }.to raise_error Volcanic::Authenticator::AuthorizationError }
+        it { expect { identity.deactivate(identity.id, nil) }.to raise_error Volcanic::Authenticator::AuthorizationError }
       end
 
       context 'When success' do

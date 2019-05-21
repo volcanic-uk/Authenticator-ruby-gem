@@ -60,7 +60,8 @@ module Volcanic
           payload = { name: name, secret: secret }
           res = request_post IDENTITY_LOGIN, payload, bearer_header(app_token)
           _, @token, @source_id = build_response res, 'token'
-          @name, @secret = [name, secret]
+          @name = name
+          @secret = secret
           caching @token, exp_token # cache token key and value with exp time
         end
 

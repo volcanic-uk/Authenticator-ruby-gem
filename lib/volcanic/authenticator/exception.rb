@@ -40,7 +40,7 @@ module Volcanic
     class ExpAppTokenError < ConfigurationError
       def initialize(msg = 'Getting non-integer value. Please check your configurations.')
         super
-        end
+      end
     end
     ##
     # When parsing invalid integer values to config.exp_public_key
