@@ -24,7 +24,6 @@ module Volcanic
         super
       end
     end
-
     ##
     #
     class ConfigurationError < AuthorizationError; end
@@ -56,5 +55,8 @@ module Volcanic
         super
       end
     end
+    ##
+    # Arguments error
+    class ArgumentError < AuthorizationError; end
   end
 end

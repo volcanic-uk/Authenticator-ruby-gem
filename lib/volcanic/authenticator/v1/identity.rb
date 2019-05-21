@@ -122,10 +122,10 @@ module Volcanic
           Token.new(token, pkey).jti
         end
 
-        def caching(value, exp)
-          key = export_token_id value
+        def caching(token, exp)
+          key = export_token_id token
           cache.fetch key, expire_in: exp do
-            value
+            token
           end
         end
 

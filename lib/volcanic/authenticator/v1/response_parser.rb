@@ -39,12 +39,12 @@ module Volcanic
           { status: 'success' }.merge(body).to_json
         end
 
-        def parser(json, object)
-          value = JSON.parse(json)
-          object.each do |o|
-            value = value[o]
-          end
-          value
+        ##
+        # as JSON parser to retrieve the desire value.
+        def parser(json, keys)
+          keys.reduce(JSON.parse(json)) { |found, item| found[item] }
+        rescue TypeError
+          raise ArgumentError, "JSON key not found."
         end
       end
     end
