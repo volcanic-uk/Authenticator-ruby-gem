@@ -53,13 +53,13 @@ module Volcanic
         def register(name, password = nil, ids = [])
           payload = { name: name, ids: ids, password: password }
           res = request_post IDENTITY_REGISTER, payload, bearer_header(app_token)
-          _, @name, @secret, @id = build_response res, 'identity'
+          @name, @secret, @id = build_response res, 'identity'
         end
 
         def login(name, secret)
           payload = { name: name, secret: secret }
           res = request_post IDENTITY_LOGIN, payload, bearer_header(app_token)
-          _, @token, @source_id = build_response res, 'token'
+          @token, @source_id = build_response res, 'token'
           @name = name
           @secret = secret
           caching @token, exp_token # cache token key and value with exp time
@@ -97,21 +97,21 @@ module Volcanic
         end
 
         def app_token
-          cache.fetch APP_TOKEN, expire_in: exp_app_token, &method(:main_token_request)
+          cache.fetch APP_TOKEN, expire_in: exp_app_token, &method(:app_token_request)
         end
 
         def public_key_request
-          res = request_get PUBLIC_KEY, nil, bearer_header(main_token_request)
+          res = request_get PUBLIC_KEY, nil, bearer_header(app_token_request)
           pem = build_response res, 'pkey'
           generate_pkey(pem)
         end
 
-        def main_token_request
+        def app_token_request
           payload = { name: Volcanic::Authenticator.config.app_name,
                       secret: Volcanic::Authenticator.config.app_secret }
           res = request_post IDENTITY_LOGIN, payload
-          _, token, = build_response res, 'app_token'
-          token
+          app_token, = build_response res, 'app_token'
+          app_token
         end
 
         def generate_pkey(pem)
