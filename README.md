@@ -74,10 +74,10 @@ identity.secret # => 'app_secret'
 identity.id # => '<GENERATED_ID>'
 
 # 4) or using instance 
-Volcanic::Authenticator::V1::Identity.instance.register('app_name', 'app_secret', [3,4])
-Volcanic::Authenticator::V1::Identity.instance.name # => 'app_name'
-Volcanic::Authenticator::V1::Identity.instance.secret # => 'app_secret'
-Volcanic::Authenticator::V1::Identity.instance.id # => '<GENERATED_ID>'  
+Volcanic::Authenticator::V1::Identity.register('app_name', 'app_secret', [3,4])
+Volcanic::Authenticator::V1::Identity.name # => 'app_name'
+Volcanic::Authenticator::V1::Identity.secret # => 'app_secret'
+Volcanic::Authenticator::V1::Identity.id # => '<GENERATED_ID>'  
 ```
     
    
@@ -92,12 +92,12 @@ identity.source_id # => '<GENERATED_SOURCE_ID>'
  
 ## or
  
-Volcanic::Authenticator::V1::Identity.instance.login('other_name', 'other_secret')
-Volcanic::Authenticator::V1::Identity.instance.name # => 'other_name'
-Volcanic::Authenticator::V1::Identity.instance.secret # => 'other_secret'
-Volcanic::Authenticator::V1::Identity.instance.id # => '<GENERATED_ID>'
-Volcanic::Authenticator::V1::Identity.instance.token # => '<GENERATED_TOKEN>'
-Volcanic::Authenticator::V1::Identity.instance.source_id # => '<GENERATED_SOURCE_ID>'
+Volcanic::Authenticator::V1::Identity.login('other_name', 'other_secret')
+Volcanic::Authenticator::V1::Identity.name # => 'other_name'
+Volcanic::Authenticator::V1::Identity.secret # => 'other_secret'
+Volcanic::Authenticator::V1::Identity.id # => '<GENERATED_ID>'
+Volcanic::Authenticator::V1::Identity.token # => '<GENERATED_TOKEN>'
+Volcanic::Authenticator::V1::Identity.source_id # => '<GENERATED_SOURCE_ID>'
 ```
 Validation
 ```ruby
@@ -106,7 +106,7 @@ identity.validation('<TOKEN>')
  
 ## or
  
-Volcanic::Authenticator::V1::Identity.instance.validation('<TOKEN>')
+Volcanic::Authenticator::V1::Identity.validation('<TOKEN>')
 # => true/false
  
 # '<TOKEN>' is identity.token 
@@ -117,7 +117,7 @@ identity.logout('<TOKEN>')
  
 ## or
   
-Volcanic::Authenticator::V1::Identity.instance.logout('<TOKEN>')
+Volcanic::Authenticator::V1::Identity.logout('<TOKEN>')
 ```  
 Deactivate. 
 ```ruby
@@ -125,7 +125,7 @@ identity.deactivate('<IDENTITY_ID>','<TOKEN>')
  
 ## or
   
-Volcanic::Authenticator::V1::Identity.instance.deactivate('<IDENTITY_ID>','<TOKEN>')
+Volcanic::Authenticator::V1::Identity.deactivate('<IDENTITY_ID>','<TOKEN>')
  
 # '<IDENTITY_ID>' is identity.id 
 # note: Running this will deactivate the identity and login with the same identity (name and secret) will return an error.
