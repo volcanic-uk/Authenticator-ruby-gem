@@ -32,9 +32,9 @@ module Volcanic
         def raise_exception_if_error(response, method = nil)
           raise ValidationError, parser(response.body, %w[reason message]) if response.code == 400
           raise AuthorizationError, parser(response.body, %w[error message]) if response.code == 401
-          raise InvalidAppIdentityError if response.code == 403 && method == 'app_token'
-          raise InvalidIdentityError, parser(response.body, %w[reason message]) if response.code == 403 && method == 'token'
-          raise URLError if response.code == 404
+          raise AppIdentityError if response.code == 403 && method == 'app_token'
+          raise IdentityError, parser(response.body, %w[reason message]) if response.code == 403 && method == 'token'
+          raise URLError, 'end-point not found' if response.code == 404
         end
       end
     end
