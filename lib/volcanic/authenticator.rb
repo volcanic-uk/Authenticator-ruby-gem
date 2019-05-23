@@ -1,6 +1,8 @@
-require 'volcanic/authenticator/v1/identity'
-require 'volcanic/authenticator/config'
-require 'volcanic/authenticator/exception'
+require_relative '../volcanic.rb'
+require_relative 'authenticator/config.rb'
+require_relative 'authenticator/exception.rb'
+require_relative 'authenticator/v1/identity'
+require_relative 'authenticator/v1/principal'
 
 module Volcanic
   # Authenticator
