@@ -1,52 +1,46 @@
 require 'httparty'
-require 'forwardable'
-require_relative 'error_response'
 require_relative 'header'
-require_relative 'token'
+require_relative 'token_key'
 
 module Volcanic::Authenticator
   module V1
     ##
     # This is Principal Api class
     class Principal
-      include HTTParty
-      extend SingleForwardable
+      extend Volcanic::Authenticator::V1::Header
 
       # URLS
-      CREATE_URL = ''
-      UPDATE_URL = ''
-      DELETE_URL = ''
-
-      @_singleton_mutex = Mutex.new
+      PRINCIPAL = 'api/v1/principal'
+      PRINCIPAL_DELETE = 'api/v1/principal/delete'
+      PRINCIPAL_UPDATE = 'api/v1/principal/update'
 
       class << self
-        def instance
-          @_singleton_mutex.synchronize { @_singleton_instance ||= new }
+        def create(name, dataset_id)
+          payload = { name: name,
+                      dataset_id: dataset_id }.to_json
+          perform_post_request PRINCIPAL, payload
         end
-      end
+        def retrieve(id = 'all')
+          perform_get_request "#{PRINCIPAL}/#{id}"
+        end
+        def delete(id)
+          perform_post_request "#{PRINCIPAL_DELETE}/#{id}"
+        end
+        def update(id)
+          perform_post_request "#{PRINCIPAL_UPDATE}/#{id}"
+        end
 
-      def initialize
-        self.class.base_uri Volcanic::Authenticator.config.auth_url
-      end
+        private
 
-      def create; end
+        def perform_post_request(end_point, body = nil)
+          url = Volcanic::Authenticator.config.auth_url
+          HTTParty.post "#{url}/#{end_point}", body: body, headers: bearer_header(TokenKey.fetch_and_request_app_token)
+        end
 
-      def update; end
-
-      def delete; end
-
-      private
-
-      def request_create_principal
-        self.class.post(CREATE_URL)
-      end
-
-      def request_update_principal
-        self.class.post(UPDATE_URL)
-      end
-
-      def request_delete_principal
-        self.class.delete(DELETE_URL)
+        def perform_get_request(end_point)
+          url = Volcanic::Authenticator.config.auth_url
+          HTTParty.get "#{url}/#{end_point}", headers: header
+        end
       end
     end
   end
