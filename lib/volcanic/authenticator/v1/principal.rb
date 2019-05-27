@@ -1,11 +1,13 @@
 require 'httparty'
 require 'forwardable'
-require_relative 'response'
+require_relative 'error_response'
 require_relative 'header'
 require_relative 'token'
 
 module Volcanic::Authenticator
   module V1
+    ##
+    # This is Principal Api class
     class Principal
       include HTTParty
       extend SingleForwardable

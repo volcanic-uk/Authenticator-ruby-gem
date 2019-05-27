@@ -15,7 +15,7 @@ module Volcanic::Authenticator
   ##
   # When missing or invalid authentication url
   # When .deactivate missing identity id at path.
-  class URLError < AuthenticatorError; end
+  class ConnectionError < AuthenticatorError; end
   ##
   # When authenticator server return 5xx
   class ServerError < AuthorizationError
