@@ -1,8 +1,10 @@
 class Configuration
+  ##
+  # This value need to configure to run these test.
   def initialize
     Volcanic::Authenticator.config.auth_url = 'http://0.0.0.0:3000'
     Volcanic::Authenticator.config.app_name = 'volcanic'
-    Volcanic::Authenticator.config.app_secret = '60c700b893c858b1abc667efcf71b9c006de7f8a'
+    Volcanic::Authenticator.config.app_secret = '9a2eea47089c1b5e8bccc2bb3457dcb68a2dcd44'
   end
 end
 
@@ -10,17 +12,18 @@ RSpec.describe Volcanic::Authenticator do
   let(:configuration) { Configuration }
   let(:mock_name) { SecureRandom.hex 6 }
   let(:mock_secret) { 'mock_secret' }
-  subject(:identity_instance) { Volcanic::Authenticator::V1::Identity }
+  subject(:identity) { Volcanic::Authenticator::V1::Identity }
 
   describe 'Configuration' do
     let(:auth_url) { Volcanic::Authenticator.config.auth_url }
     let(:app_name) { Volcanic::Authenticator.config.app_name }
     let(:app_secret) { Volcanic::Authenticator.config.app_secret }
     let(:cache) { Volcanic::Cache::Cache.instance }
-    let(:app_token) { cache.fetch 'application_token' }
+    let(:request_app_token_pkey) { Volcanic::Authenticator::V1::TokenKey }
+    let(:app_token) { cache.fetch 'volcanic_application_token' }
 
     context 'When missing or invalid auth_url' do
-      it { expect { identity_instance.new(mock_name) }.to raise_error Volcanic::Authenticator::URLError }
+      it { expect { request_app_token_pkey.request_app_token }.to raise_error Volcanic::Authenticator::ConnectionError }
     end
 
     context 'When missing or invalid app_name and app_secret' do
@@ -31,12 +34,17 @@ RSpec.describe Volcanic::Authenticator do
       end
       it { expect(app_name).to eq 'app_name' }
       it { expect(app_secret).to eq 'app_secret' }
-      it { expect { identity_instance.new(mock_name) }.to raise_error Volcanic::Authenticator::AppIdentityError }
+      it { expect { request_app_token_pkey.request_app_token }.to raise_error Volcanic::Authenticator::AppIdentityError }
     end
 
-    context 'When valid configuration' do
+    context 'When missing application token' do
+      it('should raise exception when request public key')\
+          { expect { request_app_token_pkey.request_public_key }.to raise_error Volcanic::Authenticator::AuthorizationError }
+    end
+
+    context 'When valid application identity (name and secret)' do
       before { configuration.new }
-      it { expect { identity_instance.new(mock_name) }.not_to raise_error }
+      it { expect { request_app_token_pkey.fetch_and_request_app_token }.not_to raise_error }
       it('should store token to cache')\
           { expect(app_token).not_to be_empty }
     end
@@ -44,11 +52,15 @@ RSpec.describe Volcanic::Authenticator do
 
   describe 'Identity' do
     before { configuration.new }
-    subject(:identity) { identity_instance.new(mock_name) }
+    subject(:new_identity) { identity.register(mock_name) }
 
     describe 'registering' do
       context 'When missing name' do
         it { expect { identity.register(nil) }.to raise_error Volcanic::Authenticator::ValidationError }
+      end
+
+      context 'When name too short' do
+        it { expect { identity.register('shrt') }.to raise_error Volcanic::Authenticator::ValidationError }
       end
 
       context 'When duplicate name' do
@@ -57,44 +69,36 @@ RSpec.describe Volcanic::Authenticator do
         it { expect { identity.register(duplicate_name) }.to raise_error Volcanic::Authenticator::ValidationError }
       end
 
-      context 'When name too short' do
-        it { expect { identity.register('shrt') }.to raise_error Volcanic::Authenticator::ValidationError }
-      end
-
       context 'When identity created' do
-        it { is_expected.to be_an identity_instance }
+        it { is_expected.to be_an identity }
         its(:name) { should_not be nil }
         its(:secret) { should_not be nil }
         its(:id) { should_not be nil }
-      end
-
-      context 'When register other new identity' do
-        before { identity.register(SecureRandom.hex(6)) }
-        it { should be_an identity_instance }
+        it { expect { new_identity.token }.not_to raise_error }
       end
 
       context 'When identity created with password' do
-        subject(:register_with_password) { identity_instance.new(mock_name, mock_secret) }
-        it { is_expected.to be_an identity_instance }
+        subject(:register_with_password) { identity.register(mock_name, mock_secret) }
+        it { is_expected.to be_an identity }
         its(:name) { should_not be nil }
         its(:secret) { should eq('mock_secret') }
         its(:id) { should_not be nil }
+      end
 
-        context 'Password to short' do
-          it { expect { identity_instance.new(mock_name, 'shrt') }.to raise_error Volcanic::Authenticator::ValidationError }
-        end
+      context 'Password to short' do
+        it { expect { identity.register(mock_name, 'shrt') }.to raise_error Volcanic::Authenticator::ValidationError }
       end
     end
 
     describe 'login' do
-      # subject(:login) { identity_instance.new(mock_name) }
+      subject(:token) { new_identity.token }
 
       context 'When missing name' do
-        it { expect { identity.login(nil, mock_secret) }.to raise_error Volcanic::Authenticator::IdentityError }
+        it { expect { identity.login('', mock_secret) }.to raise_error Volcanic::Authenticator::IdentityError }
       end
 
       context 'When missing password' do
-        it { expect { identity.login(mock_name, nil) }.to raise_error Volcanic::Authenticator::IdentityError }
+        it { expect { identity.login(mock_name, '') }.to raise_error Volcanic::Authenticator::IdentityError }
       end
 
       context 'When invalid name or password' do
@@ -102,65 +106,58 @@ RSpec.describe Volcanic::Authenticator do
       end
 
       context 'When token created' do
-        before { identity.login(identity.name, identity.secret) }
-        its(:token) { is_expected.not_to be nil }
-        its(:source_id) { is_expected.not_to be nil }
+        it { should_not be nil }
+      end
+
+      context 'When token created by class method' do
+        subject { identity.login(new_identity.name, new_identity.secret) }
+        it { should_not be nil }
       end
     end
 
     describe 'Validating' do
-      subject { identity.validation(identity.token) }
+      subject { identity.validate(new_identity.token) }
       context 'When missing token' do
-        it { expect(identity.validation(nil)).to be false }
-        it { expect(identity.validation('')).to be false }
+        it { expect(identity.validate(nil)).to be false }
+        it { expect(identity.validate('')).to be false }
       end
 
       context 'When token is invalid' do
-        subject { identity.validation(mock_name) }
+        subject { identity.validate(mock_name) }
         it { should be false }
       end
 
       context 'When token is valid' do
-        before { identity.login(identity.name, identity.secret) }
         it { should be true }
       end
     end
 
     describe 'Logout' do
-      before { identity.login(identity.name, identity.secret) }
       context 'When missing or invalid token' do
-        it { expect { identity.logout('') }.to raise_error Volcanic::Authenticator::AuthorizationError }
+        it { expect { identity.logout(nil) }.to raise_error Volcanic::Authenticator::ValidationError }
+        it { expect { identity.logout('') }.to raise_error Volcanic::Authenticator::ValidationError }
       end
 
       context 'When success' do
-        before { identity.logout(identity.token) }
-        its(:token) { should be nil }
-        its(:source_id) { should be nil }
+        it { expect { identity.logout(new_identity.token) }.not_to raise_error }
       end
     end
 
     describe 'Deactivating' do
-      before { identity.login(identity.name, identity.secret) }
-
       context 'When missing identity id' do
-        it { expect { identity.deactivate(nil, identity.token) }.to raise_error Volcanic::Authenticator::URLError }
+        it { expect { identity.deactivate(nil, new_identity.token) }.to raise_error Volcanic::Authenticator::ConnectionError }
       end
 
       context 'When invalid identity id' do
-        it { expect { identity.deactivate('wrng', identity.token) }.to raise_error Volcanic::Authenticator::ValidationError }
+        it { expect { identity.deactivate('', new_identity.token) }.to raise_error Volcanic::Authenticator::ConnectionError }
       end
 
       context 'When missing or invalid token' do
-        it { expect { identity.deactivate(identity.id, nil) }.to raise_error Volcanic::Authenticator::AuthorizationError }
+        it { expect { identity.deactivate(new_identity.id, nil) }.to raise_error Volcanic::Authenticator::ValidationError }
       end
 
       context 'When success' do
-        before { identity.deactivate(identity.id, identity.token) }
-        its(:name) { should be nil }
-        its(:secret) { should be nil }
-        its(:id) { should be nil }
-        its(:token) { should be nil }
-        its(:source_id) { should be nil }
+        it { expect { identity.deactivate(new_identity.id, new_identity.token) }.not_to raise_error }
       end
     end
   end
