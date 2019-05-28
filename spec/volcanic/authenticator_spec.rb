@@ -4,7 +4,7 @@ class Configuration
   def initialize
     Volcanic::Authenticator.config.auth_url = 'http://0.0.0.0:3000'
     Volcanic::Authenticator.config.app_name = 'volcanic'
-    Volcanic::Authenticator.config.app_secret = '9a2eea47089c1b5e8bccc2bb3457dcb68a2dcd44'
+    Volcanic::Authenticator.config.app_secret = 'dc8b6919e4a80cc25a324a8b26dae940acd6ebbd'
   end
 end
 
@@ -12,7 +12,8 @@ RSpec.describe Volcanic::Authenticator do
   let(:configuration) { Configuration }
   let(:mock_name) { SecureRandom.hex 6 }
   let(:mock_secret) { 'mock_secret' }
-  subject(:identity) { Volcanic::Authenticator::V1::Identity }
+  let(:identity) { Volcanic::Authenticator::V1::Identity }
+  let(:principal) { Volcanic::Authenticator::V1::Principal }
 
   describe 'Configuration' do
     let(:auth_url) { Volcanic::Authenticator.config.auth_url }
@@ -50,10 +51,54 @@ RSpec.describe Volcanic::Authenticator do
     end
   end
 
-  describe 'Identity' do
-    before { configuration.new }
-    subject(:new_identity) { identity.register(mock_name) }
+  describe 'Principal' do
+    subject(:new_principal) { principal.create(mock_name, 1) }
+    describe 'Create' do
 
+      context 'When success' do
+        it { is_expected.to be new_principal }
+        its(:name) { should_not be nil }
+        its(:dataset_id) { should_not be nil }
+        its(:id) { should_not be nil }
+      end
+    end
+
+    describe 'Retrieve' do
+      context 'When invalid id'  do
+        it { expect { principal.retrieve('wrong_id') }.to raise_error Volcanic::Authenticator::ValidationError }
+      end
+
+      context 'Retrieve all' do
+        subject { principal.retrieve }
+        it { should be_an_instance_of(Array) }
+        it { should_not be raise_error }
+      end
+
+      context 'Retrieve by id' do
+        it { is_expected.to be new_principal }
+        its(:name) { should_not be nil }
+        its(:dataset_id) { should_not be nil }
+        its(:id) { should_not be nil }
+      end
+    end
+
+    describe 'Update' do
+      context 'When success update' do
+        subject { principal.update(new_principal.id, active: 0) }
+        it { should_not be raise_error }
+      end
+    end
+
+    describe 'Delete' do
+      context 'When success delete' do
+        subject { principal.delete(new_principal.id) }
+        it { should_not be raise_error }
+      end
+    end
+  end
+
+  describe 'Identity' do
+    subject(:new_identity) { identity.register(mock_name) }
     describe 'registering' do
       context 'When missing name' do
         it { expect { identity.register(nil) }.to raise_error Volcanic::Authenticator::ValidationError }
