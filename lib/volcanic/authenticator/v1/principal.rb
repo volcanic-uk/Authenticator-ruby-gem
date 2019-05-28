@@ -90,8 +90,8 @@ module Volcanic::Authenticator
           raise_exception_if_error res
         end
 
-        def update(id, **args)
-          payload = args.to_json
+        def update(id, attributes)
+          payload = attributes.to_json
           res = perform_post_request "#{PRINCIPAL_UPDATE}/#{id}", payload
           raise_exception_if_error res
         end
