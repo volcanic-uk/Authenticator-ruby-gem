@@ -80,7 +80,7 @@ identity.token #=> '<GENERATED_TOKEN>' this is basically a login method
    
 Login
 ```ruby
-Volcanic::Authenticator::V1::Identity.login('app_name', 'app_secret')
+Volcanic::Authenticator::V1::Identity.login('name', 'secret', 'issuer')
 # => '<GENERATED_TOKEN>'
 ```
 Validation
