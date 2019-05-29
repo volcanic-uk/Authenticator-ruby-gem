@@ -54,8 +54,8 @@ module Volcanic::Authenticator
 
         ##
         # Login identity and generate token
-        def login(name, secret, issuer = nil)
-          payload = { name: name, secret: secret, issuer: app_issuer }.to_json
+        def login(name, secret, issuer)
+          payload = { name: name, secret: secret, issuer: issuer }.to_json
           res = perform_request(IDENTITY_LOGIN, payload)
           raise_exception_if_error res, 'token'
           token = JSON.parse(res.body)['response']['token']

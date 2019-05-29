@@ -13,6 +13,7 @@ RSpec.describe Volcanic::Authenticator do
   let(:mock_name) { SecureRandom.hex 6 }
   let(:mock_secret) { 'mock_secret' }
   let(:mock_principal_id) { 1 }
+  let(:mock_issuer) { 'mock_issuer' }
   let(:identity) { Volcanic::Authenticator::V1::Identity }
   let(:principal) { Volcanic::Authenticator::V1::Principal }
 
@@ -140,15 +141,19 @@ RSpec.describe Volcanic::Authenticator do
       subject(:token) { new_identity.token }
 
       context 'When missing name' do
-        it { expect { identity.login('', mock_secret) }.to raise_error Volcanic::Authenticator::IdentityError }
+        it { expect { identity.login('', mock_secret, mock_issuer) }.to raise_error Volcanic::Authenticator::IdentityError }
       end
 
       context 'When missing password' do
-        it { expect { identity.login(mock_name, '') }.to raise_error Volcanic::Authenticator::IdentityError }
+        it { expect { identity.login(mock_name, '', mock_issuer) }.to raise_error Volcanic::Authenticator::IdentityError }
+      end
+
+      context 'When missing issuer' do
+        it { expect { identity.login(mock_name, mock_secret, '') }.to raise_error Volcanic::Authenticator::IdentityError }
       end
 
       context 'When invalid name or password' do
-        it { expect { identity.login('name', 'password') }.to raise_error Volcanic::Authenticator::IdentityError }
+        it { expect { identity.login('name', 'password', mock_issuer) }.to raise_error Volcanic::Authenticator::IdentityError }
       end
 
       context 'When token created' do
@@ -156,7 +161,7 @@ RSpec.describe Volcanic::Authenticator do
       end
 
       context 'When token created by class method' do
-        subject { identity.login(new_identity.name, new_identity.secret) }
+        subject { identity.login(new_identity.name, new_identity.secret, mock_issuer) }
         it { should_not be nil }
       end
     end
