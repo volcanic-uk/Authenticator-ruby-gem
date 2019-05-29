@@ -12,6 +12,7 @@ RSpec.describe Volcanic::Authenticator do
   let(:configuration) { Configuration }
   let(:mock_name) { SecureRandom.hex 6 }
   let(:mock_secret) { 'mock_secret' }
+  let(:mock_principal_id) { 1 }
   let(:identity) { Volcanic::Authenticator::V1::Identity }
   let(:principal) { Volcanic::Authenticator::V1::Principal }
 
@@ -98,7 +99,7 @@ RSpec.describe Volcanic::Authenticator do
   end
 
   describe 'Identity' do
-    subject(:new_identity) { identity.register(mock_name) }
+    subject(:new_identity) { identity.register(mock_name, nil, mock_principal_id) }
     describe 'registering' do
       context 'When missing name' do
         it { expect { identity.register(nil) }.to raise_error Volcanic::Authenticator::ValidationError }
@@ -174,6 +175,25 @@ RSpec.describe Volcanic::Authenticator do
 
       context 'When token is valid' do
         it { should be true }
+      end
+    end
+
+    describe 'Token' do
+      let(:token) { new_identity.token }
+      subject(:new_token) { Volcanic::Authenticator::V1::Token.new(token) }
+
+      context 'When invalid token' do
+        subject(:wrong_token) { Volcanic::Authenticator::V1::Token.new('wrong_token') }
+        it { expect { wrong_token.decode! }.to raise_error Volcanic::Authenticator::TokenError }
+        it { expect { wrong_token.decode_with_claims! }.to raise_error Volcanic::Authenticator::TokenError }
+      end
+
+      context 'When fetch claims' do
+        before { new_token.decode_with_claims! }
+        its(:token) { should_not be nil }
+        its(:sub) { should_not be nil }
+        its(:principal_id) { should_not be nil }
+        its(:identity_id) { should_not be nil }
       end
     end
 
