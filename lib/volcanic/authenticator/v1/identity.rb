@@ -14,10 +14,11 @@ module Volcanic::Authenticator
       include Volcanic::Authenticator::V1::ErrorResponse
       extend Volcanic::Authenticator::V1::ErrorResponse
 
-      attr_reader :name, :secret, :id
+      attr_reader :name, :secret, :id, :principal_id
 
-      def initialize(name = nil, secret = nil, id = nil)
+      def initialize(name = nil, principal_id = nil, secret = nil, id = nil)
         @name = name
+        @principal_id = principal_id
         @secret = secret
         @id = id
       end
@@ -40,12 +41,15 @@ module Volcanic::Authenticator
       class << self
         ##
         # Register/Create new Identity
-        def register(name, secret = nil, ids = [])
-          payload = { name: name, password: secret, ids: ids }.to_json
+        def register(name, secret = nil, principal_id = nil, ids = [])
+          payload = { name: name,
+                      principal_id: principal_id,
+                      password: secret,
+                      ids: ids }.to_json
           res = perform_request(IDENTITY_REGISTER, payload)
           raise_exception_if_error res
           parser = JSON.parse(res.body)['response']
-          new(parser['name'], parser['secret'], parser['id'])
+          new(parser['name'], parser['principal_id'], parser['secret'], parser['id'])
         end
 
         ##
