@@ -25,10 +25,11 @@ module Volcanic::Authenticator
 
       ##
       # Generally this is login
-      def token
+      def token(issuer = Volcanic::Authenticator.config.app_issuer)
         url = Volcanic::Authenticator.config.auth_url
         payload = { name: @name,
-                    secret: @secret }.to_json
+                    secret: @secret,
+                    issuer: issuer }.to_json
         res = HTTParty.post "#{url}/#{IDENTITY_LOGIN}", body: payload
         raise_exception_if_error res, 'token'
         token = JSON.parse(res.body)['response']['token']
@@ -41,11 +42,10 @@ module Volcanic::Authenticator
       class << self
         ##
         # Register/Create new Identity
-        def register(name, secret = nil, principal_id = nil, ids = [])
+        def register(name, secret = nil, principal_id = nil)
           payload = { name: name,
                       principal_id: principal_id,
-                      password: secret,
-                      ids: ids }.to_json
+                      password: secret }.to_json
           res = perform_request(IDENTITY_REGISTER, payload)
           raise_exception_if_error res
           parser = JSON.parse(res.body)['response']
@@ -54,8 +54,8 @@ module Volcanic::Authenticator
 
         ##
         # Login identity and generate token
-        def login(name, secret)
-          payload = { name: name, secret: secret }.to_json
+        def login(name, secret, issuer = nil)
+          payload = { name: name, secret: secret, issuer: app_issuer }.to_json
           res = perform_request(IDENTITY_LOGIN, payload)
           raise_exception_if_error res, 'token'
           token = JSON.parse(res.body)['response']['token']
@@ -83,7 +83,7 @@ module Volcanic::Authenticator
         ##
         # Validate token exists at cache or valid signature.
         def validate(token)
-          Token.new(token).valid?
+          Token.new(token).decode!
           return true if cache.key? token
 
           payload = { token: token }.to_json

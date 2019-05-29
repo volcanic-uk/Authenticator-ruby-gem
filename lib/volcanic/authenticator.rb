@@ -14,7 +14,7 @@ module Volcanic
     IDENTITY_LOGOUT = 'api/v1/identity/logout'.freeze
     IDENTITY_DEACTIVATE = 'api/v1/identity/deactivate'.freeze
     IDENTITY_VALIDATE = 'api/v1/identity/validate'.freeze
-    PUBLIC_KEY_GENERATE = 'api/v1/key/public'.freeze
+    PUBLIC_KEY_GENERATE = 'api/v1/key'.freeze
     ##
     # config helper
     module Base

@@ -23,7 +23,8 @@ module Volcanic::Authenticator
         def request_app_token
           url = Volcanic::Authenticator.config.auth_url
           payload = { name: Volcanic::Authenticator.config.app_name,
-                      secret: Volcanic::Authenticator.config.app_secret }.to_json
+                      secret: Volcanic::Authenticator.config.app_secret,
+                      issuer: Volcanic::Authenticator.config.app_issuer }.to_json
           res = HTTParty.post("#{url}/#{IDENTITY_LOGIN}",
                               body: payload)
           raise_exception_if_error res, 'app_token'

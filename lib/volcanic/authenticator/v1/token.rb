@@ -19,7 +19,12 @@ module Volcanic::Authenticator
         cache.fetch token, expire_in: exp_token, &method(:token)
       end
 
-      def valid?
+      def fetch_claim(opt)
+        decode_token = self.decode!
+
+      end
+
+      def decode!
         JWT.decode token, TokenKey.fetch_and_request_public_key, true, algorithm: 'ES512'
       rescue JWT::DecodeError
         raise TokenError

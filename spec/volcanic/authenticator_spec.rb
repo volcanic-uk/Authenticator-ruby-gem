@@ -4,7 +4,7 @@ class Configuration
   def initialize
     Volcanic::Authenticator.config.auth_url = 'http://0.0.0.0:3000'
     Volcanic::Authenticator.config.app_name = 'volcanic'
-    Volcanic::Authenticator.config.app_secret = 'dc8b6919e4a80cc25a324a8b26dae940acd6ebbd'
+    Volcanic::Authenticator.config.app_secret = 'volcanic!123'
   end
 end
 
