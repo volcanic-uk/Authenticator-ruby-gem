@@ -28,6 +28,7 @@ Volcanic::Authenticator.config.auth_url = 'http://vauth.com'
 # Application token configurations
 Volcanic::Authenticator.config.app_name = 'app_name'
 Volcanic::Authenticator.config.app_secret = 'app_secret' 
+Volcanic::Authenticator.config.app_issuer = 'app_issuer' 
 ```
 
 optional
@@ -42,24 +43,39 @@ Volcanic::Authenticator.config.exp_token = 5 * 60
 # all must base in seconds
 ```
 
-## Usage
+## Principal
+Create
+```ruby
+principal = Volcanic::Authenticator::V1::Principal.create('principal_name', 1)
+principal.name # => 'principal_name'
+principal.dataset_id # => 1
+principal.id # => '<GENERATED_ID>'
+```
+
+Retrieve/Get
+```ruby
+Volcanic::Authenticator::V1::Principal.retrieve
+# => return and array of principals
+
+principal =  Volcanic::Authenticator::V1::Principal.retrieve(1)
+principal.name # => 'principal_name'
+principal.dataset_id # => 1
+principal.id # => '<GENERATED_ID>'
+```
+
+## Identity
 
 Register
 ```ruby
 # 1) Standard identity register
-identity = Volcanic::Authenticator::V1::Identity.register('app_name')
+identity = Volcanic::Authenticator::V1::Identity.register('app_name', 'app_secret', 1)
 identity.name # => 'app_name'
-identity.secret # => '<GENERATED_SECRET>'
+identity.secret # => 'app_secret'
+identity.principal_id # => 1
 identity.id # => '<GENERATED_ID>'
 identity.token #=> '<GENERATED_TOKEN>' this is basically a login method
 
-## OR
-
-# to generate Identity with custom secret
-identity = Volcanic::Authenticator::V1::Identity.register('app_name', 'custom_secret')
-identity.name # => 'app_name'
-identity.secret # => nil
-# secret will return nil if customs secret is apply. 
+# note that secret is optional. Register identity without a secret will return a generated secret
 ```
    
 Login
@@ -83,3 +99,22 @@ Deactivate
 Volcanic::Authenticator::V1::Identity.deactivate('<GENERATED_ID>','<GENERATED_TOKEN>')
 # exception error raise if failed on server site
 ``` 
+
+## Token
+```ruby
+#initialise token 
+token = Volcanic::Authenticator::V1::Token.new('<GENERATED_TOKEN>')
+
+# decode a token
+token.decode!
+# will return an array value of payload and header token
+
+# decode and fetch claims
+token.decode_with_claims! 
+token.kid # key id 
+token.sub # subject 
+token.iss # issuer 
+token.dataset_id # dataset id
+token.principal_id # principal id
+token.identity_id # identity id
+```
