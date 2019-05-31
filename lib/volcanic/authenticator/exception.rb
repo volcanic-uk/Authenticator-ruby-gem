@@ -7,6 +7,9 @@ module Volcanic::Authenticator
   # When failed issuing/login identity, due to wrong credentials (name or secret) or identity suspended
   class IdentityError < AuthenticatorError; end
   ##
+  # When principal error occurs
+  class PrincipalError < AuthenticatorError; end
+  ##
   # When http response 400 (missing or wrong type of parameters)
   class ValidationError < AuthenticatorError; end
   ##
@@ -18,14 +21,18 @@ module Volcanic::Authenticator
   class ConnectionError < AuthenticatorError; end
   ##
   # When authenticator server return 5xx
-  class ServerError < AuthorizationError
+  class ServerError < AuthenticatorError
     def initialize(msg = 'Authenticator server error.')
       super
     end
   end
   ##
+  # When KEY issue occur
+  class KeyError < AuthenticatorError; end
+
+  ##
   #
-  class ConfigurationError < AuthorizationError; end
+  class ConfigurationError < AuthenticatorError; end
   ##
   # When parsing invalid integer values to config.exp_token
   class ExpTokenError < ConfigurationError
@@ -49,12 +56,12 @@ module Volcanic::Authenticator
   end
   ##
   # When parsing invalid application identity name or secret (config.app_name or config.app_secret)
-  class AppIdentityError < ConfigurationError
+  class ApplicationError < ConfigurationError
     def initialize(msg = 'Invalid app identity name or secret. Please check your configurations.')
       super
     end
   end
   ##
   # Arguments error
-  class ArgumentError < AuthorizationError; end
+  class ArgumentError < AuthenticatorError; end
 end

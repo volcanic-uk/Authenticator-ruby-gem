@@ -2,12 +2,36 @@ module Volcanic::Authenticator
   module V1
     # Helper for response handling
     module ErrorResponse
-      def raise_exception_if_error(response, method = nil)
-        raise ValidationError, parser(response.body, %w[reason message]) if response.code == 400
-        raise AuthorizationError, parser(response.body, %w[error message]) if response.code == 401
-        raise AppIdentityError if response.code == 403 && method == 'app_token'
-        raise IdentityError, parser(response.body, %w[reason message]) if response.code == 403 && method == 'token'
-        raise ConnectionError, 'end-point not found' if response.code == 404
+
+      def raise_exception_identity(res)
+        code = res.code
+        body = res.body
+        raise_exception_standard(res)
+        raise IdentityError, parser(body, %w[reason message]) if code == 400 || code == 403
+      end
+
+      def raise_exception_app(res)
+        code = res.code
+        body = res.body
+        raise_exception_standard(res)
+        raise ApplicationError, parser(body, %w[reason message]) if code == 400 || code == 403
+      end
+
+      def raise_exception_principal(res)
+        code = res.code
+        body = res.body
+        raise_exception_standard(res)
+        raise PrincipalError, parser(body, %w[reason message]) if code == 400
+      end
+
+      def raise_exception_standard(res)
+        code = res.code
+        body = res.body
+        if code == 400 && parser(body, %w[reason errorCode]) == 3002
+          raise KeyError, parser(body, %w[reason message])
+        end
+        raise AuthorizationError, parser(body, %w[error message]) if code == 401
+        raise ConnectionError, 'end-point not found' if code == 404
       end
 
       def parser(json, keys)
