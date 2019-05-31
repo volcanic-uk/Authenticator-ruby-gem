@@ -80,7 +80,7 @@ identity.token #=> '<GENERATED_TOKEN>' this is basically a login method
    
 Login
 ```ruby
-Volcanic::Authenticator::V1::Identity.login('name', 'secret', 'issuer')
+Volcanic::Authenticator::V1::Identity.login('name', 'secret')
 # => '<GENERATED_TOKEN>'
 ```
 Validation
@@ -104,10 +104,6 @@ Volcanic::Authenticator::V1::Identity.deactivate('<GENERATED_ID>','<GENERATED_TO
 ```ruby
 #initialise token 
 token = Volcanic::Authenticator::V1::Token.new('<GENERATED_TOKEN>')
-
-# decode a token
-token.decode!
-# will return an array value of payload and header token
 
 # decode and fetch claims
 token.decode_with_claims! 
