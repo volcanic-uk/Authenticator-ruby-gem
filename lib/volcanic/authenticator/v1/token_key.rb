@@ -16,8 +16,10 @@ module Volcanic::Authenticator
           cache.fetch APP_TOKEN, expire_in: exp_app_token, &method(:request_app_token)
         end
 
-        def fetch_and_request_public_key
-          cache.fetch PUBLIC_KEY, expire_in: exp_app_token, &method(:request_public_key)
+        def fetch_and_request_public_key(kid = nil)
+          cache.fetch kid, expire_in: exp_app_token do
+            request_public_key(kid)
+          end
         end
 
         def request_app_token
@@ -27,17 +29,18 @@ module Volcanic::Authenticator
                       issuer: Volcanic::Authenticator.config.app_issuer }.to_json
           res = HTTParty.post("#{url}/#{IDENTITY_LOGIN}",
                               body: payload)
-          raise_exception_if_error res, 'app_token'
+          raise_exception_app(res) unless res.success?
           JSON.parse(res.body)['response']['token']
         rescue Timeout::Error, Errno::EINVAL, Errno::ECONNREFUSED, Errno::ECONNRESET, EOFError => e
           raise ConnectionError, e
         end
 
-        def request_public_key
+        def request_public_key(kid)
           url = Volcanic::Authenticator.config.auth_url
-          res = HTTParty.get("#{url}/#{PUBLIC_KEY_GENERATE}",
+          res = HTTParty.get("#{url}/#{PUBLIC_KEY_GENERATE}/#{kid}?expired=true",
                              headers: bearer_header(request_app_token))
-          raise_exception_if_error res
+          raise_exception_standard res unless res.success?
+          # pem = JSON.parse(res.body)['response']['key']['public_key']
           pem = JSON.parse(res.body)['response']['key']
           OpenSSL::PKey.read(pem)
         rescue Timeout::Error, Errno::EINVAL, Errno::ECONNREFUSED, Errno::ECONNRESET, EOFError => e

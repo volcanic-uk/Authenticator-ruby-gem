@@ -41,7 +41,7 @@ module Volcanic::Authenticator
           payload = { name: name,
                       dataset_id: dataset_id }.to_json
           res = perform_post_request PRINCIPAL, payload
-          raise_exception_if_error res
+          raise_exception_principal res unless res.success?
           parser = JSON.parse(res.body)['response']
           new(parser['name'], parser['dataset_id'], parser['id'])
         end
@@ -75,7 +75,7 @@ module Volcanic::Authenticator
         #
         def retrieve(id = 'all')
           res = perform_get_request "#{PRINCIPAL}/#{id}"
-          raise_exception_if_error res
+          raise_exception_principal res unless res.success?
           parser = JSON.parse(res.body)['response']
           return parser if id == 'all'
           new(parser['name'],
@@ -87,13 +87,13 @@ module Volcanic::Authenticator
 
         def delete(id)
           res = perform_post_request "#{PRINCIPAL_DELETE}/#{id}"
-          raise_exception_if_error res
+          raise_exception_principal res unless res.success?
         end
 
         def update(id, attributes)
           payload = attributes.to_json
           res = perform_post_request "#{PRINCIPAL_UPDATE}/#{id}", payload
-          raise_exception_if_error res
+          raise_exception_principal res unless res.success?
         end
 
         private
