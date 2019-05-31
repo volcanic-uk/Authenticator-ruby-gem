@@ -2,7 +2,7 @@ class Configuration
   ##
   # This value need to configure to run these test.
   def initialize
-    Volcanic::Authenticator.config.auth_url = 'http://0.0.0.0:3000'
+    Volcanic::Authenticator.config.auth_url = 'http://0.0.0.0:3003'
     Volcanic::Authenticator.config.app_name = 'volcanic'
     Volcanic::Authenticator.config.app_secret = 'volcanic!123'
   end
@@ -21,6 +21,7 @@ RSpec.describe Volcanic::Authenticator do
     let(:auth_url) { Volcanic::Authenticator.config.auth_url }
     let(:app_name) { Volcanic::Authenticator.config.app_name }
     let(:app_secret) { Volcanic::Authenticator.config.app_secret }
+    let(:app_issuer) { Volcanic::Authenticator.config.app_issuer }
     let(:cache) { Volcanic::Cache::Cache.instance }
     let(:request_app_token_pkey) { Volcanic::Authenticator::V1::TokenKey }
     let(:app_token) { cache.fetch 'volcanic_application_token' }
@@ -29,20 +30,17 @@ RSpec.describe Volcanic::Authenticator do
       it { expect { request_app_token_pkey.request_app_token }.to raise_error Volcanic::Authenticator::ConnectionError }
     end
 
-    context 'When missing or invalid app_name and app_secret' do
-      before do
-        Volcanic::Authenticator.config.auth_url = 'http://0.0.0.0:3000'
-        Volcanic::Authenticator.config.app_name = 'app_name'
-        Volcanic::Authenticator.config.app_secret = 'app_secret'
-      end
-      it { expect(app_name).to eq 'app_name' }
-      it { expect(app_secret).to eq 'app_secret' }
-      it { expect { request_app_token_pkey.request_app_token }.to raise_error Volcanic::Authenticator::AppIdentityError }
+    context 'When missing app_name, app_secret and app_issuer' do
+      before { Volcanic::Authenticator.config.auth_url = 'http://0.0.0.0:3003' }
+      it { expect(app_name).to eq nil }
+      it { expect(app_secret).to eq nil }
+      it { expect(app_issuer).to eq 'volcanic' }
+      it { expect { request_app_token_pkey.request_app_token }.to raise_error Volcanic::Authenticator::ApplicationError }
     end
 
     context 'When missing application token' do
       it('should raise exception when request public key')\
-          { expect { request_app_token_pkey.request_public_key }.to raise_error Volcanic::Authenticator::AuthorizationError }
+          { expect { request_app_token_pkey.request_public_key(nil) }.to raise_error Volcanic::Authenticator::ApplicationError }
     end
 
     context 'When valid application identity (name and secret)' do
@@ -50,6 +48,8 @@ RSpec.describe Volcanic::Authenticator do
       it { expect { request_app_token_pkey.fetch_and_request_app_token }.not_to raise_error }
       it('should store token to cache')\
           { expect(app_token).not_to be_empty }
+      it('should raise exception when invalid public key id')\
+        { expect { request_app_token_pkey.request_public_key('wrong_kid') }.to raise_error Volcanic::Authenticator::KeyError }
     end
   end
 
@@ -67,7 +67,7 @@ RSpec.describe Volcanic::Authenticator do
 
     describe 'Retrieve' do
       context 'When invalid id'  do
-        it { expect { principal.retrieve('wrong_id') }.to raise_error Volcanic::Authenticator::ValidationError }
+        it { expect { principal.retrieve('wrong_id') }.to raise_error Volcanic::Authenticator::PrincipalError }
       end
 
       context 'Retrieve all' do
@@ -102,18 +102,30 @@ RSpec.describe Volcanic::Authenticator do
   describe 'Identity' do
     subject(:new_identity) { identity.register(mock_name, nil, mock_principal_id) }
     describe 'registering' do
-      context 'When missing name' do
-        it { expect { identity.register(nil) }.to raise_error Volcanic::Authenticator::ValidationError }
+      context 'When name is nil' do
+        it { expect { identity.register(nil) }.to raise_error Volcanic::Authenticator::IdentityError }
+      end
+
+      context 'When name is empty' do
+        it { expect { identity.register('') }.to raise_error Volcanic::Authenticator::IdentityError }
       end
 
       context 'When name too short' do
-        it { expect { identity.register('shrt') }.to raise_error Volcanic::Authenticator::ValidationError }
+        it { expect { identity.register('shrt') }.to raise_error Volcanic::Authenticator::IdentityError }
+      end
+
+      context 'When name too long' do
+        it { expect { identity.register(SecureRandom.hex(33)) }.to raise_error Volcanic::Authenticator::IdentityError }
+      end
+
+      context 'When invalid name' do
+        it { expect { identity.register('white space') }.to raise_error Volcanic::Authenticator::IdentityError }
       end
 
       context 'When duplicate name' do
         let(:duplicate_name) { SecureRandom.hex 6 }
         before { identity.register(duplicate_name) }
-        it { expect { identity.register(duplicate_name) }.to raise_error Volcanic::Authenticator::ValidationError }
+        it { expect { identity.register(duplicate_name) }.to raise_error Volcanic::Authenticator::IdentityError }
       end
 
       context 'When identity created' do
@@ -124,6 +136,18 @@ RSpec.describe Volcanic::Authenticator do
         it { expect { new_identity.token }.not_to raise_error }
       end
 
+      context 'When password is nil' do
+        it { expect { identity.register(mock_name, nil) }.not_to raise_error }
+      end
+
+      context 'When password is empty' do
+        it { expect { identity.register(mock_name, '') }.not_to raise_error }
+      end
+
+      context 'When password too short' do
+        it { expect { identity.register(mock_name, 'shrt') }.to raise_error Volcanic::Authenticator::IdentityError }
+      end
+
       context 'When identity created with password' do
         subject(:register_with_password) { identity.register(mock_name, mock_secret) }
         it { is_expected.to be_an identity }
@@ -131,29 +155,21 @@ RSpec.describe Volcanic::Authenticator do
         its(:secret) { should eq('mock_secret') }
         its(:id) { should_not be nil }
       end
-
-      context 'Password to short' do
-        it { expect { identity.register(mock_name, 'shrt') }.to raise_error Volcanic::Authenticator::ValidationError }
-      end
     end
 
     describe 'login' do
       subject(:token) { new_identity.token }
 
       context 'When missing name' do
-        it { expect { identity.login('', mock_secret, mock_issuer) }.to raise_error Volcanic::Authenticator::IdentityError }
+        it { expect { identity.login('', mock_secret) }.to raise_error Volcanic::Authenticator::IdentityError }
       end
 
       context 'When missing password' do
-        it { expect { identity.login(mock_name, '', mock_issuer) }.to raise_error Volcanic::Authenticator::IdentityError }
-      end
-
-      context 'When missing issuer' do
-        it { expect { identity.login(mock_name, mock_secret, '') }.to raise_error Volcanic::Authenticator::IdentityError }
+        it { expect { identity.login(mock_name, '') }.to raise_error Volcanic::Authenticator::IdentityError }
       end
 
       context 'When invalid name or password' do
-        it { expect { identity.login('name', 'password', mock_issuer) }.to raise_error Volcanic::Authenticator::IdentityError }
+        it { expect { identity.login('name', 'password') }.to raise_error Volcanic::Authenticator::IdentityError }
       end
 
       context 'When token created' do
@@ -161,7 +177,7 @@ RSpec.describe Volcanic::Authenticator do
       end
 
       context 'When token created by class method' do
-        subject { identity.login(new_identity.name, new_identity.secret, mock_issuer) }
+        subject { identity.login(new_identity.name, new_identity.secret) }
         it { should_not be nil }
       end
     end
@@ -189,7 +205,6 @@ RSpec.describe Volcanic::Authenticator do
 
       context 'When invalid token' do
         subject(:wrong_token) { Volcanic::Authenticator::V1::Token.new('wrong_token') }
-        it { expect { wrong_token.decode! }.to raise_error Volcanic::Authenticator::TokenError }
         it { expect { wrong_token.decode_with_claims! }.to raise_error Volcanic::Authenticator::TokenError }
       end
 
@@ -204,8 +219,8 @@ RSpec.describe Volcanic::Authenticator do
 
     describe 'Logout' do
       context 'When missing or invalid token' do
-        it { expect { identity.logout(nil) }.to raise_error Volcanic::Authenticator::ValidationError }
-        it { expect { identity.logout('') }.to raise_error Volcanic::Authenticator::ValidationError }
+        it { expect { identity.logout(nil) }.to raise_error Volcanic::Authenticator::IdentityError }
+        it { expect { identity.logout('') }.to raise_error Volcanic::Authenticator::IdentityError }
       end
 
       context 'When success' do
@@ -223,7 +238,7 @@ RSpec.describe Volcanic::Authenticator do
       end
 
       context 'When missing or invalid token' do
-        it { expect { identity.deactivate(new_identity.id, nil) }.to raise_error Volcanic::Authenticator::ValidationError }
+        it { expect { identity.deactivate(new_identity.id, nil) }.to raise_error Volcanic::Authenticator::IdentityError }
       end
 
       context 'When success' do
