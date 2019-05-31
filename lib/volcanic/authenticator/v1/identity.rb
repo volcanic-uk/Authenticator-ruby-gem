@@ -25,15 +25,14 @@ module Volcanic::Authenticator
 
       ##
       # Generally this is login
-      def token(issuer = Volcanic::Authenticator.config.app_issuer)
+      def token
         url = Volcanic::Authenticator.config.auth_url
         payload = { name: @name,
-                    secret: @secret,
-                    issuer: issuer }.to_json
+                    secret: @secret }.to_json
         res = HTTParty.post "#{url}/#{IDENTITY_LOGIN}", body: payload
-        raise_exception_if_error res, 'token'
+        raise_exception_identity(res) unless res.success?
         token = JSON.parse(res.body)['response']['token']
-        Token.new(token).caching!
+        Token.new(token).cache!
         token
       rescue Timeout::Error, Errno::EINVAL, Errno::ECONNREFUSED, Errno::ECONNRESET, EOFError => e
         raise ConnectionError, e
@@ -41,56 +40,84 @@ module Volcanic::Authenticator
 
       class << self
         ##
-        # Register/Create new Identity
+        # Register an identity.
+        # Only require a name.
+        # Eg.
+        #   identity = Identity.register('name')
+        #   identity.name # => 'name'
+        #   identity.secret # => <GENERATED_SECRET>
+        #   identity.principal_id # => nil
+        #   identity.id # => <GENERATED_ID>
+        #
+        # #####################################
+        #
+        #  # register with secret and principal_id
+        # Eg.
+        #   identity = Identity.register('name', 'secret', 1)
+        #
         def register(name, secret = nil, principal_id = nil)
           payload = { name: name,
                       principal_id: principal_id,
                       password: secret }.to_json
           res = perform_request(IDENTITY_REGISTER, payload)
-          raise_exception_if_error res
+          raise_exception_identity(res) unless res.success?
           parser = JSON.parse(res.body)['response']
           new(parser['name'], parser['principal_id'], parser['secret'], parser['id'])
         end
 
         ##
-        # Login identity and generate token
-        def login(name, secret, issuer)
-          payload = { name: name, secret: secret, issuer: issuer }.to_json
+        # Login an identity/Issue a token.
+        # Need to pass the identity name and secret
+        # Eg.
+        #  Identity.login('name', 'secret')
+        #  # => 'eyJhbGciO...'
+        #
+        def login(name, secret)
+          payload = { name: name, secret: secret }.to_json
           res = perform_request(IDENTITY_LOGIN, payload)
-          raise_exception_if_error res, 'token'
+          raise_exception_identity(res) unless res.success?
           token = JSON.parse(res.body)['response']['token']
-          Token.new(token).caching!
+          Token.new(token).cache!
           token
         end
 
         ##
-        # Logout identity and blacklist token.
+        # Logout an identity and blacklist the token.
+        # Eg.
+        #   Identity.logout('eyJhbGciO...')
+        #
         def logout(token)
           cache.evict! token
           payload = { token: token }.to_json
           res = perform_request(IDENTITY_LOGOUT, payload, token)
-          raise_exception_if_error res
+          raise_exception_identity(res) unless res.success?
         end
 
         ##
-        # Deactivate identity and blacklist all associate tokens.
+        # Deactivate an identity and blacklist all associate tokens.
+        # Eg.
+        #   Identity.deactivate(1, 'eyJhbGciO...')
+        #
         def deactivate(identity_id, token)
           cache.evict! token
           res = perform_request("#{IDENTITY_DEACTIVATE}/#{identity_id}", nil, token)
-          raise_exception_if_error res
+          raise_exception_identity(res) unless res.success?
         end
 
         ##
-        # Validate token exists at cache or valid signature.
+        # Check for token exist at cache and verify token signature,
+        # If not exists in cache, it request to validate token
+        # If invalid token signature, it return false
+        #  Eg.
+        #   Identity.validate(token)
+        #   # => true/false
+        #
         def validate(token)
-          Token.new(token).decode!
-          return true if cache.key? token
+          return true if cache.key?(token) && Token.new(token).verify!
 
           payload = { token: token }.to_json
           res = perform_request(IDENTITY_VALIDATE, payload, token)
           res.success?
-        rescue TokenError
-          false
         end
 
         private
