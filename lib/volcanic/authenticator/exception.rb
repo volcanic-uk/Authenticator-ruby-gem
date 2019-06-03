@@ -27,11 +27,11 @@ module Volcanic::Authenticator
     end
   end
   ##
-  # When KEY issue occur
+  # When Public KEY issue occurs
   class KeyError < AuthenticatorError; end
 
   ##
-  #
+  # Invalid or missing(required ones) configurations.
   class ConfigurationError < AuthenticatorError; end
   ##
   # When parsing invalid integer values to config.exp_token

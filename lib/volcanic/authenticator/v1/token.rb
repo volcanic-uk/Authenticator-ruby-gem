@@ -48,12 +48,10 @@ module Volcanic::Authenticator
       #
       def verify!
         ##
-        # Decode and get claims. Basically this is to retrieve KID
-        # fetch_claims(decode!)
-        ##
+        # Decode and get claims. This method is to fetch KID claims
+        fetch_claims(decode!)
         # Decode with verify signature
-        # decode!(TokenKey.fetch_and_request_public_key(kid), true)
-        decode!(TokenKey.fetch_and_request_public_key, true)
+        decode!(TokenKey.fetch_and_request_public_key(kid), true)
       end
 
       private
