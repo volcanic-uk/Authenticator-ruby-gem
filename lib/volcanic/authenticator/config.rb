@@ -6,12 +6,6 @@ module Volcanic::Authenticator
     # singleton
     class << self
       attr_accessor :auth_url, :app_name, :app_secret
-      attr_writer :app_issuer
-      # attr_reader :exp_token, :exp_app_token, :exp_public_key
-
-      def app_issuer
-        @app_issuer ||= 'volcanic'
-      end
 
       def exp_token
         @exp_token ||= 5 * 60

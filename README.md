@@ -28,7 +28,6 @@ Volcanic::Authenticator.config.auth_url = 'http://vauth.com'
 # Application token configurations
 Volcanic::Authenticator.config.app_name = 'app_name'
 Volcanic::Authenticator.config.app_secret = 'app_secret' 
-Volcanic::Authenticator.config.app_issuer = 'app_issuer' 
 ```
 
 optional
