@@ -21,7 +21,6 @@ RSpec.describe Volcanic::Authenticator do
     let(:auth_url) { Volcanic::Authenticator.config.auth_url }
     let(:app_name) { Volcanic::Authenticator.config.app_name }
     let(:app_secret) { Volcanic::Authenticator.config.app_secret }
-    let(:app_issuer) { Volcanic::Authenticator.config.app_issuer }
     let(:cache) { Volcanic::Cache::Cache.instance }
     let(:request_app_token_pkey) { Volcanic::Authenticator::V1::TokenKey }
     let(:app_token) { cache.fetch 'volcanic_application_token' }
@@ -30,17 +29,16 @@ RSpec.describe Volcanic::Authenticator do
       it { expect { request_app_token_pkey.request_app_token }.to raise_error Volcanic::Authenticator::ConnectionError }
     end
 
-    context 'When missing app_name, app_secret and app_issuer' do
+    context 'When missing app_name, app_secret' do
       before { Volcanic::Authenticator.config.auth_url = 'http://0.0.0.0:3003' }
       it { expect(app_name).to eq nil }
       it { expect(app_secret).to eq nil }
-      it { expect(app_issuer).to eq 'volcanic' }
       it { expect { request_app_token_pkey.request_app_token }.to raise_error Volcanic::Authenticator::ApplicationError }
     end
 
     context 'When missing application token' do
-      it('should raise exception when request public key')\
-          { expect { request_app_token_pkey.request_public_key(nil) }.to raise_error Volcanic::Authenticator::ApplicationError }
+      it('should raise ApplicationError when request public key')\
+          { expect { request_app_token_pkey.request_public_key('') }.to raise_error Volcanic::Authenticator::ApplicationError }
     end
 
     context 'When valid application identity (name and secret)' do
@@ -48,7 +46,7 @@ RSpec.describe Volcanic::Authenticator do
       it { expect { request_app_token_pkey.fetch_and_request_app_token }.not_to raise_error }
       it('should store token to cache')\
           { expect(app_token).not_to be_empty }
-      it('should raise exception when invalid public key id')\
+      it('should raise KeyError when invalid public key id')\
         { expect { request_app_token_pkey.request_public_key('wrong_kid') }.to raise_error Volcanic::Authenticator::KeyError }
     end
   end
