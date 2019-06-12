@@ -4,7 +4,7 @@ require_relative 'base'
 
 module Volcanic::Authenticator
   module V1
-    # Helper for Token handling
+    # Token helper
     class Token
       extend Forwardable
       def_instance_delegator 'Volcanic::Cache::Cache'.to_sym, :instance, :cache

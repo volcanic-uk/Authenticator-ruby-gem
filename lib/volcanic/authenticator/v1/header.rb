@@ -1,6 +1,6 @@
 module Volcanic::Authenticator
   module V1
-    # Helper for header creation
+    # Header helper
     module Header
       def bearer_header(token)
         { "Authorization": "Bearer #{token}",

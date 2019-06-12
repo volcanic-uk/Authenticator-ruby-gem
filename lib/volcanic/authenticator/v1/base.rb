@@ -3,7 +3,8 @@ require 'forwardable'
 module Volcanic::Authenticator
   module V1
     ##
-    # For now helper for Identity and TokenKey
+    # Base helper
+    # Contains of Volcanic::Cache::Cache and Volcanic::Authenticator.config forwardable.
     class Base
       extend SingleForwardable
       def_delegator 'Volcanic::Cache::Cache'.to_sym, :instance, :cache
