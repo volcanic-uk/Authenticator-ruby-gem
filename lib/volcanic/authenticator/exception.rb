@@ -10,6 +10,9 @@ module Volcanic::Authenticator
   # When principal error occurs
   class PrincipalError < AuthenticatorError; end
   ##
+  # When Permission error occurs
+  class PermissionError < AuthenticatorError; end
+  ##
   # When http response 400 (missing or wrong type of parameters)
   class ValidationError < AuthenticatorError; end
   ##
