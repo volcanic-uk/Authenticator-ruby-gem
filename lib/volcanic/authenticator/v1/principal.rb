@@ -1,21 +1,13 @@
-require 'httparty'
-require_relative 'header'
-require_relative 'token_key'
-require_relative 'error_response'
+require_relative 'error'
+require_relative 'request'
 
 module Volcanic::Authenticator
   module V1
     ##
-    # This is Principal Api class
+    # Handle principal api
+    # method => :create, :retrieve, :update, :delete
+    # attr => :name, :dataset_id, :id, :last_active_date, :active
     class Principal
-      extend Volcanic::Authenticator::V1::Header
-      extend Volcanic::Authenticator::V1::ErrorResponse
-
-      # URLS
-      PRINCIPAL = 'api/v1/principal'
-      PRINCIPAL_DELETE = 'api/v1/principal/delete'
-      PRINCIPAL_UPDATE = 'api/v1/principal/update'
-
       attr_reader :name, :dataset_id, :id, :last_active_date, :active
 
       def initialize(name = nil, dataset_id = nil, id = nil, active = nil, last_active = nil)
@@ -27,6 +19,9 @@ module Volcanic::Authenticator
       end
 
       class << self
+        include Request
+        include Error
+
         ##
         # Create new principal.
         # name and dataset id are required on creating principal
@@ -78,6 +73,7 @@ module Volcanic::Authenticator
           raise_exception_principal res unless res.success?
           parser = JSON.parse(res.body)['response']
           return parser if id == 'all'
+
           new(parser['name'],
               parser['dataset_id'],
               parser['id'],
@@ -85,27 +81,28 @@ module Volcanic::Authenticator
               parser['last_active_date'])
         end
 
-        def delete(id)
-          res = perform_post_request "#{PRINCIPAL_DELETE}/#{id}"
-          raise_exception_principal res unless res.success?
-        end
-
+        ##
+        # Update principal
+        #  Eg.
+        #  attr = { name: 'newPrincipalName' }
+        #  Principal.update(1, attr)
+        #
         def update(id, attributes)
+          raise PrincipalError, 'Attributes must be a hash type' unless attributes.is_a?(Hash)
+
           payload = attributes.to_json
           res = perform_post_request "#{PRINCIPAL_UPDATE}/#{id}", payload
           raise_exception_principal res unless res.success?
         end
 
-        private
-
-        def perform_post_request(end_point, body = nil)
-          url = Volcanic::Authenticator.config.auth_url
-          HTTParty.post "#{url}/#{end_point}", body: body, headers: bearer_header(TokenKey.fetch_and_request_app_token)
-        end
-
-        def perform_get_request(end_point)
-          url = Volcanic::Authenticator.config.auth_url
-          HTTParty.get "#{url}/#{end_point}", headers: bearer_header(TokenKey.fetch_and_request_app_token)
+        ##
+        # Delete principal
+        #  Eg.
+        #  Principal.delete(1)
+        #
+        def delete(id)
+          res = perform_post_request "#{PRINCIPAL_DELETE}/#{id}"
+          raise_exception_principal res unless res.success?
         end
       end
     end

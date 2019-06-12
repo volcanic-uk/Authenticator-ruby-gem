@@ -1,17 +1,17 @@
 require 'httparty'
 require_relative 'header'
-require_relative 'error_response'
+require_relative 'error'
 require_relative 'base'
 
 module Volcanic::Authenticator
   module V1
     ##
-    # This class is for requesting and caching application token and public key
+    # Public key and Application token helper
     class TokenKey < Base
-      extend ErrorResponse
-      extend Volcanic::Authenticator::V1::Header
-
       class << self
+        include Error
+        include Header
+
         def fetch_and_request_app_token
           cache.fetch APP_TOKEN, expire_in: exp_app_token, &method(:request_app_token)
         end
@@ -35,7 +35,7 @@ module Volcanic::Authenticator
         end
 
         def request_public_key(kid)
-          url = [Volcanic::Authenticator.config.auth_url, PUBLIC_KEY_GENERATE , kid].join('/')
+          url = [Volcanic::Authenticator.config.auth_url, PUBLIC_KEY_GENERATE, kid].join('/')
           res = HTTParty.get("#{url}?expired=true",
                              headers: bearer_header(request_app_token))
           raise_exception_standard res unless res.success?
