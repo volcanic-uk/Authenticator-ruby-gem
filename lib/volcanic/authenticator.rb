@@ -5,6 +5,7 @@ require_relative 'authenticator/v1/identity'
 require_relative 'authenticator/v1/principal'
 require_relative 'authenticator/v1/token'
 require_relative 'authenticator/v1/permission'
+require_relative 'authenticator/v1/group'
 
 module Volcanic
   # Authenticator
@@ -29,6 +30,11 @@ module Volcanic
     PERMISSION = 'api/v1/permission'.freeze
     PERMISSION_UPDATE = 'api/v1/permission/update'.freeze
     PERMISSION_DELETE = 'api/v1/permission/delete'.freeze
+    # Group
+    GROUP = 'api/v1/group'.freeze
+    PERMISSION_GROUP = 'api/v1/permission_groups'.freeze
+    GROUP_UPDATE = 'api/v1/group/update'.freeze
+    GROUP_DELETE = 'api/v1/permission_groups/delete'.freeze
 
     ##
     # config helper

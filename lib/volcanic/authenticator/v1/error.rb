@@ -30,6 +30,13 @@ module Volcanic::Authenticator
         raise PermissionError, parser(body, %w[reason message]) if code == 400
       end
 
+      def raise_exception_group(res)
+      code = res.code
+      body = res.body
+      raise_exception_standard(res)
+      raise GroupError, parser(body, %w[reason message]) if code == 400
+    end
+
       def raise_exception_standard(res)
         code = res.code
         body = res.body
