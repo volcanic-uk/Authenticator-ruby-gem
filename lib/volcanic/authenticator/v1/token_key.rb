@@ -17,8 +17,13 @@ module Volcanic::Authenticator
         end
 
         def fetch_and_request_public_key(kid = nil)
-          cache.fetch kid, expire_in: exp_public_key do
-            request_public_key(kid)
+          if kid.nil?
+            # only for development purpose
+            cache.fetch PUBLIC_KEY, expire_in: exp_app_token, &method(:request_public_key)
+          else
+            cache.fetch kid, expire_in: exp_public_key do
+              request_public_key(kid)
+            end
           end
         end
 
@@ -34,7 +39,7 @@ module Volcanic::Authenticator
           raise ConnectionError, e
         end
 
-        def request_public_key(kid)
+        def request_public_key(kid = nil)
           url = [Volcanic::Authenticator.config.auth_url, PUBLIC_KEY_GENERATE, kid].join('/')
           res = HTTParty.get("#{url}?expired=true",
                              headers: bearer_header(request_app_token))
