@@ -33,9 +33,8 @@ module Volcanic::Authenticator
         #  permission.description # => ''
         #  permission.active # => nil
         #
-        def create(name, creator_id = nil, description = nil)
+        def create(name, description = nil)
           payload = { name: name,
-                      creator_id: creator_id,
                       description: description }.to_json
           res = perform_post_request PERMISSION, payload
           raise_exception_permission res unless res.success?
