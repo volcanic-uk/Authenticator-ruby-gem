@@ -160,10 +160,10 @@ token.identity_id # identity id
 ## Permission
 Create
 ```ruby
-permission = Volcanic::Authenticator::V1::Permission.create('perm_name', 1, 'permission descriptions ...')
-# params => (name, creator_id (identity id), descriptions(optional))
+permission = Volcanic::Authenticator::V1::Permission.create('permission-a', 'permission descriptions ...')
+# params => (name, descriptions(optional))
 
-permission.name # => 'perm_name'
+permission.name # => 'permission-a'
 permission.id # => '<GENERATED_ID>'
 permission.creator_id  # => 1
 permission.description # => 'permission descriptions ...'
@@ -176,7 +176,7 @@ Volcanic::Authenticator::V1::Permission.retrieve
 # [
 #    {
 #      "id": 1,
-#      "name": "permissionA",
+#      "name": "permission-a",
 #      "description": 'new permission descriptions',
 #      "creator_id": 1,
 #      "active": 1,
@@ -185,7 +185,7 @@ Volcanic::Authenticator::V1::Permission.retrieve
 #    },
 #    {
 #      "id": 2,
-#      "name": "permissionB",
+#      "name": "permission-b",
 #      "description": null,
 #      "creator_id": 2,
 #      "active": 0,
@@ -217,5 +217,69 @@ Volcanic::Authenticator::V1::Permission.update(1, attributes) # (permission_id, 
 Delete
 ```ruby
 Volcanic::Authenticator::V1::Permission.delete(1) # (permission_id)
+# return exception if failed   
+```
+
+## Group
+Create
+```ruby
+group = Volcanic::Authenticator::V1::Group.create('group-a', 'this is group a...', [1])
+# params => (name, descriptions(optional), permission_ids(optional))
+
+group.name # => 'group-a'
+group.id # => '<GENERATED_ID>'
+group.creator_id  # => 1
+group.description # => 'this is group a...'
+group.active # => nil
+```
+
+Retrieve all
+```ruby
+Volcanic::Authenticator::V1::Group.retrieve
+# #=> return an array object
+# [
+#    {
+#      "id": 1,
+#      "name": "group-a",
+#      "description": "this is group a...",
+#      "creator_id": 1,
+#      "active": 1,
+#      "created_at": "2019-06-11T09:42:23.000Z",
+#      "updated_at": "2019-06-11T09:42:23.000Z"
+#    },
+#    {
+#      "id": 2,
+#      "name": "group-b",
+#      "description": null,
+#      "creator_id": 2,
+#      "active": 0,
+#      "created_at": "2019-06-11T09:42:23.000Z",
+#      "updated_at": "2019-06-11T09:42:23.000Z"
+#    }
+#  ]
+```
+
+Retrieve by id
+```ruby
+group = Volcanic::Authenticator::V1::Group.retrieve(1) # (permission_id)
+
+group.name # => 'group-a'
+group.id # => '<GENERATED_ID>'
+group.creator_id  # => 1
+group.description # => 'group descriptions ...'
+group.active # => 1
+```
+
+Update 
+```ruby
+attributes = { name: 'group-b', 
+               description: 'new descriptions ...' }
+Volcanic::Authenticator::V1::Group.update(1, attributes) # (group_id, attr(in hash))
+# return exception if failed  
+```
+
+Delete
+```ruby
+Volcanic::Authenticator::V1::Group.delete(1) # (group_id)
 # return exception if failed   
 ```
