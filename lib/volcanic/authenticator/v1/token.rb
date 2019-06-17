@@ -8,7 +8,7 @@ module Volcanic::Authenticator
     class Token
       extend Forwardable
       def_instance_delegator 'Volcanic::Cache::Cache'.to_sym, :instance, :cache
-      def_instance_delegator 'Volcanic::Authenticator.config'.to_sym, :exp_token
+      def_instance_delegators 'Volcanic::Authenticator.config'.to_sym, :exp_token, :key_store_type
       attr_reader :token, :kid, :sub, :iss, :dataset_id, :principal_id, :identity_id
 
       def initialize(token)
@@ -51,7 +51,8 @@ module Volcanic::Authenticator
         # Decode and get claims. This method is to fetch KID claims
         fetch_claims(decode!)
         # Decode with verify signature
-        decode!(TokenKey.fetch_and_request_public_key(kid), true)
+        current_kid = key_store_type == 'static' ? nil : kid
+        decode!(TokenKey.fetch_and_request_public_key(current_kid), true)
       end
 
       private

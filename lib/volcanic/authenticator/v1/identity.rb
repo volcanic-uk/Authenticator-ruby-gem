@@ -116,6 +116,7 @@ module Volcanic::Authenticator
           token = Token.new(auth_token)
           token.verify!
           token.cache!
+          true
         rescue TokenError
           false
         end

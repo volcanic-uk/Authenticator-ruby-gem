@@ -6,6 +6,11 @@ module Volcanic::Authenticator
     # singleton
     class << self
       attr_accessor :auth_url, :app_name, :app_secret
+      attr_writer :key_store_type
+
+      def key_store_type
+        @key_store_type ||= 'static'
+      end
 
       def exp_token
         @exp_token ||= 5 * 60
