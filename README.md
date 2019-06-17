@@ -285,8 +285,9 @@ attributes = { name: 'permission-b', description: 'new descriptions...' }
 Volcanic::Authenticator::V1::Permission.update(1, attributes)
 ```
 
-Delete a permission.
 **Delete**
+
+Delete a permission.
 ```ruby
 ##
 # .delete(PERMISSION_ID) 
