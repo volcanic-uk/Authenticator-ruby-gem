@@ -4,31 +4,28 @@ A ruby for gem for Volcanic Authenticator
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-
+Add the following to your application's Gemfile:
 ```ruby
 gem 'volcanic-cache', git: 'git@github.com:volcanic-uk/ruby-cache.git'
+
 gem 'volcanic-authenticator', git: 'git@github.com:volcanic-uk/Authenticator-ruby-gem.git'
 ```
-`volcanic-cache` gem is required to run `volcanic-authenticator`. Both gems are required to be added at the `Gemfile`
 
-And then execute:
-
-    $ bundle install
+And run `bundle install`
     
 ## Setup
 
-Add these configurations to `config/application.rb`:
+Add the following to `config/application.rb`:
 
 required
 ```ruby
 # Authenticator server url
-Volcanic::Authenticator.config.auth_url = 'http://vauth.com'
+Volcanic::Authenticator.config.auth_url = 'http://volcanic-auth.com'
 
-# Application token configurations.
-# This attributes use to run Login method and returning a token (Application token)
+# Application name
 Volcanic::Authenticator.config.app_name = 'app_name'
+
+# Application secret
 Volcanic::Authenticator.config.app_secret = 'app_secret' 
 ```
 
@@ -36,28 +33,37 @@ optional
 ```ruby
 # Cache expiration time for application token. Default 1 day
 Volcanic::Authenticator.config.exp_app_token = 24 * 60 * 60 
+
 # Cache expiration time for public key. Default 1 day
 Volcanic::Authenticator.config.exp_public_key = 24 * 60 * 60  
+
 # Cache expiration time for tokens. Default 5 minutes
 Volcanic::Authenticator.config.exp_token = 5 * 60 
 
-# all must base in seconds
+# Note: these expiration time are in seconds basis.
 ```
 
 ## Principal
-Create
+**Create**
+
+Create a new principal.
+
 ```ruby
-principal = Volcanic::Authenticator::V1::Principal.create('principal_name', 1)
-# params => (principal_name, dataset_id)
+##
+# .create(PRINCIPAL_NAME, DATASET_ID) 
+principal = Volcanic::Authenticator::V1::Principal.create('principal-a', 1)
 
 principal.name # => 'principal_name'
 principal.dataset_id # => 1
 principal.id # => '<GENERATED_ID>'
 ```
 
-Retrieve all
+**Retrieve all**
+
+get/show all principals
 ```ruby
 Volcanic::Authenticator::V1::Principal.retrieve
+
 # # => return an array object
 # [
 #    {
@@ -81,95 +87,145 @@ Volcanic::Authenticator::V1::Principal.retrieve
 #  ]
 ```
 
-Retrieve by id
+**Retrieve by id**
+
+Get a principal.
 ```ruby
-principal =  Volcanic::Authenticator::V1::Principal.retrieve(1) # (principal_id)
+##
+# .retrieve(PRINCIPAL_ID)
+principal =  Volcanic::Authenticator::V1::Principal.retrieve(1) 
+
 principal.name # => 'principal_name'
 principal.dataset_id # => 1
 principal.id # => '<GENERATED_ID>'
 ```
 
-Update
+**Update**
+
+Edit/update a principal.
 ```ruby
-attr = { name: 'new-principal-name',
-         dataset_id: 2 }
-Volcanic::Authenticator::V1::Principal.update(1, attr) # (principal_id, attributes(in hash))
-# return exception if failed
+##
+# must be in hash format
+# available attributes :name, :dataset_id
+attributes = { name: 'principal-b', dataset_id: 2 }
+         
+##
+# .update(PRINCIPAL_ID, ATTRIBUTES) 
+Volcanic::Authenticator::V1::Principal.update(1, attributes)
 ```
 
-Delete
+**Delete**
+
+Delete a principal.
 ```ruby
+##
+# .delete(PRINCIPAL_ID)
 Volcanic::Authenticator::V1::Principal.delete(1) # (principal_id)
-# return exception if failed
 ```
 
 ## Identity
 
-Register
+Create a new identity.
+**Register**
 ```ruby
-identity = Volcanic::Authenticator::V1::Identity.register('app_name', 'app_secret', 1)
-# params => (identity_name, identity_secret(optional), principal_id(optional))
-# Register identity without a secret will return a generated secret
+##
+# .register(IDENTITY_NAME, IDENTITY_SECRET, PRINCIPAL_ID) 
+identity = Volcanic::Authenticator::V1::Identity.register('identity-a', '123456', 1)
 
-identity.name # => 'app_name'
-identity.secret # => 'app_secret'
+identity.name # => 'identity-a'
+identity.secret # => nil (secret is hide for security reason)
 identity.principal_id # => 1
 identity.id # => '<GENERATED_ID>'
-identity.token #=> '<GENERATED_TOKEN>' this is basically a login method
+identity.token #=> '<TOKEN>' 
 
+
+##
+# .register(IDENTITY_NAME) 
+identity = Volcanic::Authenticator::V1::Identity.register('identity-b')
+
+identity.name # => 'identity-b'
+identity.secret # => '<GENERATED_SECRET>'
+identity.principal_id # => nil
+identity.id # => '<GENERATED_ID>'
+identity.token #=> '<TOKEN>'
+ 
 ```
    
-Login
+**Login**
+
+Generate a token (using the identity name and secret).
 ```ruby
-Volcanic::Authenticator::V1::Identity.login('name', 'secret') # (identity_name, identity_secret)
-# => '<GENERATED_TOKEN>'
+##
+# .login(IDENTITY_NAME, IDENTITY_SECRET)
+Volcanic::Authenticator::V1::Identity.login('identity-a', '123456')
+
+# => '<TOKEN>'
 ```
-Validation
+
+**Validation**
+
+Validate a token (locally).
 ```ruby
-Volcanic::Authenticator::V1::Identity.validate('<GENERATED_TOKEN>') # (token)
+##
+# .validate(TOKEN)
+Volcanic::Authenticator::V1::Identity.validate('<TOKEN>') 
+
 # => true/false
+ 
+# Note: this method validate token by using the Public Key
 ```
-Logout 
+
+**Validation(remotely)**
+
+Validate a token (remotely).
 ```ruby
-Volcanic::Authenticator::V1::Identity.logout('<GENERATED_TOKEN>') # (token)
-# exception error raise if failed on server site
+##
+# .remote_validate(TOKEN)
+Volcanic::Authenticator::V1::Identity.remote_validate('<TOKEN>') 
+
+# => true/false
+ 
+# Note: this method validate token by the Authenticator service  
+```
+**Logout**
+
+Blacklist a token. 
+```ruby
+##
+# .logout(TOKEN)
+Volcanic::Authenticator::V1::Identity.logout('<TOKEN>')
 ```  
 
-Deactivate
+**Deactivate**
+
+Deactivate an identity. All token associate to the identity will be blacklisted.
 ```ruby
-Volcanic::Authenticator::V1::Identity.deactivate('<GENERATED_ID>','<GENERATED_TOKEN>') 
-#  params => (identity_id, token)
-# exception error raise if failed on server site
+##
+# .deactivate(IDENTITY_ID, TOKEN)
+Volcanic::Authenticator::V1::Identity.deactivate('<IDENTITY_ID>','<TOKEN>') 
+
 ``` 
 
-## Token
-```ruby
-#initialise token 
-token = Volcanic::Authenticator::V1::Token.new('<GENERATED_TOKEN>') # (token)
-
-# to decode and fetch all available claims
-token.decode_with_claims! 
-token.kid # key id 
-token.sub # subject 
-token.iss # issuer 
-token.dataset_id # dataset id
-token.principal_id # principal id
-token.identity_id # identity id
-```
-
 ## Permission
-Create
+**Create**
+
+Create a new permission.
 ```ruby
-permission = Volcanic::Authenticator::V1::Permission.create('permission-a', 'permission descriptions ...')
-# params => (name, descriptions(optional))
+##
+# .create(PERMISSION_NAME, DESCRIPTION)
+permission = Volcanic::Authenticator::V1::Permission.create('permission-a', 'descriptions...')
 
 permission.name # => 'permission-a'
 permission.id # => '<GENERATED_ID>'
 permission.creator_id  # => 1
-permission.description # => 'permission descriptions ...'
+permission.description # => 'descriptions...'
+
+# Note: creator_id is the identity_id. 
 ```
 
-Retrieve all
+**Retrieve all**
+
+Get/show all permissions.
 ```ruby
 Volcanic::Authenticator::V1::Permission.retrieve
 # #=> return an array object
@@ -195,45 +251,65 @@ Volcanic::Authenticator::V1::Permission.retrieve
 #  ]
 ```
 
-Retrieve by id
-```ruby
-permission = Volcanic::Authenticator::V1::Permission.retrieve(1) # (permission_id)
+**Retrieve by id**
 
-permission.name # => 'perm_name'
+Get a permission.
+```ruby
+##
+# .retrieve(PERMISSION_ID) 
+permission = Volcanic::Authenticator::V1::Permission.retrieve(1) 
+
+permission.name # => 'permission-a'
 permission.id # => '<GENERATED_ID>'
 permission.creator_id  # => 1
-permission.description # => 'permission descriptions ...'
+permission.description # => ' descriptions...'
 permission.active # => 1
+
+# Note: active if is equal to 1. deactivate if equal to 0
 ```
 
-Update 
+**Update** 
+
+Edit/Update permission.
 ```ruby
-attributes = { name: 'new_permission_name', 
-               description: 'new descriptions ...' }
-Volcanic::Authenticator::V1::Permission.update(1, attributes) # (permission_id, attr(in hash))
-# return exception if failed  
+##
+# must be in hash format
+# available attributes :name, :description
+attributes = { name: 'permission-b', description: 'new descriptions...' }
+
+##
+# .update(PERMISSION_ID, ATTRIBUTES)
+Volcanic::Authenticator::V1::Permission.update(1, attributes)
 ```
 
-Delete
+Delete a permission.
+**Delete**
 ```ruby
-Volcanic::Authenticator::V1::Permission.delete(1) # (permission_id)
-# return exception if failed   
+##
+# .delete(PERMISSION_ID) 
+Volcanic::Authenticator::V1::Permission.delete(1)
 ```
 
 ## Group
-Create
+**Create**
+
+Create a new group permissions.
 ```ruby
-group = Volcanic::Authenticator::V1::Group.create('group-a', 'this is group a...', [1])
-# params => (name, descriptions(optional), permission_ids(optional))
+##
+# .create(GROUP_NAME, DESCRIPTION, PERMISSION_IDS)
+group = Volcanic::Authenticator::V1::Group.create('group-a', 'description...', [1])
 
 group.name # => 'group-a'
 group.id # => '<GENERATED_ID>'
 group.creator_id  # => 1
-group.description # => 'this is group a...'
-group.active # => nil
+group.description # => 'description...'
+
+# Note: PERMISSION_IDS is in array format 
 ```
 
-Retrieve all
+**Retrieve all**
+
+Get/Show all group permissions.
 ```ruby
 Volcanic::Authenticator::V1::Group.retrieve
 # #=> return an array object
@@ -241,7 +317,7 @@ Volcanic::Authenticator::V1::Group.retrieve
 #    {
 #      "id": 1,
 #      "name": "group-a",
-#      "description": "this is group a...",
+#      "description": "description...",
 #      "creator_id": 1,
 #      "active": 1,
 #      "created_at": "2019-06-11T09:42:23.000Z",
@@ -259,27 +335,59 @@ Volcanic::Authenticator::V1::Group.retrieve
 #  ]
 ```
 
-Retrieve by id
+**Retrieve by id**
+
+Get a group permission.
 ```ruby
-group = Volcanic::Authenticator::V1::Group.retrieve(1) # (permission_id)
+##
+# .retrieve(GROUP_ID)
+group = Volcanic::Authenticator::V1::Group.retrieve(1)
 
 group.name # => 'group-a'
 group.id # => '<GENERATED_ID>'
 group.creator_id  # => 1
-group.description # => 'group descriptions ...'
+group.description # => 'description...'
 group.active # => 1
 ```
 
-Update 
+**Update**
+
+Edit/Update group permission.
 ```ruby
-attributes = { name: 'group-b', 
-               description: 'new descriptions ...' }
-Volcanic::Authenticator::V1::Group.update(1, attributes) # (group_id, attr(in hash))
-# return exception if failed  
+##
+# must be in hash format
+# available attributes :name, :description
+attributes = { name: 'group-b', description: 'new descriptions...' }
+
+##
+# .update(GROUP_ID, ATTRIBUTES) 
+Volcanic::Authenticator::V1::Group.update(1, attributes)
 ```
 
-Delete
+**Delete**
+
+Delete group permission.
 ```ruby
-Volcanic::Authenticator::V1::Group.delete(1) # (group_id)
-# return exception if failed   
+##
+# .delete(GROUP_ID) 
+Volcanic::Authenticator::V1::Group.delete(1)
+```
+
+## Token
+
+This is an token helper method.
+```ruby
+##
+# .new(token)
+token = Volcanic::Authenticator::V1::Token.new('<TOKEN>')
+
+# to decode and fetch all available claims
+token.decode_with_claims! 
+
+token.kid # key id 
+token.sub # subject 
+token.iss # issuer 
+token.dataset_id # dataset id
+token.principal_id # principal id
+token.identity_id # identity id
 ```
