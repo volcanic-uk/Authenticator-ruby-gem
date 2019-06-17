@@ -44,7 +44,7 @@ module Volcanic::Authenticator
           res = HTTParty.get("#{url}?expired=true",
                              headers: bearer_header(request_app_token))
           raise_exception_standard res unless res.success?
-          pem = JSON.parse(res.body)['response']['key']['public_key']
+          pem = kid.nil? ? JSON.parse(res.body)['response']['key'] : JSON.parse(res.body)['response']['key']['public_key']
           OpenSSL::PKey.read(pem)
         rescue Timeout::Error, Errno::EINVAL, Errno::ECONNREFUSED, Errno::ECONNRESET, EOFError => e
           raise ConnectionError, e
