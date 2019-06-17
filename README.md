@@ -120,13 +120,15 @@ Delete a principal.
 ```ruby
 ##
 # .delete(PRINCIPAL_ID)
-Volcanic::Authenticator::V1::Principal.delete(1) # (principal_id)
+Volcanic::Authenticator::V1::Principal.delete(1) 
 ```
 
 ## Identity
 
-Create a new identity.
 **Register**
+
+Create a new identity.
+
 ```ruby
 ##
 # .register(IDENTITY_NAME, IDENTITY_SECRET, PRINCIPAL_ID) 
@@ -140,11 +142,12 @@ identity.token #=> '<TOKEN>'
 
 
 ##
+# Or without IDENTITY_SECRET or PRINCIPAL_ID 
 # .register(IDENTITY_NAME) 
 identity = Volcanic::Authenticator::V1::Identity.register('identity-b')
 
 identity.name # => 'identity-b'
-identity.secret # => '<GENERATED_SECRET>'
+identity.secret # => '<GENERATED_SECRET>' (Authenticator service generate a random secret)
 identity.principal_id # => nil
 identity.id # => '<GENERATED_ID>'
 identity.token #=> '<TOKEN>'
