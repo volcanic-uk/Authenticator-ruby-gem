@@ -7,6 +7,7 @@
 /spec/reports/
 /tmp/
 .idea
+Gemfile.lock
 
 # rspec failure tracking
 .rspec_status
@@ -22,7 +23,6 @@
 /test/version_tmp/
 
 # Used by dotenv library to load environment variables.
-# .env
 
 ## Specific to RubyMotion:
 .dat*
@@ -42,3 +42,6 @@ build-iPhoneSimulator/
 
 ## Documentation cache and generated files:
 /rdoc/
+
+# rubocop
+.rubocop.yml
