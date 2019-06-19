@@ -33,7 +33,7 @@ module Volcanic::Authenticator
 
           # request an Application token for authorization header
           auth_token = AppToken.request_app_token
-          res = perform_post_request "#{url}?expired=true", nil, auth_token
+          res = perform_get_request "#{url}?expired=true", auth_token
           raise_exception_standard res unless res.success?
 
           # the response for static and dynamic end-point is different.
