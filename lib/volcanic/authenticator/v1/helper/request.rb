@@ -21,9 +21,8 @@ module Volcanic::Authenticator
       end
 
       # performing get method request
-      def perform_get_request(end_point)
+      def perform_get_request(end_point, auth_token = AppToken.fetch_and_request)
         url = [Volcanic::Authenticator.config.auth_url, end_point].join('/')
-        auth_token = AppToken.fetch_and_request
         HTTParty.get url, headers: bearer_header(auth_token)
       rescue Timeout::Error, Errno::EINVAL, Errno::ECONNREFUSED, Errno::ECONNRESET, EOFError => e
         raise ConnectionError, e
