@@ -122,4 +122,62 @@ Volcanic::Authenticator::V1::Service.new(id: 1).delete
 service = Volcanic::Authenticator::V1::Service.find_by_id(1)
 service.delete 
 
+````
+
+## 1. Principal
+**Create**
+
+Create a new principal.
+
+```ruby
+# Principal.create(principal_name, dataset_id)
+principal = Volcanic::Authenticator::V1::Principal.create('principal-a', 1)
+principal.id # => 1
+principal.name # => 'principal_name'
+principal.dataset_id # => 1
+```
+
+**Retrieve all**
+
+get/show all principals
+```ruby
+Volcanic::Authenticator::V1::Principal.retrieve
+
+#  => return an array of principal objects
+```
+
+**Retrieve by id**
+
+Get a principal.
+```ruby
+##
+# .retrieve(PRINCIPAL_ID)
+principal =  Volcanic::Authenticator::V1::Principal.retrieve(1) 
+
+principal.name # => 'principal_name'
+principal.dataset_id # => 1
+principal.id # => '<PRINCIPAL_ID>'
+```
+
+**Update**
+
+Edit/Update a principal.
+```ruby
+##
+# must be in hash format
+# attributes :name, :dataset_id
+attributes = { name: 'principal-b', dataset_id: 2 }
+         
+##
+# .update(PRINCIPAL_ID, ATTRIBUTES) 
+Volcanic::Authenticator::V1::Principal.update(1, attributes)
+```
+
+**Delete**
+
+Delete a principal.
+```ruby
+##
+# .delete(PRINCIPAL_ID)
+Volcanic::Authenticator::V1::Principal.delete(1) 
 ```
