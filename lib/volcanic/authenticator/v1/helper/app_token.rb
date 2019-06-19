@@ -15,7 +15,7 @@ module Volcanic::Authenticator
         include Error
         include Header
 
-        APP_TOKEN = 'volcanic_application_token'
+        APP_TOKEN = 'volcanic_application_token'.freeze
 
         def fetch_and_request
           cache.fetch APP_TOKEN, expire_in: exp_app_token, &method(:request_app_token)
@@ -24,7 +24,7 @@ module Volcanic::Authenticator
         def request_app_token
           url = [Volcanic::Authenticator.config.auth_url,
                  GENERATE_TOKEN_URL].join('/')
-          name =  Volcanic::Authenticator.config.app_name
+          name = Volcanic::Authenticator.config.app_name
           secret = Volcanic::Authenticator.config.app_secret
           payload = { name: name, secret: secret }.to_json
           res = HTTParty.post(url, body: payload)

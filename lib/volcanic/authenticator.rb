@@ -5,7 +5,6 @@ require_relative 'authenticator/v1/exception.rb'
 module Volcanic
   # Authenticator
   module Authenticator
-
     # Token end-point
     GENERATE_TOKEN_URL = 'api/v1/identity/login'.freeze
     # Public Key end-point
