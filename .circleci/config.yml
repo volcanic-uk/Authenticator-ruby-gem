@@ -2,6 +2,8 @@ version: 1
 jobs:
   build:
     working_directory: ~/Authenticator-ruby-gem
+    docker:
+      - image: circleci/ruby:2.5.0-node
     steps:
       - checkout
       - run:
