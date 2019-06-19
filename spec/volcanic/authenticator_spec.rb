@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Volcanic::Authenticator do
   describe 'Config' do
     let(:config) { Volcanic::Authenticator.config }

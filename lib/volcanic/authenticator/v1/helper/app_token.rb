@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'httparty'
 require_relative 'header'
 require_relative 'error'
@@ -15,7 +17,7 @@ module Volcanic::Authenticator
         include Error
         include Header
 
-        APP_TOKEN = 'volcanic_application_token'.freeze
+        APP_TOKEN = 'volcanic_application_token'
 
         def fetch_and_request
           cache.fetch APP_TOKEN, expire_in: exp_app_token, &method(:request_app_token)
