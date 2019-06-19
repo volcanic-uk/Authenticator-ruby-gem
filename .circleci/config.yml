@@ -8,7 +8,7 @@ jobs:
       - checkout
       - run:
           name: Bundle Install
-          command: bin/bundle check || bin/bundle install
+          command: bundle check || bundle install
       - run:
           name: Run tests
           command: rspec
