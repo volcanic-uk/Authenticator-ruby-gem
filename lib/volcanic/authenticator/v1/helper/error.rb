@@ -9,7 +9,7 @@ module Volcanic::Authenticator
         code = res.code
         body = res.body
         raise_exception_standard(res)
-        raise ApplicationTokenError, parser(body, %w[reason message]) if  code == 400
+        raise ApplicationTokenError, parser(body, %w[reason message]) if code == 400
       end
 
       # default error handler
