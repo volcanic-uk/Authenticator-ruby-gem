@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Volcanic::Authenticator
   module V1
     class AuthenticatorError < StandardError; end

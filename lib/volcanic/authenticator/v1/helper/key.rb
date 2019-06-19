@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'httparty'
 require_relative 'header'
 require_relative 'error'
@@ -13,7 +15,7 @@ module Volcanic::Authenticator
         include Error
         include Header
 
-        PUBLIC_KEY = 'volcanic_public_key'.freeze
+        PUBLIC_KEY = 'volcanic_public_key'
 
         def fetch_and_request(kid = nil)
           if kid.nil?
