@@ -5,6 +5,7 @@ require_relative 'header'
 require_relative 'error'
 require_relative '../base'
 require_relative 'app_token'
+require_relative 'request'
 
 module Volcanic::Authenticator
   module V1
@@ -14,19 +15,15 @@ module Volcanic::Authenticator
       class << self
         include Error
         include Header
+        include Request
 
         PUBLIC_KEY = 'volcanic_public_key'
+        # Public Key end-point
+        PUBLIC_KEY_URL = 'api/v1/key'
 
         def fetch_and_request(kid = nil)
-          if kid.nil?
-            # only for development purpose.
-            # Generally kid should not be nil.
-            # This method occurs when using static key store type.
-            cache.fetch PUBLIC_KEY, expire_in: exp_app_token, &method(:request_public_key)
-          else
-            cache.fetch kid, expire_in: exp_public_key do
-              request_public_key(kid)
-            end
+          cache.fetch(kid || PUBLIC_KEY, expire_in: exp_public_key) do
+            request_public_key(kid)
           end
         end
 
@@ -35,15 +32,13 @@ module Volcanic::Authenticator
                  PUBLIC_KEY_URL, kid].join('/')
 
           # request an Application token for authorization header
-          header = bearer_header(AppToken.request_app_token)
-          res = HTTParty.get("#{url}?expired=true", headers: header)
+          auth_token = AppToken.request_app_token
+          res = perform_post_request "#{url}?expired=true", nil, auth_token
           raise_exception_standard res unless res.success?
 
           # the response for static and dynamic end-point is different.
-          pem = kid.nil? ? JSON.parse(res.body)['response']['key'] : JSON.parse(res.body)['response']['key']['public_key']
+          pem = JSON.parse(res.body)['response']['key']
           OpenSSL::PKey.read(pem)
-        rescue Timeout::Error, Errno::EINVAL, Errno::ECONNREFUSED, Errno::ECONNRESET, EOFError => e
-          raise ConnectionError, e
         rescue OpenSSL::PKey::PKeyError => e
           raise SignatureError, e
         end
