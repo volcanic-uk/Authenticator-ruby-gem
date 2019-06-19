@@ -42,6 +42,3 @@ build-iPhoneSimulator/
 
 ## Documentation cache and generated files:
 /rdoc/
-
-# rubocop
-.rubocop.yml

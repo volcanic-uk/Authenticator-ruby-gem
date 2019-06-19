@@ -1,0 +1,24 @@
+AllCops:
+  Exclude:
+    - 'bin/**/*'
+
+Metrics/CyclomaticComplexity:
+  Max: 10
+
+Metrics/LineLength:
+  Enabled: false
+
+Metrics/MethodLength:
+  Max: 18
+
+Metrics/BlockLength:
+  Enabled: false
+
+Metrics/AbcSize:
+  Max: 25
+
+Metrics/ClassLength:
+  Max: 160
+
+Style/ClassAndModuleChildren:
+  Enabled: false
