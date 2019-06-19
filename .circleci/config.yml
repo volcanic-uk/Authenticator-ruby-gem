@@ -15,6 +15,3 @@ jobs:
       - run:
           name: Run Rubocop
           command: rubocop
-      - run:
-          name: Run Brakeman
-          command: brakeman
