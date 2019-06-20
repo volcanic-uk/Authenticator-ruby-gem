@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
-require_relative '../volcanic.rb'
-require_relative 'authenticator/v1/config.rb'
-require_relative 'authenticator/v1/exception.rb'
+require_relative '../volcanic'
+require_relative 'authenticator/v1/config'
+require_relative 'authenticator/v1/exception'
+require_relative 'authenticator/v1/helper/app_token'
+require_relative 'authenticator/v1/helper/key'
 
 module Volcanic
   # Authenticator
