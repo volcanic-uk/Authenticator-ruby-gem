@@ -1,0 +1,36 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://0.0.0.0:3003/api/v1/identity/login
+    body:
+      encoding: UTF-8
+      string: '{"name":"volcanic","secret":"volcanic!123"}'
+    headers:
+      Authorization:
+      - Bearer
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=utf-8
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - '543'
+      Vary:
+      - accept-encoding
+      Date:
+      - Thu, 20 Jun 2019 15:09:32 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_2262199121080668","result":"OK","response":{"token":"eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjE5MDczNzIsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEiLCJuYmYiOjE1NjEwNDMzNzIsImF1ZGllbmNlIjpbIioiXSwiaWF0IjoxNTYxMDQzMzcyLCJpc3MiOiJ2b2xjYW5pY19hdXRoX3NlcnZpY2VfYXAyIn0.AOLKd10aDG1oeZkwzHwru5rCVVBzOvBzXKdCPwc3efpHxsX9vZZUNXxOv1oE7tqDMbzr50y_cPbjDOFIVe_THz_AAdkChSeYb4aGzelaLQmhrwDLgXgzeCvlH4ntj7dxV6Wu7mDT0qhwJEDuqDoTQOVC25NSgDKMbLXuzOCdT5AVGY_d"}}'
+    http_version: 
+  recorded_at: Thu, 20 Jun 2019 15:09:32 GMT
+recorded_with: VCR 5.0.0
