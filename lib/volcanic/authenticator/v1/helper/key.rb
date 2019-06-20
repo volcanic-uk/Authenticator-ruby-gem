@@ -28,9 +28,7 @@ module Volcanic::Authenticator
         end
 
         def request_public_key(kid = nil)
-          url = [Volcanic::Authenticator.config.auth_url,
-                 PUBLIC_KEY_URL, kid].join('/')
-
+          url = [PUBLIC_KEY_URL, kid].join('/')
           # request an Application token for authorization header
           auth_token = AppToken.request_app_token
           res = perform_get_request "#{url}?expired=true", auth_token

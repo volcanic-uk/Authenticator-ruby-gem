@@ -26,10 +26,12 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'httparty'
   spec.add_runtime_dependency 'jwt'
   spec.add_runtime_dependency 'volcanic-cache'
-  spec.add_development_dependency 'bundler', '~> 1.16.1'
+  spec.add_development_dependency 'bundler', '~> 1.17.1'
   spec.add_development_dependency 'pry'
   spec.add_development_dependency 'rake', '~> 10.0'
   spec.add_development_dependency 'rspec', '~> 3.0'
   spec.add_development_dependency 'rspec-its', '~> 1.3'
   spec.add_development_dependency 'rubocop'
+  spec.add_development_dependency 'vcr'
+  spec.add_development_dependency 'webmock'
 end
