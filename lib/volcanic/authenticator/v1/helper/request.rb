@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'httparty'
+require 'faraday'
 require_relative 'header'
 require_relative 'app_token'
 
@@ -15,7 +15,10 @@ module Volcanic::Authenticator
       # performing post method request
       def perform_post_request(end_point, body = nil, auth_token = AppToken.fetch_and_request)
         url = [Volcanic::Authenticator.config.auth_url, end_point].join('/')
-        HTTParty.post url, body: body, headers: bearer_header(auth_token)
+        Faraday.post url do |req|
+          req.headers = bearer_header(auth_token)
+          req.body = body
+        end
       rescue Timeout::Error, Errno::EINVAL, Errno::ECONNREFUSED, Errno::ECONNRESET, EOFError => e
         raise ConnectionError, e
       end
@@ -23,7 +26,9 @@ module Volcanic::Authenticator
       # performing get method request
       def perform_get_request(end_point, auth_token = AppToken.fetch_and_request)
         url = [Volcanic::Authenticator.config.auth_url, end_point].join('/')
-        HTTParty.get url, headers: bearer_header(auth_token)
+        Faraday.get url do |req|
+          req.headers = bearer_header(auth_token)
+        end
       rescue Timeout::Error, Errno::EINVAL, Errno::ECONNREFUSED, Errno::ECONNRESET, EOFError => e
         raise ConnectionError, e
       end

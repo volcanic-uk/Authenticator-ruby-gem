@@ -11,6 +11,12 @@ http_interactions:
       - Bearer
       Content-Type:
       - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
   response:
     status:
       code: 200
@@ -20,19 +26,19 @@ http_interactions:
       - application/json; charset=utf-8
       Cache-Control:
       - no-cache
-      Content-Length:
-      - '542'
       Vary:
       - accept-encoding
       Date:
-      - Fri, 21 Jun 2019 03:59:22 GMT
+      - Fri, 21 Jun 2019 07:21:25 GMT
       Connection:
       - keep-alive
+      Transfer-Encoding:
+      - chunked
     body:
-      encoding: UTF-8
-      string: '{"requestID":"offline_awsRequestId_428682119241669","result":"OK","response":{"token":"eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjE5NTM1NjIsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEiLCJuYmYiOjE1NjEwODk1NjIsImF1ZGllbmNlIjpbIioiXSwiaWF0IjoxNTYxMDg5NTYyLCJpc3MiOiJ2b2xjYW5pY19hdXRoX3NlcnZpY2VfYXAyIn0.AdKrhfujrspYV5Gfi8fadTDFh7h8iYhDp4tMOMcgVh5UZmrSmH-N6UCY3RM_JGMihNfIr7WyXnvY_6Ql2QSPh7XtAHrieAGnBfXQRyYgAYj6irjyzJLhuvKHzF1JKSaz0W-ySlDlxq_mtKmYK-W8Hd3FdbTRWwM5SN1GeENbTVh1vwEZ"}}'
+      encoding: ASCII-8BIT
+      string: '{"requestID":"offline_awsRequestId_13411927943824287","result":"OK","response":{"token":"eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjE5NjU2ODUsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEiLCJuYmYiOjE1NjExMDE2ODUsImF1ZGllbmNlIjpbIioiXSwiaWF0IjoxNTYxMTAxNjg1LCJpc3MiOiJ2b2xjYW5pY19hdXRoX3NlcnZpY2VfYXAyIn0.AOv5vxS_Gbddpm2WF_XDiKmTWKny3_FFMbXBUcdIHj0ptrGy8rC72Yrq-YGi6eQf3Sbt0YEKRhbanWXpcCQJRO68AL9sHsE4vEyITccHBlNJ1Cso-ZVVzmdQ2DSGK6qu1oyK8lz-d2uPOSa6icYEHkndSJABPZ-vGER72jLpV63NqJcL"}}'
     http_version: 
-  recorded_at: Fri, 21 Jun 2019 03:59:22 GMT
+  recorded_at: Fri, 21 Jun 2019 07:21:25 GMT
 - request:
     method: get
     uri: http://0.0.0.0:3003/api/v1/key/?expired=true
@@ -41,9 +47,15 @@ http_interactions:
       string: ''
     headers:
       Authorization:
-      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjE5NTM1NjIsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEiLCJuYmYiOjE1NjEwODk1NjIsImF1ZGllbmNlIjpbIioiXSwiaWF0IjoxNTYxMDg5NTYyLCJpc3MiOiJ2b2xjYW5pY19hdXRoX3NlcnZpY2VfYXAyIn0.AdKrhfujrspYV5Gfi8fadTDFh7h8iYhDp4tMOMcgVh5UZmrSmH-N6UCY3RM_JGMihNfIr7WyXnvY_6Ql2QSPh7XtAHrieAGnBfXQRyYgAYj6irjyzJLhuvKHzF1JKSaz0W-ySlDlxq_mtKmYK-W8Hd3FdbTRWwM5SN1GeENbTVh1vwEZ
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjE5NjU2ODUsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEiLCJuYmYiOjE1NjExMDE2ODUsImF1ZGllbmNlIjpbIioiXSwiaWF0IjoxNTYxMTAxNjg1LCJpc3MiOiJ2b2xjYW5pY19hdXRoX3NlcnZpY2VfYXAyIn0.AOv5vxS_Gbddpm2WF_XDiKmTWKny3_FFMbXBUcdIHj0ptrGy8rC72Yrq-YGi6eQf3Sbt0YEKRhbanWXpcCQJRO68AL9sHsE4vEyITccHBlNJ1Cso-ZVVzmdQ2DSGK6qu1oyK8lz-d2uPOSa6icYEHkndSJABPZ-vGER72jLpV63NqJcL
       Content-Type:
       - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
   response:
     status:
       code: 200
@@ -53,21 +65,19 @@ http_interactions:
       - application/json; charset=utf-8
       Cache-Control:
       - no-cache
-      Content-Length:
-      - '361'
       Vary:
       - accept-encoding
-      Accept-Ranges:
-      - bytes
       Date:
-      - Fri, 21 Jun 2019 03:59:22 GMT
+      - Fri, 21 Jun 2019 07:21:25 GMT
       Connection:
       - keep-alive
+      Transfer-Encoding:
+      - chunked
     body:
-      encoding: UTF-8
-      string: '{"requestID":"offline_awsRequestId_5686612378376912","result":"OK","response":{"key":"-----BEGIN
+      encoding: ASCII-8BIT
+      string: '{"requestID":"offline_awsRequestId_51533321777259","result":"OK","response":{"key":"-----BEGIN
         PUBLIC KEY-----\nMIGbMBAGByqGSM49AgEGBSuBBAAjA4GGAAQARs3UaQ82aORFh4BMUstcXHV85KT+\n6ZgAiWswUiGiAPvvrt4DPBj1MM81uSt46AKLllybGgjDbmxsxKR6GJxZZSsAbhRo\n351VCzTAc3IrzYpXAkvwpH5xpN0HEUFqYfdB54fz5EsV9Ib97lNCKceGUJH4fotS\nPnFgCjz0Z094WOKNimI=\n-----END
         PUBLIC KEY-----"}}'
     http_version: 
-  recorded_at: Fri, 21 Jun 2019 03:59:22 GMT
+  recorded_at: Fri, 21 Jun 2019 07:21:25 GMT
 recorded_with: VCR 5.0.0
