@@ -33,7 +33,7 @@ module Volcanic::Authenticator
         url = [Volcanic::Authenticator.config.auth_url, end_point].join('/')
         auth_token = AppToken.fetch_and_request
         HTTParty.delete url, headers: bearer_header(auth_token)
-      rescue Timeout::Error, Errno::EINVAL, Errno::ECONNREFUSED, Errno::ECONNRESET, EOFError => e
+      rescue Timeout::Error, Errno::EINVAL, Errno::ECONNREFUSED, Errno::ECONNRESET, EOFError, Errno::EADDRNOTAVAI => e
         raise ConnectionError, e
       end
     end
