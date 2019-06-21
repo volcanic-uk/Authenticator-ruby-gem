@@ -6,7 +6,7 @@ module Volcanic::Authenticator
     module Error
       # error handler for application token
       def raise_exception_app_token(res)
-        code = res.code
+        code = res.status
         body = res.body
         raise_exception_standard(res)
         raise ApplicationTokenError, parser(body, %w[reason message]) if code == 400
@@ -14,7 +14,7 @@ module Volcanic::Authenticator
 
       # default error handler
       def raise_exception_standard(res)
-        code = res.code
+        code = res.status
         body = res.body
         raise SignatureError, parser(body, %w[reason message]) if code == 400 && parser(body, %w[reason errorCode]) == 3002
         raise AuthorizationError, parser(body, %w[error message]) if [401, 403].include?(code)
