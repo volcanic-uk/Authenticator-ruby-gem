@@ -37,7 +37,9 @@ module Volcanic::Authenticator
       def perform_delete_request(end_point)
         url = [Volcanic::Authenticator.config.auth_url, end_point].join('/')
         auth_token = AppToken.fetch_and_request
-        HTTParty.delete url, headers: bearer_header(auth_token)
+        Faraday.delete url do |req|
+          req.headers = bearer_header(auth_token)
+        end
       rescue Timeout::Error, Errno::EINVAL, Errno::ECONNREFUSED, Errno::ECONNRESET, EOFError => e
         raise ConnectionError, e
       end

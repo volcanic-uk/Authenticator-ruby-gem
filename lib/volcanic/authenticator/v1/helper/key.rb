@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'httparty'
 require_relative 'header'
 require_relative 'error'
 require_relative '../base'
