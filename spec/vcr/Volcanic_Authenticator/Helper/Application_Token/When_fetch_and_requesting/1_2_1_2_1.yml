@@ -25,12 +25,12 @@ http_interactions:
       Vary:
       - accept-encoding
       Date:
-      - Thu, 20 Jun 2019 15:09:32 GMT
+      - Fri, 21 Jun 2019 03:59:21 GMT
       Connection:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"requestID":"offline_awsRequestId_2262199121080668","result":"OK","response":{"token":"eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjE5MDczNzIsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEiLCJuYmYiOjE1NjEwNDMzNzIsImF1ZGllbmNlIjpbIioiXSwiaWF0IjoxNTYxMDQzMzcyLCJpc3MiOiJ2b2xjYW5pY19hdXRoX3NlcnZpY2VfYXAyIn0.AOLKd10aDG1oeZkwzHwru5rCVVBzOvBzXKdCPwc3efpHxsX9vZZUNXxOv1oE7tqDMbzr50y_cPbjDOFIVe_THz_AAdkChSeYb4aGzelaLQmhrwDLgXgzeCvlH4ntj7dxV6Wu7mDT0qhwJEDuqDoTQOVC25NSgDKMbLXuzOCdT5AVGY_d"}}'
+      string: '{"requestID":"offline_awsRequestId_4051994419930729","result":"OK","response":{"token":"eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjE5NTM1NjEsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEiLCJuYmYiOjE1NjEwODk1NjEsImF1ZGllbmNlIjpbIioiXSwiaWF0IjoxNTYxMDg5NTYxLCJpc3MiOiJ2b2xjYW5pY19hdXRoX3NlcnZpY2VfYXAyIn0.AYXt8j-q-Xee4DcQzN0C8xRVCWJ_q_gA08_5uENBYrbNGHs15cxif11Oo78aQO6pPICggUmCmvSEJUFkAZVPJ8giAPfzlwLEZWgwT2oG5xiElnd1orBT9UDnHgvpfMDD_vHJsjrSh2Q-X68hBHdhgFEyRdm8qOtlzpm4tXQ3OKFHDkxt"}}'
     http_version: 
-  recorded_at: Thu, 20 Jun 2019 15:09:32 GMT
+  recorded_at: Fri, 21 Jun 2019 03:59:21 GMT
 recorded_with: VCR 5.0.0
