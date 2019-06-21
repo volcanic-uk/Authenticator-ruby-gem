@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'httparty'
 require_relative '../volcanic'
 require_relative 'authenticator/v1/config'
 require_relative 'authenticator/v1/exception'
