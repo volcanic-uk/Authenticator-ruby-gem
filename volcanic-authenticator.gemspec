@@ -2,11 +2,11 @@
 
 lib = File.expand_path('lib', __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require_relative 'lib/volcanic/authenticator/version.rb'
+# require_relative 'lib/volcanic/authenticator/version.rb'
 
 Gem::Specification.new do |spec|
   spec.name          = 'volcanic-authenticator'
-  spec.version       = Volcanic::Authenticator::VERSION
+  spec.version       = '0.0.1'
   spec.authors       = ['Faridul Azmi']
   spec.email         = ['ahmadfaridulazmi@gmail.com']
 
