@@ -75,7 +75,7 @@ RSpec.describe Volcanic::Authenticator, :vcr do
       subject { key.request_public_key }
 
       context 'When failed to generate application token' do
-        before { set.app_secret= nil }
+        before { set.app_secret = nil }
         it { expect { key.request_public_key }.to raise_error Volcanic::Authenticator::V1::ApplicationTokenError }
       end
 
