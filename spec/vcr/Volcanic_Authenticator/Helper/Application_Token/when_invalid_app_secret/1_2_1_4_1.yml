@@ -1,0 +1,37 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://0.0.0.0:3003/api/v1/identity/login
+    body:
+      encoding: UTF-8
+      string: '{"name":"volcanic","secret":"wrong_secret"}'
+    headers:
+      Authorization:
+      - Bearer
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 403
+      message: Forbidden
+    headers:
+      Content-Type:
+      - application/json; charset=utf-8
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - '149'
+      Vary:
+      - accept-encoding
+      Date:
+      - Fri, 21 Jun 2019 11:16:47 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_23824481196392977","result":"bad
+        request","reason":{"message":"invalid identity name or secret","errorCode":1001}}'
+    http_version: 
+  recorded_at: Fri, 21 Jun 2019 11:16:47 GMT
+recorded_with: VCR 5.0.0
