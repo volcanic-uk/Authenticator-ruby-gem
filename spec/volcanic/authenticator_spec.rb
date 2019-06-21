@@ -3,8 +3,10 @@
 RSpec.describe Volcanic::Authenticator, :vcr do
   describe 'Config' do
     let(:config) { Volcanic::Authenticator.config }
+    let(:app_token) { Volcanic::Authenticator::V1::AppToken }
     context 'When missing auth url' do
       it { expect(config.auth_url).to be nil }
+      it { expect { app_token.request_app_token }.to raise_error Volcanic::Authenticator::V1::ConnectionError }
     end
 
     context 'When missing application name' do
@@ -29,14 +31,35 @@ RSpec.describe Volcanic::Authenticator, :vcr do
   end
 
   describe 'Helper' do
-    before { Configuration.set }
+    let(:set) { Volcanic::Authenticator.config }
     let(:cache) { Volcanic::Cache::Cache.instance }
 
     describe 'Application Token' do
+      before { Configuration.set }
       let(:app_token) { Volcanic::Authenticator::V1::AppToken }
+      subject { app_token.request_app_token }
+
+      context 'when missing app_name' do
+        before { set.app_name = nil }
+        it { expect { app_token.request_app_token }.to raise_error Volcanic::Authenticator::V1::ApplicationTokenError }
+      end
+
+      context 'when invalid app_name' do
+        before { set.app_secret = 'wrong_name' }
+        it { expect { app_token.request_app_token }.to raise_error Volcanic::Authenticator::V1::AuthorizationError }
+      end
+
+      context 'when missing app_secret' do
+        before { set.app_secret = nil }
+        it { expect { app_token.request_app_token }.to raise_error Volcanic::Authenticator::V1::ApplicationTokenError }
+      end
+
+      context 'when invalid app_secret' do
+        before { set.app_secret = 'wrong_secret' }
+        it { expect { app_token.request_app_token }.to raise_error Volcanic::Authenticator::V1::AuthorizationError }
+      end
 
       context 'When requesting' do
-        subject { app_token.request_app_token }
         it { should_not be nil }
       end
 
@@ -48,10 +71,16 @@ RSpec.describe Volcanic::Authenticator, :vcr do
     end
 
     describe 'Public Key' do
+      before { Configuration.set }
       let(:key) { Volcanic::Authenticator::V1::Key }
+      subject { key.request_public_key }
+
+      context 'When failed to generate application token' do
+        before { set.app_secret= nil }
+        it { expect { key.request_public_key }.to raise_error Volcanic::Authenticator::V1::ApplicationTokenError }
+      end
 
       context 'When requesting' do
-        subject { key.request_public_key }
         it { should_not be nil }
       end
 
