@@ -55,6 +55,11 @@ module Volcanic::Authenticator
       def raise_exception_principal(res)
         RaiseException.new(res, PrincipalError)
       end
+
+      # error handler for identity
+      def raise_exception_identity(res)
+        RaiseException.new(res, IdentityError)
+      end
     end
   end
 end
