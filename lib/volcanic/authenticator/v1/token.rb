@@ -14,6 +14,7 @@ module Volcanic::Authenticator
       include Error
 
       VALIDATE_TOKEN_URL = 'api/v1/identity/validate'
+      GENERATE_TOKEN_URL = 'api/v1/identity/login'
       REVOKE_TOKEN_URL = 'api/v1/identity/logout'
 
       def_instance_delegator 'Volcanic::Cache::Cache'.to_sym, :instance, :cache
@@ -70,6 +71,23 @@ module Volcanic::Authenticator
         self
       end
       #
+      # to request/generate a new token
+      #
+      # eg.
+      #   token = Token.create(name, secret)
+      #   token.token #=> <GENERATED_TOKEN>
+      #   ...
+      #
+      def self.create(name, secret)
+        payload = { name: name, secret: secret }.to_json
+        res = perform_post_request(GENERATE_TOKEN_URL, payload, nil)
+        raise_exception_identity(res) unless res.success?
+        parser = JSON.parse(res.body)['response']['token']
+        token = new(parser)
+        token.cache!
+        token
+      end
+      #
       # to cache token
       # Eg.
       #  Token.new(token).cache!
@@ -78,7 +96,10 @@ module Volcanic::Authenticator
         cache.fetch token, expire_in: exp_token, &method(:token)
       end
       #
-      #
+      # to remove/revoke token from cache,
+      # then blacklist the token at auth service.
+      # eg.
+      #   Token.new(token).revoke!
       #
       def revoke!
         cache.evict! token
