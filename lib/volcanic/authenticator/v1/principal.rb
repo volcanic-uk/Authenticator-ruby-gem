@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require_relative 'error'
-require_relative 'request'
+require_relative 'helper/error'
+require_relative 'helper/request'
 
 module Volcanic::Authenticator
   module V1
@@ -12,7 +12,6 @@ module Volcanic::Authenticator
     class Principal
       # Principal end-point
       PRINCIPAL_URL = 'api/v1/principal'
-      PRINCIPAL_DELETE_URL = 'api/v1/principal/delete'
       PRINCIPAL_UPDATE_URL = 'api/v1/principal/update'
 
       attr_reader :name, :dataset_id, :id
@@ -42,6 +41,7 @@ module Volcanic::Authenticator
           parser = JSON.parse(res.body)['response']
           new(parser['name'], parser['dataset_id'], parser['id'])
         end
+
         #
         # to receive all principals.
         #
@@ -54,7 +54,7 @@ module Volcanic::Authenticator
         #
         # note: authenticator service need to implement sort or pagination.
         #
-        def all(sort = 10)
+        def all
           res = perform_get_request "#{PRINCIPAL_URL}/all"
           raise_exception_principal res unless res.success?
           parser = JSON.parse(res.body)['response']
@@ -62,6 +62,7 @@ module Volcanic::Authenticator
             new(p['name'], p['dataset_id'], p['id'])
           end
         end
+
         #
         # to find principal by given id
         #
@@ -77,6 +78,7 @@ module Volcanic::Authenticator
           parser = JSON.parse(res.body)['response']
           new(parser['name'], parser['dataset_id'], parser['id'])
         end
+
         #
         # to update a principal.
         #  eg.
@@ -87,17 +89,18 @@ module Volcanic::Authenticator
         def update(id, attr)
           raise PrincipalError, 'Attributes must be a hash type' unless attr.is_a?(Hash)
 
-          payload = attributes.to_json
+          payload = attr.to_json
           res = perform_post_request "#{PRINCIPAL_UPDATE_URL}/#{id}", payload
           raise_exception_principal res unless res.success?
         end
+
         #
         # to delete a principal
         #  eg.
         #  Principal.delete(principal_id)
         #
         def delete(id)
-          res = perform_post_request "#{PRINCIPAL_DELETE_URL}/#{id}"
+          res = perform_delete_request "#{PRINCIPAL_URL}/#{id}"
           raise_exception_principal res unless res.success?
         end
       end
