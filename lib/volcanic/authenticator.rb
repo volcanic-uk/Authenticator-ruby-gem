@@ -7,6 +7,7 @@ require_relative 'authenticator/v1/helper/app_token'
 require_relative 'authenticator/v1/helper/key'
 require_relative 'authenticator/v1/principal.rb'
 require_relative 'authenticator/v1/token.rb'
+require_relative 'authenticator/v1/identity.rb'
 
 module Volcanic
   # Authenticator
