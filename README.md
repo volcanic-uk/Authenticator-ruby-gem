@@ -1,4 +1,3 @@
-# Volcanic::Authenticator
 
 A ruby for gem for Volcanic Authenticator
 
@@ -122,4 +121,67 @@ Volcanic::Authenticator::V1::Service.new(id: 1).delete
 service = Volcanic::Authenticator::V1::Service.find_by_id(1)
 service.delete 
 
+```
+## Privilege
+**Create**
+
+Create a new Privilege.
+
+```ruby
+#
+# Privilege.create(PRIVILEGE_NAME, PERMISSION_ID, GROUP_NAME) 
+privilege = Volcanic::Authenticator::V1::Privilege.create('privilege-a', 2, 10)
+
+privilege.scope # => 'Privilege-a'
+privilege.id # => 1
+privilege.permission_id # => 2
+privilege.group_id # => 10
+```
+
+**Get all**
+
+get/show all Privileges
+```ruby
+Volcanic::Authenticator::V1::Privilege.all
+
+#  => return an array of Privilege objects
+```
+
+**Find by id**
+
+Get a Privilege.
+```ruby
+#
+# Privilege.find_by_id(PRIVILEGE_ID)
+privilege =  Volcanic::Authenticator::V1::Privilege.find_by_id(1)
+
+privilege.name # => 'Privilege-a'
+privilege.id # => 1
+privilege.permission_id # => 2
+privilege.group_id # => 10
+privilege.allow # => true
+
+```
+
+**Update**
+
+Edit/Update a Privilege.
+```ruby
+##
+# must be in hash format
+# attributes :scope, :permission_id, :group_id
+attributes = { name: 'privilege-b', permission_id: 2, group_id: 10 }
+         
+##
+# Privilege.update(PRIVILEGE_ID, ATTRIBUTES) 
+Volcanic::Authenticator::V1::Privilege.update(1, attributes)
+```
+
+**Delete**
+
+Delete a Privilege.
+```ruby
+##
+# Privilege.delete(PRIVILEGE_ID)
+Volcanic::Authenticator::V1::Privilege.delete(1) 
 ```
