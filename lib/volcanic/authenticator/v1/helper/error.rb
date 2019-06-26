@@ -21,6 +21,15 @@ module Volcanic::Authenticator
         raise ServiceError if code == 404
       end
 
+      # error handler for Privilege
+      def raise_exception_privilege(res)
+        code = res.code
+        body = res.body
+        raise_exception_standard(res)
+        raise PrivilegeError, parser(body, %w[reason message]) if code == 400
+        raise PrivilegeError, 'not found' if code == 404
+      end
+
       # default error handler
       def raise_exception_standard(res)
         code = res.code
