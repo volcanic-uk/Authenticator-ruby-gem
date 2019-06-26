@@ -1,17 +1,18 @@
-require_relative 'error'
-require_relative 'request'
+# frozen_string_literal: true
+
+require_relative 'helper/error'
+require_relative 'helper/request'
 
 module Volcanic::Authenticator
   module V1
     #
     # Handle permission group api
-    # method => :create, :retrieve, :update, :delete
+    # method => :create, :all, :find_by_id, :update, :delete
     # attr => :name, :id, :permissions, :creator_id, :active
     class Group
       # end-point
       GROUP_URL = 'api/v1/group'
       GROUP_UPDATE_URL = 'api/v1/group/update'
-      GROUP_DELETE_URL = 'api/v1/group/delete'
 
       attr_reader :name, :id, :creator_id, :description, :active
       ##
@@ -37,15 +38,17 @@ module Volcanic::Authenticator
         #  ...
         #
         #  note: permission_ids must be in array of permission id. eg. [1,2]
+        #
         def create(name, permissions = [], description = nil)
           payload = { name: name,
-                      description: description,
-                      permissions: permissions }.to_json
+                      permissions: permissions,
+                      description: description }.to_json
           res = perform_post_request GROUP_URL, payload
           raise_exception_group res unless res.success?
           parser = JSON.parse(res.body)['response']
           new(parser['name'], parser['id'], parser['creator_id'], parser['description'])
         end
+
         #
         # to receive an array of groups
         #
@@ -55,7 +58,7 @@ module Volcanic::Authenticator
         #   groups[0].id # => '<GROUP_ID>'
         #   ....
         #
-        def all(sort = 10)
+        def all
           res = perform_get_request "#{GROUP_URL}/all"
           raise_exception_group res unless res.success?
           parser = JSON.parse(res.body)['response']
@@ -67,6 +70,7 @@ module Volcanic::Authenticator
                 group['active'])
           end
         end
+
         #
         # to find by given id
         #
@@ -86,6 +90,7 @@ module Volcanic::Authenticator
               parser['description'],
               parser['active'])
         end
+
         #
         # to update a group
         #  Eg.
@@ -99,13 +104,14 @@ module Volcanic::Authenticator
           res = perform_post_request "#{GROUP_UPDATE_URL}/#{id}", payload
           raise_exception_group res unless res.success?
         end
+
         #
         # to delete a group
         #  Eg.
         #  Group.delete(group_id)
         #
         def delete(id)
-          res = perform_post_request "#{GROUP_DELETE_URL}/#{id}"
+          res = perform_delete_request "#{GROUP_URL}/#{id}"
           raise_exception_group res unless res.success?
         end
       end
