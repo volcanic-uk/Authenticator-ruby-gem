@@ -50,6 +50,11 @@ module Volcanic::Authenticator
       def raise_exception_service(res)
         RaiseException.new(res, ServiceError)
       end
+
+      # error handler for application token
+      def raise_exception_principal(res)
+        RaiseException.new(res, PrincipalError)
+      end
     end
   end
 end
