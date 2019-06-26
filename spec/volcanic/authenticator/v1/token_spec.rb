@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 RSpec.describe Volcanic::Authenticator::V1::Token do
   before { Configuration.set }
   let(:mock_name) { SecureRandom.hex(6) }
   let(:token) { Volcanic::Authenticator::V1::Token }
-  let(:identity) { Volcanic::Authenticator::V1::Identity.create(mock_name)}
+  let(:identity) { Volcanic::Authenticator::V1::Identity.create(mock_name) }
   subject(:new_token) { token.create(identity.name, identity.secret) }
   describe 'Creating' do
     context 'When name is missing' do
@@ -21,7 +23,7 @@ RSpec.describe Volcanic::Authenticator::V1::Token do
     end
 
     context 'When success' do
-      it { is_expected.to be_an identity  }
+      it { is_expected.to be_an identity }
       it(:token) { should_not be nil }
     end
   end
@@ -59,7 +61,6 @@ RSpec.describe Volcanic::Authenticator::V1::Token do
 
   describe 'Get claims' do
     subject { new_token.decode_and_fetch_claims }
-
 
     context 'When success' do
       its(:token) { should_not be nil }
