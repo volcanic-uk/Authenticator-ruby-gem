@@ -1,0 +1,74 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://0.0.0.0:3003/api/v1/principal
+    body:
+      encoding: UTF-8
+      string: '{"name":"4842d63cf9d1","dataset_id":1}'
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjIzNzc1NzAsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MTUxMzU3MCwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjE1MTM1NzAsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AMEJCKg3ns427wGsf2gTdnONPG00R06-J9cItVdctYhITxRUjmlolYDW6Y9svahXchGBGOYkB3Q7Bi0mY4EQEabFATBScRFVV87DzMiIpj8MTBShQq_y_-ZgpW_DYlvnfbUR9ldPJmyU-l3fwUONg9Z-hOihLaNlZdtNlZvZkbsBf0bv
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Type:
+      - application/json; charset=utf-8
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - '204'
+      Vary:
+      - accept-encoding
+      Date:
+      - Wed, 26 Jun 2019 01:50:44 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_626514755527956","result":"OK","response":{"name":"4842d63cf9d1","dataset_id":1,"updated_at":"2019-06-26T01:50:44.071Z","created_at":"2019-06-26T01:50:44.071Z","id":73}}'
+    http_version: 
+  recorded_at: Wed, 26 Jun 2019 01:50:44 GMT
+- request:
+    method: delete
+    uri: http://0.0.0.0:3003/api/v1/principal/73
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjIzNzc1NzAsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MTUxMzU3MCwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjE1MTM1NzAsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AMEJCKg3ns427wGsf2gTdnONPG00R06-J9cItVdctYhITxRUjmlolYDW6Y9svahXchGBGOYkB3Q7Bi0mY4EQEabFATBScRFVV87DzMiIpj8MTBShQq_y_-ZgpW_DYlvnfbUR9ldPJmyU-l3fwUONg9Z-hOihLaNlZdtNlZvZkbsBf0bv
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Type:
+      - application/json; charset=utf-8
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - '114'
+      Vary:
+      - accept-encoding
+      Date:
+      - Wed, 26 Jun 2019 01:50:44 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_24354149287389726","result":"OK","response":{"message":"Successfully
+        deleted"}}'
+    http_version: 
+  recorded_at: Wed, 26 Jun 2019 01:50:44 GMT
+recorded_with: VCR 5.0.0

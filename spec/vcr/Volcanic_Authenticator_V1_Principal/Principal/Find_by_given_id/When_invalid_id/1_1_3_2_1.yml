@@ -1,0 +1,37 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://0.0.0.0:3003/api/v1/principal/wrong_id
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjIzNzc1NzAsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MTUxMzU3MCwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjE1MTM1NzAsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AMEJCKg3ns427wGsf2gTdnONPG00R06-J9cItVdctYhITxRUjmlolYDW6Y9svahXchGBGOYkB3Q7Bi0mY4EQEabFATBScRFVV87DzMiIpj8MTBShQq_y_-ZgpW_DYlvnfbUR9ldPJmyU-l3fwUONg9Z-hOihLaNlZdtNlZvZkbsBf0bv
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      Content-Type:
+      - application/json; charset=utf-8
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - '141'
+      Vary:
+      - accept-encoding
+      Date:
+      - Wed, 26 Jun 2019 01:46:10 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_7084205972826687","result":"bad
+        request","reason":{"message":"Principal does not exist","errorCode":2002}}'
+    http_version: 
+  recorded_at: Wed, 26 Jun 2019 01:46:10 GMT
+recorded_with: VCR 5.0.0
