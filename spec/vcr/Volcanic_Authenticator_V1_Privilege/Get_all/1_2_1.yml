@@ -1,0 +1,44 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://0.0.0.0:3003/api/v1/privileges
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjIzOTkyODcsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MTUzNTI4NywiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjE1MzUyODcsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AIdMG8wxUCd0E9g-9WY-3kGVL4pGtK8UZhHp69nimvYx7XzvZYfb2kwxf-lHXUUm9C9TiSfYw9PutKvJwYDRAaZdAPDgfj1_cw_D9tZGJ111lqImf_BJZrQoaKONA4vxFU53pVaZ6dl2xXFTz4K8zdI4-Q9E6-pLlt59MqMawEY4zWDX
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Type:
+      - application/json; charset=utf-8
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - '1634'
+      Vary:
+      - accept-encoding
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Wed, 26 Jun 2019 07:48:08 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_59704467217588","result":"OK","response":[{"id":1,"scope":"updated
+        scope","permission_id":10,"group_id":3,"allow":1,"created_at":"2019-06-26T05:53:15.000Z","updated_at":"2019-06-26T05:53:31.000Z"},{"id":2,"scope":"the
+        is a scope","permission_id":null,"group_id":null,"allow":1,"created_at":"2019-06-26T06:30:10.000Z","updated_at":"2019-06-26T07:02:08.000Z"},{"id":3,"scope":null,"permission_id":null,"group_id":null,"allow":1,"created_at":"2019-06-26T07:02:23.000Z","updated_at":"2019-06-26T07:02:23.000Z"},{"id":4,"scope":"the
+        is a scope","permission_id":10,"group_id":3,"allow":1,"created_at":"2019-06-26T07:02:29.000Z","updated_at":"2019-06-26T07:02:29.000Z"},{"id":5,"scope":"asdasdad","permission_id":10,"group_id":3,"allow":1,"created_at":"2019-06-26T07:03:22.000Z","updated_at":"2019-06-26T07:03:22.000Z"},{"id":6,"scope":"asdasdad","permission_id":10,"group_id":3,"allow":1,"created_at":"2019-06-26T07:03:27.000Z","updated_at":"2019-06-26T07:03:27.000Z"},{"id":7,"scope":"asdasdad","permission_id":null,"group_id":null,"allow":1,"created_at":"2019-06-26T07:03:45.000Z","updated_at":"2019-06-26T07:03:45.000Z"},{"id":8,"scope":"the
+        is a scope","permission_id":null,"group_id":null,"allow":1,"created_at":"2019-06-26T07:11:35.000Z","updated_at":"2019-06-26T07:18:56.000Z"},{"id":9,"scope":"fe34dc6bd12c","permission_id":null,"group_id":null,"allow":1,"created_at":"2019-06-26T07:21:17.000Z","updated_at":"2019-06-26T07:21:17.000Z"},{"id":10,"scope":"02b73a926683","permission_id":null,"group_id":null,"allow":1,"created_at":"2019-06-26T07:21:17.000Z","updated_at":"2019-06-26T07:21:17.000Z"}]}'
+    http_version: 
+  recorded_at: Wed, 26 Jun 2019 07:48:08 GMT
+recorded_with: VCR 5.0.0

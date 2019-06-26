@@ -1,0 +1,50 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://0.0.0.0:3003/api/v1/privilege/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjIzOTkyODcsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MTUzNTI4NywiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjE1MzUyODcsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AIdMG8wxUCd0E9g-9WY-3kGVL4pGtK8UZhHp69nimvYx7XzvZYfb2kwxf-lHXUUm9C9TiSfYw9PutKvJwYDRAaZdAPDgfj1_cw_D9tZGJ111lqImf_BJZrQoaKONA4vxFU53pVaZ6dl2xXFTz4K8zdI4-Q9E6-pLlt59MqMawEY4zWDX
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Vary:
+      - origin,accept-encoding
+      Content-Type:
+      - application/json; charset=utf-8
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - '1283'
+      Date:
+      - Wed, 26 Jun 2019 07:48:08 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"statusCode":404,"error":"Serverless-offline: route not found.","currentRoute":"get
+        - /api/v1/privilege","existingRoutes":["post - /api/v1/group","get - /api/v1/group/all","post
+        - /api/v1/group/update/{id}","delete - /api/v1/group/{id}","get - /api/v1/group/{id}","post
+        - /api/v1/identity","post - /api/v1/identity/deactivate/{id}","post - /api/v1/identity/login","post
+        - /api/v1/identity/logout","post - /api/v1/identity/secret/reset","post -
+        /api/v1/identity/validate","get - /api/v1/key","post - /api/v1/key","delete
+        - /api/v1/key/{id}","get - /api/v1/key/{id}","get - /api/v1/login_attempts","post
+        - /api/v1/permission","get - /api/v1/permission/all","post - /api/v1/permission/update/{id}","delete
+        - /api/v1/permission/{id}","get - /api/v1/permission/{id}","post - /api/v1/principal","get
+        - /api/v1/principal/all","post - /api/v1/principal/update/{id}","delete -
+        /api/v1/principal/{id}","get - /api/v1/principal/{id}","post - /api/v1/privilege","delete
+        - /api/v1/privilege/{id}","get - /api/v1/privilege/{id}","post - /api/v1/privilege/{id}","get
+        - /api/v1/privileges","post - /api/v1/service","get - /api/v1/service/all","post
+        - /api/v1/service/update/{id}","delete - /api/v1/service/{id}","get - /api/v1/service/{id}","patch
+        - /api/v1/vault-migration/principals_identities"]}'
+    http_version: 
+  recorded_at: Wed, 26 Jun 2019 07:48:08 GMT
+recorded_with: VCR 5.0.0
