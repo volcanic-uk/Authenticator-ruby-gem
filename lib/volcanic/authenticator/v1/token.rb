@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'jwt'
 require 'httparty'
 require_relative 'helper/request'
@@ -24,6 +26,7 @@ module Volcanic::Authenticator
       def initialize(token)
         @token = token
       end
+
       #
       # to validate token exists at cache or has a valid signature.
       # if token exist at cache it returns true.
@@ -41,6 +44,7 @@ module Volcanic::Authenticator
       rescue TokenError
         false
       end
+
       #
       # to validate token by authenticator service
       #
@@ -53,6 +57,7 @@ module Volcanic::Authenticator
         res = perform_post_request(VALIDATE_TOKEN_URL, payload, nil)
         res.success?
       end
+
       #
       # to decode and fetch claims.
       #
@@ -70,6 +75,7 @@ module Volcanic::Authenticator
         fetch_claims
         self
       end
+
       #
       # to request/generate a new token
       #
@@ -87,6 +93,7 @@ module Volcanic::Authenticator
         token.cache!
         token
       end
+
       #
       # to cache token
       # Eg.
@@ -95,6 +102,7 @@ module Volcanic::Authenticator
       def cache!
         cache.fetch token, expire_in: exp_token, &method(:token)
       end
+
       #
       # to remove/revoke token from cache,
       # then blacklist the token at auth service.
