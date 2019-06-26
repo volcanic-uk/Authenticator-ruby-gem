@@ -9,6 +9,7 @@ require_relative 'authenticator/v1/service.rb'
 require_relative 'authenticator/v1/http_request'
 require_relative 'authenticator/v1/resource.rb'
 require_relative 'authenticator/v1/principal.rb'
+require_relative 'authenticator/v1/identity.rb'
 
 module Volcanic
   # Authenticator
