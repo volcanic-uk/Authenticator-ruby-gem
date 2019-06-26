@@ -4,7 +4,9 @@ RSpec.describe Volcanic::Authenticator, :vcr do
   describe 'Config' do
     let(:config) { Volcanic::Authenticator.config }
     let(:app_token) { Volcanic::Authenticator::V1::AppToken }
+
     context 'When missing auth url' do
+      before { Configuration.reset }
       it { expect(config.auth_url).to be nil }
     end
 
