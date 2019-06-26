@@ -83,7 +83,6 @@ RSpec.describe Volcanic::Authenticator::V1::Permission, :vcr do
           subject { permission.update(new_permission.id, has_descr) }
           it { should_not be raise_error }
         end
-
       end
     end
 
