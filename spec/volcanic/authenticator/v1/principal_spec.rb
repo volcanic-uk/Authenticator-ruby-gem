@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-RSpec.describe Volcanic::Authenticator::V1::Principal do
+RSpec.describe Volcanic::Authenticator::V1::Principal, :vcr do
+  before { Configuration.set }
   let(:principal) { Volcanic::Authenticator::V1::Principal }
   let(:mock_name) { SecureRandom.hex 6 }
   describe 'Principal' do
@@ -18,8 +19,7 @@ RSpec.describe Volcanic::Authenticator::V1::Principal do
       end
 
       context 'When missing dataset_id' do
-        subject { principal.create(mock_name, 1) }
-        it { is_expected.to be new_principal }
+        it { expect { principal.create(SecureRandom.hex(6), nil) }.to raise_error Volcanic::Authenticator::V1::PrincipalError }
       end
 
       context 'When success' do
@@ -47,7 +47,6 @@ RSpec.describe Volcanic::Authenticator::V1::Principal do
       end
 
       context 'Retrieve by id' do
-        it { is_expected.to be new_principal }
         its(:name) { should_not be nil }
         its(:dataset_id) { should_not be nil }
         its(:id) { should_not be nil }
@@ -63,6 +62,15 @@ RSpec.describe Volcanic::Authenticator::V1::Principal do
     end
 
     describe 'Delete' do
+      context 'When missing id' do
+        it { expect { principal.delete(nil) }.to raise_error Volcanic::Authenticator::V1::PrincipalError }
+        it { expect { principal.delete('') }.to raise_error Volcanic::Authenticator::V1::PrincipalError }
+      end
+
+      context 'When invalid id' do
+        it { expect { principal.delete('wrong_id') }.to raise_error Volcanic::Authenticator::V1::PrincipalError }
+      end
+
       context 'When success delete' do
         subject { principal.delete(new_principal.id) }
         it { should_not be raise_error }
