@@ -1,35 +1,104 @@
 # Volcanic::Authenticator
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/volcanic/authenticator`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+A ruby for gem for Volcanic Authenticator
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
+Add the following to your application's Gemfile:
 ```ruby
-gem 'volcanic-authenticator'
+gem 'volcanic-cache', git: 'git@github.com:volcanic-uk/ruby-cache.git'
+
+gem 'volcanic-authenticator', git: 'git@github.com:volcanic-uk/Authenticator-ruby-gem.git'
 ```
 
-And then execute:
+And run `bundle install`
+    
+## Setup
 
-    $ bundle
+Add the following to `config/application.rb`:
 
-Or install it yourself as:
+required
+```ruby
+# Authenticator server url
+Volcanic::Authenticator.config.auth_url = 'https://auth.aws.local'
 
-    $ gem install volcanic-authenticator
+# Application name
+Volcanic::Authenticator.config.app_name = 'app_name'
 
-## Usage
+# Application secret
+Volcanic::Authenticator.config.app_secret = 'app_secret' 
+```
 
-TODO: Write usage instructions here
+optional
+```ruby
+# Cache expiration time for application token. Default 1 day
+Volcanic::Authenticator.config.exp_app_token = 24 * 60 * 60 
 
-## Development
+# Cache expiration time for public key. Default 1 day
+Volcanic::Authenticator.config.exp_public_key = 24 * 60 * 60  
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+# Cache expiration time for tokens. Default 5 minutes
+Volcanic::Authenticator.config.exp_token = 5 * 60 
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+# Note: these expiration time are in seconds basis.
+```
 
-## Contributing
+## Service
+**Create**
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/volcanic-authenticator.
+Create a new service.
+
+```ruby
+#
+# Service.create(SERVICE_NAME) 
+service = Volcanic::Authenticator::V1::Service.create('service-a')
+
+service.name # => 'service-a'
+service.id # => '1'
+
+```
+
+**Get all**
+
+get/show all services
+```ruby
+Volcanic::Authenticator::V1::Service.all
+
+#  => return an array of service objects
+```
+
+**Find by id**
+
+Get a service.
+```ruby
+#
+# Service.find_by_id(service_ID)
+service =  Volcanic::Authenticator::V1::Service.find_by_id(1)
+
+service.name # => 'service_name'
+service.id # => '<service_ID>'
+
+```
+
+**Update**
+
+Edit/Update a service.
+```ruby
+##
+# must be in hash format
+# attributes :name
+attributes = { name: 'service-b' }
+         
+##
+# Service.update(SERVICE_ID, ATTRIBUTES) 
+Volcanic::Authenticator::V1::Service.update(1, attributes)
+```
+
+**Delete**
+
+Delete a service.
+```ruby
+##
+# service.delete(SERVICE_ID)
+Volcanic::Authenticator::V1::service.delete(1) 
+```
