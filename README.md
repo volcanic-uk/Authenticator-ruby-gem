@@ -198,3 +198,58 @@ service = Volcanic::Authenticator::V1::Service.find_by_id(1)
 service.delete 
 
 ```
+## Permission
+**Create**
+
+Create a new Permission.
+
+```ruby
+#
+# Permission.create(PERMISSION_NAME, DESCRIPTION, SERVICE_ID) 
+permission = Volcanic::Authenticator::V1::Permission.create('Permission-a', 'new permission', 1)
+
+permission.name # => 'Permission-a'
+permission.id # => '1'
+permission.creator_id # => 1
+permission.description # => 1
+
+```
+
+**Find by id**
+
+Get a permission.
+```ruby
+#
+# Permission.find_by_id(PERMISSION_ID)
+permission =  Volcanic::Authenticator::V1::Permission.find_by_id(1)
+
+permission.name # => 'Permission-a'
+permission.id # => '1'
+permission.creator_id # => 1
+permission.description # => 1
+permission.active # => true
+
+```
+
+**Update**
+
+Edit/Update a permission.
+```ruby
+##
+# must be in hash format
+# attributes :name
+attributes = { name: 'Permission-b', description: "new description" }
+         
+##
+# Permission.update(PERMISSION_ID, ATTRIBUTES) 
+Volcanic::Authenticator::V1::Permission.update(1, attributes)
+```
+
+**Delete**
+
+Delete a permission.
+```ruby
+##
+# Permission.delete(PERMISSION_ID)
+Volcanic::Authenticator::V1::Permission.delete(1) 
+```
