@@ -141,7 +141,7 @@ principal.dataset_id # => 1
 
 get/show all principals
 ```ruby
-Volcanic::Authenticator::V1::Principal.retrieve
+Volcanic::Authenticator::V1::Principal.all
 
 #  => return an array of principal objects
 ```
@@ -150,9 +150,9 @@ Volcanic::Authenticator::V1::Principal.retrieve
 
 Get a principal.
 ```ruby
-##
-# .retrieve(PRINCIPAL_ID)
-principal =  Volcanic::Authenticator::V1::Principal.retrieve(1) 
+#
+# Principal.find_by_id(PRINCIPAL_ID)
+principal =  Volcanic::Authenticator::V1::Principal.find_by_id(1)
 
 principal.name # => 'principal_name'
 principal.dataset_id # => 1
@@ -169,7 +169,7 @@ Edit/Update a principal.
 attributes = { name: 'principal-b', dataset_id: 2 }
          
 ##
-# .update(PRINCIPAL_ID, ATTRIBUTES) 
+# Principal.update(PRINCIPAL_ID, ATTRIBUTES) 
 Volcanic::Authenticator::V1::Principal.update(1, attributes)
 ```
 
@@ -178,6 +178,6 @@ Volcanic::Authenticator::V1::Principal.update(1, attributes)
 Delete a principal.
 ```ruby
 ##
-# .delete(PRINCIPAL_ID)
+# Principal.delete(PRINCIPAL_ID)
 Volcanic::Authenticator::V1::Principal.delete(1) 
 ```
