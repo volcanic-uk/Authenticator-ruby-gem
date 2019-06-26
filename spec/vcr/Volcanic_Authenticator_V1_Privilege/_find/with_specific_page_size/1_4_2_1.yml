@@ -1,0 +1,83 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://localhost:6000/api/v1/identity/login
+    body:
+      encoding: UTF-8
+      string: '{"name":"volcanic","secret":"volcanic!123","dataset_id":"-1","audience":["*"]}'
+    headers:
+      Authorization:
+      - Bearer
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      X-Auth-Request-Id:
+      - offline_awsRequestId_6326021172292171
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '542'
+      Etag:
+      - W/"21e-BKOpuLMew+V/EuoXGJCvAXxZC7U"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Tue, 21 Jan 2020 09:52:59 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_6326021172292171","response":{"token":"eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1Nzk2MDAzNzksInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTc5NjAwMzc5LCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU3OTYwMDM3OSwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.ATfZQKP2hsTpJ0ntXSOnms4nN5kv2vt_tOvEGOXXNSoqPQJg4ZIOY8NHvBwBkYvTMgRtQKLL9ubQb6huXwPMTYLSAY2s6KDAOSRngHwDz47Qa_RHNHROltyIOZwRd3U_lU6eR8ROWrbXWBM85RMGOEM6abqnpvG5sjXw1Pre7Dfoq6wO"}}'
+    http_version: 
+  recorded_at: Tue, 21 Jan 2020 09:52:59 GMT
+- request:
+    method: get
+    uri: http://localhost:6000/api/v1/privileges?page=1&page_size=2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1Nzk2MDAzNzksInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTc5NjAwMzc5LCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU3OTYwMDM3OSwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.ATfZQKP2hsTpJ0ntXSOnms4nN5kv2vt_tOvEGOXXNSoqPQJg4ZIOY8NHvBwBkYvTMgRtQKLL9ubQb6huXwPMTYLSAY2s6KDAOSRngHwDz47Qa_RHNHROltyIOZwRd3U_lU6eR8ROWrbXWBM85RMGOEM6abqnpvG5sjXw1Pre7Dfoq6wO
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      X-Auth-Request-Id:
+      - offline_awsRequestId_5877054208881807
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '523'
+      Etag:
+      - W/"20b-nVl9e/dRI9cZ97C331UQAdWwSTc"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Tue, 21 Jan 2020 09:52:59 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_5877054208881807","response":{"pagination":{"page":1,"pageSize":2,"rowCount":39,"pageCount":20},"data":[{"id":1,"scope":"vrn:stack:1:resource/*","permission_id":1,"group_id":1,"allow":true,"subject_id":null,"created_at":"2020-01-14T09:27:04.242Z","updated_at":"2020-01-21T09:14:43.337Z"},{"id":2,"scope":"vrn:{stack}:{dataset}:principal/*","permission_id":null,"group_id":2,"allow":true,"subject_id":null,"created_at":"2020-01-14T09:27:04.383Z","updated_at":"2020-01-14T09:27:04.383Z"}]}}'
+    http_version: 
+  recorded_at: Tue, 21 Jan 2020 09:52:59 GMT
+recorded_with: VCR 5.0.0

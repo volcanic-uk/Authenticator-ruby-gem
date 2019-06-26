@@ -1,0 +1,122 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://localhost:6000/api/v1/identity/login
+    body:
+      encoding: UTF-8
+      string: '{"name":"volcanic","secret":"volcanic!123","dataset_id":"-1","audience":["*"]}'
+    headers:
+      Authorization:
+      - Bearer
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      X-Auth-Request-Id:
+      - offline_awsRequestId_8823736380270482
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '542'
+      Etag:
+      - W/"21e-Dslbs1OmKg5D2X6iWK4xfMS434g"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Tue, 21 Jan 2020 09:36:26 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_8823736380270482","response":{"token":"eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1Nzk1OTkzODYsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTc5NTk5Mzg2LCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU3OTU5OTM4NiwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AOj1dISZlZlOeufSdmRCb-JBcZLGIjJsX_KUmx6aiy-iSOOp2w4hvTNirnIchd1ho3CiwAk91N2A10-ZNAJkbEwYAeSSzRaWNyLyo5CJifxyhaSq8oKTo6ItYtg_cz6l84O29LYE-bAX4SBU6Gqa873tGO9BKszORxWf9yG6pCc8NL-5"}}'
+    http_version: 
+  recorded_at: Tue, 21 Jan 2020 09:36:26 GMT
+- request:
+    method: get
+    uri: http://localhost:6000/api/v1/privileges/1
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1Nzk1OTkzODYsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTc5NTk5Mzg2LCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU3OTU5OTM4NiwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AOj1dISZlZlOeufSdmRCb-JBcZLGIjJsX_KUmx6aiy-iSOOp2w4hvTNirnIchd1ho3CiwAk91N2A10-ZNAJkbEwYAeSSzRaWNyLyo5CJifxyhaSq8oKTo6ItYtg_cz6l84O29LYE-bAX4SBU6Gqa873tGO9BKszORxWf9yG6pCc8NL-5
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      X-Auth-Request-Id:
+      - offline_awsRequestId_8744698405219347
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '248'
+      Etag:
+      - W/"f8-McYwsljIzaR25pouWYYpDcdJFyY"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Tue, 21 Jan 2020 09:36:26 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_8744698405219347","response":{"id":1,"scope":"vrn:stack:1:resource/*","permission_id":1,"group_id":1,"allow":true,"subject_id":null,"created_at":"2020-01-14T09:27:04.242Z","updated_at":"2020-01-21T09:14:43.337Z"}}'
+    http_version: 
+  recorded_at: Tue, 21 Jan 2020 09:36:26 GMT
+- request:
+    method: post
+    uri: http://localhost:6000/api/v1/privileges/1
+    body:
+      encoding: UTF-8
+      string: '{"scope":"vrn:stack:1:resource/*","permission_id":1,"group_id":1,"allow":true}'
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1Nzk1OTkzODYsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTc5NTk5Mzg2LCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU3OTU5OTM4NiwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AOj1dISZlZlOeufSdmRCb-JBcZLGIjJsX_KUmx6aiy-iSOOp2w4hvTNirnIchd1ho3CiwAk91N2A10-ZNAJkbEwYAeSSzRaWNyLyo5CJifxyhaSq8oKTo6ItYtg_cz6l84O29LYE-bAX4SBU6Gqa873tGO9BKszORxWf9yG6pCc8NL-5
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      X-Auth-Request-Id:
+      - offline_awsRequestId_5557822758090354
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '248'
+      Etag:
+      - W/"f8-IypJiZcnia5ItT74Te2rLzmsqUg"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Tue, 21 Jan 2020 09:36:26 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_5557822758090354","response":{"id":1,"scope":"vrn:stack:1:resource/*","permission_id":1,"group_id":1,"allow":true,"subject_id":null,"created_at":"2020-01-14T09:27:04.242Z","updated_at":"2020-01-21T09:14:43.337Z"}}'
+    http_version: 
+  recorded_at: Tue, 21 Jan 2020 09:36:26 GMT
+recorded_with: VCR 5.0.0

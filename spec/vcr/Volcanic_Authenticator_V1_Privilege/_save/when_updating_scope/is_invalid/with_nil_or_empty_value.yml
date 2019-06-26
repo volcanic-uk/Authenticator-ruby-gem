@@ -1,0 +1,121 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://localhost:6000/api/v1/identity/login
+    body:
+      encoding: UTF-8
+      string: '{"name":"volcanic","secret":"volcanic!123","dataset_id":"-1","audience":["*"]}'
+    headers:
+      Authorization:
+      - Bearer
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      X-Auth-Request-Id:
+      - offline_awsRequestId_5408002013363749
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '542'
+      Etag:
+      - W/"21e-kPOgqVW3zgl49O14e4GGAK2TMtw"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Tue, 21 Jan 2020 07:41:30 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_5408002013363749","response":{"token":"eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1Nzk1OTI0OTAsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTc5NTkyNDkwLCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU3OTU5MjQ5MCwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.ASqlDY0OId2DzxfGDL717ORmbfufcFs92sAAulth8LycOXfv81N5qZQIwcj15_sB7KcDyHEVjRwl2jvCMAue3O1GASRfDKj3D-70uDoO73fYBD62NtKO88IqXNY7Ta_CutLM_RhX74rK6yMBKKaCHh6LkFjsq-tzlZh3LGSC-byEIVGE"}}'
+    http_version: 
+  recorded_at: Tue, 21 Jan 2020 07:41:30 GMT
+- request:
+    method: get
+    uri: http://localhost:6000/api/v1/privileges/1
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1Nzk1OTI0OTAsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTc5NTkyNDkwLCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU3OTU5MjQ5MCwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.ASqlDY0OId2DzxfGDL717ORmbfufcFs92sAAulth8LycOXfv81N5qZQIwcj15_sB7KcDyHEVjRwl2jvCMAue3O1GASRfDKj3D-70uDoO73fYBD62NtKO88IqXNY7Ta_CutLM_RhX74rK6yMBKKaCHh6LkFjsq-tzlZh3LGSC-byEIVGE
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      X-Auth-Request-Id:
+      - offline_awsRequestId_1557946340732035
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '251'
+      Etag:
+      - W/"fb-B04NXjgnAflwo3ggG7fjWqoiIKc"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Tue, 21 Jan 2020 07:41:30 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_1557946340732035","response":{"id":1,"scope":"vrn:stack:1:resource/*","permission_id":null,"group_id":1,"allow":true,"subject_id":null,"created_at":"2020-01-14T09:27:04.242Z","updated_at":"2020-01-21T07:36:37.414Z"}}'
+    http_version: 
+  recorded_at: Tue, 21 Jan 2020 07:41:30 GMT
+- request:
+    method: post
+    uri: http://localhost:6000/api/v1/privileges/1
+    body:
+      encoding: UTF-8
+      string: '{"group_id":1,"allow":true}'
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1Nzk1OTI0OTAsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTc5NTkyNDkwLCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU3OTU5MjQ5MCwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.ASqlDY0OId2DzxfGDL717ORmbfufcFs92sAAulth8LycOXfv81N5qZQIwcj15_sB7KcDyHEVjRwl2jvCMAue3O1GASRfDKj3D-70uDoO73fYBD62NtKO88IqXNY7Ta_CutLM_RhX74rK6yMBKKaCHh6LkFjsq-tzlZh3LGSC-byEIVGE
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 422
+      message: Unprocessable Entity
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '169'
+      Etag:
+      - W/"a9-KeZ4pQHdXu0KFXrdw6yYsCVubsM"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Tue, 21 Jan 2020 07:41:30 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_7158435646867829","message":{"scope":"scope
+        does not match the required pattern (ex: vrn:{stack}:{dataset}:jobs/*"},"errorCode":10001}'
+    http_version: 
+  recorded_at: Tue, 21 Jan 2020 07:41:30 GMT
+recorded_with: VCR 5.0.0

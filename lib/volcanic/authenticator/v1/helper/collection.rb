@@ -3,7 +3,7 @@
 module Volcanic::Authenticator
   module V1
     # collection helper
-    # this class extend array class with a few custom gettter and setter
+    # this class extend array class with a few custom getter and setter
     class Collection < Array
       KEYS_FROM_AUTH_SERVICE = { pageSize: :page_size, rowCount: :row_count, pageCount: :page_count }.freeze
 

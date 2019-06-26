@@ -1,0 +1,81 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://localhost:6000/api/v1/identity/login
+    body:
+      encoding: UTF-8
+      string: '{"name":"volcanic","secret":"volcanic!123","dataset_id":"-1","audience":["*"]}'
+    headers:
+      Authorization:
+      - Bearer
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      X-Auth-Request-Id:
+      - offline_awsRequestId_9901773630395274
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '542'
+      Etag:
+      - W/"21e-oTJ4UiwmkvC/cfQMsvjEa6PfElo"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Tue, 21 Jan 2020 07:07:39 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_9901773630395274","response":{"token":"eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1Nzk1OTA0NTksInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTc5NTkwNDU5LCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU3OTU5MDQ1OSwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AJzUC1bfb0QRGfqWisWdnG9sA-48kbg_sp_wsasZ8vkUrSugQa9pZCQVpflQ2zMc_4J_ewH9Snb9f2iaEgFNBL_oAPbAFeNh8BQCfxtgEF4OIJw3yg2WCkn-uWnF1PFiZdmX5SvpSCTmjjezbU3u5G2HJMHuz9v5CxfCjZrZ4vqRSZNa"}}'
+    http_version: 
+  recorded_at: Tue, 21 Jan 2020 07:07:39 GMT
+- request:
+    method: post
+    uri: http://localhost:6000/api/v1/privileges
+    body:
+      encoding: UTF-8
+      string: '{"scope":"vrn:stack:1:resource/*","permission_id":1,"group_id":1,"allow":true}'
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1Nzk1OTA0NTksInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTc5NTkwNDU5LCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU3OTU5MDQ1OSwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AJzUC1bfb0QRGfqWisWdnG9sA-48kbg_sp_wsasZ8vkUrSugQa9pZCQVpflQ2zMc_4J_ewH9Snb9f2iaEgFNBL_oAPbAFeNh8BQCfxtgEF4OIJw3yg2WCkn-uWnF1PFiZdmX5SvpSCTmjjezbU3u5G2HJMHuz9v5CxfCjZrZ4vqRSZNa
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      X-Powered-By:
+      - Express
+      X-Auth-Request-Id:
+      - offline_awsRequestId_7892898048628376
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '231'
+      Etag:
+      - W/"e7-XRpKnTAHzj+5jkHu8rKWuyctVrY"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Tue, 21 Jan 2020 07:07:39 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_7892898048628376","response":{"scope":"vrn:stack:1:resource/*","permission_id":1,"group_id":1,"allow":true,"updated_at":"2020-01-21T07:07:39.527Z","created_at":"2020-01-21T07:07:39.527Z","id":45}}'
+    http_version: 
+  recorded_at: Tue, 21 Jan 2020 07:07:39 GMT
+recorded_with: VCR 5.0.0

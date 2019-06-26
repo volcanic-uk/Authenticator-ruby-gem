@@ -1,0 +1,44 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://localhost:6000/api/v1/privileges?page=2&page_size=3
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1Nzk2MDA0MTAsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTc5NjAwNDEwLCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU3OTYwMDQxMCwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AQqcFmHryVqFk054DKXFwIy2RnBQhqIjRCjaNHKB56CuoKfC4godhfHCXOeKlp7Z3BsdG4syBKhwRQeyR6SodfszAcaJLRmZ3zAlr9JQt4tEJQF7pVEwtMLYKSpVqdQCWK-l43yHWeNQUBtGJK2rDcIvMin_I0R9ks3DzcNwnZ1rr41s
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      X-Auth-Request-Id:
+      - offline_awsRequestId_6973246277545082
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '729'
+      Etag:
+      - W/"2d9-0kvtSfAruz0jOfsryzNq33Z3Jq8"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Tue, 21 Jan 2020 09:53:30 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_6973246277545082","response":{"pagination":{"page":2,"pageSize":3,"rowCount":39,"pageCount":13},"data":[{"id":4,"scope":"vrn:{stack}:{dataset}:group/*","permission_id":null,"group_id":4,"allow":true,"subject_id":null,"created_at":"2020-01-14T09:27:04.544Z","updated_at":"2020-01-14T09:27:04.544Z"},{"id":5,"scope":"vrn:{stack}:{dataset}:service/*","permission_id":null,"group_id":5,"allow":true,"subject_id":null,"created_at":"2020-01-14T09:27:04.619Z","updated_at":"2020-01-14T09:27:04.619Z"},{"id":6,"scope":"vrn:{stack}:{dataset}:privilege/*","permission_id":null,"group_id":6,"allow":true,"subject_id":null,"created_at":"2020-01-14T09:27:04.747Z","updated_at":"2020-01-14T09:27:04.747Z"}]}}'
+    http_version: 
+  recorded_at: Tue, 21 Jan 2020 09:53:30 GMT
+recorded_with: VCR 5.0.0
