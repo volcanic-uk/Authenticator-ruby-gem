@@ -77,33 +77,6 @@ module Volcanic::Authenticator
       end
 
       #
-      # to request/generate a new token
-      #
-      # eg.
-      #   token = Token.create(name, secret)
-      #   token.token #=> <GENERATED_TOKEN>
-      #   ...
-      #
-      def self.create(name, secret)
-        payload = { name: name, secret: secret }.to_json
-        res = perform_post_request(GENERATE_TOKEN_URL, payload, nil)
-        raise_exception_identity(res) unless res.success?
-        parser = JSON.parse(res.body)['response']['token']
-        token = new(parser)
-        token.cache!
-        token
-      end
-
-      #
-      # to cache token
-      # Eg.
-      #  Token.new(token).cache!
-      #
-      def cache!
-        cache.fetch token, expire_in: exp_token, &method(:token)
-      end
-
-      #
       # to remove/revoke token from cache,
       # then blacklist the token at auth service.
       # eg.
@@ -115,7 +88,32 @@ module Volcanic::Authenticator
         raise_exception_token(res) unless res.success?
       end
 
+      #
+      # to request/generate a new token
+      #
+      # eg.
+      #   token = Token.create(name, secret)
+      #   token.token #=> <GENERATED_TOKEN>
+      #   ...
+      #
+      class << self
+        include Request
+        include Error
+        def create(name, secret)
+          payload = { name: name, secret: secret }.to_json
+          res = perform_post_request(GENERATE_TOKEN_URL, payload, nil)
+          raise_exception_identity(res) unless res.success?
+          token = new(JSON.parse(res.body)['response']['token'])
+          token.cache!
+          token
+        end
+      end
+
       private
+
+      def cache!
+        cache.fetch token, expire_in: exp_token, &method(:token)
+      end
 
       def verify_signature
         # fetch claims to obtain KID
