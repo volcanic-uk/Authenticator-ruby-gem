@@ -52,42 +52,38 @@ RSpec.describe Volcanic::Authenticator::V1::Service, :vcr do
     end
 
     describe 'Update' do
-      let(:attr) { { name: SecureRandom.hex(6) } }
       context 'When missing id' do
-        it { expect { service.update(nil, attr) }.to raise_error Volcanic::Authenticator::V1::ServiceError }
-        it { expect { service.update('', attr) }.to raise_error Volcanic::Authenticator::V1::ServiceError }
+        it { expect { service.new(nil).save }.to raise_error Volcanic::Authenticator::V1::ServiceError }
+        it { expect { service.new('').save }.to raise_error Volcanic::Authenticator::V1::ServiceError }
       end
 
       context 'When invalid id' do
-        it { expect { service.update('wrong_id', attr) }.to raise_error Volcanic::Authenticator::V1::ServiceError }
-      end
-
-      context 'When invalid attributes' do
-        it { expect { service.update(new_service.id, wrong_attr: SecureRandom.hex(6)) }.to raise_error Volcanic::Authenticator::V1::ServiceError }
-      end
-
-      context 'When attributes not a hash value' do
-        it { expect { service.update(new_service.id, 'not_hash') }.to raise_error Volcanic::Authenticator::V1::ServiceError }
+        it { expect { service.new('wrong-id').save }.to raise_error Volcanic::Authenticator::V1::ServiceError }
       end
 
       context 'When success' do
-        subject { service.update(new_service.id, attr) }
+        let(:new_mock_name) { SecureRandom.hex(6) }
+        before do
+          new_service.name = new_mock_name
+          new_service.save
+        end
         it { should_not be raise_error }
+        its(:name) { should be new_mock_name }
       end
     end
 
     describe 'Delete' do
       context 'When missing id' do
-        it { expect { service.delete(nil) }.to raise_error Volcanic::Authenticator::V1::ServiceError }
-        it { expect { service.delete('') }.to raise_error Volcanic::Authenticator::V1::ServiceError }
+        it { expect { service.new(nil).delete }.to raise_error Volcanic::Authenticator::V1::ServiceError }
+        it { expect { service.new('').delete }.to raise_error Volcanic::Authenticator::V1::ServiceError }
       end
 
       context 'When invalid id' do
-        it { expect { service.delete('wrong_id') }.to raise_error Volcanic::Authenticator::V1::ServiceError }
+        it { expect { service.new('wrong-id').delete }.to raise_error Volcanic::Authenticator::V1::ServiceError }
       end
 
       context 'When success' do
-        subject { service.delete(new_service.id) }
+        subject { new_service.delete }
         it { should_not be raise_error }
       end
     end
