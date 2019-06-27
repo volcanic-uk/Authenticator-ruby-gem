@@ -2,6 +2,7 @@
 
 require_relative 'helper/error'
 require_relative 'helper/request'
+require 'ostruct'
 
 module Volcanic::Authenticator
   module V1
@@ -17,17 +18,20 @@ module Volcanic::Authenticator
       SERVICE_UPDATE_URL = 'api/v1/service/update'
 
       attr_accessor :name, :id
-      attr_reader :active
-
       #
       # initialize new service
-      def initialize(id, name = nil)
+      def initialize(id, name = nil, active = true)
         @id = id
         @name = name
+        @active = [1, true].include?(active) ? 1 : 0
+      end
+
+      def active?
+        @active == 1
       end
 
       #
-      # to update a service. The attributes need to be in hash value.
+      # to update a service.
       #
       # eg.
       #   service = Service.find_by_id(1)
@@ -87,12 +91,8 @@ module Volcanic::Authenticator
         #   so that we dont have to receive bulk of services.
         #
         def all
-          res = perform_get_request "#{SERVICE_URL}/all"
-          raise_exception_service res unless res.success?
-          parser = JSON.parse(res.body)['response']
-          parser.map do |service|
-            new(service['id'], service['name'])
-          end
+          parsed = get("#{SERVICE_URL}/all")
+          parsed.map { |res| new(res['id'], res['name'], res['active']) }
         end
 
         #
@@ -105,11 +105,16 @@ module Volcanic::Authenticator
         #   ...
         #
         def find_by_id(id)
-          res = perform_get_request "#{SERVICE_URL}/#{id}"
+          parsed = get("#{SERVICE_URL}/#{id}")
+          new(parsed['id'], parsed['name'], parsed['active'])
+        end
+
+        private
+
+        def get(url)
+          res = perform_get_request url
           raise_exception_service res unless res.success?
-          parser = JSON.parse(res.body)['response']
-          # return service object
-          new(parser['id'], parser['name'])
+          JSON.parse(res.body)['response']
         end
       end
     end
