@@ -3,6 +3,7 @@
 require_relative 'helper/error'
 require_relative 'helper/request'
 require_relative 'base'
+require_relative 'token'
 
 module Volcanic::Authenticator
   module V1
@@ -37,7 +38,7 @@ module Volcanic::Authenticator
       #  # => return a token
       #
       def token
-        # Token.create(@name, @secret).token
+        Token.create(@name, @secret).token
       end
 
       class << self
