@@ -25,14 +25,14 @@ RSpec.describe Volcanic::Authenticator::V1::Service, :vcr do
 
       context 'When creating' do
         it { is_expected.to be_an service }
-        its(:name) { should_not be nil }
-        its(:id) { should_not be nil }
+        its(:name) { should be_a String }
+        its(:id) { should be_an Integer }
       end
     end
 
     describe 'Read all' do
       subject { service.all }
-      it { should be_an_instance_of(Array) }
+      it { is_expected.to all(be_an(service)) }
     end
 
     describe 'Read by given id' do
@@ -48,6 +48,9 @@ RSpec.describe Volcanic::Authenticator::V1::Service, :vcr do
 
       context 'When success' do
         it { is_expected.to be_an service }
+        its(:name) { should be_a String }
+        its(:id) { should be_an Integer }
+        its(:active?) { should be true }
       end
     end
 
@@ -61,7 +64,7 @@ RSpec.describe Volcanic::Authenticator::V1::Service, :vcr do
         it { expect { service.new('wrong-id').save }.to raise_error Volcanic::Authenticator::V1::ServiceError }
       end
 
-      context 'When success' do
+      context 'When updated name' do
         let(:new_mock_name) { SecureRandom.hex(6) }
         before do
           new_service.name = new_mock_name
