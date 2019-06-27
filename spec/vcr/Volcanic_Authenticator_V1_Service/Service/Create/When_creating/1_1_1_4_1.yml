@@ -5,7 +5,7 @@ http_interactions:
     uri: http://0.0.0.0:3003/api/v1/service
     body:
       encoding: UTF-8
-      string: '{"name":"15298ca9ae20"}'
+      string: '{"name":"364151fed252"}'
     headers:
       Authorization:
       - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjI0NjUzNjIsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MTYwMTM2MiwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjE2MDEzNjIsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AApbsuDo-VG1tWrY4oLD21jILj99HOjAPbsHk2DIXfdq7s1tN5T7tkVvUxC0_dykU-lv5RfHIZo39I8hhgCH70BVAL_ZtIsufhwWXD5-uemom6GJi7DZghys5jCdoafX0Tb1EasdFZ9pwNCh0B9qLXFMrAup37_pLgHqAfEDMFMwyLMv
@@ -23,16 +23,16 @@ http_interactions:
       Cache-Control:
       - no-cache
       Content-Length:
-      - '191'
+      - '190'
       Vary:
       - accept-encoding
       Date:
-      - Thu, 27 Jun 2019 02:09:22 GMT
+      - Thu, 27 Jun 2019 03:57:51 GMT
       Connection:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"requestID":"offline_awsRequestId_17752727023913217","result":"OK","response":{"name":"15298ca9ae20","updated_at":"2019-06-27T02:09:22.558Z","created_at":"2019-06-27T02:09:22.558Z","id":54}}'
+      string: '{"requestID":"offline_awsRequestId_3265997581586113","result":"OK","response":{"name":"364151fed252","updated_at":"2019-06-27T03:57:51.645Z","created_at":"2019-06-27T03:57:51.645Z","id":89}}'
     http_version: 
-  recorded_at: Thu, 27 Jun 2019 02:09:22 GMT
+  recorded_at: Thu, 27 Jun 2019 03:57:51 GMT
 recorded_with: VCR 5.0.0
