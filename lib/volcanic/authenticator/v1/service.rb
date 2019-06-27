@@ -7,22 +7,53 @@ module Volcanic::Authenticator
   module V1
     ##
     # Handle service api
-    # method => :create, :all, :find_by_id :update, :delete
-    # attr => :name, :id, :active, :created_by
+    # class method => :create, :all, :find_by_id
+    # class instance =>  :name, :id :save, :delete
     class Service
+      include Request
+      include Error
       # end-point
       SERVICE_URL = 'api/v1/service'
       SERVICE_UPDATE_URL = 'api/v1/service/update'
 
-      attr_reader :name, :id, :active, :created_by
-      ##
+      attr_accessor :name, :id
+      attr_reader :active
+
+      #
       # initialize new service
-      # attr => :name, :id, :active, :created_by
-      def initialize(name = nil, id = nil, active = false, created_by = nil)
-        @name = name
+      def initialize(id, name = nil)
         @id = id
-        @active = active == '1'
-        @created_by = created_by
+        @name = name
+      end
+
+      #
+      # to update a service. The attributes need to be in hash value.
+      #
+      # eg.
+      #   service = Service.find_by_id(1)
+      #   service.name = 'new-service-name'
+      #   service.save
+      #
+      def save
+        payload = { name: name }.to_json
+        res = perform_post_request "#{SERVICE_UPDATE_URL}/#{id}", payload
+        raise_exception_service res unless res.success?
+      end
+
+      #
+      # to soft delete service
+      #
+      # eg.
+      #   service = Service.find_by_id(1)
+      #   service.delete
+      #
+      #   OR
+      #
+      #   Service.new(2).delete
+      #
+      def delete
+        res = perform_delete_request "#{SERVICE_URL}/#{id}"
+        raise_exception_service res unless res.success?
       end
 
       class << self
@@ -33,14 +64,14 @@ module Volcanic::Authenticator
         # Eg.
         #  service = Service.create('service-a')
         #  service.name # => 'service-a'
-        #  service.id # => '<SERVICE_ID>'
+        #  service.id # => 1
         #
         def create(name)
           payload = { name: name }.to_json
           res = perform_post_request SERVICE_URL, payload
           raise_exception_service res unless res.success?
           parser = JSON.parse(res.body)['response']
-          new(parser['name'], parser['id'])
+          new(parser['id'], parser['name'])
         end
 
         #
@@ -60,7 +91,7 @@ module Volcanic::Authenticator
           raise_exception_service res unless res.success?
           parser = JSON.parse(res.body)['response']
           parser.map do |service|
-            new(service['name'], service['id'], service['active'], service['created_by'])
+            new(service['id'], service['name'])
           end
         end
 
@@ -78,36 +109,7 @@ module Volcanic::Authenticator
           raise_exception_service res unless res.success?
           parser = JSON.parse(res.body)['response']
           # return service object
-          new(parser['name'], parser['id'], parser['active'], parser['created_by'])
-        end
-
-        #
-        # to update a service. The attributes need to be in hash value.
-        #
-        # eg.
-        #   attributes = { name: 'service-b' }
-        #   Service.update(service_id, attributes)
-        #
-        # available attribute to update
-        # :name
-        #
-        def update(id, attributes)
-          raise ServiceError, 'Attributes must be a hash type' unless attributes.is_a?(Hash)
-
-          payload = attributes.to_json
-          res = perform_post_request "#{SERVICE_UPDATE_URL}/#{id}", payload
-          raise_exception_service res unless res.success?
-        end
-
-        #
-        # to soft delete service
-        #
-        # eg.
-        #  Service.delete(service_id)
-        #
-        def delete(id)
-          res = perform_delete_request "#{SERVICE_URL}/#{id}"
-          raise_exception_service res unless res.success?
+          new(parser['id'], parser['name'])
         end
       end
     end

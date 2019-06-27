@@ -5,10 +5,10 @@ http_interactions:
     uri: http://0.0.0.0:3003/api/v1/service
     body:
       encoding: UTF-8
-      string: '{"name":"0acef162ed37"}'
+      string: '{"name":"13f35a446d2d"}'
     headers:
       Authorization:
-      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjIzODEyODksInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MTUxNzI4OSwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjE1MTcyODksImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AHn1C_gtPJ9gOrLFx0HNgxpj1f9fHMZpOYWSnCi9M22XZkY7YehpTjsmWNIUkV-6kcsMX4seTmv9IDYg7DBro6qCARzNJFkrvQi94FKU6nW92cgYJR13mq53wcQ-Js5aSt5C0JR9cooUJ9AUyWOKXLETxd3sF26c1t9mVp5mlfHGJ3jG
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjI0NjUzNjIsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MTYwMTM2MiwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjE2MDEzNjIsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AApbsuDo-VG1tWrY4oLD21jILj99HOjAPbsHk2DIXfdq7s1tN5T7tkVvUxC0_dykU-lv5RfHIZo39I8hhgCH70BVAL_ZtIsufhwWXD5-uemom6GJi7DZghys5jCdoafX0Tb1EasdFZ9pwNCh0B9qLXFMrAup37_pLgHqAfEDMFMwyLMv
       Content-Type:
       - application/json
   response:
@@ -27,23 +27,23 @@ http_interactions:
       Vary:
       - accept-encoding
       Date:
-      - Wed, 26 Jun 2019 02:48:09 GMT
+      - Thu, 27 Jun 2019 02:09:22 GMT
       Connection:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"requestID":"offline_awsRequestId_9938239012368113","result":"OK","response":{"name":"0acef162ed37","updated_at":"2019-06-26T02:48:09.957Z","created_at":"2019-06-26T02:48:09.957Z","id":39}}'
+      string: '{"requestID":"offline_awsRequestId_5825024134533956","result":"OK","response":{"name":"13f35a446d2d","updated_at":"2019-06-27T02:09:22.980Z","created_at":"2019-06-27T02:09:22.980Z","id":57}}'
     http_version: 
-  recorded_at: Wed, 26 Jun 2019 02:48:09 GMT
+  recorded_at: Thu, 27 Jun 2019 02:09:22 GMT
 - request:
     method: get
-    uri: http://0.0.0.0:3003/api/v1/service/39
+    uri: http://0.0.0.0:3003/api/v1/service/57
     body:
       encoding: US-ASCII
       string: ''
     headers:
       Authorization:
-      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjIzODEyODksInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MTUxNzI4OSwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjE1MTcyODksImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AHn1C_gtPJ9gOrLFx0HNgxpj1f9fHMZpOYWSnCi9M22XZkY7YehpTjsmWNIUkV-6kcsMX4seTmv9IDYg7DBro6qCARzNJFkrvQi94FKU6nW92cgYJR13mq53wcQ-Js5aSt5C0JR9cooUJ9AUyWOKXLETxd3sF26c1t9mVp5mlfHGJ3jG
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjI0NjUzNjIsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MTYwMTM2MiwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjE2MDEzNjIsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AApbsuDo-VG1tWrY4oLD21jILj99HOjAPbsHk2DIXfdq7s1tN5T7tkVvUxC0_dykU-lv5RfHIZo39I8hhgCH70BVAL_ZtIsufhwWXD5-uemom6GJi7DZghys5jCdoafX0Tb1EasdFZ9pwNCh0B9qLXFMrAup37_pLgHqAfEDMFMwyLMv
       Content-Type:
       - application/json
   response:
@@ -64,12 +64,12 @@ http_interactions:
       Accept-Ranges:
       - bytes
       Date:
-      - Wed, 26 Jun 2019 02:48:09 GMT
+      - Thu, 27 Jun 2019 02:09:23 GMT
       Connection:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"requestID":"offline_awsRequestId_4340327799865302","result":"OK","response":{"id":39,"name":"0acef162ed37","active":1,"created_by":null,"created_at":"2019-06-26T02:48:10.000Z","updated_at":"2019-06-26T02:48:10.000Z"}}'
+      string: '{"requestID":"offline_awsRequestId_7239261987243595","result":"OK","response":{"id":57,"name":"13f35a446d2d","active":1,"created_by":null,"created_at":"2019-06-27T02:09:23.000Z","updated_at":"2019-06-27T02:09:23.000Z"}}'
     http_version: 
-  recorded_at: Wed, 26 Jun 2019 02:48:09 GMT
+  recorded_at: Thu, 27 Jun 2019 02:09:23 GMT
 recorded_with: VCR 5.0.0
