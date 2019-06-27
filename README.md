@@ -148,10 +148,11 @@ Get a service.
 ```ruby
 #
 # Service.find_by_id(service_ID)
-service =  Volcanic::Authenticator::V1::Service.find_by_id(1)
+service = Volcanic::Authenticator::V1::Service.find_by_id(1)
 
 service.name # => 'service_name'
 service.id # => '<service_ID>'
+service.active? # => true
 
 ```
 
@@ -159,21 +160,26 @@ service.id # => '<service_ID>'
 
 Edit/Update a service.
 ```ruby
-##
-# must be in hash format
-# attributes :name
-attributes = { name: 'service-b' }
          
-##
-# Service.update(SERVICE_ID, ATTRIBUTES) 
-Volcanic::Authenticator::V1::Service.update(1, attributes)
+service = Volcanic::Authenticator::V1::Service.find_by_id(1)
+service.name = 'new-service-name'
+service.save
+
+updated_service = Volcanic::Authenticator::V1::Service.find_by_id(1)
+updated_service.name # => 'new-service-name'
+
 ```
 
 **Delete**
 
 Delete a service.
 ```ruby
-##
-# service.delete(SERVICE_ID)
-Volcanic::Authenticator::V1::service.delete(1) 
+
+Volcanic::Authenticator::V1::Service.new(1).delete
+
+## OR
+ 
+service = Volcanic::Authenticator::V1::Service.find_by_id(1)
+service.delete 
+
 ```
