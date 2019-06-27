@@ -5,7 +5,7 @@ http_interactions:
     uri: http://0.0.0.0:3003/api/v1/service
     body:
       encoding: UTF-8
-      string: '{"name":"977059829ba3"}'
+      string: '{"name":"3cff8988ed3b"}'
     headers:
       Authorization:
       - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjI0NjUzNjIsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MTYwMTM2MiwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjE2MDEzNjIsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AApbsuDo-VG1tWrY4oLD21jILj99HOjAPbsHk2DIXfdq7s1tN5T7tkVvUxC0_dykU-lv5RfHIZo39I8hhgCH70BVAL_ZtIsufhwWXD5-uemom6GJi7DZghys5jCdoafX0Tb1EasdFZ9pwNCh0B9qLXFMrAup37_pLgHqAfEDMFMwyLMv
@@ -27,17 +27,17 @@ http_interactions:
       Vary:
       - accept-encoding
       Date:
-      - Thu, 27 Jun 2019 06:58:49 GMT
+      - Thu, 27 Jun 2019 07:27:52 GMT
       Connection:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"requestID":"offline_awsRequestId_2868047461970866","result":"OK","response":{"name":"977059829ba3","updated_at":"2019-06-27T06:58:49.825Z","created_at":"2019-06-27T06:58:49.825Z","id":92}}'
+      string: '{"requestID":"offline_awsRequestId_7356351101779983","result":"OK","response":{"name":"3cff8988ed3b","updated_at":"2019-06-27T07:27:52.232Z","created_at":"2019-06-27T07:27:52.232Z","id":97}}'
     http_version: 
-  recorded_at: Thu, 27 Jun 2019 06:58:49 GMT
+  recorded_at: Thu, 27 Jun 2019 07:27:52 GMT
 - request:
     method: get
-    uri: http://0.0.0.0:3003/api/v1/service/92
+    uri: http://0.0.0.0:3003/api/v1/service/97
     body:
       encoding: US-ASCII
       string: ''
@@ -64,12 +64,12 @@ http_interactions:
       Accept-Ranges:
       - bytes
       Date:
-      - Thu, 27 Jun 2019 06:58:50 GMT
+      - Thu, 27 Jun 2019 07:27:52 GMT
       Connection:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"requestID":"offline_awsRequestId_18776316119957315","result":"OK","response":{"id":92,"name":"977059829ba3","active":1,"created_by":null,"created_at":"2019-06-27T06:58:50.000Z","updated_at":"2019-06-27T06:58:50.000Z"}}'
+      string: '{"requestID":"offline_awsRequestId_40508796923338664","result":"OK","response":{"id":97,"name":"3cff8988ed3b","active":1,"created_by":null,"created_at":"2019-06-27T07:27:52.000Z","updated_at":"2019-06-27T07:27:52.000Z"}}'
     http_version: 
-  recorded_at: Thu, 27 Jun 2019 06:58:50 GMT
+  recorded_at: Thu, 27 Jun 2019 07:27:52 GMT
 recorded_with: VCR 5.0.0
