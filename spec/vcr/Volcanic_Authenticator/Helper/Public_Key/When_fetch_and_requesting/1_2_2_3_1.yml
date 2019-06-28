@@ -16,23 +16,25 @@ http_interactions:
       code: 200
       message: OK
     headers:
+      Access-Control-Allow-Origin:
+      - "*"
       Content-Type:
       - application/json; charset=utf-8
       Cache-Control:
       - no-cache
       Content-Length:
-      - '543'
+      - '560'
       Vary:
       - accept-encoding
       Date:
-      - Fri, 21 Jun 2019 11:16:49 GMT
+      - Fri, 28 Jun 2019 09:33:00 GMT
       Connection:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"requestID":"offline_awsRequestId_5548136468273497","result":"OK","response":{"token":"eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjE5Nzk4MDksInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEiLCJuYmYiOjE1NjExMTU4MDksImF1ZGllbmNlIjpbIioiXSwiaWF0IjoxNTYxMTE1ODA5LCJpc3MiOiJ2b2xjYW5pY19hdXRoX3NlcnZpY2VfYXAyIn0.AWqKL0-5ecvQp705r3UK6FN99t5jNx82NN8fD9mjLKZYFiYt42qGOJs3EqNQjGpKqnrXnO9rP06XzsJ3TIYnFf4kAPUdVyu-aRyK10IkTbZG29Hqib3H7Vqy9KmOIV5_RBXM4mA29xOtMnATxAgHLUez2IucSlf2AmcBqnZXLEkQX5_W"}}'
+      string: '{"requestID":"offline_awsRequestId_1881469113555423","result":"OK","response":{"token":"eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjI1NzgzODAsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MTcxNDM4MCwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjE3MTQzODAsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AeHvNQg7KGqCbMh3ss7c5ezLBOpmETEvyewKvMc04H4VZfIzXFExIRk6K_YE8-xZ1l6ZZUaiHQ_lD2VUp1O3qP2hAYMh_cRYmLNwJI1F3VjJFp3IU9OpgC0k36cKpqLBrRM63UbVONQ0F-QgVjIlbnpwGZPMzv2RMrK4AsmVwaYopfIL","services":[]}}'
     http_version: 
-  recorded_at: Fri, 21 Jun 2019 11:16:49 GMT
+  recorded_at: Fri, 28 Jun 2019 09:33:00 GMT
 - request:
     method: get
     uri: http://0.0.0.0:3003/api/v1/key/?expired=true
@@ -41,7 +43,7 @@ http_interactions:
       string: ''
     headers:
       Authorization:
-      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjE5Nzk4MDksInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEiLCJuYmYiOjE1NjExMTU4MDksImF1ZGllbmNlIjpbIioiXSwiaWF0IjoxNTYxMTE1ODA5LCJpc3MiOiJ2b2xjYW5pY19hdXRoX3NlcnZpY2VfYXAyIn0.AWqKL0-5ecvQp705r3UK6FN99t5jNx82NN8fD9mjLKZYFiYt42qGOJs3EqNQjGpKqnrXnO9rP06XzsJ3TIYnFf4kAPUdVyu-aRyK10IkTbZG29Hqib3H7Vqy9KmOIV5_RBXM4mA29xOtMnATxAgHLUez2IucSlf2AmcBqnZXLEkQX5_W
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjI1NzgzODAsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MTcxNDM4MCwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjE3MTQzODAsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AeHvNQg7KGqCbMh3ss7c5ezLBOpmETEvyewKvMc04H4VZfIzXFExIRk6K_YE8-xZ1l6ZZUaiHQ_lD2VUp1O3qP2hAYMh_cRYmLNwJI1F3VjJFp3IU9OpgC0k36cKpqLBrRM63UbVONQ0F-QgVjIlbnpwGZPMzv2RMrK4AsmVwaYopfIL
       Content-Type:
       - application/json
   response:
@@ -49,25 +51,27 @@ http_interactions:
       code: 200
       message: OK
     headers:
+      Access-Control-Allow-Origin:
+      - "*"
       Content-Type:
       - application/json; charset=utf-8
       Cache-Control:
       - no-cache
       Content-Length:
-      - '359'
+      - '353'
       Vary:
       - accept-encoding
       Accept-Ranges:
       - bytes
       Date:
-      - Fri, 21 Jun 2019 11:16:49 GMT
+      - Fri, 28 Jun 2019 09:33:00 GMT
       Connection:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"requestID":"offline_awsRequestId_60625516725509","result":"OK","response":{"key":"-----BEGIN
+      string: '{"requestID":"offline_awsRequestId_9620728071206877","result":"OK","response":"-----BEGIN
         PUBLIC KEY-----\nMIGbMBAGByqGSM49AgEGBSuBBAAjA4GGAAQARs3UaQ82aORFh4BMUstcXHV85KT+\n6ZgAiWswUiGiAPvvrt4DPBj1MM81uSt46AKLllybGgjDbmxsxKR6GJxZZSsAbhRo\n351VCzTAc3IrzYpXAkvwpH5xpN0HEUFqYfdB54fz5EsV9Ib97lNCKceGUJH4fotS\nPnFgCjz0Z094WOKNimI=\n-----END
-        PUBLIC KEY-----"}}'
+        PUBLIC KEY-----"}'
     http_version: 
-  recorded_at: Fri, 21 Jun 2019 11:16:49 GMT
+  recorded_at: Fri, 28 Jun 2019 09:33:00 GMT
 recorded_with: VCR 5.0.0

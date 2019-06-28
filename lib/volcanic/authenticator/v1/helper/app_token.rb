@@ -21,6 +21,7 @@ module Volcanic::Authenticator
         APP_TOKEN = 'volcanic_application_token'
         # Token end-point
         GENERATE_TOKEN_URL = 'api/v1/identity/login'
+        EXCEPTION = :raise_exception_app_token
 
         def fetch_and_request
           cache.fetch APP_TOKEN, expire_in: exp_app_token, &method(:request_app_token)
@@ -30,10 +31,7 @@ module Volcanic::Authenticator
           name = Volcanic::Authenticator.config.app_name
           secret = Volcanic::Authenticator.config.app_secret
           payload = { name: name, secret: secret }.to_json
-          res = perform_post_request GENERATE_TOKEN_URL, payload, nil
-          raise_exception_app_token(res) unless res.success?
-          # return token string
-          JSON.parse(res.body)['response']['token']
+          perform_post_and_parse(EXCEPTION, GENERATE_TOKEN_URL, payload, nil)['token']
         end
       end
     end
