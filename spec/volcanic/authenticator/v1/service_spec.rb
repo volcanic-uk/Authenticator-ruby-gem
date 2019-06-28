@@ -13,10 +13,6 @@ RSpec.describe Volcanic::Authenticator::V1::Service, :vcr do
         it { expect { service.create('') }.to raise_error Volcanic::Authenticator::V1::ServiceError }
       end
 
-      context 'When invalid/short name' do
-        it { expect { service.create('shrt') }.to raise_error Volcanic::Authenticator::V1::ServiceError }
-      end
-
       context 'When duplicate name' do
         let(:duplicate_name) { SecureRandom.hex 6 }
         before { service.create(duplicate_name) }
@@ -58,10 +54,6 @@ RSpec.describe Volcanic::Authenticator::V1::Service, :vcr do
       context 'When missing id' do
         it { expect { service.new(nil).save }.to raise_error Volcanic::Authenticator::V1::ServiceError }
         it { expect { service.new('').save }.to raise_error Volcanic::Authenticator::V1::ServiceError }
-      end
-
-      context 'When invalid id' do
-        it { expect { service.new('wrong-id').save }.to raise_error Volcanic::Authenticator::V1::ServiceError }
       end
 
       context 'When updated name' do

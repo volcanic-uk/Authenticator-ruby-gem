@@ -21,17 +21,17 @@ http_interactions:
       Cache-Control:
       - no-cache
       Content-Length:
-      - '149'
+      - '148'
       Vary:
       - accept-encoding
       Date:
-      - Fri, 21 Jun 2019 11:16:47 GMT
+      - Fri, 28 Jun 2019 09:31:33 GMT
       Connection:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"requestID":"offline_awsRequestId_23824481196392977","result":"bad
+      string: '{"requestID":"offline_awsRequestId_4810172759540172","result":"bad
         request","reason":{"message":"invalid identity name or secret","errorCode":1001}}'
     http_version: 
-  recorded_at: Fri, 21 Jun 2019 11:16:47 GMT
+  recorded_at: Fri, 28 Jun 2019 09:31:33 GMT
 recorded_with: VCR 5.0.0

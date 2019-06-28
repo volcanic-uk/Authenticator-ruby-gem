@@ -2,20 +2,20 @@
 
 require_relative 'helper/error'
 require_relative 'helper/request'
-require 'ostruct'
 
 module Volcanic::Authenticator
   module V1
     ##
     # Handle service api
     # class method => :create, :all, :find_by_id
-    # class instance =>  :name, :id :save, :delete
+    # class instance =>  :name, :id :save, :delete, :active?
     class Service
       include Request
       include Error
       # end-point
       SERVICE_URL = 'api/v1/service'
       SERVICE_UPDATE_URL = 'api/v1/service/update'
+      EXCEPTION = :raise_exception_service
 
       attr_accessor :name, :id
       #
@@ -26,6 +26,13 @@ module Volcanic::Authenticator
         @active = [1, true].include?(active) ? 1 : 0
       end
 
+      #
+      # to check active service
+      #
+      # eg.
+      #   service = Service.find_by_id(1)
+      #   service.active? #=> true
+      #
       def active?
         @active == 1
       end
@@ -40,12 +47,11 @@ module Volcanic::Authenticator
       #
       def save
         payload = { name: name }.to_json
-        res = perform_post_request "#{SERVICE_UPDATE_URL}/#{id}", payload
-        raise_exception_service res unless res.success?
+        perform_post_and_parse EXCEPTION, "#{SERVICE_UPDATE_URL}/#{id}", payload
       end
 
       #
-      # to soft delete service
+      # to delete service
       #
       # eg.
       #   service = Service.find_by_id(1)
@@ -56,8 +62,7 @@ module Volcanic::Authenticator
       #   Service.new(2).delete
       #
       def delete
-        res = perform_delete_request "#{SERVICE_URL}/#{id}"
-        raise_exception_service res unless res.success?
+        perform_delete_and_parse EXCEPTION, "#{SERVICE_URL}/#{id}"
       end
 
       class << self
@@ -72,10 +77,8 @@ module Volcanic::Authenticator
         #
         def create(name)
           payload = { name: name }.to_json
-          res = perform_post_request SERVICE_URL, payload
-          raise_exception_service res unless res.success?
-          parser = JSON.parse(res.body)['response']
-          new(parser['id'], parser['name'])
+          parsed = perform_post_and_parse EXCEPTION, SERVICE_URL, payload
+          new(parsed['id'], parsed['name'])
         end
 
         #
@@ -91,7 +94,7 @@ module Volcanic::Authenticator
         #   so that we dont have to receive bulk of services.
         #
         def all
-          parsed = get("#{SERVICE_URL}/all")
+          parsed = perform_get_and_parse EXCEPTION, "#{SERVICE_URL}/all"
           parsed.map { |res| new(res['id'], res['name'], res['active']) }
         end
 
@@ -105,16 +108,8 @@ module Volcanic::Authenticator
         #   ...
         #
         def find_by_id(id)
-          parsed = get("#{SERVICE_URL}/#{id}")
+          parsed = perform_get_and_parse EXCEPTION, "#{SERVICE_URL}/#{id}"
           new(parsed['id'], parsed['name'], parsed['active'])
-        end
-
-        private
-
-        def get(url)
-          res = perform_get_request url
-          raise_exception_service res unless res.success?
-          JSON.parse(res.body)['response']
         end
       end
     end
