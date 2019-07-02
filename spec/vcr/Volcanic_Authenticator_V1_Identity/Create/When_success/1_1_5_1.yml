@@ -1,0 +1,38 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://0.0.0.0:3003/api/v1/identity
+    body:
+      encoding: UTF-8
+      string: '{"name":"f69a9ef0073b","principal_id":1,"password":null,"privileges":[],"roles":[]}'
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjI4MzczMTIsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MTk3MzMxMiwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjE5NzMzMTIsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AK3i5VBix_jIfV6nixoI1y5caS1ya15tHlqplxvbPdnwl7IsrBTEuTm52oNDaVpYe1iWGzf0L97_qYm6Vpt9MSVQAa9E6hzp8aQCHhK_sXyoWtyOy-I4ab5smiydxfGhl5eA8xcav7ITTeu-0cPVoFuYyiBEu4LvuZQq-79JPR9Tbirn
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Type:
+      - application/json; charset=utf-8
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - '261'
+      Vary:
+      - accept-encoding
+      Date:
+      - Mon, 01 Jul 2019 09:28:32 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_09257655187826352","result":"OK","response":{"name":"f69a9ef0073b","principal_id":1,"secret":"7feac92a3bb7d9d37218060c7ca79e8f81a1a187","updated_at":"2019-07-01T09:28:32.695Z","created_at":"2019-07-01T09:28:32.695Z","id":124}}'
+    http_version: 
+  recorded_at: Mon, 01 Jul 2019 09:28:32 GMT
+recorded_with: VCR 5.0.0

@@ -1,0 +1,108 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://0.0.0.0:3003/api/v1/identity
+    body:
+      encoding: UTF-8
+      string: '{"name":"065edb66d62b","principal_id":1,"password":null,"privileges":[],"roles":[]}'
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjI4MzczMTIsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MTk3MzMxMiwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjE5NzMzMTIsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AK3i5VBix_jIfV6nixoI1y5caS1ya15tHlqplxvbPdnwl7IsrBTEuTm52oNDaVpYe1iWGzf0L97_qYm6Vpt9MSVQAa9E6hzp8aQCHhK_sXyoWtyOy-I4ab5smiydxfGhl5eA8xcav7ITTeu-0cPVoFuYyiBEu4LvuZQq-79JPR9Tbirn
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Type:
+      - application/json; charset=utf-8
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - '260'
+      Vary:
+      - accept-encoding
+      Date:
+      - Tue, 02 Jul 2019 03:11:10 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_6854158777672668","result":"OK","response":{"name":"065edb66d62b","principal_id":1,"secret":"bba8aff34114878f2e7d98ddd2839f0e07ca4ddc","updated_at":"2019-07-02T03:11:09.931Z","created_at":"2019-07-02T03:11:09.931Z","id":159}}'
+    http_version: 
+  recorded_at: Tue, 02 Jul 2019 03:11:10 GMT
+- request:
+    method: post
+    uri: http://0.0.0.0:3003/api/v1/identity/login
+    body:
+      encoding: UTF-8
+      string: '{"name":"065edb66d62b","secret":"bba8aff34114878f2e7d98ddd2839f0e07ca4ddc"}'
+    headers:
+      Authorization:
+      - Bearer
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Type:
+      - application/json; charset=utf-8
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - '565'
+      Vary:
+      - accept-encoding
+      Date:
+      - Tue, 02 Jul 2019 03:11:10 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_5580208643659883","result":"OK","response":{"token":"eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjI5MDEwNzAsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzE1OS8xNjAiLCJuYmYiOjE1NjIwMzcwNzAsImF1ZGllbmNlIjpbIioiXSwiaWF0IjoxNTYyMDM3MDcwLCJpc3MiOiJ2b2xjYW5pY19hdXRoX3NlcnZpY2VfYXAyIn0.AJH4vj6Oqjhdo5A4PJ0UdfR0rlanSUTVdUKsTk-2ukGazZOZITd70xRfqxGAcKRmOkr4qHdzr3HGGM33kQwbkgFTAIcYrrv0E0qmJV-sG7BW5TUn_9rm2S1N_fr0U7EFP1Lmc_RpYnrCz6f-J2JqYG4GnPJDaY8Ui_zJhxa_KnEI1FyC","services":[]}}'
+    http_version: 
+  recorded_at: Tue, 02 Jul 2019 03:11:10 GMT
+- request:
+    method: post
+    uri: http://0.0.0.0:3003/api/v1/identity/validate
+    body:
+      encoding: UTF-8
+      string: '{"token":"eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjI5MDEwNzAsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzE1OS8xNjAiLCJuYmYiOjE1NjIwMzcwNzAsImF1ZGllbmNlIjpbIioiXSwiaWF0IjoxNTYyMDM3MDcwLCJpc3MiOiJ2b2xjYW5pY19hdXRoX3NlcnZpY2VfYXAyIn0.AJH4vj6Oqjhdo5A4PJ0UdfR0rlanSUTVdUKsTk-2ukGazZOZITd70xRfqxGAcKRmOkr4qHdzr3HGGM33kQwbkgFTAIcYrrv0E0qmJV-sG7BW5TUn_9rm2S1N_fr0U7EFP1Lmc_RpYnrCz6f-J2JqYG4GnPJDaY8Ui_zJhxa_KnEI1FyC"}'
+    headers:
+      Authorization:
+      - Bearer
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Type:
+      - application/json; charset=utf-8
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - '225'
+      Vary:
+      - accept-encoding
+      Date:
+      - Tue, 02 Jul 2019 03:11:10 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_0012749522119348544","result":"OK","response":{"exp":1562901070,"sub":"user://undefined/null/1/159/160","nbf":1562037070,"audience":["*"],"iat":1562037070,"iss":"volcanic_auth_service_ap2"}}'
+    http_version: 
+  recorded_at: Tue, 02 Jul 2019 03:11:10 GMT
+recorded_with: VCR 5.0.0

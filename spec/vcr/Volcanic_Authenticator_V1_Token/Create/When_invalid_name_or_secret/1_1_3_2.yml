@@ -1,0 +1,72 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://0.0.0.0:3003/api/v1/identity
+    body:
+      encoding: UTF-8
+      string: '{"name":"b780080609c7","principal_id":1,"password":null,"privileges":[],"roles":[]}'
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjI4MzczMTIsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MTk3MzMxMiwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjE5NzMzMTIsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AK3i5VBix_jIfV6nixoI1y5caS1ya15tHlqplxvbPdnwl7IsrBTEuTm52oNDaVpYe1iWGzf0L97_qYm6Vpt9MSVQAa9E6hzp8aQCHhK_sXyoWtyOy-I4ab5smiydxfGhl5eA8xcav7ITTeu-0cPVoFuYyiBEu4LvuZQq-79JPR9Tbirn
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Type:
+      - application/json; charset=utf-8
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - '260'
+      Vary:
+      - accept-encoding
+      Date:
+      - Tue, 02 Jul 2019 03:11:07 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_9960080140980472","result":"OK","response":{"name":"b780080609c7","principal_id":1,"secret":"17c5486e866075a14374121ec0def0c86336199b","updated_at":"2019-07-02T03:11:07.326Z","created_at":"2019-07-02T03:11:07.326Z","id":156}}'
+    http_version: 
+  recorded_at: Tue, 02 Jul 2019 03:11:07 GMT
+- request:
+    method: post
+    uri: http://0.0.0.0:3003/api/v1/identity/login
+    body:
+      encoding: UTF-8
+      string: '{"name":"b780080609c7","secret":"wrong-secret"}'
+    headers:
+      Authorization:
+      - Bearer
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 403
+      message: Forbidden
+    headers:
+      Content-Type:
+      - application/json; charset=utf-8
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - '149'
+      Vary:
+      - accept-encoding
+      Date:
+      - Tue, 02 Jul 2019 03:11:07 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_45902611042337327","result":"bad
+        request","reason":{"message":"invalid identity name or secret","errorCode":1001}}'
+    http_version: 
+  recorded_at: Tue, 02 Jul 2019 03:11:07 GMT
+recorded_with: VCR 5.0.0
