@@ -1,0 +1,37 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://0.0.0.0:3003/api/v1/identity/validate
+    body:
+      encoding: UTF-8
+      string: '{"token":""}'
+    headers:
+      Authorization:
+      - Bearer
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      Content-Type:
+      - application/json; charset=utf-8
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - '163'
+      Vary:
+      - accept-encoding
+      Date:
+      - Tue, 02 Jul 2019 03:11:09 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_3593952949029189","result":"bad
+        request","reason":{"message":{"token":"\"token\" is not allowed to be empty"},"errorCode":1001}}'
+    http_version: 
+  recorded_at: Tue, 02 Jul 2019 03:11:09 GMT
+recorded_with: VCR 5.0.0
