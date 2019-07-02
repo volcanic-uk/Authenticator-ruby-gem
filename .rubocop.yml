@@ -5,6 +5,9 @@ AllCops:
 Metrics/CyclomaticComplexity:
   Max: 10
 
+Metrics/ParameterLists:
+  Max: 6
+
 Metrics/LineLength:
   Enabled: false
 
