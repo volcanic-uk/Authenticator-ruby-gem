@@ -26,6 +26,8 @@ module Volcanic::Authenticator
         @principal_id = principal_id
         @secret = secret
         @id = id
+        @privilege_ids = privilege_ids
+        @role_ids = role_ids
       end
 
       #
