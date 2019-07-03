@@ -10,19 +10,60 @@ module Volcanic::Authenticator
     # method => :create, :all, :find_by_id, :update, :delete
     # attr => :name, :id, :permissions, :creator_id, :active
     class Group
+      include Request
+      include Error
       # end-point
-      GROUP_URL = 'api/v1/group'
-      GROUP_UPDATE_URL = 'api/v1/group/update'
+      GROUP_URL = 'api/v1/groups'
 
-      attr_reader :name, :id, :creator_id, :description, :active
-      ##
+      attr_accessor :id, :name, :description
+      attr_reader :subject_id
+      #
       # initialize new group
-      def initialize(name = nil, id = nil, creator_id = nil, description = nil, active = nil)
-        @name = name
+      def initialize(id, opt = {})
         @id = id
-        @creator_id = creator_id
-        @description = description
-        @active = active
+        @name = opt['name']
+        @description = opt['description']
+        @subject_id = opt['subject_id']
+        @active = opt['active']
+      end
+
+      #
+      # to check activation
+      #
+      # eg.
+      #   group = Group.find_by_id(1)
+      #   group.active? # => true
+      #
+      def active?
+        @active == 1
+      end
+
+      #
+      # to update a group
+      #  eg.
+      #   group = Group.find_by_id(1)
+      #   group.name = 'new group name'
+      #   group.description = 'new group description'
+      #   group.save
+      #
+      def save
+        payload = { name: name, description: description }.to_json
+        res = perform_post_request "#{GROUP_URL}/#{id}", payload
+        raise_exception_group res unless res.success?
+      end
+
+      #
+      # to delete a group
+      #  eg.
+      #  Group.find_by_id(1).delete
+      #
+      #  or
+      #
+      #  Group.new(1).delete
+      #
+      def delete
+        res = perform_delete_request "#{GROUP_URL}/#{id}"
+        raise_exception_group res unless res.success?
       end
 
       class << self
@@ -32,21 +73,21 @@ module Volcanic::Authenticator
         # to Create a new group
         #
         # eg.
-        #  group = Group.create(group_name, permissions_ids, descriptions)
+        #  group = Group.create(group_name, descriptions, permissions_ids)
         #  group.name # => 'group-a'
-        #  group.id # => '<GROUP_ID>'
+        #  group.id # => 1
         #  ...
         #
         #  note: permission_ids must be in array of permission id. eg. [1,2]
         #
-        def create(name, permissions = [], description = nil)
+        def create(name, description = nil, *permissions)
           payload = { name: name,
-                      permissions: permissions,
-                      description: description }.to_json
+                      description: description,
+                      permissions: permissions }.to_json
           res = perform_post_request GROUP_URL, payload
           raise_exception_group res unless res.success?
-          parser = JSON.parse(res.body)['response']
-          new(parser['name'], parser['id'], parser['creator_id'], parser['description'])
+          parsed = JSON.parse(res.body)['response']
+          new(parsed['id'], parsed)
         end
 
         #
@@ -55,19 +96,16 @@ module Volcanic::Authenticator
         # eg.
         #   groups = Group.all
         #   groups[0].name # => 'group-a'
-        #   groups[0].id # => '<GROUP_ID>'
+        #   groups[0].id # => 1
         #   ....
         #
-        def all
-          res = perform_get_request "#{GROUP_URL}/all"
+        def all(page: 1, page_size: 10, query: '')
+          url = "#{GROUP_URL}?page=#{page}&page_size=#{page_size}&query=#{query}"
+          res = perform_get_request url
           raise_exception_group res unless res.success?
           parser = JSON.parse(res.body)['response']
-          parser.map do |group|
-            new(group['name'],
-                group['id'],
-                group['creator_id'],
-                group['description'],
-                group['active'])
+          parser['data'].map do |data|
+            new(data['id'], data)
           end
         end
 
@@ -77,42 +115,16 @@ module Volcanic::Authenticator
         # eg.
         #   group = Group.find_by_id(group_id)
         #   group.name # => 'group-a'
-        #   group.id # => '<GROUP_ID>'
+        #   group.id # => 1
         #   ....
         #
         def find_by_id(id)
+          raise ArgumentError, 'argument is empty or nil' if id.nil? || id == ''
+
           res = perform_get_request "#{GROUP_URL}/#{id}"
           raise_exception_group res unless res.success?
-          parser = JSON.parse(res.body)['response']
-          new(parser['name'],
-              parser['id'],
-              parser['creator_id'],
-              parser['description'],
-              parser['active'])
-        end
-
-        #
-        # to update a group
-        #  Eg.
-        #  attributes = { name: 'group-b',  permissions: [3,4] } # must be in hash value
-        #  Group.update(group_id, attributes)
-        #
-        def update(id, attr)
-          raise GroupError, 'Attributes must be a hash type' unless attr.is_a?(Hash)
-
-          payload = attr.to_json
-          res = perform_post_request "#{GROUP_UPDATE_URL}/#{id}", payload
-          raise_exception_group res unless res.success?
-        end
-
-        #
-        # to delete a group
-        #  Eg.
-        #  Group.delete(group_id)
-        #
-        def delete(id)
-          res = perform_delete_request "#{GROUP_URL}/#{id}"
-          raise_exception_group res unless res.success?
+          parsed = JSON.parse(res.body)['response']
+          new(parsed['id'], parsed)
         end
       end
     end
