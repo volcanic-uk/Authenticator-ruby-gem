@@ -9,7 +9,7 @@ module Volcanic::Authenticator
         code = res.code
         body = res.body
         raise_exception_standard(res)
-        raise ApplicationTokenError, parser(body, %w[reason message]) if code == 400
+        raise ApplicationTokenError, parser(body, %w[message]) if code == 400
       end
 
       # error handler for application token
@@ -17,7 +17,7 @@ module Volcanic::Authenticator
         code = res.code
         body = res.body
         raise_exception_standard(res)
-        raise PermissionError, parser(body, %w[reason message]) if code == 400
+        raise PermissionError, parser(body, %w[message]) if code == 400
         raise PermissionError if code == 404
       end
 
@@ -25,8 +25,8 @@ module Volcanic::Authenticator
       def raise_exception_standard(res)
         code = res.code
         body = res.body
-        raise SignatureError, parser(body, %w[reason message]) if code == 400 && parser(body, %w[reason errorCode]) == 3002
-        raise AuthorizationError, parser(body, %w[reason message]) if [401, 403].include?(code)
+        raise SignatureError, parser(body, %w[message]) if code == 400 && parser(body, %w[errorCode]) == 3002
+        raise AuthorizationError, parser(body, %w[message]) if [401, 403].include?(code)
       end
 
       def parser(json, keys)
