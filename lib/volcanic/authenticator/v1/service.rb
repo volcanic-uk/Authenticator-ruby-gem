@@ -13,17 +13,17 @@ module Volcanic::Authenticator
       include Request
       include Error
       # end-point
-      SERVICE_URL = 'api/v1/service'
-      SERVICE_UPDATE_URL = 'api/v1/service/update'
+      SERVICE_URL = 'api/v1/services'
       EXCEPTION = :raise_exception_service
 
-      attr_accessor :name, :id
+      attr_accessor :name, :id, :subject_id
       #
       # initialize new service
-      def initialize(id, name = nil, active = true)
+      def initialize(id, opt = {})
         @id = id
-        @name = name
-        @active = [1, true].include?(active) ? 1 : 0
+        @name = opt['name']
+        @active = opt['active']
+        @subject_id = opt['subject_id']
       end
 
       #
@@ -47,7 +47,7 @@ module Volcanic::Authenticator
       #
       def save
         payload = { name: name }.to_json
-        perform_post_and_parse EXCEPTION, "#{SERVICE_UPDATE_URL}/#{id}", payload
+        perform_post_and_parse EXCEPTION, "#{SERVICE_URL}/#{id}", payload
       end
 
       #
@@ -78,7 +78,7 @@ module Volcanic::Authenticator
         def create(name)
           payload = { name: name }.to_json
           parsed = perform_post_and_parse EXCEPTION, SERVICE_URL, payload
-          new(parsed['id'], parsed['name'])
+          new(parsed['id'], parsed)
         end
 
         #
@@ -93,9 +93,12 @@ module Volcanic::Authenticator
         #  note: authenticator service need to implement sort or pagination,
         #   so that we dont have to receive bulk of services.
         #
-        def all
-          parsed = perform_get_and_parse EXCEPTION, "#{SERVICE_URL}/all"
-          parsed.map { |res| new(res['id'], res['name'], res['active']) }
+        def all(page: 1, page_size: 10, query: '')
+          url = "#{SERVICE_URL}?page=#{page}&page_size=#{page_size}&query=#{query}"
+          parsed = perform_get_and_parse EXCEPTION, url
+          parsed['data'].map do |data|
+            new(data['id'], data)
+          end
         end
 
         #
@@ -108,8 +111,10 @@ module Volcanic::Authenticator
         #   ...
         #
         def find_by_id(id)
+          raise ArgumentError, 'argument is empty or nil' if id.nil? || id == ''
+
           parsed = perform_get_and_parse EXCEPTION, "#{SERVICE_URL}/#{id}"
-          new(parsed['id'], parsed['name'], parsed['active'])
+          new(parsed['id'], parsed)
         end
       end
     end
