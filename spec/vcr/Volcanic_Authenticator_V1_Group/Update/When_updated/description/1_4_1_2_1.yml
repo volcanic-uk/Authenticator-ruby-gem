@@ -1,0 +1,155 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://0.0.0.0:3003/api/v1/groups
+    body:
+      encoding: UTF-8
+      string: '{"name":"bfa20a52bc9e","description":"mock_description","permissions":[1]}'
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjMwMTE1MTQsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MjE0NzUxNCwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjIxNDc1MTQsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AAKmQqC4nCmmZ6a_tyRySahbqgRq-BitmkZv_aalzvCE48bCEqdnCkdJqkWREEh6BHGOAaIZYBEOP_uHgfc3-6bdAE91AJlWhshfxLMoqpUMAlOeplGrEDtHH5QiMgF2HFncyUBGB1TTCSw90tY4voBtTDaOv6y51JyZ4fe6Ah6OuaGS
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '180'
+      Etag:
+      - W/"b4-aXVd+YCfRus6Nx+L59TVypmE4Gk"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Wed, 03 Jul 2019 09:51:55 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offlineContext_requestId_3722824738329691","response":{"name":"bfa20a52bc9e","updated_at":"2019-07-03T09:51:55.263Z","created_at":"2019-07-03T09:51:55.263Z","id":40}}'
+    http_version: 
+  recorded_at: Wed, 03 Jul 2019 09:51:55 GMT
+- request:
+    method: get
+    uri: http://0.0.0.0:3003/api/v1/groups/40
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjMwMTE1MTQsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MjE0NzUxNCwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjIxNDc1MTQsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AAKmQqC4nCmmZ6a_tyRySahbqgRq-BitmkZv_aalzvCE48bCEqdnCkdJqkWREEh6BHGOAaIZYBEOP_uHgfc3-6bdAE91AJlWhshfxLMoqpUMAlOeplGrEDtHH5QiMgF2HFncyUBGB1TTCSw90tY4voBtTDaOv6y51JyZ4fe6Ah6OuaGS
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '228'
+      Etag:
+      - W/"e4-LkVxGsNuD6bLHYqZaxi6Pb4WnpE"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Wed, 03 Jul 2019 09:51:55 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offlineContext_requestId_3897510721817534","response":{"id":40,"name":"bfa20a52bc9e","description":null,"subject_id":null,"active":1,"created_at":"2019-07-03T09:51:55.000Z","updated_at":"2019-07-03T09:51:55.000Z"}}'
+    http_version: 
+  recorded_at: Wed, 03 Jul 2019 09:51:55 GMT
+- request:
+    method: post
+    uri: http://0.0.0.0:3003/api/v1/groups/40
+    body:
+      encoding: UTF-8
+      string: '{"name":"5f744860466c","description":"new_mock_description"}'
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjMwMTE1MTQsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MjE0NzUxNCwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjIxNDc1MTQsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AAKmQqC4nCmmZ6a_tyRySahbqgRq-BitmkZv_aalzvCE48bCEqdnCkdJqkWREEh6BHGOAaIZYBEOP_uHgfc3-6bdAE91AJlWhshfxLMoqpUMAlOeplGrEDtHH5QiMgF2HFncyUBGB1TTCSw90tY4voBtTDaOv6y51JyZ4fe6Ah6OuaGS
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '248'
+      Etag:
+      - W/"f8-0Wu3Lv+dSg5dGK/j8b/D/pE+Enc"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Wed, 03 Jul 2019 09:51:55 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offlineContext_requestId_6295163610346561","response":{"id":"40","name":"5f744860466c","description":"new_mock_description","subject_id":null,"active":1,"created_at":"2019-07-03T09:51:55.000Z","updated_at":"2019-07-03T09:51:55.322Z"}}'
+    http_version: 
+  recorded_at: Wed, 03 Jul 2019 09:51:55 GMT
+- request:
+    method: get
+    uri: http://0.0.0.0:3003/api/v1/groups/40
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjMwMTE1MTQsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MjE0NzUxNCwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjIxNDc1MTQsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AAKmQqC4nCmmZ6a_tyRySahbqgRq-BitmkZv_aalzvCE48bCEqdnCkdJqkWREEh6BHGOAaIZYBEOP_uHgfc3-6bdAE91AJlWhshfxLMoqpUMAlOeplGrEDtHH5QiMgF2HFncyUBGB1TTCSw90tY4voBtTDaOv6y51JyZ4fe6Ah6OuaGS
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '246'
+      Etag:
+      - W/"f6-cPcjBWXW89p2E+gmVzvE9fTuCdY"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Wed, 03 Jul 2019 09:51:55 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offlineContext_requestId_3448682773177125","response":{"id":40,"name":"5f744860466c","description":"new_mock_description","subject_id":null,"active":1,"created_at":"2019-07-03T09:51:55.000Z","updated_at":"2019-07-03T09:51:55.000Z"}}'
+    http_version: 
+  recorded_at: Wed, 03 Jul 2019 09:51:55 GMT
+recorded_with: VCR 5.0.0
