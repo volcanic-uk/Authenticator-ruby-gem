@@ -10,19 +10,59 @@ module Volcanic::Authenticator
     # method => :create, :all, :find_by_id, :update, :delete
     # attr => :name, :id, :creator_id, :description, :active
     class Permission
+      include Request
+      include Error
       # end-point
-      PERMISSION_URL = 'api/v1/permission'
-      PERMISSION_UPDATE_URL = 'api/v1/permission/update'
+      PERMISSION_URL = 'api/v1/permissions'
 
-      attr_reader :name, :id, :creator_id, :description, :active
+      attr_accessor :name, :description
+      attr_reader :id, :subject_id, :service_id
       #
       # initialize permission
-      def initialize(name = nil, id = nil, creator_id = nil, description = nil, active = false)
-        @name = name
+      def initialize(id, opt = {})
         @id = id
-        @creator_id = creator_id
-        @description = description
-        @active = active == '1'
+        @name = opt['name']
+        @description = opt['description']
+        @subject_id = opt['subject_id']
+        @service_id = opt['service_id']
+        @active = opt['active']
+      end
+
+      #
+      # eg.
+      #   permission = Permission.find_by_id(1)
+      #   permission.active? # => true
+      #
+      def active?
+        @active == 1
+      end
+
+      #
+      # to update a permission
+      # eg.
+      #   permission = Permission.find_by_id(1)
+      #   permission.name = 'new permission name'
+      #   permission.description = 'new permission description'
+      #   permission.save
+      #
+      def save
+        payload = { name: name, description: description }.to_json
+        res = perform_post_request "#{PERMISSION_URL}/#{id}", payload
+        raise_exception_permission res unless res.success?
+      end
+
+      #
+      # to delete a permission
+      # eg.
+      #  Permission.new(1).delete
+      #
+      # or
+      #
+      #  Permission.find_by_id(1).delete
+      #
+      def delete
+        res = perform_delete_request "#{PERMISSION_URL}/#{id}"
+        raise_exception_permission res unless res.success?
       end
 
       class << self
@@ -32,20 +72,20 @@ module Volcanic::Authenticator
         # to Create a new permission.
         #
         # eg.
-        #  permission = Permission.create(permission_name, descriptions, service_id)
+        #  permission = Permission.create(permission_name, service_id, descriptions)
         #  permission.name # => 'permission-a'
         #  permission.id # => 1
         #  permission.creator_id # => 1
         #  ...
         #
-        def create(name, description, service_id = nil)
+        def create(name, service_id, description = nil)
           payload = { name: name,
                       description: description,
                       service_id: service_id }.to_json
           res = perform_post_request PERMISSION_URL, payload
           raise_exception_permission res unless res.success?
           parser = JSON.parse(res.body)['response']
-          new(parser['name'], parser['id'], parser['creator_id'], parser['description'])
+          new(parser['id'], parser)
         end
 
         #
@@ -54,19 +94,16 @@ module Volcanic::Authenticator
         # eg.
         #   permissions = Permission.all
         #   permissions[0].name # => 'permission-a'
-        #   permissions[0].id # => '<permission_id>'
+        #   permissions[0].id # => 1
         #   ...
         #
-        def all
-          res = perform_get_request "#{PERMISSION_URL}/all"
+        def all(page: 1, page_size: 1, query: '')
+          url = "#{PERMISSION_URL}?page=#{page}&page_size=#{page_size}&query=#{query}"
+          res = perform_get_request url
           raise_exception_permission res unless res.success?
-          parser = JSON.parse(res.body)['response']
-          parser.map do |permission|
-            new(permission['name'],
-                permission['id'],
-                permission['creator_id'],
-                permission['description'],
-                permission['active'])
+          parser = JSON.parse(res.body)['response']['data']
+          parser.map do |data|
+            new(data['id'], data)
           end
         end
 
@@ -74,46 +111,17 @@ module Volcanic::Authenticator
         # to find permission by given id
         #
         # eg.
-        #   permission = Permission.find_by_id(permission_id)
+        #   permission = Permission.find_by_id(1)
         #   permission.name # => 'permission-a'
-        #   permission.id # => '<permission_id>'
+        #   permission.id # => 1
         #
         def find_by_id(id)
+          raise ArgumentError, 'argument is empty or nil' if id.nil? || id == ''
+
           res = perform_get_request "#{PERMISSION_URL}/#{id}"
           raise_exception_permission res unless res.success?
           parser = JSON.parse(res.body)['response']
-          new(parser['name'],
-              parser['id'],
-              parser['creator_id'],
-              parser['description'],
-              parser['active'])
-        end
-
-        #
-        # to update a permission
-        # eg.
-        #  attr = { name: 'permission-a', description: 'descriptions' } # must be in hash value
-        #  Permission.update(1, attr)
-        #
-        # available attribute to update
-        # :name, :description
-        #
-        def update(id, attributes)
-          raise PermissionError, 'Attributes must be a hash type' unless attributes.is_a?(Hash)
-
-          payload = attributes.to_json
-          res = perform_post_request "#{PERMISSION_UPDATE_URL}/#{id}", payload
-          raise_exception_permission res unless res.success?
-        end
-
-        #
-        # to delete a permission
-        # eg.
-        #  Permission.delete(1)
-        #
-        def delete(id)
-          res = perform_delete_request "#{PERMISSION_URL}/#{id}"
-          raise_exception_permission res unless res.success?
+          new(parser['id'], parser)
         end
       end
     end
