@@ -5,61 +5,51 @@
 Create a new Group.
 
 ```ruby
-#
-# Group.create(Group_NAME, DESCRIPTION, SERVICE_ID) 
-group = Volcanic::Authenticator::V1::Group.create('group-a', 'new Group', 1)
-
-group.name # => 'Group-a'
+group = Volcanic::Authenticator::V1::Group.create('group-a', 'description', 1, 2)
+group.name # => 'group-a'
 group.id # => '1'
-group.creator_id # => 1
-group.description # => 1
-
+group.description # => 'description'
 ```
 
 **Get all**
 
-get/show all Groups
+get all Groups
 ```ruby
-Volcanic::Authenticator::V1::Group.all
-
-#  => return an array of Group objects
+groups = Volcanic::Authenticator::V1::Group.all
+groups[0].id # => 1
+groups[0].name # => 'group name'
+...
 ```
 
 **Find by id**
 
-Get a Group.
+Find group by id.
 ```ruby
-#
-# Group.find_by_id(GROUP_ID)
 group =  Volcanic::Authenticator::V1::Group.find_by_id(1)
-
 group.name # => 'Group-a'
 group.id # => '1'
-group.creator_id # => 1
 group.description # => 1
-group.active # => true
-
+group.active? # => true
 ```
 
 **Update**
 
 Edit/Update a Group.
-```ruby
-##
-# must be in hash format
-# attributes :name, :description
-attributes = { name: 'Group-b', description: "new description" }
-         
-##
-# Group.update(GROUP_ID, ATTRIBUTES) 
-Volcanic::Authenticator::V1::Group.update(1, attributes)
+```ruby 
+group = Volcanic::Authenticator::V1::Group.find_by_id(1)
+group.name = 'new group name'
+group.description = 'new group description'
+group.save
 ```
 
 **Delete**
 
 Delete a Group.
 ```ruby
-##
-# Group.delete(GROUP_ID)
-Volcanic::Authenticator::V1::Group.delete(1) 
+Volcanic::Authenticator::V1::Group.new(1).delete
+
+# OR
+ 
+group = Volcanic::Authenticator::V1::Group.find_by_id(1)
+group.delete
 ```
