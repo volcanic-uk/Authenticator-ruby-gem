@@ -24,7 +24,7 @@ module Volcanic::Authenticator
         code = res.code
         body = res.body
         raise_exception_standard(res)
-        raise ServiceError, parser(body, %w[reason message]) if code == 400
+        raise ServiceError, parser(body, %w[message]) if code == 400
         raise ServiceError if code == 404
       end
 
