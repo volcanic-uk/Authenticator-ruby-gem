@@ -1,0 +1,78 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://0.0.0.0:3003/api/v1/services
+    body:
+      encoding: UTF-8
+      string: '{"name":"e9528ce2c853"}'
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjMwMDMwOTIsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MjEzOTA5MiwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjIxMzkwOTIsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AEBuR94QW0I9ig-rxxAcbP0va0WllNC9lbBC2RQVfZVQOP0KZ0SDBWUShfYpi3iQOpUDqicbDcMqVBhqqUKeeHY3ABGVTrnD1b2dZn-9jBtxzZtKTsninJNd5eRnsT1FRXoiMtIdyHvrSB4HGidQWaGKmDe3vVd3kkVz46vJWp5x6yKJ
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '181'
+      Etag:
+      - W/"b5-4E4VOE97IBK37F788fNsSM2cWow"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Wed, 03 Jul 2019 08:09:13 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offlineContext_requestId_10117668516897349","response":{"name":"e9528ce2c853","updated_at":"2019-07-03T08:09:13.438Z","created_at":"2019-07-03T08:09:13.438Z","id":26}}'
+    http_version: 
+  recorded_at: Wed, 03 Jul 2019 08:09:13 GMT
+- request:
+    method: delete
+    uri: http://0.0.0.0:3003/api/v1/services/26
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjMwMDMwOTIsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MjEzOTA5MiwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjIxMzkwOTIsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AEBuR94QW0I9ig-rxxAcbP0va0WllNC9lbBC2RQVfZVQOP0KZ0SDBWUShfYpi3iQOpUDqicbDcMqVBhqqUKeeHY3ABGVTrnD1b2dZn-9jBtxzZtKTsninJNd5eRnsT1FRXoiMtIdyHvrSB4HGidQWaGKmDe3vVd3kkVz46vJWp5x6yKJ
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '103'
+      Etag:
+      - W/"67-Eg07WaIrfvd44ohmWf79/JceQjU"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Wed, 03 Jul 2019 08:09:13 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offlineContext_requestId_8221683213730371","response":{"message":"Successfully
+        deleted"}}'
+    http_version: 
+  recorded_at: Wed, 03 Jul 2019 08:09:13 GMT
+recorded_with: VCR 5.0.0

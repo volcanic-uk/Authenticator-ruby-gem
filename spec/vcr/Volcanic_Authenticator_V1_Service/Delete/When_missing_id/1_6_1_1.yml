@@ -1,0 +1,37 @@
+---
+http_interactions:
+- request:
+    method: delete
+    uri: http://0.0.0.0:3003/api/v1/services/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjMwMDMwOTIsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MjEzOTA5MiwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjIxMzkwOTIsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AEBuR94QW0I9ig-rxxAcbP0va0WllNC9lbBC2RQVfZVQOP0KZ0SDBWUShfYpi3iQOpUDqicbDcMqVBhqqUKeeHY3ABGVTrnD1b2dZn-9jBtxzZtKTsninJNd5eRnsT1FRXoiMtIdyHvrSB4HGidQWaGKmDe3vVd3kkVz46vJWp5x6yKJ
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 500
+      message: Internal Server Error
+    headers:
+      Content-Type:
+      - application/json; charset=utf-8
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - '96'
+      Vary:
+      - accept-encoding
+      Date:
+      - Wed, 03 Jul 2019 08:00:23 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"message":"An internal server error occurred","statusCode":500,"error":"Internal
+        Server Error"}'
+    http_version: 
+  recorded_at: Wed, 03 Jul 2019 08:00:23 GMT
+recorded_with: VCR 5.0.0
