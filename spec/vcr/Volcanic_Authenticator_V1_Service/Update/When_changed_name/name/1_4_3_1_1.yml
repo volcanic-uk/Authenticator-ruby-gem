@@ -1,0 +1,116 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://0.0.0.0:3003/api/v1/services
+    body:
+      encoding: UTF-8
+      string: '{"name":"mock_name"}'
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjMwMDMwOTIsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MjEzOTA5MiwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjIxMzkwOTIsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AEBuR94QW0I9ig-rxxAcbP0va0WllNC9lbBC2RQVfZVQOP0KZ0SDBWUShfYpi3iQOpUDqicbDcMqVBhqqUKeeHY3ABGVTrnD1b2dZn-9jBtxzZtKTsninJNd5eRnsT1FRXoiMtIdyHvrSB4HGidQWaGKmDe3vVd3kkVz46vJWp5x6yKJ
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '177'
+      Etag:
+      - W/"b1-/XZg6A44GqJM3vFMkC6nVglTnsQ"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Thu, 04 Jul 2019 01:56:08 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offlineContext_requestId_1023356811464069","response":{"name":"mock_name","updated_at":"2019-07-04T01:56:08.876Z","created_at":"2019-07-04T01:56:08.876Z","id":34}}'
+    http_version: 
+  recorded_at: Thu, 04 Jul 2019 01:56:08 GMT
+- request:
+    method: post
+    uri: http://0.0.0.0:3003/api/v1/services/34
+    body:
+      encoding: UTF-8
+      string: '{"name":"new-service"}'
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjMwMDMwOTIsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MjEzOTA5MiwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjIxMzkwOTIsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AEBuR94QW0I9ig-rxxAcbP0va0WllNC9lbBC2RQVfZVQOP0KZ0SDBWUShfYpi3iQOpUDqicbDcMqVBhqqUKeeHY3ABGVTrnD1b2dZn-9jBtxzZtKTsninJNd5eRnsT1FRXoiMtIdyHvrSB4HGidQWaGKmDe3vVd3kkVz46vJWp5x6yKJ
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '209'
+      Etag:
+      - W/"d1-jfjklHfGmb2eltANe2dG0sfMBuQ"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Thu, 04 Jul 2019 01:56:08 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offlineContext_requestId_30889977581396133","response":{"id":34,"name":"new-service","active":1,"subject_id":null,"created_at":"2019-07-04T01:56:09.000Z","updated_at":"2019-07-04T01:56:08.919Z"}}'
+    http_version: 
+  recorded_at: Thu, 04 Jul 2019 01:56:08 GMT
+- request:
+    method: get
+    uri: http://0.0.0.0:3003/api/v1/services/34
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjMwMDMwOTIsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MjEzOTA5MiwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjIxMzkwOTIsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AEBuR94QW0I9ig-rxxAcbP0va0WllNC9lbBC2RQVfZVQOP0KZ0SDBWUShfYpi3iQOpUDqicbDcMqVBhqqUKeeHY3ABGVTrnD1b2dZn-9jBtxzZtKTsninJNd5eRnsT1FRXoiMtIdyHvrSB4HGidQWaGKmDe3vVd3kkVz46vJWp5x6yKJ
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '208'
+      Etag:
+      - W/"d0-CfhEE2RnWxcNWBVw3LrMaAe74xk"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Thu, 04 Jul 2019 01:56:08 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offlineContext_requestId_7894265084368086","response":{"id":34,"name":"new-service","active":1,"subject_id":null,"created_at":"2019-07-04T01:56:09.000Z","updated_at":"2019-07-04T01:56:09.000Z"}}'
+    http_version: 
+  recorded_at: Thu, 04 Jul 2019 01:56:08 GMT
+recorded_with: VCR 5.0.0
