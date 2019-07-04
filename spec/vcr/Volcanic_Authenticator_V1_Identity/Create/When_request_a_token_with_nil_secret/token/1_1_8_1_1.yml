@@ -5,10 +5,10 @@ http_interactions:
     uri: http://0.0.0.0:3003/api/v1/identity
     body:
       encoding: UTF-8
-      string: '{"name":"69a752818f65","principal_id":1,"password":null,"privileges":[],"roles":[]}'
+      string: '{"name":"mock_identity_name","principal_id":1,"privileges":[],"roles":[]}'
     headers:
       Authorization:
-      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjI4MzczMTIsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MTk3MzMxMiwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjE5NzMzMTIsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AK3i5VBix_jIfV6nixoI1y5caS1ya15tHlqplxvbPdnwl7IsrBTEuTm52oNDaVpYe1iWGzf0L97_qYm6Vpt9MSVQAa9E6hzp8aQCHhK_sXyoWtyOy-I4ab5smiydxfGhl5eA8xcav7ITTeu-0cPVoFuYyiBEu4LvuZQq-79JPR9Tbirn
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjMwNzY1NDMsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MjIxMjU0MywiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjIyMTI1NDMsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AbAPOFmVIys4yNQl0-Ubt-3Tm06eA8uJ0wGHU-rS0awuWct5zH_TZ6hHhyLgVjgJhLZgvx43JJKUfeVZp3k3P2DlAKicu7wjHlOR97RLjVwgtdTRWY6nC7AToYcTz0n5LON4slLUqdJjSDMEJTtqtc81EdiFmdlqtlO3-SJoWLCaObuD
       Content-Type:
       - application/json
   response:
@@ -16,31 +16,33 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Access-Control-Allow-Origin:
-      - "*"
+      X-Powered-By:
+      - Express
       Content-Type:
       - application/json; charset=utf-8
+      Content-Length:
+      - '250'
+      Etag:
+      - W/"fa-J+xkvcn0dORbisZaRZZQH7Lxnsk"
       Cache-Control:
       - no-cache
-      Content-Length:
-      - '260'
       Vary:
       - accept-encoding
       Date:
-      - Mon, 01 Jul 2019 09:28:33 GMT
+      - Thu, 04 Jul 2019 04:34:18 GMT
       Connection:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"requestID":"offline_awsRequestId_0591278693895243","result":"OK","response":{"name":"69a752818f65","principal_id":1,"secret":"f50f6b7788fc39475bbc539fff2b4bf485c99bb0","updated_at":"2019-07-01T09:28:33.688Z","created_at":"2019-07-01T09:28:33.688Z","id":127}}'
+      string: '{"requestID":"offline_awsRequestId_995039635373856","response":{"name":"mock_identity_name","principal_id":1,"secret":"7f05da19667b14b9e575c9251a16e129ea25e283","updated_at":"2019-07-04T04:34:18.056Z","created_at":"2019-07-04T04:34:18.056Z","id":15}}'
     http_version: 
-  recorded_at: Mon, 01 Jul 2019 09:28:33 GMT
+  recorded_at: Thu, 04 Jul 2019 04:34:18 GMT
 - request:
     method: post
     uri: http://0.0.0.0:3003/api/v1/identity/login
     body:
       encoding: UTF-8
-      string: '{"name":"69a752818f65","secret":"f50f6b7788fc39475bbc539fff2b4bf485c99bb0"}'
+      string: '{"name":"mock_identity_name","secret":"7f05da19667b14b9e575c9251a16e129ea25e283"}'
     headers:
       Authorization:
       - Bearer
@@ -51,23 +53,25 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Access-Control-Allow-Origin:
-      - "*"
+      X-Powered-By:
+      - Express
       Content-Type:
       - application/json; charset=utf-8
+      Content-Length:
+      - '533'
+      Etag:
+      - W/"215-oRwfJR7R4KAOc2siFieC47j2pKA"
       Cache-Control:
       - no-cache
-      Content-Length:
-      - '565'
       Vary:
       - accept-encoding
       Date:
-      - Mon, 01 Jul 2019 09:28:34 GMT
+      - Thu, 04 Jul 2019 04:34:18 GMT
       Connection:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"requestID":"offline_awsRequestId_8301031643395245","result":"OK","response":{"token":"eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjI4MzczMTQsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEyNy8xMjgiLCJuYmYiOjE1NjE5NzMzMTQsImF1ZGllbmNlIjpbIioiXSwiaWF0IjoxNTYxOTczMzE0LCJpc3MiOiJ2b2xjYW5pY19hdXRoX3NlcnZpY2VfYXAyIn0.ARGcUanA_NTfPzDRe_bQMLxJtFvBJKJjO7wws0AiorrHgWe1a1dekxYlip0J6EsBAYP0r_roMj4q8tqAhKXRJybkAUHeI01zqz8m7_B0i-F_rvkJxDjkPbzZBEedSfRR0YPEtElPOIzM2gGzcnUfBdF3ZmT-A99WD8HDaXj3xsSVjARR","services":[]}}'
+      string: '{"requestID":"offline_awsRequestId_620197510582897","response":{"token":"eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjMwNzg4NTgsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzE1LzE3IiwibmJmIjoxNTYyMjE0ODU4LCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU2MjIxNDg1OCwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AY5GhxlBNGG2OlpjiLd6e10CfSz0K-Zt2x6LFunfvKeS6eCae1LpS6FGd4YDH_jpSgMQGYsE4C3KjSfvI6ncemV6ANE8c5q7ft9YPv5rneFuQqVhaXlWeG_hCdq6EQfs5fDIvjF6MPEB7qLOvpaGaElWnLWgE6jLSIP1LYyeeCtKrs4g"}}'
     http_version: 
-  recorded_at: Mon, 01 Jul 2019 09:28:34 GMT
+  recorded_at: Thu, 04 Jul 2019 04:34:18 GMT
 recorded_with: VCR 5.0.0
