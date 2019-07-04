@@ -18,6 +18,7 @@ module Volcanic::Authenticator
       VALIDATE_TOKEN_URL = 'api/v1/identity/validate'
       GENERATE_TOKEN_URL = 'api/v1/identity/login'
       REVOKE_TOKEN_URL = 'api/v1/identity/logout'
+      EXCEPTION = :raise_exception_identity
 
       def_instance_delegator 'Volcanic::Cache::Cache'.to_sym, :instance, :cache
       def_instance_delegators 'Volcanic::Authenticator.config'.to_sym, :exp_token, :key_store_type
@@ -54,7 +55,8 @@ module Volcanic::Authenticator
       #
       def validate_by_service
         payload = { token: token_key }.to_json
-        res = perform_post_request(VALIDATE_TOKEN_URL, payload, nil)
+        url = [Volcanic::Authenticator.config.auth_url, VALIDATE_TOKEN_URL].join('/')
+        res = HTTParty.post url, body: payload
         res.success?
       end
 
@@ -88,8 +90,7 @@ module Volcanic::Authenticator
       #
       def revoke!
         cache.evict! token_key
-        res = perform_post_request(REVOKE_TOKEN_URL, nil, token_key)
-        raise_exception_identity(res) unless res.success?
+        perform_post_and_parse EXCEPTION, REVOKE_TOKEN_URL, nil, token_key
       end
 
       #
@@ -105,9 +106,8 @@ module Volcanic::Authenticator
         include Error
         def create(name, secret)
           payload = { name: name, secret: secret }.to_json
-          res = perform_post_request(GENERATE_TOKEN_URL, payload, nil)
-          raise_exception_identity(res) unless res.success?
-          token = new(JSON.parse(res.body)['response']['token'])
+          parsed = perform_post_and_parse EXCEPTION, GENERATE_TOKEN_URL, payload, nil
+          token = new(parsed['token'])
           token.cache!
           token
         end

@@ -43,35 +43,22 @@ Volcanic::Authenticator.config.exp_token = 5 * 60
 # Note: these expiration time are in seconds basis.
 ```
 
-## 1. Principal
+## Principal
 **Create**
 
 Create a new principal.
 
 ```ruby
-#
-# Principal.create(PRINCIPAL_NAME, DATASET_ID) 
 principal = Volcanic::Authenticator::V1::Principal.create('principal-a', 1)
-
-principal.name # => 'principal_name'
+principal.id # => 1
+principal.name # => 'principal-a'
 principal.dataset_id # => 1
-principal.id # => '<PRINCIPAL_ID>'
 ```
 
-**Retrieve all**
-
-get/show all principals
-```ruby
-Volcanic::Authenticator::V1::Principal.all
-
-#  => return an array of principal objects
-```
-
-**Retrieve by id**
+**Find by id**
 
 Get a principal.
 ```ruby
-#
 # Principal.find_by_id(PRINCIPAL_ID)
 principal =  Volcanic::Authenticator::V1::Principal.find_by_id(1)
 
@@ -84,21 +71,93 @@ principal.id # => '<PRINCIPAL_ID>'
 
 Edit/Update a principal.
 ```ruby
-##
-# must be in hash format
-# attributes :name, :dataset_id
-attributes = { name: 'principal-b', dataset_id: 2 }
-         
-##
-# Principal.update(PRINCIPAL_ID, ATTRIBUTES) 
-Volcanic::Authenticator::V1::Principal.update(1, attributes)
+principal = Volcanic::Authenticator::V1::Principal.find_by_id(1)
+principal.name = 'new principal name'
+principal.dataset_id = 2
+principal.save
 ```
 
 **Delete**
 
 Delete a principal.
 ```ruby
-##
-# Principal.delete(PRINCIPAL_ID)
-Volcanic::Authenticator::V1::Principal.delete(1) 
+principal = Volcanic::Authenticator::V1::Principal.find_by_id(1)
+principal.delete
+
+# OR
+ 
+Volcanic::Authenticator::V1::Principal.new(id: 1).delete
+
+```
+
+## Identity
+**Register**
+
+Register a new principal.
+
+```ruby
+# params(identity_name, principal_id, identity_secret, privilege_ids, role_ids)
+principal = Volcanic::Authenticator::V1::Identity.register('identity-a', 1, 'new_secret', [1,2], [2])
+principal.id # => 1
+principal.name # => 'principal-a'
+principal.principal_id # => 1
+principal.secret # => 'new_secret'
+principal.token # => generate a token
+
+# OR
+ 
+# register without secret 
+principal = Volcanic::Authenticator::V1::Identity.register('identity-a', 1)
+principal.id # => 1
+principal.name # => 'principal-a'
+principal.principal_id # => 1
+principal.secret # => generate a secret
+principal.token # => generate a token
+
+```
+
+**Deactivate**
+```ruby
+principal = Volcanic::Authenticator::V1::Identity.register('identity-a', 1)
+principal.deactivate
+
+# OR
+ 
+Volcanic::Authenticator::V1::Identity.new(id: 1).deactivate
+```
+
+## Token
+**Create**
+```ruby
+# this will create a token object with token key
+token = Volcanic::Authenticator::V1::Token.create('name', 'secret')
+token.token_key # => generated token
+```
+
+**Validate**
+```ruby
+Volcanic::Authenticator::V1::Token.new(token_key).validate
+# => true
+```
+
+**Validate by auth service**
+```ruby
+Volcanic::Authenticator::V1::Token.new(token_key).validate_by_service
+# => true
+```
+
+**Fetch claims**
+```ruby
+token = Volcanic::Authenticator::V1::Token.new(token_key).decode_and_fetch_claims
+token.kid # => key id claim
+token.sub # => subject claim
+token.iss # => issuer claim
+token.dataset_id # => dataset id from subject
+token.principal_id # => principal id from subject
+token.identity_id # => identity id from subject
+```
+
+**Revoke token**
+```ruby
+Volcanic::Authenticator::V1::Token.new(token_key).revoke!
 ```

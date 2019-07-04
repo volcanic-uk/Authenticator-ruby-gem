@@ -7,7 +7,7 @@ module Volcanic::Authenticator
   module V1
     ##
     # Handle principal api
-    # method => :create, :all, :find_by_id, :save, :delete
+    # method => :create, :find, :find_by_id, :save, :delete
     # attr => :name, :dataset_id, :id
     class Principal
       include Request

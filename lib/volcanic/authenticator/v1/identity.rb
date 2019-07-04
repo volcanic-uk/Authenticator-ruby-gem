@@ -15,6 +15,7 @@ module Volcanic::Authenticator
       include Request
       include Error
 
+      EXCEPTION = :raise_exception_identity
       # end-point
       IDENTITY_CREATE_URL = 'api/v1/identity'
       IDENTITY_DELETE_URL = 'api/v1/identity/deactivate'
@@ -52,8 +53,7 @@ module Volcanic::Authenticator
       #   Identity.new(id).deactivate
       #
       def deactivate
-        res = perform_post_request("#{IDENTITY_DELETE_URL}/#{id}", nil)
-        raise_exception_identity(res) unless res.success?
+        perform_post_and_parse EXCEPTION, "#{IDENTITY_DELETE_URL}/#{id}", nil
       end
 
       class << self
@@ -90,9 +90,7 @@ module Volcanic::Authenticator
                       privileges: privileges,
                       roles: roles }
           payload.merge(secret: secret) if !secret.nil? || secret != ''
-          res = perform_post_request(IDENTITY_CREATE_URL, payload.to_json)
-          raise_exception_identity(res) unless res.success?
-          parsed = JSON.parse(res.body)['response']
+          parsed = perform_post_and_parse EXCEPTION, IDENTITY_CREATE_URL, payload.to_json
           parsed.transform_keys!(&:to_sym)
           parsed[:secret] = secret if parsed[:secret].nil?
           new(parsed)
