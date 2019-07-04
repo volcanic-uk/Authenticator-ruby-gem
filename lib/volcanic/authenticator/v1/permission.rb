@@ -7,8 +7,6 @@ module Volcanic::Authenticator
   module V1
     #
     # Handle permission api
-    # method => :create, :all, :find_by_id, :update, :delete
-    # attr => :name, :id, :creator_id, :description, :active
     class Permission
       include Request
       include Error
