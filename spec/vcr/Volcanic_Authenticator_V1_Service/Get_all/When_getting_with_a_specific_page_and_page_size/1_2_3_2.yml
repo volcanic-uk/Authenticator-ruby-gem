@@ -1,0 +1,42 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://0.0.0.0:3003/api/v1/services?page=2&page_size=3&query=
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjMwMDMwOTIsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MjEzOTA5MiwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjIxMzkwOTIsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AEBuR94QW0I9ig-rxxAcbP0va0WllNC9lbBC2RQVfZVQOP0KZ0SDBWUShfYpi3iQOpUDqicbDcMqVBhqqUKeeHY3ABGVTrnD1b2dZn-9jBtxzZtKTsninJNd5eRnsT1FRXoiMtIdyHvrSB4HGidQWaGKmDe3vVd3kkVz46vJWp5x6yKJ
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '565'
+      Etag:
+      - W/"235-jn37gRsjzUhcPZEbWCXSPdFLkb0"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Thu, 04 Jul 2019 01:40:34 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offlineContext_requestId_6118966407164799","response":{"pagination":{"page":2,"pageSize":3,"rowCount":31,"pageCount":11},"data":[{"id":4,"name":"06db2ef50f19","active":1,"subject_id":null,"created_at":"2019-07-03T07:31:33.000Z","updated_at":"2019-07-03T07:31:33.000Z"},{"id":5,"name":"88c286c86c03","active":1,"subject_id":null,"created_at":"2019-07-03T07:31:33.000Z","updated_at":"2019-07-03T07:31:33.000Z"},{"id":6,"name":"92506acfe1f3","active":1,"subject_id":null,"created_at":"2019-07-03T07:31:33.000Z","updated_at":"2019-07-03T07:31:33.000Z"}]}}'
+    http_version: 
+  recorded_at: Thu, 04 Jul 2019 01:40:34 GMT
+recorded_with: VCR 5.0.0

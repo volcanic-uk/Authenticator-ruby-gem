@@ -3,10 +3,10 @@
 RSpec.describe Volcanic::Authenticator::V1::Service, :vcr do
   before { Configuration.set }
   let(:service) { Volcanic::Authenticator::V1::Service }
-  let(:mock_name) { SecureRandom.hex(6) }
+  let(:mock_name) { 'mock_name' }
   let(:mock_description) { 'mock_description' }
   let(:service_error) { Volcanic::Authenticator::V1::ServiceError }
-  subject(:new_service) { service.create(mock_name) }
+  let(:new_service) { service.create(mock_name) }
   describe 'Create' do
     context 'When missing name' do
       it { expect { service.create(nil) }.to raise_error service_error }
@@ -14,32 +14,40 @@ RSpec.describe Volcanic::Authenticator::V1::Service, :vcr do
     end
 
     context 'When duplicate name' do
-      let(:duplicate_name) { SecureRandom.hex 6 }
-      before { service.create(duplicate_name) }
-      it { expect { service.create(duplicate_name) }.to raise_error service_error }
+      before { service.create('service-a') }
+      it { expect { service.create('service-a') }.to raise_error service_error }
     end
 
     context 'When creating' do
-      it { is_expected.to be_an service }
-      its(:name) { should be_a String }
-      its(:id) { should be_an Integer }
+      subject { service.create(mock_name) }
+      its(:name) { should eq mock_name }
+      its(:id) { should eq 1 }
     end
   end
 
   describe 'Get all' do
-    context 'When default page size' do
-      subject { service.all.count }
+    context 'When getting a default page size' do
+      # this will return a default page: 1 and page_size: 10
+      subject(:services) { service.all.count }
       it { should be <= 10 }
     end
 
-    context 'When setting page size' do
-      subject { service.all(page_size: 1).count }
-      it { should eq 1 }
+    context 'When getting with only specific page size' do
+      subject(:services) { service.all(page_size: 2) }
+      it { expect(services.count).to eq 2 }
+      it { expect(services[0].id).to eq 1 }
     end
 
-    context 'When setting page and page size' do
-      subject { service.all(page: 1, page_size: 2).count }
-      it { should be <= 2 }
+    context 'When getting with a specific page and page size' do
+      subject(:services) { service.all(page: 2, page_size: 3) }
+      it { expect(services.count).to eq 3 }
+      it { expect(services[0].id).to eq 4 }
+    end
+
+    context 'When getting with only specific page' do
+      subject(:services) { service.all(page: 2) }
+      it { expect(services.count).to be <= 10 }
+      it { expect(services[0].id).to eq 11 }
     end
   end
 
@@ -63,35 +71,48 @@ RSpec.describe Volcanic::Authenticator::V1::Service, :vcr do
   end
 
   describe 'Update' do
-    context 'When missing id' do
-      it { expect { service.new(nil).save }.to raise_error service_error }
-      it { expect { service.new('').save }.to raise_error service_error }
+    let(:new_name) { 'new-service' }
+
+    context 'When required field is nil' do
+      before { new_service.name = nil }
+      it { expect { new_service.save }.to raise_error service_error }
     end
 
-    context 'When updated name' do
-      let(:new_mock_name) { SecureRandom.hex(6) }
+    context 'When required field is empty' do
+      before { new_service.name = nil }
+      it { expect { new_service.save }.to raise_error service_error }
+    end
+
+    context 'When changed name' do
       before do
-        new_service.name = new_mock_name
+        new_service.name = new_name
         new_service.save
       end
-      it { should_not be raise_error }
-      its(:name) { should be new_mock_name }
+      subject { service.find_by_id(new_service.id) }
+      its(:name) { should eq new_name }
+    end
+
+    context 'When update with existing name' do
+      before { new_service.name = new_name }
+      it { expect { new_service.save }.to raise_error service_error }
     end
   end
 
   describe 'Delete' do
-    # context 'When missing id' do
-    #   it { expect { service.new(nil).delete }.to raise_error Volcanic::Authenticator::V1::ServiceError }
-    #   it { expect { service.new('').delete }.to raise_error Volcanic::Authenticator::V1::ServiceError }
-    # end
-
-    context 'When invalid id' do
-      it { expect { service.new('wrong-id').delete }.to raise_error Volcanic::Authenticator::V1::ServiceError }
+    let(:service_id) { new_service.id }
+    context 'When deleted' do
+      before { new_service.delete }
+      subject { service.find_by_id(service_id) }
+      its(:active?) { should be false }
     end
 
-    context 'When success' do
-      subject { new_service.delete }
-      it { should_not be raise_error }
+    context 'when service already been deleted' do
+      it { expect { new_service.delete }.to raise_error service_error }
+    end
+
+    context 'When invalid or non-exist id' do
+      it { expect { service.new('wrong-id').delete }.to raise_error service_error }
+      it { expect { service.new(123_456_789).delete }.to raise_error service_error }
     end
   end
 end
