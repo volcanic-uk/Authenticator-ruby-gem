@@ -1,0 +1,41 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://0.0.0.0:3003/api/v1/permissions/wrong_id
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjMxMTY1MzUsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MjI1MjUzNSwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjIyNTI1MzUsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.ANmFTB6ZcB7AEoGGvxRbWICiZDUkReiibpTFmHCcaqZWbiCFXTg4RcuNvFPoDGZK_8vZDp8eJ3nMsiCHC_glp3PTARFjpbUcYcJgjGHWZZu1gaHhBYNMDs9VX9cbMKV2pkps8tgHCJr_ise8rNwNJ0tp1wEyw70DgXsy_C08pKEAGh3C
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '109'
+      Etag:
+      - W/"6d-zLCHggSX3m7Wex+UyAON86I3HZA"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Thu, 04 Jul 2019 15:02:16 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_33878948023185207","message":"Permission
+        does not exist","errorCode":5002}'
+    http_version: 
+  recorded_at: Thu, 04 Jul 2019 15:02:16 GMT
+recorded_with: VCR 5.0.0

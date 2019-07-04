@@ -52,58 +52,82 @@ Create a new Permission.
 #
 # Permission.create(PERMISSION_NAME, DESCRIPTION, SERVICE_ID) 
 permission = Volcanic::Authenticator::V1::Permission.create('Permission-a', 'new permission', 1)
-
 permission.name # => 'Permission-a'
 permission.id # => '1'
-permission.creator_id # => 1
 permission.description # => 1
-
+permission.subject_id # => 3
+permission.service_id # => 10
+...
 ```
-
-**Get all**
-
-get/show all Permissions
+**Find**
+Find permission. 
 ```ruby
-Volcanic::Authenticator::V1::Permission.all
+# this is returning an Array of permission
 
-#  => return an array of Permission objects
+# Default. This will return 10 permission on the first page
+permissions = Volcanic::Authenticator::V1::Permission.find
+permissions.size # => 10
+permission = permissions[0]
+permission.id # => 1
+permission.name # => 'permission a'
+...
+
+# Get on different page. The page size is default by 10
+permissions = Volcanic::Authenticator::V1::Permission.find(page: 2)
+permissions.size # => 10
+permissions[0].id # => 11
+...
+
+# Get on different page size.
+permissions = Volcanic::Authenticator::V1::Permission.find(page: 2, page_size: 5)
+permissions.size # => 5
+permissions[0].id # => 6
+
+# Search by key name.
+permissions = Volcanic::Authenticator::V1::Permission.find(page: 2, page_size: 5, key_name: 'vol')
+permissions.size # => 5
+permissions[0].name # => 'volcanic-a'
+permissions[1].name # => 'permission-volcanic'
+permissions[2].name # => 'volvo'
+
 ```
 
 **Find by id**
 
-Get a permission.
+Find permission by id.
 ```ruby
-#
-# Permission.find_by_id(PERMISSION_ID)
-permission =  Volcanic::Authenticator::V1::Permission.find_by_id(1)
-
-permission.name # => 'Permission-a'
-permission.id # => '1'
-permission.creator_id # => 1
+permission = Volcanic::Authenticator::V1::Permission.find_by_id(1)
+permission.id # => 1
+permission.name # => 'permission-a'
 permission.description # => 1
-permission.active # => true
-
+permission.subject_id # => 3
+permission.service_id # => 10
+permission.active? # => true
 ```
 
 **Update**
 
 Edit/Update a permission.
 ```ruby
-##
-# must be in hash format
-# attributes :name
-attributes = { name: 'Permission-b', description: "new description" }
-         
-##
-# Permission.update(PERMISSION_ID, ATTRIBUTES) 
-Volcanic::Authenticator::V1::Permission.update(1, attributes)
+permission = Volcanic::Authenticator::V1::Permission.find_by_id(1)
+permission.name = 'update name'
+permission.description = 'update description'
+permission.save
+
+# OR
+ 
+Volcanic::Authenticator::V1::Permission.new(id: 1, name: 'update name', description: 'new description').save
+# this will update field name and description of permission of id 1
 ```
 
 **Delete**
 
 Delete a permission.
 ```ruby
-##
-# Permission.delete(PERMISSION_ID)
-Volcanic::Authenticator::V1::Permission.delete(1) 
+permission = Volcanic::Authenticator::V1::Permission.find_by_id(1)
+permission.delete
+
+# OR
+
+Volcanic::Authenticator::V1::Permission.new(id: 1).delete
 ```
