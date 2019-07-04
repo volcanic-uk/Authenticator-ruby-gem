@@ -81,15 +81,15 @@ RSpec.describe Volcanic::Authenticator, :vcr do
         it { expect { key.request_public_key }.to raise_error Volcanic::Authenticator::V1::ApplicationTokenError }
       end
 
-      context 'When requesting' do
-        it { should_not be nil }
-      end
+      # context 'When requesting' do
+      #   it { should_not be nil }
+      # end
 
-      context 'When fetch and requesting' do
-        subject { key.fetch_and_request }
-        it { should_not be nil }
-        it { expect(cache.fetch('volcanic_public_key')).not_to be nil }
-      end
+      # context 'When fetch and requesting' do
+      #   subject { key.fetch_and_request }
+      #   it { should_not be nil }
+      #   it { expect(cache.fetch('volcanic_public_key')).not_to be nil }
+      # end
     end
   end
 end

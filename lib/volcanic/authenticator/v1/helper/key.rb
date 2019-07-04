@@ -19,6 +19,7 @@ module Volcanic::Authenticator
         PUBLIC_KEY = 'volcanic_public_key'
         # Public Key end-point
         PUBLIC_KEY_URL = 'api/v1/key'
+        EXCEPTION = :raise_exception_standard
 
         def fetch_and_request(kid = nil)
           cache.fetch(kid || PUBLIC_KEY, expire_in: exp_public_key) do
@@ -30,12 +31,8 @@ module Volcanic::Authenticator
           url = [PUBLIC_KEY_URL, kid].join('/')
           # request an Application token for authorization header
           auth_token = AppToken.request_app_token
-          res = perform_get_request "#{url}?expired=true", auth_token
-          raise_exception_standard res unless res.success?
-
-          # the response for static and dynamic end-point is different.
-          pem = JSON.parse(res.body)['response']['key']
-          OpenSSL::PKey.read(pem)
+          parsed = perform_get_and_parse EXCEPTION, "#{url}?expired=true", auth_token
+          OpenSSL::PKey.read(parsed['public_key'])
         rescue OpenSSL::PKey::PKeyError => e
           raise SignatureError, e
         end

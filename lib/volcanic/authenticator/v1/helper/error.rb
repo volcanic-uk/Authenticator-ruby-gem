@@ -7,17 +7,15 @@ module Volcanic::Authenticator
       # error handler for application token
       def raise_exception_app_token(res)
         code = res.code
-        body = res.body
         raise_exception_standard(res)
-        raise ApplicationTokenError, parser(body, %w[reason message]) if code == 400
+        raise ApplicationTokenError, parser(res.body, 'message') if code == 400
       end
 
-      # error handler for application token
+      # error handler for principal
       def raise_exception_principal(res)
         code = res.code
-        body = res.body
         raise_exception_standard(res)
-        raise PrincipalError, parser(body, %w[reason message]) if code == 400
+        raise PrincipalError, parser(res.body, 'message') if code == 400
         raise PrincipalError if code == 404
       end
 
@@ -25,11 +23,12 @@ module Volcanic::Authenticator
       def raise_exception_standard(res)
         code = res.code
         body = res.body
-        raise SignatureError, parser(body, %w[reason message]) if code == 400 && parser(body, %w[reason errorCode]) == 3002
-        raise AuthorizationError, parser(body, %w[reason message]) if [401, 403].include?(code)
+        raise SignatureError, parser(body, 'message') if code == 400 && parser(body, 'errorCode' == 3002)
+        raise AuthorizationError, parser(body, 'message') if [401, 403].include?(code)
       end
 
-      def parser(json, keys)
+      def parser(json, *key)
+        keys = key.flatten.compact
         keys.reduce(JSON.parse(json)) { |found, item| found[item] }
       rescue TypeError
         raise ArgumentError, 'JSON key not found.'
