@@ -93,33 +93,33 @@ Volcanic::Authenticator::V1::Principal.new(id: 1).delete
 ## Identity
 **Register**
 
-Register a new principal.
+Register a new identity.
 
 ```ruby
 # params(identity_name, principal_id, identity_secret, privilege_ids, role_ids)
-principal = Volcanic::Authenticator::V1::Identity.register('identity-a', 1, 'new_secret', [1,2], [2])
-principal.id # => 1
-principal.name # => 'principal-a'
-principal.principal_id # => 1
-principal.secret # => 'new_secret'
-principal.token # => generate a token
+identity = Volcanic::Authenticator::V1::Identity.register('identity-a', 1, 'new_secret', [1,2], [2])
+identity.id # => 1
+identity.name # => 'principal-a'
+identity.principal_id # => 1
+identity.secret # => 'new_secret'
+identity.token # => generate a token
 
 # OR
  
 # register without secret 
-principal = Volcanic::Authenticator::V1::Identity.register('identity-a', 1)
-principal.id # => 1
-principal.name # => 'principal-a'
-principal.principal_id # => 1
-principal.secret # => generate a secret
-principal.token # => generate a token
+identity = Volcanic::Authenticator::V1::Identity.register('identity-a', 1)
+identity.id # => 1
+identity.name # => 'principal-a'
+identity.principal_id # => 1
+identity.secret # => generate a secret
+identity.token # => generate a token
 
 ```
 
 **Deactivate**
 ```ruby
-principal = Volcanic::Authenticator::V1::Identity.register('identity-a', 1)
-principal.deactivate
+identity = Volcanic::Authenticator::V1::Identity.register('identity-a', 1)
+identity.deactivate
 
 # OR
  
