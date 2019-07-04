@@ -19,15 +19,13 @@ module Volcanic::Authenticator
       IDENTITY_CREATE_URL = 'api/v1/identity'
       IDENTITY_DELETE_URL = 'api/v1/identity/deactivate'
 
-      attr_reader :id, :name, :secret, :principal_id, :privilege_ids, :role_ids
-
-      def initialize(id = nil, name = nil, secret = nil, principal_id = nil, privilege_ids = nil, role_ids = nil)
-        @name = name
-        @principal_id = principal_id
-        @secret = secret
-        @id = id
-        @privilege_ids = privilege_ids
-        @role_ids = role_ids
+      attr_reader :id, :name, :secret, :principal_id
+      # id = nil, name = nil, secret = nil, principal_id = nil
+      def initialize(**opt)
+        @id = opt[:id]
+        @name = opt[:name]
+        @secret = opt[:secret]
+        @principal_id = opt[:principal_id]
       end
 
       #
@@ -86,19 +84,18 @@ module Volcanic::Authenticator
         #   identity = Identity.register(name, principal_id, secret, privilege_ids, role_ids)
         #
         #
-        def register(name, principal_id, secret = nil, privilege_ids = [], role_ids = [])
+        def register(name, principal_id, secret = nil, privileges = [], roles = [])
           payload = { name: name,
                       principal_id: principal_id,
-                      password: secret,
-                      privileges: privilege_ids,
-                      roles: role_ids }.to_json
-          res = perform_post_request(IDENTITY_CREATE_URL, payload)
+                      privileges: privileges,
+                      roles: roles }
+          payload.merge(secret: secret) if !secret.nil? || secret != ''
+          res = perform_post_request(IDENTITY_CREATE_URL, payload.to_json)
           raise_exception_identity(res) unless res.success?
-          parser = JSON.parse(res.body)['response']
-          new(parser['id'],
-              parser['name'],
-              secret.nil? ? parser['secret'] : secret,
-              parser['principal_id'])
+          parsed = JSON.parse(res.body)['response']
+          parsed.transform_keys!(&:to_sym)
+          parsed[:secret] = secret if parsed[:secret].nil?
+          new(parsed)
         end
       end
     end
