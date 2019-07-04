@@ -7,17 +7,15 @@ module Volcanic::Authenticator
       # error handler for application token
       def raise_exception_app_token(res)
         code = res.code
-        body = res.body
         raise_exception_standard(res)
-        raise ApplicationTokenError, parser(body, %w[message]) if code == 400
+        raise ApplicationTokenError, parser(res.body, %w[message]) if code == 400
       end
 
       # error handler for application token
       def raise_exception_permission(res)
         code = res.code
-        body = res.body
         raise_exception_standard(res)
-        raise PermissionError, parser(body, %w[message]) if code == 400
+        raise PermissionError, parser(res.body, %w[message]) if code == 400
         raise PermissionError if code == 404
       end
 

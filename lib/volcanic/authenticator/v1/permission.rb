@@ -7,8 +7,6 @@ module Volcanic::Authenticator
   module V1
     #
     # Handle permission api
-    # method => :create, :all, :find_by_id, :update, :delete
-    # attr => :name, :id, :creator_id, :description, :active
     class Permission
       include Request
       include Error
@@ -19,16 +17,17 @@ module Volcanic::Authenticator
       attr_reader :id, :subject_id, :service_id
       #
       # initialize permission
-      def initialize(id, opt = {})
+      def initialize(id:, **opt)
         @id = id
-        @name = opt['name']
-        @description = opt['description']
-        @subject_id = opt['subject_id']
-        @service_id = opt['service_id']
-        @active = opt['active']
+        @name = opt[:name]
+        @description = opt[:description]
+        @subject_id = opt[:subject_id]
+        @service_id = opt[:service_id]
+        @active = opt[:active]
       end
 
       #
+      # to check for permission activation
       # eg.
       #   permission = Permission.find_by_id(1)
       #   permission.active? # => true
@@ -85,25 +84,26 @@ module Volcanic::Authenticator
           res = perform_post_request PERMISSION_URL, payload
           raise_exception_permission res unless res.success?
           parser = JSON.parse(res.body)['response']
-          new(parser['id'], parser)
+          new(parser.transform_keys(&:to_sym))
         end
 
         #
         # to receive an array of permissions.
         #
         # eg.
-        #   permissions = Permission.all
+        #   permissions = Permission.find()
         #   permissions[0].name # => 'permission-a'
         #   permissions[0].id # => 1
         #   ...
         #
-        def all(page: 1, page_size: 1, query: '')
-          url = "#{PERMISSION_URL}?page=#{page}&page_size=#{page_size}&query=#{query}"
+        def find(page: 1, page_size: 10, key_name: '')
+          params = %W[page=#{page} page_size=#{page_size} query=#{key_name}].join('&')
+          url = "#{PERMISSION_URL}?#{params}"
           res = perform_get_request url
           raise_exception_permission res unless res.success?
           parser = JSON.parse(res.body)['response']['data']
           parser.map do |data|
-            new(data['id'], data)
+            new(data.transform_keys(&:to_sym))
           end
         end
 
@@ -121,7 +121,7 @@ module Volcanic::Authenticator
           res = perform_get_request "#{PERMISSION_URL}/#{id}"
           raise_exception_permission res unless res.success?
           parser = JSON.parse(res.body)['response']
-          new(parser['id'], parser)
+          new(parser.transform_keys(&:to_sym))
         end
       end
     end
