@@ -4,8 +4,8 @@ require 'jwt'
 
 RSpec.describe Volcanic::Authenticator::V1::Identity, :vcr do
   before { Configuration.set }
-  let(:mock_name) { SecureRandom.hex(6) }
-  let(:mock_secret) { SecureRandom.hex(6) }
+  let(:mock_name) { 'mock_identity_name' }
+  let(:mock_secret) { 'mock_identity_secret' }
   let(:principal_id) { 1 } # need to create mock principal
   let(:identity) { Volcanic::Authenticator::V1::Identity }
   let(:identity_error) { Volcanic::Authenticator::V1::IdentityError }
@@ -16,9 +16,8 @@ RSpec.describe Volcanic::Authenticator::V1::Identity, :vcr do
     end
 
     context 'When duplicate name' do
-      let(:name) { SecureRandom.hex(6) }
-      before { identity.register(name, principal_id) }
-      it { expect { identity.register(name, principal_id) }.to raise_error identity_error }
+      before { identity.register(mock_name, principal_id, mock_secret) }
+      it { expect { identity.register(mock_name, principal_id, mock_secret) }.to raise_error identity_error }
     end
 
     context 'When missing principal id' do
@@ -32,17 +31,18 @@ RSpec.describe Volcanic::Authenticator::V1::Identity, :vcr do
 
     context 'When success' do
       subject { identity.register(mock_name, principal_id) }
-      it { should be_an identity }
+      its(:name) { should eq mock_name }
+      its(:principal_id) { should eq principal_id }
     end
 
-    context 'When missing secret' do
-      subject { identity.register(mock_name, principal_id, nil) }
-      its(:secret) { should_not be nil }
-    end
-
-    context 'When given secret' do
+    context 'When custom secret' do
       subject { identity.register(mock_name, principal_id, mock_secret) }
-      its(:secret) { should be mock_secret }
+      its(:secret) { should eq mock_secret }
+    end
+
+    context 'When secret is nil' do
+      subject { identity.register(mock_name, principal_id) }
+      its(:secret) { should eq '0f5768c55debdee22fe9aa7b6a928e9d40e67780' }
     end
 
     context 'When request a token with nil secret' do

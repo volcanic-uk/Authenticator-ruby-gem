@@ -5,7 +5,7 @@ http_interactions:
     uri: http://0.0.0.0:3003/api/v1/identity
     body:
       encoding: UTF-8
-      string: '{"name":"mock_token_name","principal_id":"wrong-id","password":null,"privileges":[],"roles":[]}'
+      string: '{"name":"mock_identity_name","principal_id":1,"secret":null,"privileges":[],"roles":[]}'
     headers:
       Authorization:
       - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjMwNzY1NDMsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MjIxMjU0MywiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjIyMTI1NDMsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AbAPOFmVIys4yNQl0-Ubt-3Tm06eA8uJ0wGHU-rS0awuWct5zH_TZ6hHhyLgVjgJhLZgvx43JJKUfeVZp3k3P2DlAKicu7wjHlOR97RLjVwgtdTRWY6nC7AToYcTz0n5LON4slLUqdJjSDMEJTtqtc81EdiFmdlqtlO3-SJoWLCaObuD
@@ -13,29 +13,28 @@ http_interactions:
       - application/json
   response:
     status:
-      code: 400
-      message: Bad Request
+      code: 200
+      message: OK
     headers:
       X-Powered-By:
       - Express
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
-      - '176'
+      - '122'
       Etag:
-      - W/"b0-6X4V4ShEnJgj/CuPL9bjwvtapWA"
+      - W/"7a-abhSajdWLqvlOK2Vc8+JWLSKHkE"
       Cache-Control:
       - no-cache
       Vary:
       - accept-encoding
       Date:
-      - Thu, 04 Jul 2019 03:55:43 GMT
+      - Thu, 04 Jul 2019 04:01:35 GMT
       Connection:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"requestID":"offline_awsRequestId_42282763903059495","message":{"principal_id":"\"principal_id\"
-        must be a number","password":"\"password\" is not allowed"},"errorCode":10001}'
+      string: '{"requestID":"offline_awsRequestId_0676329592225724","response":{"name":"mock_identity_name","principal_id":1,"secret":"192369c73dd85d739d4c5916c65cfbb9ee806d06","updated_at":"2019-07-04T03:38:00.993Z","created_at":"2019-07-04T03:38:00.993Z","id":3}}'
     http_version: 
-  recorded_at: Thu, 04 Jul 2019 03:55:43 GMT
+  recorded_at: Thu, 04 Jul 2019 04:01:35 GMT
 recorded_with: VCR 5.0.0
