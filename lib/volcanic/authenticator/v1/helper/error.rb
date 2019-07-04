@@ -36,8 +36,8 @@ module Volcanic::Authenticator
         raise AuthorizationError, parser(body, 'message') if [401, 403].include?(code)
       end
 
-      def parser(json, *keys)
-        keys = [keys].flatten.compact
+      def parser(json, *key)
+        keys = key.flatten.compact
         keys.reduce(JSON.parse(json)) { |found, item| found[item] }
       rescue TypeError
         raise ArgumentError, 'JSON key not found.'
