@@ -16,6 +16,7 @@ module Volcanic::Authenticator
       def perform_post_and_parse(exception, end_point, body = nil, auth_token = AppToken.fetch_and_request)
         url = [Volcanic::Authenticator.config.auth_url, end_point].join('/')
         res = HTTParty.post url, body: body, headers: bearer_header(auth_token)
+        p res.code
         exception_handler_and_parser(exception, res)
       rescue Timeout::Error, Errno::EINVAL, Errno::ECONNREFUSED, Errno::ECONNRESET, EOFError => e
         raise ConnectionError, e
