@@ -2,13 +2,13 @@
 http_interactions:
 - request:
     method: post
-    uri: http://0.0.0.0:3003/api/v1/identity/login
+    uri: http://0.0.0.0:3003/api/v1/groups
     body:
       encoding: UTF-8
-      string: '{"name":"volcanic","secret":"volcanic!123"}'
+      string: '{"name":"mock_name","description":"mock_description","permissions":[1,2]}'
     headers:
       Authorization:
-      - Bearer
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjMxODAwODgsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MjMxNjA4OCwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjIzMTYwODgsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AWssouUuu8zpeWhKNMqnlhPrQ8YcCit8hgpA3Z_VrPdcBuZeTBM3byezsK1A1Bo6lXuQwKGFGk_r6M1oPIPNNL--AeDKw3VAmFvQYeKcxGy9kQB7zTDqmH_hSInCu4CGgcO6oKECtck4Iof-PCxgxcm3bz0PfkepwduM49xnuaF0Au6e
       Content-Type:
       - application/json
   response:
@@ -21,28 +21,28 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
-      - '532'
+      - '174'
       Etag:
-      - W/"214-1u+OUBEiiWq4LOfUPbRhExzJe7w"
+      - W/"ae-btNgzmu6KGRqlPlj130lQHACfLE"
       Cache-Control:
       - no-cache
       Vary:
       - accept-encoding
       Date:
-      - Fri, 05 Jul 2019 08:41:28 GMT
+      - Fri, 05 Jul 2019 09:56:33 GMT
       Connection:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"requestID":"offline_awsRequestId_0617218429788744","response":{"token":"eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjMxODAwODgsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MjMxNjA4OCwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjIzMTYwODgsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AWssouUuu8zpeWhKNMqnlhPrQ8YcCit8hgpA3Z_VrPdcBuZeTBM3byezsK1A1Bo6lXuQwKGFGk_r6M1oPIPNNL--AeDKw3VAmFvQYeKcxGy9kQB7zTDqmH_hSInCu4CGgcO6oKECtck4Iof-PCxgxcm3bz0PfkepwduM49xnuaF0Au6e"}}'
+      string: '{"requestID":"offline_awsRequestId_44544466040249264","response":{"name":"mock_name","updated_at":"2019-07-05T09:56:33.472Z","created_at":"2019-07-05T09:56:33.472Z","id":21}}'
     http_version: 
-  recorded_at: Fri, 05 Jul 2019 08:41:28 GMT
+  recorded_at: Fri, 05 Jul 2019 09:56:33 GMT
 - request:
     method: post
-    uri: http://0.0.0.0:3003/api/v1/groups
+    uri: http://0.0.0.0:3003/api/v1/groups/21
     body:
       encoding: UTF-8
-      string: '{"name":null,"description":"mock_description","permissions":[]}'
+      string: '{"name":"new-group"}'
     headers:
       Authorization:
       - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjMxODAwODgsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MjMxNjA4OCwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjIzMTYwODgsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AWssouUuu8zpeWhKNMqnlhPrQ8YcCit8hgpA3Z_VrPdcBuZeTBM3byezsK1A1Bo6lXuQwKGFGk_r6M1oPIPNNL--AeDKw3VAmFvQYeKcxGy9kQB7zTDqmH_hSInCu4CGgcO6oKECtck4Iof-PCxgxcm3bz0PfkepwduM49xnuaF0Au6e
@@ -58,21 +58,21 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
-      - '118'
+      - '109'
       Etag:
-      - W/"76-YpXXnc2Ac0AD1zLmRNot5E9hZp8"
+      - W/"6d-3BABrOxn/MxNqARTTiRXSzVl0cs"
       Cache-Control:
       - no-cache
       Vary:
       - accept-encoding
       Date:
-      - Fri, 05 Jul 2019 08:41:28 GMT
+      - Fri, 05 Jul 2019 09:56:33 GMT
       Connection:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"requestID":"offline_awsRequestId_8159585959650528","message":{"name":"\"name\"
-        must be a string"},"errorCode":10001}'
+      string: '{"requestID":"offline_awsRequestId_12778926754079367","message":"Duplicate
+        entry new-group","errorCode":4002}'
     http_version: 
-  recorded_at: Fri, 05 Jul 2019 08:41:28 GMT
+  recorded_at: Fri, 05 Jul 2019 09:56:33 GMT
 recorded_with: VCR 5.0.0

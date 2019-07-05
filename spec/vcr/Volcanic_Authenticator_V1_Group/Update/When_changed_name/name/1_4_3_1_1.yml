@@ -1,0 +1,116 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://0.0.0.0:3003/api/v1/groups
+    body:
+      encoding: UTF-8
+      string: '{"name":"mock_name","description":"mock_description","permissions":[1,2]}'
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjMxODAwODgsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MjMxNjA4OCwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjIzMTYwODgsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AWssouUuu8zpeWhKNMqnlhPrQ8YcCit8hgpA3Z_VrPdcBuZeTBM3byezsK1A1Bo6lXuQwKGFGk_r6M1oPIPNNL--AeDKw3VAmFvQYeKcxGy9kQB7zTDqmH_hSInCu4CGgcO6oKECtck4Iof-PCxgxcm3bz0PfkepwduM49xnuaF0Au6e
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '174'
+      Etag:
+      - W/"ae-W+GJEtReiO2VIBiOg7U0How11dk"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Fri, 05 Jul 2019 09:54:27 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_12124368493927173","response":{"name":"mock_name","updated_at":"2019-07-05T09:54:27.688Z","created_at":"2019-07-05T09:54:27.688Z","id":19}}'
+    http_version: 
+  recorded_at: Fri, 05 Jul 2019 09:54:27 GMT
+- request:
+    method: post
+    uri: http://0.0.0.0:3003/api/v1/groups/19
+    body:
+      encoding: UTF-8
+      string: '{"name":"new-group"}'
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjMxODAwODgsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MjMxNjA4OCwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjIzMTYwODgsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AWssouUuu8zpeWhKNMqnlhPrQ8YcCit8hgpA3Z_VrPdcBuZeTBM3byezsK1A1Bo6lXuQwKGFGk_r6M1oPIPNNL--AeDKw3VAmFvQYeKcxGy9kQB7zTDqmH_hSInCu4CGgcO6oKECtck4Iof-PCxgxcm3bz0PfkepwduM49xnuaF0Au6e
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '223'
+      Etag:
+      - W/"df-kw4HwL13n4bJAIQ6KqhvaqzEw8w"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Fri, 05 Jul 2019 09:54:27 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_6713201803209017","response":{"id":"19","name":"new-group","description":null,"subject_id":null,"active":1,"created_at":"2019-07-05T09:54:28.000Z","updated_at":"2019-07-05T09:54:27.747Z"}}'
+    http_version: 
+  recorded_at: Fri, 05 Jul 2019 09:54:27 GMT
+- request:
+    method: get
+    uri: http://0.0.0.0:3003/api/v1/groups/19
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjMxODAwODgsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MjMxNjA4OCwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjIzMTYwODgsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AWssouUuu8zpeWhKNMqnlhPrQ8YcCit8hgpA3Z_VrPdcBuZeTBM3byezsK1A1Bo6lXuQwKGFGk_r6M1oPIPNNL--AeDKw3VAmFvQYeKcxGy9kQB7zTDqmH_hSInCu4CGgcO6oKECtck4Iof-PCxgxcm3bz0PfkepwduM49xnuaF0Au6e
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '221'
+      Etag:
+      - W/"dd-tYFPiETZhbe+ltlIYJT5lRu4UOU"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Fri, 05 Jul 2019 09:54:27 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_5495492265383186","response":{"id":19,"name":"new-group","description":null,"subject_id":null,"active":1,"created_at":"2019-07-05T09:54:28.000Z","updated_at":"2019-07-05T09:54:28.000Z"}}'
+    http_version: 
+  recorded_at: Fri, 05 Jul 2019 09:54:27 GMT
+recorded_with: VCR 5.0.0

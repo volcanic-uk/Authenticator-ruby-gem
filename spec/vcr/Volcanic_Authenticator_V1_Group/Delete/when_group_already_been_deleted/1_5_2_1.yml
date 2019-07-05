@@ -1,0 +1,41 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://0.0.0.0:3003/api/v1/groups
+    body:
+      encoding: UTF-8
+      string: '{"name":"mock_name","description":"mock_description","permissions":[1,2]}'
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjMxODAwMjIsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MjMxNjAyMywiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjIzMTYwMjMsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AOHmSCCSNk9Ga9-CM8wcQrIVlDNthMg7rgmPNaWmLHVRsvjOGf_Z4Cbq9ZCB_10QFrTU2zNGAvfm1yHxvSgEWQrMAKMWpbTEdZ-diuEJzJxPaGCynicXK6P4JiB1BaREq8TxQaviDY3Jny0JEQTVrfFUUNPAKrabnUdo8GVBFxhfBO-e
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '110'
+      Etag:
+      - W/"6e-H1JQzeZPBC872fgC+seX4QnL4a0"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Fri, 05 Jul 2019 08:40:26 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_026876274717964277","message":"Duplicate
+        entry mock_name","errorCode":4002}'
+    http_version: 
+  recorded_at: Fri, 05 Jul 2019 08:40:26 GMT
+recorded_with: VCR 5.0.0
