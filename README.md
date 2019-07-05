@@ -124,22 +124,40 @@ Volcanic::Authenticator::V1::Permission.new(id: 1).delete
 Create a new service.
 
 ```ruby
-#
-# Service.create(SERVICE_NAME) 
 service = Volcanic::Authenticator::V1::Service.create('service-a')
-
 service.name # => 'service-a'
 service.id # => '1'
-
 ```
 
-**Get all**
+**Find**
 
-get/show all services
+Find services. This returns an array of services
 ```ruby
-Volcanic::Authenticator::V1::Service.all
+# Default. This will return 10 service on the first page
+services = Volcanic::Authenticator::V1::Service.find
+services.size # => 10
+service = services[0]
+service.id # => 1
+service.name # => 'service a'
+...
 
-#  => return an array of service objects
+# Get on different page. The page size is default by 10
+services = Volcanic::Authenticator::V1::Service.find(page: 2)
+services.size # => 10
+services[0].id # => 11
+...
+
+# Get on different page size.
+services = Volcanic::Authenticator::V1::Service.find(page: 2, page_size: 5)
+services.size # => 5
+services[0].id # => 6
+
+# Search by key name.
+services = Volcanic::Authenticator::V1::Service.find(page: 2, page_size: 5, key_name: 'vol')
+services.size # => 5
+services[0].name # => 'volcanic-a'
+services[1].name # => 'service-volcanic'
+services[2].name # => 'volvo'
 ```
 
 **Find by id**
@@ -149,11 +167,9 @@ Get a service.
 #
 # Service.find_by_id(service_ID)
 service = Volcanic::Authenticator::V1::Service.find_by_id(1)
-
 service.name # => 'service_name'
 service.id # => '<service_ID>'
 service.active? # => true
-
 ```
 
 **Update**
@@ -167,7 +183,6 @@ service.save
 
 updated_service = Volcanic::Authenticator::V1::Service.find_by_id(1)
 updated_service.name # => 'new-service-name'
-
 ```
 
 **Delete**
@@ -175,7 +190,7 @@ updated_service.name # => 'new-service-name'
 Delete a service.
 ```ruby
 
-Volcanic::Authenticator::V1::Service.new(1).delete
+Volcanic::Authenticator::V1::Service.new(id: 1).delete
 
 ## OR
  
