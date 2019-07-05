@@ -1,0 +1,77 @@
+---
+http_interactions:
+  - request:
+      method: post
+      uri: http://0.0.0.0:3003/api/v1/services
+      body:
+        encoding: UTF-8
+        string: '{"name":"mock_name"}'
+      headers:
+        Authorization:
+          - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjMwMDMwOTIsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MjEzOTA5MiwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjIxMzkwOTIsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AEBuR94QW0I9ig-rxxAcbP0va0WllNC9lbBC2RQVfZVQOP0KZ0SDBWUShfYpi3iQOpUDqicbDcMqVBhqqUKeeHY3ABGVTrnD1b2dZn-9jBtxzZtKTsninJNd5eRnsT1FRXoiMtIdyHvrSB4HGidQWaGKmDe3vVd3kkVz46vJWp5x6yKJ
+        Content-Type:
+          - application/json
+    response:
+      status:
+        code: 200
+        message: OK
+      headers:
+        X-Powered-By:
+          - Express
+        Content-Type:
+          - application/json; charset=utf-8
+        Content-Length:
+          - '110'
+        Etag:
+          - W/"6e-HdM9br47EWz0Sj3v2HNBkunHw3g"
+        Cache-Control:
+          - no-cache
+        Vary:
+          - accept-encoding
+        Date:
+          - Fri, 05 Jul 2019 03:07:33 GMT
+        Connection:
+          - keep-alive
+      body:
+        encoding: UTF-8
+        string: '{"requestID":"offline_awsRequestId_7990582180869921","response":{"id":1,"name":"mock_name","description":"creating a new permission","subject_id":2,"service_id":1,"active":1,"created_at":"2019-07-05T03:11:08.000Z","updated_at":"2019-07-05T03:11:08.000Z"}}'
+      http_version:
+    recorded_at: Fri, 05 Jul 2019 03:07:33 GMT
+  - request:
+      method: get
+      uri: http://0.0.0.0:3003/api/v1/services/1
+      body:
+        encoding: UTF-8
+        string: ''
+      headers:
+        Authorization:
+          - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjMwMDMwOTIsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MjEzOTA5MiwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjIxMzkwOTIsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AEBuR94QW0I9ig-rxxAcbP0va0WllNC9lbBC2RQVfZVQOP0KZ0SDBWUShfYpi3iQOpUDqicbDcMqVBhqqUKeeHY3ABGVTrnD1b2dZn-9jBtxzZtKTsninJNd5eRnsT1FRXoiMtIdyHvrSB4HGidQWaGKmDe3vVd3kkVz46vJWp5x6yKJ
+        Content-Type:
+          - application/json
+    response:
+      status:
+        code: 200
+        message: OK
+      headers:
+        X-Powered-By:
+          - Express
+        Content-Type:
+          - application/json; charset=utf-8
+        Content-Length:
+          - '110'
+        Etag:
+          - W/"6e-HdM9br47EWz0Sj3v2HNBkunHw3g"
+        Cache-Control:
+          - no-cache
+        Vary:
+          - accept-encoding
+        Date:
+          - Fri, 05 Jul 2019 03:07:33 GMT
+        Connection:
+          - keep-alive
+      body:
+        encoding: UTF-8
+        string: '{"requestID":"offline_awsRequestId_7990582180869921","response":{"id":1,"name":"mock_name","description":"creating a new permission","subject_id":2,"service_id":1,"active":1,"created_at":"2019-07-05T03:11:08.000Z","updated_at":"2019-07-05T03:11:08.000Z"}}'
+      http_version:
+    recorded_at: Fri, 05 Jul 2019 03:07:33 GMT
+recorded_with: VCR 5.0.0
