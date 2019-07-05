@@ -7,8 +7,6 @@ module Volcanic::Authenticator
   module V1
     #
     # Handle permission group api
-    # method => :create, :all, :find_by_id, :update, :delete
-    # attr => :name, :id, :permissions, :creator_id, :active
     class Group
       include Request
       include Error
@@ -19,12 +17,12 @@ module Volcanic::Authenticator
       attr_reader :subject_id
       #
       # initialize new group
-      def initialize(id, opt = {})
+      def initialize(id:, **opt)
         @id = id
-        @name = opt['name']
-        @description = opt['description']
-        @subject_id = opt['subject_id']
-        @active = opt['active']
+        @name = opt[:name]
+        @description = opt[:description]
+        @subject_id = opt[:subject_id]
+        @active = opt[:active]
       end
 
       #
@@ -47,8 +45,9 @@ module Volcanic::Authenticator
       #   group.save
       #
       def save
-        payload = { name: name, description: description }.to_json
-        res = perform_post_request "#{GROUP_URL}/#{id}", payload
+        payload = { name: name, description: description }
+        payload.delete_if { |_, value| value.nil? }
+        res = perform_post_request "#{GROUP_URL}/#{id}", payload.to_json
         raise_exception_group res unless res.success?
       end
 
@@ -59,7 +58,7 @@ module Volcanic::Authenticator
       #
       #  or
       #
-      #  Group.new(1).delete
+      #  Group.new(id: 1).delete
       #
       def delete
         res = perform_delete_request "#{GROUP_URL}/#{id}"
@@ -78,34 +77,34 @@ module Volcanic::Authenticator
         #  group.id # => 1
         #  ...
         #
-        #  note: permission_ids must be in array of permission id. eg. [1,2]
         #
         def create(name, description = nil, *permissions)
           payload = { name: name,
                       description: description,
-                      permissions: permissions }.to_json
+                      permissions: permissions.flatten.compact }.to_json
           res = perform_post_request GROUP_URL, payload
           raise_exception_group res unless res.success?
           parsed = JSON.parse(res.body)['response']
-          new(parsed['id'], parsed)
+          new(parsed.transform_keys!(&:to_sym))
         end
 
         #
-        # to receive an array of groups
+        # to request an array of Grou[s].
         #
         # eg.
-        #   groups = Group.all
-        #   groups[0].name # => 'group-a'
-        #   groups[0].id # => 1
-        #   ....
+        #   groups = Group.find
+        #   groups[1].name # => 'group-a'
+        #   groups[1].id # => 1
+        #   ...
         #
-        def all(page: 1, page_size: 10, query: '')
-          url = "#{GROUP_URL}?page=#{page}&page_size=#{page_size}&query=#{query}"
+        def find(page: 1, page_size: 10, key_name: '')
+          params = %W[page=#{page} page_size=#{page_size} query=#{key_name}]
+          url = "#{GROUP_URL}?#{params.join('&')}"
           res = perform_get_request url
           raise_exception_group res unless res.success?
           parser = JSON.parse(res.body)['response']
           parser['data'].map do |data|
-            new(data['id'], data)
+            new(data.transform_keys!(&:to_sym))
           end
         end
 
@@ -124,7 +123,7 @@ module Volcanic::Authenticator
           res = perform_get_request "#{GROUP_URL}/#{id}"
           raise_exception_group res unless res.success?
           parsed = JSON.parse(res.body)['response']
-          new(parsed['id'], parsed)
+          new(parsed.transform_keys!(&:to_sym))
         end
       end
     end
