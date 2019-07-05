@@ -1,0 +1,49 @@
+---
+http_interactions:
+  - request:
+      method: get
+      uri: http://0.0.0.0:3003/api/v1/groups?page=1&page_size=10&query=gro
+      body:
+        encoding: US-ASCII
+        string: ''
+      headers:
+        Authorization:
+          - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjMxODAwODgsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MjMxNjA4OCwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjIzMTYwODgsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AWssouUuu8zpeWhKNMqnlhPrQ8YcCit8hgpA3Z_VrPdcBuZeTBM3byezsK1A1Bo6lXuQwKGFGk_r6M1oPIPNNL--AeDKw3VAmFvQYeKcxGy9kQB7zTDqmH_hSInCu4CGgcO6oKECtck4Iof-PCxgxcm3bz0PfkepwduM49xnuaF0Au6e
+        Content-Type:
+          - application/json
+    response:
+      status:
+        code: 200
+        message: OK
+      headers:
+        X-Powered-By:
+          - Express
+        Content-Type:
+          - application/json; charset=utf-8
+        Content-Length:
+          - '1873'
+        Etag:
+          - W/"751-dsbE6qwwm4MNkSpbdVHUOUrDAl4"
+        Cache-Control:
+          - no-cache
+        Vary:
+          - accept-encoding
+        Accept-Ranges:
+          - bytes
+        Date:
+          - Fri, 05 Jul 2019 09:34:31 GMT
+        Connection:
+          - keep-alive
+      body:
+        encoding: UTF-8
+        string: '{"requestID":"offline_awsRequestId_288148236472787","response":{"pagination":{"page":1,"pageSize":10,"rowCount":12,"pageCount":2},"data":[{"id":1,"name":"first-group","description":null,"subject_id":null,"active":1,"created_at":"2019-07-04T03:30:34.000Z","updated_at":"2019-07-04T03:30:34.000Z"},{"id":2,"name":"second-group","description":null,"subject_id":null,"active":1,"created_at":"2019-07-05T08:04:56.000Z","updated_at":"2019-07-05T08:04:56.000Z"},{"id":3,"name":"third-group","description":null,"subject_id":null,"active":1,"created_at":"2019-07-05T08:17:18.000Z","updated_at":"2019-07-05T08:17:18.000Z"},{"id":5,"name":"Test
+        Permission Group-7663","description":null,"subject_id":null,"active":1,"created_at":"2019-07-05T08:46:07.000Z","updated_at":"2019-07-05T08:46:07.000Z"},{"id":8,"name":"Test
+        Permission Group-5798","description":null,"subject_id":null,"active":1,"created_at":"2019-07-05T09:31:07.000Z","updated_at":"2019-07-05T09:31:07.000Z"},{"id":9,"name":"Test
+        Permission Group-2804","description":null,"subject_id":null,"active":1,"created_at":"2019-07-05T09:31:09.000Z","updated_at":"2019-07-05T09:31:09.000Z"},{"id":10,"name":"Test
+        Permission Group-5972","description":null,"subject_id":null,"active":1,"created_at":"2019-07-05T09:31:10.000Z","updated_at":"2019-07-05T09:31:10.000Z"},{"id":11,"name":"Test
+        Permission Group-9082","description":null,"subject_id":null,"active":1,"created_at":"2019-07-05T09:31:11.000Z","updated_at":"2019-07-05T09:31:11.000Z"},{"id":12,"name":"Test
+        Permission Group-4981","description":null,"subject_id":null,"active":1,"created_at":"2019-07-05T09:31:12.000Z","updated_at":"2019-07-05T09:31:12.000Z"},{"id":13,"name":"Test
+        Permission Group-6998","description":null,"subject_id":null,"active":1,"created_at":"2019-07-05T09:31:13.000Z","updated_at":"2019-07-05T09:31:13.000Z"}]}}'
+      http_version:
+    recorded_at: Fri, 05 Jul 2019 09:34:31 GMT
+recorded_with: VCR 5.0.0

@@ -5,7 +5,7 @@ http_interactions:
     uri: http://0.0.0.0:3003/api/v1/groups
     body:
       encoding: UTF-8
-      string: '{"name":"","description":"mock_description","permissions":[]}'
+      string: '{"name":"mock_name","description":"mock_description","permissions":[123456789]}'
     headers:
       Authorization:
       - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjMxODAwODgsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MjMxNjA4OCwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjIzMTYwODgsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AWssouUuu8zpeWhKNMqnlhPrQ8YcCit8hgpA3Z_VrPdcBuZeTBM3byezsK1A1Bo6lXuQwKGFGk_r6M1oPIPNNL--AeDKw3VAmFvQYeKcxGy9kQB7zTDqmH_hSInCu4CGgcO6oKECtck4Iof-PCxgxcm3bz0PfkepwduM49xnuaF0Au6e
@@ -21,9 +21,9 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
-      - '128'
+      - '107'
       Etag:
-      - W/"80-skmz2otnYmBQbQ0gNtiDxh5ks0Y"
+      - W/"6b-REhH5P6FE1oddiOHbMabHJxaabA"
       Cache-Control:
       - no-cache
       Vary:
@@ -34,8 +34,8 @@ http_interactions:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"requestID":"offline_awsRequestId_9613578717936944","message":{"name":"\"name\"
-        is not allowed to be empty"},"errorCode":10001}'
+      string: '{"requestID":"offline_awsRequestId_534177326654919","message":"Permission
+        does not exist","errorCode":5002}'
     http_version: 
   recorded_at: Fri, 05 Jul 2019 08:41:28 GMT
 recorded_with: VCR 5.0.0
