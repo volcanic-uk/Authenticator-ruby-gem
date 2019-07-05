@@ -16,14 +16,15 @@ module Volcanic::Authenticator
       SERVICE_URL = 'api/v1/services'
       EXCEPTION = :raise_exception_service
 
-      attr_accessor :name, :id, :subject_id
+      attr_accessor :name, :id
+      attr_reader :subject_id
       #
       # initialize new service
-      def initialize(id, opt = {})
+      def initialize(id:, **opt)
         @id = id
-        @name = opt['name']
-        @active = opt['active']
-        @subject_id = opt['subject_id']
+        @name = opt[:name]
+        @subject_id = opt[:subject_id]
+        @active = opt[:active]
       end
 
       #
@@ -78,26 +79,24 @@ module Volcanic::Authenticator
         def create(name)
           payload = { name: name }.to_json
           parsed = perform_post_and_parse EXCEPTION, SERVICE_URL, payload
-          new(parsed['id'], parsed)
+          new(parsed.transform_keys!(&:to_sym))
         end
 
         #
         # to request an array of services.
         #
         # eg.
-        #   services = Service.all
+        #   services = Service.find
         #   services[1].name # => 'service-a'
         #   services[1].id # => 1
         #   ...
         #
-        #  note: authenticator service need to implement sort or pagination,
-        #   so that we dont have to receive bulk of services.
-        #
-        def all(page: 1, page_size: 10, query: '')
-          url = "#{SERVICE_URL}?page=#{page}&page_size=#{page_size}&query=#{query}"
+        def find(key_name: '', page: 1, page_size: 10)
+          params = %W[page=#{page} page_size=#{page_size} query=#{key_name}]
+          url = "#{SERVICE_URL}?#{params.join('&')}"
           parsed = perform_get_and_parse EXCEPTION, url
           parsed['data'].map do |data|
-            new(data['id'], data)
+            new(data.transform_keys!(&:to_sym))
           end
         end
 
@@ -114,7 +113,7 @@ module Volcanic::Authenticator
           raise ArgumentError, 'argument is empty or nil' if id.nil? || id == ''
 
           parsed = perform_get_and_parse EXCEPTION, "#{SERVICE_URL}/#{id}"
-          new(parsed['id'], parsed)
+          new(parsed.transform_keys!(&:to_sym))
         end
       end
     end
