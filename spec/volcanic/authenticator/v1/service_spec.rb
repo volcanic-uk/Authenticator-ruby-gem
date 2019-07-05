@@ -25,29 +25,34 @@ RSpec.describe Volcanic::Authenticator::V1::Service, :vcr do
     end
   end
 
-  describe 'Get all' do
-    context 'When getting a default page size' do
+  describe 'Find' do
+    context 'When find with default setting' do
       # this will return a default page: 1 and page_size: 10
-      subject(:services) { service.all.count }
-      it { should be <= 10 }
+      subject(:services) { service.find }
+      it { expect(services[0].id).to eq 1 } # taking the first page
+      it { expect(services[0].name).to eq 'first-service' }
+      it { expect(services.count).to be <= 10 } # taking the page size to 10
     end
 
-    context 'When getting with only specific page size' do
-      subject(:services) { service.all(page_size: 2) }
-      it { expect(services.count).to eq 2 }
-      it { expect(services[0].id).to eq 1 }
-    end
-
-    context 'When getting with a specific page and page size' do
-      subject(:services) { service.all(page: 2, page_size: 3) }
-      it { expect(services.count).to eq 3 }
-      it { expect(services[0].id).to eq 4 }
-    end
-
-    context 'When getting with only specific page' do
-      subject(:services) { service.all(page: 2) }
-      it { expect(services.count).to be <= 10 }
+    context 'When find with specific page' do
+      subject(:services) { service.find(page: 2) }
       it { expect(services[0].id).to eq 11 }
+      it { expect(services[0].name).to eq 'eleventh-service' }
+      it { expect(services.count).to be <= 10 }
+    end
+
+    context 'When find with specific page size' do
+      subject(:services) { service.find(page_size: 2) }
+      it { expect(services[0].id).to eq 1 }
+      it { expect(services[0].name).to eq 'first-service' }
+      it { expect(services.count).to be <= 2 }
+    end
+
+    context 'When find with page and page size' do
+      subject(:services) { service.find(page: 2, page_size: 3) }
+      it { expect(services[0].id).to eq 4 }
+      it { expect(services[0].name).to eq 'fourth-service' }
+      it { expect(services.count).to be <= 3 }
     end
   end
 
@@ -63,9 +68,8 @@ RSpec.describe Volcanic::Authenticator::V1::Service, :vcr do
     end
 
     context 'When success' do
-      it { is_expected.to be_an service }
-      its(:name) { should be_a String }
-      its(:id) { should be_an Integer }
+      its(:name) { should eq new_service.name }
+      its(:id) { should eq new_service.id }
       its(:active?) { should be true }
     end
   end
@@ -111,8 +115,8 @@ RSpec.describe Volcanic::Authenticator::V1::Service, :vcr do
     end
 
     context 'When invalid or non-exist id' do
-      it { expect { service.new('wrong-id').delete }.to raise_error service_error }
-      it { expect { service.new(123_456_789).delete }.to raise_error service_error }
+      it { expect { service.new(id: 'wrong-id').delete }.to raise_error service_error }
+      it { expect { service.new(id: 123_456_789).delete }.to raise_error service_error }
     end
   end
 end
