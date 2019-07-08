@@ -34,10 +34,8 @@ module Volcanic::Authenticator
       def perform_delete_and_parse(exception, end_point)
         url = [Volcanic::Authenticator.config.auth_url, end_point].join('/')
         auth_token = AppToken.fetch_and_request
-        res = HTTParty.delete url, headers: bearer_header(auth_token)
-        exception_handler_and_parser(exception, res)
+        HTTParty.delete url, headers: bearer_header(auth_token)
       rescue Timeout::Error, Errno::EINVAL, Errno::ECONNREFUSED, Errno::ECONNRESET, EOFError => e
-        # Errno::EADDRNOTAVAI
         raise ConnectionError, e
       end
 
