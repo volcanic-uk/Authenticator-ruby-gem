@@ -1,11 +1,11 @@
 ---
 http_interactions:
 - request:
-    method: post
-    uri: http://0.0.0.0:3003/api/v1/privileges
+    method: get
+    uri: http://0.0.0.0:3003/api/v1/privileges/wrong_id
     body:
-      encoding: UTF-8
-      string: '{"scope":"","permission_id":1,"group_id":null}'
+      encoding: US-ASCII
+      string: ''
     headers:
       Authorization:
       - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjM0MzQxNTYsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MjU3MDE1NiwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjI1NzAxNTYsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AQYZK2XiP1x-UrgO5hqRh_bvYsA9rLGUNsH4JX_s7IaglAmpIKqEhNB7ykwCrJjJYCtOP81kQ4roSR5IWv2oNGV2AINTYXEI9HdkRiImiajBaA92QdD2Jvg9KXiBkdhJp2pXG5qnQs3Y7xSuhh5gKcHG5T3GfC5Wy3P7OEbssPYCXZSx
@@ -13,29 +13,29 @@ http_interactions:
       - application/json
   response:
     status:
-      code: 400
-      message: Bad Request
+      code: 404
+      message: Not Found
     headers:
       X-Powered-By:
       - Express
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
-      - '175'
+      - '107'
       Etag:
-      - W/"af-cjG+Ijzh9M28L8tP/DVm+kY5Fo8"
+      - W/"6b-K0EBbM2lLqtaJEJUWJJwp1mTdW8"
       Cache-Control:
       - no-cache
       Vary:
       - accept-encoding
       Date:
-      - Mon, 08 Jul 2019 07:15:56 GMT
+      - Mon, 08 Jul 2019 09:26:57 GMT
       Connection:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"requestID":"offline_awsRequestId_015503390575313913","message":{"scope":"\"scope\"
-        is not allowed to be empty","group_id":"\"group_id\" must be a number"},"errorCode":10001}'
+      string: '{"requestID":"offline_awsRequestId_7786899205207676","message":"privilege
+        does not exist","errorCode":8001}'
     http_version: 
-  recorded_at: Mon, 08 Jul 2019 07:15:56 GMT
+  recorded_at: Mon, 08 Jul 2019 09:26:57 GMT
 recorded_with: VCR 5.0.0
