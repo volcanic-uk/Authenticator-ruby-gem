@@ -26,7 +26,7 @@ module Volcanic::Authenticator
         code = res.code
         body = res.body
         raise_exception_standard(res)
-        raise PrivilegeError, parser(body, %w[reason message]) if code == 400
+        raise PrivilegeError, parser(body, %w[message]) if code == 400
         raise PrivilegeError, 'not found' if code == 404
       end
 
