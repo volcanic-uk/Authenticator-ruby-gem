@@ -1,0 +1,84 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://localhost:6000/api/v1/identity/login
+    body:
+      encoding: UTF-8
+      string: '{"name":"volcanic","secret":"volcanic!123","dataset_id":"-1","audience":["*"]}'
+    headers:
+      Authorization:
+      - Bearer
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Access-Control-Allow-Origin:
+      - "*"
+      X-Auth-Request-Id:
+      - offline_awsRequestId_23730607443874607
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '543'
+      Etag:
+      - W/"21f-ZnV8BnxpxU3y5w7prCQspUq36T8"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Mon, 17 Feb 2020 08:51:55 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_23730607443874607","response":{"token":"eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1ODE5ODk1MTUsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTgxOTI5NTE1LCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU4MTkyOTUxNSwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.ATt9XRVuVsv1dfVCuGDK-xSpKhKLJjsd98P2vG0nFNMcyjkGI4v0VXciLb2p8kE1herHPyEliObMuBzumjHgesbTAAAEIQFrSWp_qG2FMIkN5iPzD1qBbcAdczm-7eFcyLdVTGWuwAkiF44xpGA07HIl6GxypdOP-pEcBo3h4MckCWYg"}}'
+    http_version: 
+  recorded_at: Mon, 17 Feb 2020 08:51:55 GMT
+- request:
+    method: post
+    uri: http://localhost:6000/api/v1/roles
+    body:
+      encoding: UTF-8
+      string: '{"name":"","privileges":[],"parent_role_id":null}'
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1ODE5ODk1MTUsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTgxOTI5NTE1LCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU4MTkyOTUxNSwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.ATt9XRVuVsv1dfVCuGDK-xSpKhKLJjsd98P2vG0nFNMcyjkGI4v0VXciLb2p8kE1herHPyEliObMuBzumjHgesbTAAAEIQFrSWp_qG2FMIkN5iPzD1qBbcAdczm-7eFcyLdVTGWuwAkiF44xpGA07HIl6GxypdOP-pEcBo3h4MckCWYg
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 422
+      message: Unprocessable Entity
+    headers:
+      X-Powered-By:
+      - Express
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '128'
+      Etag:
+      - W/"80-9buPG1d/zeannBwoQKtExnexHRg"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Mon, 17 Feb 2020 08:51:55 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_4016760591476727","message":{"name":"\"name\"
+        is not allowed to be empty"},"errorCode":10001}'
+    http_version: 
+  recorded_at: Mon, 17 Feb 2020 08:51:55 GMT
+recorded_with: VCR 5.0.0

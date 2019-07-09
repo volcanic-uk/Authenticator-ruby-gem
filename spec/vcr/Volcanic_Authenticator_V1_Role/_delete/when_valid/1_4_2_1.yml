@@ -1,0 +1,83 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://localhost:6000/api/v1/identity/login
+    body:
+      encoding: UTF-8
+      string: '{"name":"volcanic","secret":"volcanic!123","dataset_id":"-1","audience":["*"]}'
+    headers:
+      Authorization:
+      - Bearer
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Access-Control-Allow-Origin:
+      - "*"
+      X-Auth-Request-Id:
+      - offline_awsRequestId_047398622219160025
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '544'
+      Etag:
+      - W/"220-xBllealFLHBPjuqhgeX0oVr3//4"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Mon, 17 Feb 2020 09:52:58 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_047398622219160025","response":{"token":"eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1ODE5OTMxNzgsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTgxOTMzMTc4LCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU4MTkzMzE3OCwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AVyb1anlTbLGKSRiwupPlmCBZBGis7i1lfP41T8gBCLRwx_J4XEDaEGUbxJmcxGZfAbM7SoDwoWXrzHFeBahH4ahAMKUoLk55Sk-PxVa3oZKE__qYyXRM32RDwYyazHqupTT7GgSUTEUjGw18yxjhCQxb4Uy8pc80a2lYup-ovWAIIQE"}}'
+    http_version: 
+  recorded_at: Mon, 17 Feb 2020 09:52:58 GMT
+- request:
+    method: delete
+    uri: http://localhost:6000/api/v1/roles/1
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1ODE5OTMxNzgsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTgxOTMzMTc4LCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU4MTkzMzE3OCwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AVyb1anlTbLGKSRiwupPlmCBZBGis7i1lfP41T8gBCLRwx_J4XEDaEGUbxJmcxGZfAbM7SoDwoWXrzHFeBahH4ahAMKUoLk55Sk-PxVa3oZKE__qYyXRM32RDwYyazHqupTT7GgSUTEUjGw18yxjhCQxb4Uy8pc80a2lYup-ovWAIIQE
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '115'
+      Etag:
+      - W/"73-C6WXKVRgZCtNxQPbeFBhR7hEnwg"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Mon, 17 Feb 2020 09:52:58 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_2240127420388922","response":{"id":17,"message":"Role deleted successfully"}}'
+    http_version: 
+  recorded_at: Mon, 17 Feb 2020 09:52:58 GMT
+recorded_with: VCR 5.0.0

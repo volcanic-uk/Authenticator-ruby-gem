@@ -1,0 +1,83 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://localhost:6000/api/v1/identity/login
+    body:
+      encoding: UTF-8
+      string: '{"name":"volcanic","secret":"volcanic!123","dataset_id":"-1","audience":["*"]}'
+    headers:
+      Authorization:
+      - Bearer
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Access-Control-Allow-Origin:
+      - "*"
+      X-Auth-Request-Id:
+      - offline_awsRequestId_7261795113312668
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '542'
+      Etag:
+      - W/"21e-rSm05/v9xxMvAaodulyIZcRVmcs"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Mon, 17 Feb 2020 08:53:06 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_7261795113312668","response":{"token":"eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1ODE5ODk1ODYsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTgxOTI5NTg2LCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU4MTkyOTU4NiwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AYEcteoFj6MVZWS-pU_KxUiDeGThniZtXwmkt38_vJEYyS98ONt0Cv64KJr8cc8a7v7zokWCC4SEJ52rnRGeWT-nAV4Lom1wB2ArLVj4m9VNt1pEBfYWy_tHXpkJYQlcuo10hjmE7uEzXRLMrv9JkjQ5GyoNGY3SSdugs1VDDri9VtrX"}}'
+    http_version: 
+  recorded_at: Mon, 17 Feb 2020 08:53:06 GMT
+- request:
+    method: post
+    uri: http://localhost:6000/api/v1/roles
+    body:
+      encoding: UTF-8
+      string: '{"name":"mock_name","privileges":[123456789],"parent_role_id":null}'
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1ODE5ODk1ODYsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTgxOTI5NTg2LCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU4MTkyOTU4NiwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AYEcteoFj6MVZWS-pU_KxUiDeGThniZtXwmkt38_vJEYyS98ONt0Cv64KJr8cc8a7v7zokWCC4SEJ52rnRGeWT-nAV4Lom1wB2ArLVj4m9VNt1pEBfYWy_tHXpkJYQlcuo10hjmE7uEzXRLMrv9JkjQ5GyoNGY3SSdugs1VDDri9VtrX
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 409
+      message: Conflict
+    headers:
+      X-Powered-By:
+      - Express
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '126'
+      Etag:
+      - W/"7e-SvAocbS7LTrQmV6nTRtflQAzQTw"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Mon, 17 Feb 2020 08:53:06 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"message":"The following key undefined is used by different resource","requestID":"offline_awsRequestId_0028650690414866453"}'
+    http_version: 
+  recorded_at: Mon, 17 Feb 2020 08:53:06 GMT
+recorded_with: VCR 5.0.0

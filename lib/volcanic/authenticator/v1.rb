@@ -9,6 +9,7 @@ require_relative 'v1/principal.rb'
 require_relative 'v1/identity.rb'
 require_relative 'v1/token.rb'
 require_relative 'v1/service.rb'
+require_relative 'v1/role.rb'
 
 require_relative 'v1/helper/app_token'
 require_relative 'v1/helper/key'
