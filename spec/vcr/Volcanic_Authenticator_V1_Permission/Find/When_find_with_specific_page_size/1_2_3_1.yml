@@ -1,0 +1,43 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://0.0.0.0:3003/api/v1/permissions?page=1&page_size=2&query=
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjM1MDI1NDMsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MjYzODU0MywiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjI2Mzg1NDMsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.APGcyKlx3Rtq91V5K2wdQLR_t70Cqxt8vO3TF4npcT6R4m-QT3IOnWwg2jc_XPBlb-cVvP1cqBeUdATnK2cqLjPCAd2n1KGfPbikhF-CRi-Bj54-Yza2vQ7hIAed1gMhEh78K9QO_HftVBkZYa4iV-zHwzdeoItJhOvbhII-19yvyGdX
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '542'
+      Etag:
+      - W/"21e-1/0dZJxsZ3N60dyFdfLonTIsO9I"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Tue, 09 Jul 2019 02:15:44 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_9423809786649078","response":{"pagination":{"page":1,"pageSize":2,"rowCount":14,"pageCount":7},"data":[{"id":1,"name":"first-permission","description":"creating a new permission","subject_id":2,"service_id":1,"active":1,"created_at":"2019-07-04T03:30:27.000Z","updated_at":"2019-07-04T03:30:27.000Z"},{"id":2,"name":"Test
+        permission-447","description":"creating a new permission","subject_id":2,"service_id":1,"active":1,"created_at":"2019-07-04T09:03:23.000Z","updated_at":"2019-07-04T09:03:23.000Z"}]}}'
+    http_version: 
+  recorded_at: Tue, 09 Jul 2019 02:15:44 GMT
+recorded_with: VCR 5.0.0
