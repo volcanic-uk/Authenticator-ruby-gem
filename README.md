@@ -1,3 +1,4 @@
+# Volcanic::Authenticator
 
 A ruby for gem for Volcanic Authenticator
 
