@@ -1,0 +1,42 @@
+---
+http_interactions:
+- request:
+    method: delete
+    uri: http://localhost:6000/api/v1/roles/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1ODE5OTI3MzAsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTgxOTMyNzMwLCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU4MTkzMjczMCwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.ALwItAGbGiMrc_5CeNuqvp5YrsqT5agO8GEMKA867pxtp5-PdPeo-Oss4DYWtyfbjh01fVCQ4PPk1AvXj_yPYtoYAZ4T1JyQFf9mkm_YTNHDxA-LUPc-CLgZtsL0-qwhoJyPBOOCOhwO3XNdfYP0kF5pZs8xPro6POZYIHYlAHR_SYuP
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      X-Powered-By:
+      - Express
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Type:
+      - text/html; charset=utf-8
+      Content-Length:
+      - '9'
+      Etag:
+      - W/"9-CUt2O0z8wLBeXQQFgc1RPDyggGc"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Mon, 17 Feb 2020 09:45:30 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: not found
+    http_version: 
+  recorded_at: Mon, 17 Feb 2020 09:45:30 GMT
+recorded_with: VCR 5.0.0

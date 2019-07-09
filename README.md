@@ -379,3 +379,28 @@ To find service in collections:
 ```ruby
 # similar to Principal.find but without dataset_id args
 ```
+
+## Role
+**Create**
+
+Create a new role.
+
+```ruby
+Volcanic::Authenticator::V1::Role.create('role-a', service_id, privilege_ids: [1, 2])
+```
+
+**Update**
+
+Edit/Update a role.
+```ruby
+role = Volcanic::Authenticator::V1::Role.new(id: 1)
+role.name = 'new-role-name'
+role.save
+```
+
+**Delete**
+
+Delete a role.
+```ruby
+Volcanic::Authenticator::V1::Role.new(id: 1).delete
+```

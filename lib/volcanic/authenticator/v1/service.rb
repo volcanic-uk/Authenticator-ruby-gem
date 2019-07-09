@@ -28,15 +28,17 @@ module Volcanic::Authenticator
       # service.name = 'update_name'
       # service.save
       def save
-        super({ name: name })
+        super(name: name)
       end
 
-      # service = Service.create('vault')
-      # service.name # => vault
-      # service.id # => 1
-      # ...
-      def self.create(name)
-        super({ name: name })
+      class << self
+        # service = Service.create('vault')
+        # service.name # => vault
+        # service.id # => 1
+        # ...
+        def create(name)
+          super({ name: name })
+        end
       end
     end
   end
