@@ -21,6 +21,14 @@ module Volcanic::Authenticator
         raise ServiceError if code == 404
       end
 
+      # error handler for permission
+      def raise_exception_permission(res)
+        code = res.code
+        raise_exception_standard(res)
+        raise PermissionError, parser(res.body, 'message') if code == 400
+        raise PermissionError if code == 404
+      end
+
       # default error handler
       def raise_exception_standard(res)
         code = res.code
