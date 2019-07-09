@@ -11,5 +11,6 @@ module Volcanic::Authenticator
     class AuthorizationError < AuthenticatorError; end
     class SignatureError < AuthenticatorError; end
     class GroupError < AuthenticatorError; end
+    class ServiceError < AuthenticatorError; end
   end
 end
