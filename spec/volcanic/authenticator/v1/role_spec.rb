@@ -6,7 +6,7 @@ RSpec.describe Volcanic::Authenticator::V1::Role, :vcr do
   let(:mock_name) { 'mock_name' }
   let(:mock_description) { 'mock_description' }
   let(:mock_service_id) { 1 }
-  let(:mock_privilege_ids) { [1,2] }
+  let(:mock_privilege_ids) { [1, 2] }
   let(:role_error) { Volcanic::Authenticator::V1::RoleError }
   let(:new_role) { role.create(mock_name, mock_service_id, mock_privilege_ids) }
   describe 'Create' do
