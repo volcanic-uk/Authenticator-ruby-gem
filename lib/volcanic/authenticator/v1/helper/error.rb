@@ -26,7 +26,7 @@ module Volcanic::Authenticator
         code = res.code
         body = res.body
         raise_exception_standard(res)
-        raise PrincipalError, parser(body, %w[reason message]) if code == 400
+        raise PrincipalError, parser(body, 'message') if code == 400
         raise PrincipalError if code == 404
       end
 
