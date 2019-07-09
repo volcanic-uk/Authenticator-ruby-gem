@@ -11,8 +11,7 @@ module Volcanic::Authenticator
     # attr => :name, :dataset_id, :id
     class Principal
       # Principal end-point
-      PRINCIPAL_URL = 'api/v1/principal'
-      PRINCIPAL_UPDATE_URL = 'api/v1/principal/update'
+      PRINCIPAL_URL = 'api/v1/principals'
 
       attr_reader :name, :dataset_id, :id
 
@@ -90,7 +89,7 @@ module Volcanic::Authenticator
           raise PrincipalError, 'Attributes must be a hash type' unless attr.is_a?(Hash)
 
           payload = attr.to_json
-          res = perform_post_request "#{PRINCIPAL_UPDATE_URL}/#{id}", payload
+          res = perform_post_request "#{PRINCIPAL_URL}/#{id}", payload
           raise_exception_principal res unless res.success?
         end
 
