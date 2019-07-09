@@ -1,3 +1,4 @@
+# Volcanic::Authenticator
 
 A ruby for gem for Volcanic Authenticator
 
@@ -100,7 +101,6 @@ service.active? # => true
 
 Edit/Update a service.
 ```ruby
-         
 service = Volcanic::Authenticator::V1::Service.find_by_id(1)
 service.name = 'new-service-name'
 service.save
@@ -138,13 +138,35 @@ privilege.permission_id # => 2
 privilege.group_id # => 10
 ```
 
-**Get all**
+**Find**
 
-get/show all Privileges
+Get privileges
 ```ruby
-Volcanic::Authenticator::V1::Privilege.all
+# Default. This will return 10 service on the first page
+privileges = Volcanic::Authenticator::V1::Privilege.find
+privileges.size # => 10
+privilege = privileges[0]
+privilege.id # => 1
+privilege.name # => 'service a'
+...
 
-#  => return an array of Privilege objects
+# Get on different page. The page size is default by 10
+privileges = Volcanic::Authenticator::V1::Privilege.find(page: 2)
+privileges.size # => 10
+privileges[0].id # => 11
+...
+
+# Get on different page size.
+privileges = Volcanic::Authenticator::V1::Privilege.find(page: 2, page_size: 5)
+privileges.size # => 5
+privileges[0].id # => 6
+
+# Search by key name.
+privileges = Volcanic::Authenticator::V1::Privilege.find(page: 2, page_size: 5, key_name: 'vol')
+privileges.size # => 5
+privileges[0].name # => 'volcanic-a'
+privileges[1].name # => 'service-volcanic'
+privileges[2].name # => 'volvo'
 ```
 
 **Find by id**
@@ -154,7 +176,6 @@ Get a Privilege.
 #
 # Privilege.find_by_id(PRIVILEGE_ID)
 privilege =  Volcanic::Authenticator::V1::Privilege.find_by_id(1)
-
 privilege.name # => 'Privilege-a'
 privilege.id # => 1
 privilege.permission_id # => 2
@@ -167,21 +188,23 @@ privilege.allow # => true
 
 Edit/Update a Privilege.
 ```ruby
-##
-# must be in hash format
-# attributes :scope, :permission_id, :group_id
-attributes = { name: 'privilege-b', permission_id: 2, group_id: 10 }
-         
-##
-# Privilege.update(PRIVILEGE_ID, ATTRIBUTES) 
-Volcanic::Authenticator::V1::Privilege.update(1, attributes)
+privilege = Volcanic::Authenticator::V1::Privilege.find_by_id(1)
+privilege.name = 'new-service-name'
+privilege.save
+
+Volcanic::Authenticator::V1::Privilege.find_by_id(1).name # => 'new-service-name'
 ```
 
 **Delete**
 
 Delete a Privilege.
 ```ruby
-##
-# Privilege.delete(PRIVILEGE_ID)
-Volcanic::Authenticator::V1::Privilege.delete(1) 
+
+Volcanic::Authenticator::V1::Privilege.new(id: 1).delete
+
+## OR
+ 
+privilege = Volcanic::Authenticator::V1::Privilege.find_by_id(1)
+privilege.delete 
+
 ```
