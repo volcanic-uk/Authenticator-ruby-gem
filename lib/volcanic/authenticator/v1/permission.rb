@@ -12,6 +12,7 @@ module Volcanic::Authenticator
       include Error
       # end-point
       PERMISSION_URL = 'api/v1/permissions'
+      EXCEPTION = :raise_exception_permission
 
       attr_accessor :name, :description
       attr_reader :id, :subject_id, :service_id
@@ -46,8 +47,7 @@ module Volcanic::Authenticator
       #
       def save
         payload = { name: name, description: description }.to_json
-        res = perform_post_request "#{PERMISSION_URL}/#{id}", payload
-        raise_exception_permission res unless res.success?
+        perform_post_and_parse EXCEPTION, "#{PERMISSION_URL}/#{id}", payload
       end
 
       #
@@ -60,8 +60,7 @@ module Volcanic::Authenticator
       #  Permission.find_by_id(1).delete
       #
       def delete
-        res = perform_delete_request "#{PERMISSION_URL}/#{id}"
-        raise_exception_permission res unless res.success?
+        perform_delete_and_parse EXCEPTION, "#{PERMISSION_URL}/#{id}"
       end
 
       class << self
@@ -81,10 +80,8 @@ module Volcanic::Authenticator
           payload = { name: name,
                       description: description,
                       service_id: service_id }.to_json
-          res = perform_post_request PERMISSION_URL, payload
-          raise_exception_permission res unless res.success?
-          parser = JSON.parse(res.body)['response']
-          new(parser.transform_keys(&:to_sym))
+          parsed = perform_post_and_parse EXCEPTION, PERMISSION_URL, payload
+          new(parsed.transform_keys(&:to_sym))
         end
 
         #
@@ -99,10 +96,8 @@ module Volcanic::Authenticator
         def find(page: 1, page_size: 10, key_name: '')
           params = %W[page=#{page} page_size=#{page_size} query=#{key_name}].join('&')
           url = "#{PERMISSION_URL}?#{params}"
-          res = perform_get_request url
-          raise_exception_permission res unless res.success?
-          parser = JSON.parse(res.body)['response']['data']
-          parser.map do |data|
+          parsed = perform_get_and_parse EXCEPTION, url
+          parsed['data'].map do |data|
             new(data.transform_keys(&:to_sym))
           end
         end
@@ -118,10 +113,8 @@ module Volcanic::Authenticator
         def find_by_id(id)
           raise ArgumentError, 'argument is empty or nil' if id.nil? || id == ''
 
-          res = perform_get_request "#{PERMISSION_URL}/#{id}"
-          raise_exception_permission res unless res.success?
-          parser = JSON.parse(res.body)['response']
-          new(parser.transform_keys(&:to_sym))
+          parsed = perform_get_and_parse EXCEPTION, "#{PERMISSION_URL}/#{id}"
+          new(parsed.transform_keys(&:to_sym))
         end
       end
     end
