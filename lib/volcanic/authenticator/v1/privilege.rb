@@ -12,6 +12,7 @@ module Volcanic::Authenticator
       include Error
 
       PRIVILEGE_URL = 'api/v1/privileges'
+      EXCEPTION = :raise_exception_privilege
 
       attr_reader :id, :subject_id
       attr_accessor :scope, :permission_id, :group_id
@@ -91,8 +92,7 @@ module Volcanic::Authenticator
       #   privilege.delete
       #
       def delete
-        res = perform_delete_request "#{PRIVILEGE_URL}/#{id}"
-        raise_exception_privilege res unless res.success?
+        perform_delete_and_parse EXCEPTION, "#{PRIVILEGE_URL}/#{id}"
       end
 
       class << self
@@ -111,9 +111,7 @@ module Volcanic::Authenticator
           payload = { scope: scope,
                       permission_id: permission_id,
                       group_id: group_id }.to_json
-          res = perform_post_request PRIVILEGE_URL, payload
-          raise_exception_privilege res unless res.success?
-          parsed = JSON.parse(res.body)['response']
+          parsed = perform_post_and_parse EXCEPTION, PRIVILEGE_URL, payload
           new(parsed.transform_keys(&:to_sym))
         end
 
@@ -129,9 +127,7 @@ module Volcanic::Authenticator
         def find(key_scope: '', page: 1, page_size: 10)
           params = %W[query=#{key_scope} page=#{page} page_size#{page_size}]
           url = "#{PRIVILEGE_URL}?#{params.join('&')}"
-          res = perform_get_request url
-          raise_exception_privilege res unless res.success?
-          parsed = JSON.parse(res.body)['response']
+          parsed = perform_get_and_parse EXCEPTION, url
           parsed['data'].map { |data| new(data.transform_keys(&:to_sym)) }
         end
 
@@ -145,9 +141,9 @@ module Volcanic::Authenticator
         #   ....
         #
         def find_by_id(id)
-          res = perform_get_request "#{PRIVILEGE_URL}/#{id}"
-          raise_exception_privilege res unless res.success?
-          parsed = JSON.parse(res.body)['response']
+          raise ArgumentError, 'argument is empty or nil' if id.nil? || id == ''
+
+          parsed = perform_get_and_parse EXCEPTION, "#{PRIVILEGE_URL}/#{id}"
           new(parsed.transform_keys(&:to_sym))
         end
       end
@@ -156,8 +152,7 @@ module Volcanic::Authenticator
       private
 
       def update(**payload)
-        res = perform_post_request "#{PRIVILEGE_URL}/#{id}", payload.to_json
-        raise_exception_privilege res unless res.success?
+        perform_post_and_parse EXCEPTION, "#{PRIVILEGE_URL}/#{id}", payload.to_json
       end
     end
   end
