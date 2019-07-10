@@ -61,7 +61,7 @@ module Volcanic::Authenticator
         # eg.
         #   identity = Identity.register(name, secret, principal_id)
         #
-        def create(name, principal_id, secret = nil, privileges = [], roles = [])
+        def create(name, principal_id, secret: nil, privileges: [], roles: [])
           payload = { name: name,
                       principal_id: principal_id,
                       secret: secret,

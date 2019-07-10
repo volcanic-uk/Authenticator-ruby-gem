@@ -8,7 +8,7 @@ RSpec.describe Volcanic::Authenticator::V1::Identity, :vcr do
   let(:mock_privileges) { [1, 2] }
   let(:mock_roles) { [1, 2] }
   let(:identity) { Volcanic::Authenticator::V1::Identity }
-  let(:new_identity) { identity.create(mock_name, mock_principal_id, mock_secret, mock_privileges, mock_roles) }
+  let(:new_identity) { identity.create(mock_name, mock_principal_id, secret: mock_secret, privileges: mock_privileges, roles: mock_roles) }
   let(:identity_error) { Volcanic::Authenticator::V1::IdentityError }
   let(:authorization_error) { Volcanic::Authenticator::V1::AuthorizationError }
 
@@ -42,7 +42,7 @@ RSpec.describe Volcanic::Authenticator::V1::Identity, :vcr do
     end
 
     context 'When generating a custom secret' do
-      subject { identity.create(mock_name, mock_principal_id, nil) }
+      subject { identity.create(mock_name, mock_principal_id, secret: nil) }
       its(:secret) { should eq 'cded0d177c84163f1a460f573b9b14e1b8b1e515' }
     end
   end
