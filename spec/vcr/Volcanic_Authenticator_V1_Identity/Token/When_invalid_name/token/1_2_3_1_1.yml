@@ -1,0 +1,78 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://0.0.0.0:3003/api/v1/identity
+    body:
+      encoding: UTF-8
+      string: '{"name":"mock_name","principal_id":1,"secret":"mock_secret","privileges":[1,2],"roles":[1,2]}'
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjM1OTU0ODAsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MjczMTQ4MCwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjI3MzE0ODAsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AISSO97GwM_3Eh1XtZqL7D3G03F86cGRaKK3a47yYpcVPFGEOpL43-8MLuROJr5qr2B1boy0t_leaby__rlVJITMAMrzCraCK1CIWjs7TcYEFAMe008awizGOpBkw9U6iv0IUuL3j-h53HK064H6GejtGqKePZSid-pjRN0kE3OzMwgT
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '214'
+      Etag:
+      - W/"d6-UH7ZPLCCh90W2EvM5CQRPdAsnWg"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Wed, 10 Jul 2019 06:46:45 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_08986593891744077","response":{"name":"mock_name","principal_id":1,"secret":"mock_secret","updated_at":"2019-07-10T06:46:45.064Z","created_at":"2019-07-10T06:46:45.064Z","id":35}}'
+    http_version: 
+  recorded_at: Wed, 10 Jul 2019 06:46:45 GMT
+- request:
+    method: post
+    uri: http://0.0.0.0:3003/api/v1/identity/login
+    body:
+      encoding: UTF-8
+      string: '{"name":"wrong-name","secret":"mock_secret"}'
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjM1OTU0ODAsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MjczMTQ4MCwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjI3MzE0ODAsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AISSO97GwM_3Eh1XtZqL7D3G03F86cGRaKK3a47yYpcVPFGEOpL43-8MLuROJr5qr2B1boy0t_leaby__rlVJITMAMrzCraCK1CIWjs7TcYEFAMe008awizGOpBkw9U6iv0IUuL3j-h53HK064H6GejtGqKePZSid-pjRN0kE3OzMwgT
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 403
+      message: Forbidden
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '115'
+      Etag:
+      - W/"73-KnBXktKwKfkpZZ9jc3LfzdVdn18"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Wed, 10 Jul 2019 06:46:45 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_28105091510584734","message":"invalid
+        identity name or secret","errorCode":1001}'
+    http_version: 
+  recorded_at: Wed, 10 Jul 2019 06:46:45 GMT
+recorded_with: VCR 5.0.0
