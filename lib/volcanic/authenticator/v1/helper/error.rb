@@ -26,7 +26,7 @@ module Volcanic::Authenticator
         code = res.code
         body = res.body
         raise_exception_standard(res)
-        raise IdentityError, parser(body, %w[reason message]) if code == 400
+        raise IdentityError, parser(body, 'message') if code == 400
       end
 
       # default error handler

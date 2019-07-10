@@ -16,15 +16,17 @@ module Volcanic::Authenticator
 
       # end-point
       IDENTITY_CREATE_URL = 'api/v1/identity'
+      TOKEN_CREATE_URL = 'api/v1/identity/login'
       IDENTITY_DELETE_URL = 'api/v1/identity/deactivate'
+      EXCEPTION = :raise_exception_identity
 
-      attr_reader :name, :secret, :id, :principal_id
+      attr_reader :id, :name, :secret, :principal_id
 
-      def initialize(id = nil, name = nil, secret = nil, principal_id = nil)
+      def initialize(id: nil, name: nil, secret: nil, principal_id: nil, **_opts)
+        @id = id
         @name = name
         @principal_id = principal_id
         @secret = secret
-        @id = id
       end
 
       #
@@ -38,47 +40,36 @@ module Volcanic::Authenticator
       #
       def token
         # Token.create(@name, @secret).token
+        payload = { name: name, secret: secret }.to_json
+        perform_post_and_parse(EXCEPTION, TOKEN_CREATE_URL, payload)['token']
+      end
+
+      ##
+      # Deactivate an identity and blacklist all associate tokens.
+      # Eg.
+      #   Identity.delete(identity_id)
+      #
+      def delete
+        perform_post_and_parse EXCEPTION, "#{IDENTITY_DELETE_URL}/#{id}"
       end
 
       class << self
         include Request
         include Error
-        ##
-        # Register an identity.
-        # Only require a name.
-        # Eg.
-        #   identity = Identity.register(name)
-        #   identity.name # => 'name'
-        #   identity.secret # => <GENERATED_SECRET>
-        #   identity.principal_id # => nil
-        #   identity.id # => <GENERATED_ID>
-        #   identity.token # => <GENERATED_TOKEN>
         #
-        # #####################################
+        # Create identity
+        # eg.
+        #   identity = Identity.register(name, secret, principal_id)
         #
-        #  # register with secret and principal_id
-        # Eg.
-        #   identity = Identity.register(name, secret, principal_ids)
-        #   # principals_ids = [1,2]
-        #
-        def create(name, secret = nil, principal_id = nil)
+        def create(name, principal_id, secret = nil, privileges = [], roles = [])
           payload = { name: name,
                       principal_id: principal_id,
-                      password: secret }.to_json
-          res = perform_post_request(IDENTITY_CREATE_URL, payload)
-          raise_exception_identity(res) unless res.success?
-          parser = JSON.parse(res.body)['response']
-          new(parser['name'], parser['secret'], parser['id'], parser['principal_id'])
-        end
-
-        ##
-        # Deactivate an identity and blacklist all associate tokens.
-        # Eg.
-        #   Identity.delete(identity_id)
-        #
-        def delete(identity_id)
-          res = perform_post_request("#{IDENTITY_DELETE_URL}/#{identity_id}", nil)
-          raise_exception_identity(res) unless res.success?
+                      secret: secret,
+                      privileges: privileges,
+                      roles: roles }.to_json
+          parsed = perform_post_and_parse EXCEPTION, IDENTITY_CREATE_URL, payload
+          parsed['secret'] = secret if parsed['secret'].nil?
+          new(parsed.transform_keys!(&:to_sym))
         end
       end
     end
