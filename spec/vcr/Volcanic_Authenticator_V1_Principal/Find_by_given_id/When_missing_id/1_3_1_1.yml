@@ -1,0 +1,42 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://0.0.0.0:3003/api/v1/principals/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjM1Mjk0OTgsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MjY2NTQ5OCwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjI2NjU0OTgsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.ANSaFS5VE_yF7zvvDDWQay_BfrCI70NgszPzkaeEIUlpRv1F4KRD99ZQ7KrZhWxL_ASr_h501iv7FEj2B_edPBI5AHHN0tt_ggI36gmPSppF4O_ZkkdMq8m4UHoQBfExxaS68QX_S0G9oltY4_-ncEV42t5qx8kiHXm9ESZbJhzExobl
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '1983'
+      Etag:
+      - W/"7bf-SjcnZjKRqSOGbOlpXh/pDhrvUlk"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Tue, 09 Jul 2019 09:45:00 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_35470439065244186","response":{"pagination":{"page":1,"pageSize":10,"rowCount":13,"pageCount":2},"data":[{"id":1,"name":"volcanic-principal","dataset_id":null,"last_active_date":null,"login_attempts":0,"active":1,"created_at":"2019-07-04T03:29:41.000Z","updated_at":"2019-07-05T08:40:23.000Z"},{"id":2,"name":"principal_3834","dataset_id":90,"last_active_date":null,"login_attempts":0,"active":1,"created_at":"2019-07-04T03:32:56.000Z","updated_at":"2019-07-04T03:32:56.000Z"},{"id":3,"name":"principal_38341","dataset_id":90,"last_active_date":null,"login_attempts":0,"active":1,"created_at":"2019-07-04T05:54:58.000Z","updated_at":"2019-07-04T05:54:58.000Z"},{"id":4,"name":"principal_383412","dataset_id":90,"last_active_date":null,"login_attempts":0,"active":1,"created_at":"2019-07-04T05:56:13.000Z","updated_at":"2019-07-04T05:56:13.000Z"},{"id":5,"name":"principal_3834123","dataset_id":90,"last_active_date":null,"login_attempts":0,"active":1,"created_at":"2019-07-04T05:56:19.000Z","updated_at":"2019-07-04T05:56:19.000Z"},{"id":6,"name":"asdaadqw","dataset_id":10,"last_active_date":null,"login_attempts":0,"active":1,"created_at":"2019-07-04T06:45:24.000Z","updated_at":"2019-07-04T06:45:24.000Z"},{"id":7,"name":"mock_principal_namasdase","dataset_id":10,"last_active_date":null,"login_attempts":0,"active":1,"created_at":"2019-07-04T06:47:20.000Z","updated_at":"2019-07-04T06:47:20.000Z"},{"id":8,"name":"mock_principal_name","dataset_id":10,"last_active_date":null,"login_attempts":0,"active":1,"created_at":"2019-07-04T06:48:00.000Z","updated_at":"2019-07-04T06:48:00.000Z"},{"id":9,"name":"principal_3834a","dataset_id":51,"last_active_date":null,"login_attempts":0,"active":1,"created_at":"2019-07-05T03:45:28.000Z","updated_at":"2019-07-08T04:42:15.000Z"},{"id":10,"name":"asd","dataset_id":1,"last_active_date":null,"login_attempts":0,"active":1,"created_at":"2019-07-05T03:51:11.000Z","updated_at":"2019-07-05T03:51:11.000Z"}]}}'
+    http_version: 
+  recorded_at: Tue, 09 Jul 2019 09:45:00 GMT
+recorded_with: VCR 5.0.0
