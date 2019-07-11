@@ -16,62 +16,62 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Access-Control-Allow-Origin:
-      - "*"
+      X-Powered-By:
+      - Express
       Content-Type:
       - application/json; charset=utf-8
+      Content-Length:
+      - '532'
+      Etag:
+      - W/"214-Q4EKWvgpHOgdd5DxPVzLPRHnPP4"
       Cache-Control:
       - no-cache
-      Content-Length:
-      - '560'
       Vary:
       - accept-encoding
       Date:
-      - Fri, 28 Jun 2019 09:33:00 GMT
+      - Thu, 11 Jul 2019 07:20:54 GMT
       Connection:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"requestID":"offline_awsRequestId_1881469113555423","result":"OK","response":{"token":"eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjI1NzgzODAsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MTcxNDM4MCwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjE3MTQzODAsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AeHvNQg7KGqCbMh3ss7c5ezLBOpmETEvyewKvMc04H4VZfIzXFExIRk6K_YE8-xZ1l6ZZUaiHQ_lD2VUp1O3qP2hAYMh_cRYmLNwJI1F3VjJFp3IU9OpgC0k36cKpqLBrRM63UbVONQ0F-QgVjIlbnpwGZPMzv2RMrK4AsmVwaYopfIL","services":[]}}'
+      string: '{"requestID":"offline_awsRequestId_7565057079392554","response":{"token":"eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjM2OTM2NTQsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MjgyOTY1NCwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjI4Mjk2NTQsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AKM8dwdDbow4p4rUG9KlQAjY29YbrYMBs71lq0jUngvt50wD-DSRNpmC_PtjRipsPxAsFN0_AMr_O-WXTLodMd-cANY_1O3FjYy_Vrg-hvUuy-QMe11HknmosU2xo9ZZ_Ef7fx5zUQjSnfemENxCBFqBzl0NGOa5QLU1CAvdXaZtKWNj"}}'
     http_version: 
-  recorded_at: Fri, 28 Jun 2019 09:33:00 GMT
+  recorded_at: Thu, 11 Jul 2019 07:20:54 GMT
 - request:
-    method: get
-    uri: http://0.0.0.0:3003/api/v1/key/?expired=true
+    method: post
+    uri: http://0.0.0.0:3003/api/v1/key/0b0dcb1b988e36701454dfd8bda4431e?expired=true
     body:
-      encoding: US-ASCII
+      encoding: UTF-8
       string: ''
     headers:
       Authorization:
-      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjI1NzgzODAsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MTcxNDM4MCwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjE3MTQzODAsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AeHvNQg7KGqCbMh3ss7c5ezLBOpmETEvyewKvMc04H4VZfIzXFExIRk6K_YE8-xZ1l6ZZUaiHQ_lD2VUp1O3qP2hAYMh_cRYmLNwJI1F3VjJFp3IU9OpgC0k36cKpqLBrRM63UbVONQ0F-QgVjIlbnpwGZPMzv2RMrK4AsmVwaYopfIL
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjM2OTM2NTQsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MjgyOTY1NCwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjI4Mjk2NTQsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AKM8dwdDbow4p4rUG9KlQAjY29YbrYMBs71lq0jUngvt50wD-DSRNpmC_PtjRipsPxAsFN0_AMr_O-WXTLodMd-cANY_1O3FjYy_Vrg-hvUuy-QMe11HknmosU2xo9ZZ_Ef7fx5zUQjSnfemENxCBFqBzl0NGOa5QLU1CAvdXaZtKWNj
       Content-Type:
       - application/json
   response:
     status:
-      code: 200
-      message: OK
+      code: 404
+      message: Not Found
     headers:
-      Access-Control-Allow-Origin:
-      - "*"
+      X-Powered-By:
+      - Express
       Content-Type:
-      - application/json; charset=utf-8
+      - text/html; charset=utf-8
+      Content-Length:
+      - '9'
+      Etag:
+      - W/"9-CUt2O0z8wLBeXQQFgc1RPDyggGc"
       Cache-Control:
       - no-cache
-      Content-Length:
-      - '353'
       Vary:
       - accept-encoding
-      Accept-Ranges:
-      - bytes
       Date:
-      - Fri, 28 Jun 2019 09:33:00 GMT
+      - Thu, 11 Jul 2019 07:20:54 GMT
       Connection:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"requestID":"offline_awsRequestId_9620728071206877","result":"OK","response":"-----BEGIN
-        PUBLIC KEY-----\nMIGbMBAGByqGSM49AgEGBSuBBAAjA4GGAAQARs3UaQ82aORFh4BMUstcXHV85KT+\n6ZgAiWswUiGiAPvvrt4DPBj1MM81uSt46AKLllybGgjDbmxsxKR6GJxZZSsAbhRo\n351VCzTAc3IrzYpXAkvwpH5xpN0HEUFqYfdB54fz5EsV9Ib97lNCKceGUJH4fotS\nPnFgCjz0Z094WOKNimI=\n-----END
-        PUBLIC KEY-----"}'
+      string: not found
     http_version: 
-  recorded_at: Fri, 28 Jun 2019 09:33:00 GMT
+  recorded_at: Thu, 11 Jul 2019 07:20:54 GMT
 recorded_with: VCR 5.0.0
