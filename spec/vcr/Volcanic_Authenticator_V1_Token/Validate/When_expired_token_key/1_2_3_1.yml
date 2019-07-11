@@ -1,0 +1,77 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://0.0.0.0:3003/api/v1/identity/login
+    body:
+      encoding: UTF-8
+      string: '{"name":"volcanic","secret":"volcanic!123"}'
+    headers:
+      Authorization:
+      - Bearer
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '531'
+      Etag:
+      - W/"213-bsI2lOZ/u6b2v0hJ92HD2KLzf+Q"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Thu, 11 Jul 2019 03:50:31 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_919533397432607","response":{"token":"eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjM2ODEwMzEsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MjgxNzAzMSwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjI4MTcwMzEsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.ANOHw1envWD1mJ18oqexYvTz41WZA3bO-vy76ZYBzmfRaYaUDX8aFxUHzdBHj9QgRChpO2RdO98joGc0g4kq9dCJAfu431j5BJMjWc65mu6HVwChHhZKJjVDEaFqD2DM7zFNO4TPtPj-wRYQDaAlg1ueO7q74Ijqkmmho3v4ulGuXZBT"}}'
+    http_version: 
+  recorded_at: Thu, 11 Jul 2019 03:50:31 GMT
+- request:
+    method: post
+    uri: http://0.0.0.0:3003/api/v1/key/a5f53fa25f2f82a3843c4af11bd801a1?expired=true
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjM2ODEwMzEsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MjgxNzAzMSwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjI4MTcwMzEsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.ANOHw1envWD1mJ18oqexYvTz41WZA3bO-vy76ZYBzmfRaYaUDX8aFxUHzdBHj9QgRChpO2RdO98joGc0g4kq9dCJAfu431j5BJMjWc65mu6HVwChHhZKJjVDEaFqD2DM7zFNO4TPtPj-wRYQDaAlg1ueO7q74Ijqkmmho3v4ulGuXZBT
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '476'
+      Etag:
+      - W/"1dc-ZYyykfF6B0ibBvn/eS7yy6/FzNE"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Thu, 11 Jul 2019 03:50:32 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_3796851632511553","response":{"public_key":"-----BEGIN PUBLIC KEY-----\nMIGbMBAGByqGSM49AgEGBSuBBAAjA4GGAAQARs3UaQ82aORFh4BMUstcXHV85KT+\n6ZgAiWswUiGiAPvvrt4DPBj1MM81uSt46AKLllybGgjDbmxsxKR6GJxZZSsAbhRo\n351VCzTAc3IrzYpXAkvwpH5xpN0HEUFqYfdB54fz5EsV9Ib97lNCKceGUJH4fotS\nPnFgCjz0Z094WOKNimI=\n-----END PUBLIC KEY-----"}}'
+    http_version: 
+  recorded_at: Thu, 11 Jul 2019 03:50:32 GMT
+recorded_with: VCR 5.0.0

@@ -74,19 +74,16 @@ RSpec.describe Volcanic::Authenticator, :vcr do
     describe 'Public Key' do
       before { Configuration.set }
       let(:key) { Volcanic::Authenticator::V1::Key }
-      subject { key.request_public_key }
+      let(:kid) { '0b0dcb1b988e36701454dfd8bda4431e' }
+      subject { key.request_public_key(kid) }
 
       context 'When failed to generate application token' do
         before { set.app_secret = nil }
-        it { expect { key.request_public_key }.to raise_error Volcanic::Authenticator::V1::ApplicationTokenError }
-      end
-
-      context 'When requesting' do
-        it { should_not be nil }
+        it { expect { key.request_public_key(kid) }.to raise_error Volcanic::Authenticator::V1::ApplicationTokenError }
       end
 
       context 'When fetch and requesting' do
-        subject { key.fetch_and_request }
+        subject { key.fetch_and_request(kid) }
         it { should_not be nil }
         it { expect(cache.fetch('volcanic_public_key')).not_to be nil }
       end
