@@ -27,6 +27,9 @@ module Volcanic::Authenticator
         body = res.body
         raise_exception_standard(res)
         raise RoleError, parser(body, 'message') if code == 400
+
+        error_message = parser(body, 'errorCode' == 9001) ? parser(body, 'message') : 'url not found'
+        raise(RoleError, error_message) if code == 404
       end
 
       # default error handler
