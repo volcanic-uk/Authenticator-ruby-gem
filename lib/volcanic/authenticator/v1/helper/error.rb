@@ -21,6 +21,14 @@ module Volcanic::Authenticator
         raise ServiceError if code == 404
       end
 
+      # error handler for identity
+      def raise_exception_token(res)
+        code = res.code
+        raise_exception_standard(res)
+        raise TokenError, parser(res.body, 'message') if code == 400
+        raise TokenError if code == 404
+      end
+
       # default error handler
       def raise_exception_standard(res)
         code = res.code
