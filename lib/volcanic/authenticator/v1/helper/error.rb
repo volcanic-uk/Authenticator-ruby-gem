@@ -60,6 +60,11 @@ module Volcanic::Authenticator
       def raise_exception_identity(res)
         RaiseException.new(res, IdentityError)
       end
+
+      # error handler for token
+      def raise_exception_token(res)
+        RaiseException.new(res, TokenError)
+      end
     end
   end
 end
