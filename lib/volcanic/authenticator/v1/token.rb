@@ -1,4 +1,7 @@
+# frozen_string_literal: true
+
 require 'jwt'
+require 'logger'
 require 'httparty'
 require_relative 'helper/request'
 require_relative 'helper/error'
@@ -13,27 +16,44 @@ module Volcanic::Authenticator
       include Request
       include Error
 
+      def_instance_delegator 'Volcanic::Cache::Cache'.to_sym, :instance, :cache
+      def_instance_delegators 'Volcanic::Authenticator.config'.to_sym, :exp_token, :key_store_type
+
       VALIDATE_TOKEN_URL = 'api/v1/identity/validate'
       GENERATE_TOKEN_URL = 'api/v1/identity/login'
       REVOKE_TOKEN_URL = 'api/v1/identity/logout'
+      TOKEN_EXCEPTION = :raise_exception_token
 
-      def_instance_delegator 'Volcanic::Cache::Cache'.to_sym, :instance, :cache
-      def_instance_delegators 'Volcanic::Authenticator.config'.to_sym, :exp_token, :key_store_type
-      attr_reader :token, :kid, :sub, :iss, :dataset_id, :principal_id, :identity_id
+      attr_accessor :token_key
+      attr_reader :kid, :sub, :iss, :dataset_id, :principal_id, :identity_id
 
-      def initialize(token)
-        @token = token
+      def initialize(token_key = nil)
+        @token_key = token_key
       end
+
+      #
+      # to generate/request token key
+      # eg.
+      #   token = Token.new.gen_token_key(name, secret)
+      #   token.token_key # => 'eyJhbGciOiJFUzUxMiIsIn...'
+      #   ....
+      #
+      def gen_token_key(identity_name, identity_secret)
+        payload = { name: identity_name, secret: identity_secret }.to_json
+        parsed = perform_post_and_parse TOKEN_EXCEPTION, GENERATE_TOKEN_URL, payload, nil
+        @token_key = parsed['token']
+        cache!
+        self
+      end
+
       #
       # to validate token exists at cache or has a valid signature.
-      # if token exist at cache it returns true.
-      # if token has a valid signature it return true.
       # eg.
-      #   Token.new(token).validate
+      #   Token.new(token_key).validate
       #   # => true/false
       #
       def validate
-        return true if cache.key?(token)
+        return true if cache.key?(@token_key)
 
         verify_signature # verify signature
         cache! # if success verify it cache the token again
@@ -41,23 +61,31 @@ module Volcanic::Authenticator
       rescue TokenError
         false
       end
+
       #
       # to validate token by authenticator service
       #
       # eg.
-      #   Token.new(token).validate_by_service
+      #   Token.new(token_key).validate_by_service
       #   # => true/false
       #
       def validate_by_service
-        payload = { token: token }.to_json
-        res = perform_post_request(VALIDATE_TOKEN_URL, payload, nil)
+        url = "#{Volcanic::Authenticator.config.auth_url}/#{VALIDATE_TOKEN_URL}"
+        res = HTTParty.post(url,
+                            body: { token: @token_key }.to_json,
+                            headers: bearer_header(nil))
+        unless res.success?
+          logger = Logger.new(STDOUT)
+          logger.error JSON.parse(res.body)['message']
+        end
         res.success?
       end
+
       #
       # to decode and fetch claims.
       #
       # eg.
-      #  token = Token.new(token).decode_and_fetch_claims
+      #  token = Token.new(token_key).decode_and_fetch_claims
       #  token.kid # => key id claim
       #  token.sub # => subject claim
       #  token.iss # => issuer claim
@@ -70,55 +98,39 @@ module Volcanic::Authenticator
         fetch_claims
         self
       end
+
       #
-      # to request/generate a new token
-      #
+      # to remove/revoke token from cache,
+      # then blacklist the token at auth service.
       # eg.
-      #   token = Token.create(name, secret)
-      #   token.token #=> <GENERATED_TOKEN>
-      #   ...
+      #   Token.new(token_key).revoke!
       #
-      def self.create(name, secret)
-        payload = { name: name, secret: secret }.to_json
-        res = perform_post_request(GENERATE_TOKEN_URL, payload, nil)
-        raise_exception_identity(res) unless res.success?
-        parser = JSON.parse(res.body)['response']['token']
-        token = new(parser)
-        token.cache!
-        token
+      def revoke!
+        cache.evict!(token_key) unless token_key.nil?
+        perform_post_and_parse TOKEN_EXCEPTION, REVOKE_TOKEN_URL, nil, token_key
       end
+
+      private
+
       #
       # to cache token
       # Eg.
       #  Token.new(token).cache!
       #
       def cache!
-        cache.fetch token, expire_in: exp_token, &method(:token)
+        cache.fetch token_key, expire_in: exp_token, &method(:token_key)
       end
-      #
-      # to remove/revoke token from cache,
-      # then blacklist the token at auth service.
-      # eg.
-      #   Token.new(token).revoke!
-      #
-      def revoke!
-        cache.evict! token
-        res = perform_post_request(REVOKE_TOKEN_URL, nil, token)
-        raise_exception_token(res) unless res.success?
-      end
-
-      private
 
       def verify_signature
         # fetch claims to obtain KID
         fetch_claims
         # Decode with verify signature
-        current_kid = key_store_type == 'static' ? nil : kid
-        decode!(Key.fetch_and_request(current_kid), true)
+        # current_kid = key_store_type == 'static' ? nil : kid
+        decode!(Key.fetch_and_request(kid), true)
       end
 
       def decode!(public_key = nil, verify = false)
-        JWT.decode token, public_key, verify, algorithm: 'ES512'
+        JWT.decode token_key, public_key, verify, algorithm: 'ES512'
       rescue JWT::DecodeError => e
         raise TokenError, e
       end
