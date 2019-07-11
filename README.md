@@ -123,3 +123,49 @@ service = Volcanic::Authenticator::V1::Service.find_by_id(1)
 service.delete 
 
 ```
+## Token
+
+**Generate Token key**
+
+To generate a token key. `identity_name` and `identity_secret` is required for this method
+```ruby
+token = Token.new.gen_token_key(identity_name, identity_secret)
+token.token_key # => "eyJhbGciOiJFUzUxMiIsInR5c..."
+```
+
+**Validate Token Key**
+
+To validate token key using keystore. Validate of signature, expiry date, and content 
+```ruby
+Token.new(token_key).validate
+# => true
+```
+
+**Validate Token Key by Auth Service**
+
+To validate token key by using Auth Service. This method request an api validation of the token key to auth service.
+```ruby
+Token.new(token_key).validate_by_service
+# => true
+```
+
+**Fetch claims**
+
+To fetch claims and others like `dataset_id`, `principal_id` and `identity_id` of the token
+```ruby
+token = Token.new(token_key).decode_and_fetch_claims
+token.kid # => key id claim
+token.sub # => subject claim
+token.iss # => issuer claim
+token.dataset_id # => dataset id from sub
+token.principal_id # => principal id from sub
+token.identity_id # => identity id from su
+
+```
+
+**Revoke Token Key**
+
+To revoke/blacklist token key from the auth service. This will also remove the token key at the gem's cache if it available.
+```ruby
+Token.new(token_key).revoke!
+```
