@@ -26,7 +26,6 @@ RSpec.describe Volcanic::Authenticator::V1::Role, :vcr do
       its(:name) { should eq mock_name }
       its(:service_id) { should eq mock_service_id }
       its(:subject_id) { should eq 2 }
-      its(:privileges) { should eq mock_privilege_ids }
     end
   end
 
@@ -78,7 +77,6 @@ RSpec.describe Volcanic::Authenticator::V1::Role, :vcr do
       its(:id) { should eq new_role.id }
       its(:service_id) { should eq new_role.service_id }
       its(:subject_id) { should eq new_role.subject_id }
-      its(:privileges) { should eq new_role.privileges }
     end
   end
 
@@ -114,8 +112,7 @@ RSpec.describe Volcanic::Authenticator::V1::Role, :vcr do
     let(:role_id) { new_role.id }
     context 'When deleted' do
       before { new_role.delete }
-      subject { role.find_by_id(role_id) }
-      its(:active?) { should be false }
+      it { expect { role.find_by_id(role_id) }.to raise_error role_error }
     end
 
     context 'when role already been deleted' do

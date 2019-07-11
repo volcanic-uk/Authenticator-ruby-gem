@@ -1,0 +1,40 @@
+---
+http_interactions:
+  - request:
+      method: post
+      uri: http://0.0.0.0:3003/api/v1/roles
+      body:
+        encoding: UTF-8
+        string: '{"name":"mock_name","service_id":1,"privileges":[]}'
+      headers:
+        Authorization:
+          - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjM2OTk1MzksInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MjgzNTUzOSwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjI4MzU1MzksImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AJO2X3VaBnRl9KOSh9Chvq7Drf7G7vsg4cOym1FSwaEbIio67OVCgIglLjhYssBXQpDGycHbf7dreJMKyjl6Ri2pAM7v1DuT8ehtW8bkP0d47gQb17kflITjngjQ3B1NYF97d219uQdeYrGuLOC3GFLIyDS8ZKteKgATnoPB7mQaWeiO
+        Content-Type:
+          - application/json
+    response:
+      status:
+        code: 200
+        message: OK
+      headers:
+        X-Powered-By:
+          - Express
+        Content-Type:
+          - application/json; charset=utf-8
+        Content-Length:
+          - '205'
+        Etag:
+          - W/"cd-G0hdytuZsp58AvR3NdajQGCDjlM"
+        Cache-Control:
+          - no-cache
+        Vary:
+          - accept-encoding
+        Date:
+          - Thu, 11 Jul 2019 09:03:09 GMT
+        Connection:
+          - keep-alive
+      body:
+        encoding: UTF-8
+        string: '{"requestID":"offline_awsRequestId_24804823166418055","response":{"name":"mock_name","subject_id":2,"service_id":1,"updated_at":"2019-07-11T09:03:09.006Z","created_at":"2019-07-11T09:03:09.006Z","id":1}}'
+      http_version:
+    recorded_at: Thu, 11 Jul 2019 09:03:09 GMT
+recorded_with: VCR 5.0.0
