@@ -1,0 +1,41 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://0.0.0.0:3003/api/v1/identity/validate
+    body:
+      encoding: UTF-8
+      string: '{"token":"eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjI4MTU2MDEsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MjgxNTYwMSwiYXVkaWVuY2UiOlsia3Jha2F0b2FldSIsIi0iXSwiaWF0IjoxNTYyODE1NjAxLCJpc3MiOiJ2b2xjYW5pY19hdXRoX3NlcnZpY2VfYXAyIn0.ARlJIfffiPQM_fDJ6uJLrOv1yYa-jHtg38ZWR74_6T0fM7YlBC_SFcGj8Rgsb4RJg8RFAc5DZ9fGP1iYvzt-5xG3AcsW9cG-sTtOoCilwDbOfV0tAmaz7t45ZTTvmC_MUM62kFp-V2dlxYZkwNqPre2TOKHrzj7lhz6mSxNINOcP1mLj"}'
+    headers:
+      Authorization:
+      - Bearer
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 403
+      message: Forbidden
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '100'
+      Etag:
+      - W/"64-j77XqTVCEm7xAVbN/udaWn7ghDY"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Thu, 11 Jul 2019 04:08:45 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_9198431374152423","message":"Invalid
+        JWT token","errorCode":3001}'
+    http_version: 
+  recorded_at: Thu, 11 Jul 2019 04:08:45 GMT
+recorded_with: VCR 5.0.0
