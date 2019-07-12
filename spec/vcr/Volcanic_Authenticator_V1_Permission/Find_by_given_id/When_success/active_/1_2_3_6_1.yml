@@ -1,0 +1,79 @@
+---
+http_interactions:
+  - request:
+      method: post
+      uri: http://0.0.0.0:3003/api/v1/permissions
+      body:
+        encoding: UTF-8
+        string: '{"name":"mock_permission_name","description":"mock_permission_description","service_id":1}'
+      headers:
+        Authorization:
+          - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjMxMTczODYsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MjI1MzM4NiwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjIyNTMzODYsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AbbinD9F7D5H1gPAlrjE0LH2Nbq9hARI91DMJNeMs1pPJR30DmZ5Gg84WCflvzt9qTTBIi_wNyz9BbaNqJVvmQZoAEL-MbIx_Zz-HZYjRxkvtf52JYHaDtRKGOD2mbndbZADSU8cqGViBRh1wORtxXT6vG6Rf75y-yorwuI5U2VpZnZO
+        Content-Type:
+          - application/json
+    response:
+      status:
+        code: 200
+        message: OK
+      headers:
+        X-Powered-By:
+          - Express
+        Content-Type:
+          - application/json; charset=utf-8
+        Content-Length:
+          - '259'
+        Etag:
+          - W/"103-45axJNwkQY1V4mqPk3h+Jdo1NOo"
+        Cache-Control:
+          - no-cache
+        Vary:
+          - accept-encoding
+        Date:
+          - Thu, 04 Jul 2019 15:37:02 GMT
+        Connection:
+          - keep-alive
+      body:
+        encoding: UTF-8
+        string: '{"requestID":"offline_awsRequestId_2157754272907264","response":{"name":"mock_permission_name","service_id":1,"description":"mock_permission_description","subject_id":"2","updated_at":"2019-07-04T15:37:02.141Z","created_at":"2019-07-04T15:37:02.141Z","id":7}}'
+      http_version:
+    recorded_at: Thu, 04 Jul 2019 15:37:02 GMT
+  - request:
+      method: get
+      uri: http://0.0.0.0:3003/api/v1/permissions/7
+      body:
+        encoding: US-ASCII
+        string: ''
+      headers:
+        Authorization:
+          - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjMxMTczODYsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MjI1MzM4NiwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjIyNTMzODYsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AbbinD9F7D5H1gPAlrjE0LH2Nbq9hARI91DMJNeMs1pPJR30DmZ5Gg84WCflvzt9qTTBIi_wNyz9BbaNqJVvmQZoAEL-MbIx_Zz-HZYjRxkvtf52JYHaDtRKGOD2mbndbZADSU8cqGViBRh1wORtxXT6vG6Rf75y-yorwuI5U2VpZnZO
+        Content-Type:
+          - application/json
+    response:
+      status:
+        code: 200
+        message: OK
+      headers:
+        X-Powered-By:
+          - Express
+        Content-Type:
+          - application/json; charset=utf-8
+        Content-Length:
+          - '268'
+        Etag:
+          - W/"10c-TNmxisTYft9okILUP0BdtdqpC5M"
+        Cache-Control:
+          - no-cache
+        Vary:
+          - accept-encoding
+        Accept-Ranges:
+          - bytes
+        Date:
+          - Thu, 04 Jul 2019 15:37:02 GMT
+        Connection:
+          - keep-alive
+      body:
+        encoding: UTF-8
+        string: '{"requestID":"offline_awsRequestId_4011989188984113","response":{"id":7,"name":"mock_permission_name","description":"mock_permission_description","subject_id":2,"service_id":1,"active":1,"created_at":"2019-07-04T15:37:02.000Z","updated_at":"2019-07-04T15:37:02.000Z"}}'
+      http_version:
+    recorded_at: Thu, 04 Jul 2019 15:37:02 GMT
+recorded_with: VCR 5.0.0

@@ -1,0 +1,75 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://0.0.0.0:3003/api/v1/permission
+    body:
+      encoding: UTF-8
+      string: '{"name":"85c89e828797","description":"mock_description","service_id":null}'
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjIzODUwNjEsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MTUyMTA2MSwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjE1MjEwNjEsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AD1SMT5QYOyYtmXdt1K-1bVHoYpinxBvq6hKfsws66tiUAuEo8hnwYeoCkUMrXQw8kTQccN4h8F-Doz36CfXijXmAfCL0QRjMy6IQwdgtqpP02Q8V_uYwqFLUESrUOFi73xjqLUxRyWgYX2yHSIyGngKGK8YgFbjdR9WtZMxCEvvCebI
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Type:
+      - application/json; charset=utf-8
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - '241'
+      Vary:
+      - accept-encoding
+      Date:
+      - Wed, 26 Jun 2019 03:51:01 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_22488842145266363","result":"OK","response":{"name":"85c89e828797","creator_id":"1","description":"mock_description","updated_at":"2019-06-26T03:51:01.867Z","created_at":"2019-06-26T03:51:01.867Z","id":61}}'
+    http_version: 
+  recorded_at: Wed, 26 Jun 2019 03:51:01 GMT
+- request:
+    method: get
+    uri: http://0.0.0.0:3003/api/v1/permission/61
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjIzODUwNjEsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MTUyMTA2MSwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjE1MjEwNjEsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AD1SMT5QYOyYtmXdt1K-1bVHoYpinxBvq6hKfsws66tiUAuEo8hnwYeoCkUMrXQw8kTQccN4h8F-Doz36CfXijXmAfCL0QRjMy6IQwdgtqpP02Q8V_uYwqFLUESrUOFi73xjqLUxRyWgYX2yHSIyGngKGK8YgFbjdR9WtZMxCEvvCebI
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Type:
+      - application/json; charset=utf-8
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - '250'
+      Vary:
+      - accept-encoding
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Wed, 26 Jun 2019 03:51:01 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_05917570480463841","result":"OK","response":{"id":61,"name":"85c89e828797","description":"mock_description","creator_id":1,"active":1,"created_at":"2019-06-26T03:51:02.000Z","updated_at":"2019-06-26T03:51:02.000Z"}}'
+    http_version: 
+  recorded_at: Wed, 26 Jun 2019 03:51:01 GMT
+recorded_with: VCR 5.0.0
