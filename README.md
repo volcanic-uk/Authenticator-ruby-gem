@@ -124,60 +124,74 @@ service.delete
 
 ````
 
-## 1. Principal
+## Principal
 **Create**
 
 Create a new principal.
 
 ```ruby
-# Principal.create(principal_name, dataset_id)
-principal = Volcanic::Authenticator::V1::Principal.create('principal-a', 1)
+# Principal.create(principal_name, dataset_id, role_ids, privilege_ids)
+principal = Volcanic::Authenticator::V1::Principal.create('principal-a', 1, [1, 2], [3, 4])
 principal.id # => 1
 principal.name # => 'principal_name'
 principal.dataset_id # => 1
 ```
 
-**Retrieve all**
+**Find**
 
-get/show all principals
+Find principals. 
+
 ```ruby
-Volcanic::Authenticator::V1::Principal.all
+# Default. This will return 10 principal on the first page
+principals = Volcanic::Authenticator::V1::Principal.find
+principals.size # => 10
+principal = principals[0]
+principal.id # => 1
+principal.name # => 'principal a'
+...
 
-#  => return an array of principal objects
+# Get on different page. The page size is default by 10
+principals = Volcanic::Authenticator::V1::Principal.find(page: 2)
+principals.size # => 10
+principals[0].id # => 11
+...
+
+# Get on different page size.
+principals = Volcanic::Authenticator::V1::Principal.find(page: 2, page_size: 5)
+principals.size # => 5
+principals[0].id # => 6
+
+# Search by key name.
+principals = Volcanic::Authenticator::V1::Principal.find(page: 2, page_size: 5, key_name: 'vol')
+principals.size # => 5
+principals[0].name # => 'volcanic-a'
+principals[1].name # => 'principal-volcanic'
+principals[2].name # => 'volvo'
 ```
 
-**Retrieve by id**
+**Find by id**
 
 Get a principal.
 ```ruby
-#
-# Principal.find_by_id(PRINCIPAL_ID)
 principal =  Volcanic::Authenticator::V1::Principal.find_by_id(1)
-
+principal.id # => 1
 principal.name # => 'principal_name'
 principal.dataset_id # => 1
-principal.id # => '<PRINCIPAL_ID>'
 ```
 
 **Update**
 
 Edit/Update a principal.
-```ruby
-##
-# must be in hash format
-# attributes :name, :dataset_id
-attributes = { name: 'principal-b', dataset_id: 2 }
-         
-##
-# Principal.update(PRINCIPAL_ID, ATTRIBUTES) 
-Volcanic::Authenticator::V1::Principal.update(1, attributes)
+```ruby  
+principal = Volcanic::Authenticator::V1::Principal.find_by_id(1)
+principal.name = 'new principal name'
+principal.dataset_id = 2
+principal.save
 ```
 
 **Delete**
 
 Delete a principal.
 ```ruby
-##
-# Principal.delete(PRINCIPAL_ID)
-Volcanic::Authenticator::V1::Principal.delete(1) 
+Volcanic::Authenticator::V1::Principal.new(id: 1).delete
 ```
