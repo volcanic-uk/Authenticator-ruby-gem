@@ -34,6 +34,7 @@ module Volcanic::Authenticator
         raise_exception_standard(res)
         raise GroupError, parser(body, %w[message]) if code == 400
         raise GroupError if code == 404
+      end
 
       # error handler for Privilege
       def raise_exception_privilege(res)
