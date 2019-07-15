@@ -340,3 +340,84 @@ Volcanic::Authenticator::V1::Privilege.new(id: 1).delete
 privilege = Volcanic::Authenticator::V1::Privilege.find_by_id(1)
 privilege.delete 
 ```
+
+## Role
+**Create**
+
+Create a new role.
+
+```ruby
+role = Volcanic::Authenticator::V1::Role.create('role-a')
+role.id # => 1
+role.name # => 'role-a'
+...
+```
+
+**Find**
+
+Find roles. This returns an array of roles
+```ruby
+# Default. This will return 10 role on the first page
+roles = Volcanic::Authenticator::V1::Role.find
+roles.size # => 10
+role = roles[0]
+role.id # => 1
+role.name # => 'role a'
+...
+
+# Get on different page. The page size is default by 10
+roles = Volcanic::Authenticator::V1::Role.find(page: 2)
+roles.size # => 10
+roles[0].id # => 11
+...
+
+# Get on different page size.
+roles = Volcanic::Authenticator::V1::Role.find(page: 2, page_size: 5)
+roles.size # => 5
+roles[0].id # => 6
+
+# Search by key name.
+roles = Volcanic::Authenticator::V1::Role.find(page: 2, page_size: 5, key_name: 'vol')
+roles.size # => 5
+roles[0].name # => 'volcanic-a'
+roles[1].name # => 'role-volcanic'
+roles[2].name # => 'volvo'
+```
+**Find by id**
+
+Find role by id.
+```ruby
+#
+# Role.find_by_id(role_ID)
+role = Volcanic::Authenticator::V1::Role.find_by_id(1)
+role.id # => 1
+role.name # => 'role_name'
+...
+
+```
+**Update**
+
+Update a role.
+```ruby
+         
+role = Volcanic::Authenticator::V1::Role.find_by_id(1)
+role.name = 'new-role-name'
+role.save
+
+updated_role = Volcanic::Authenticator::V1::Role.find_by_id(1)
+updated_role.name # => 'new-role-name'
+```
+
+**Delete**
+
+Delete a role.
+```ruby
+
+Volcanic::Authenticator::V1::Role.new(id: 1).delete
+
+## OR
+ 
+role = Volcanic::Authenticator::V1::Role.find_by_id(1)
+role.delete 
+
+```

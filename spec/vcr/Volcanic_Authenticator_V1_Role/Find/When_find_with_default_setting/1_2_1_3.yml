@@ -1,0 +1,42 @@
+---
+http_interactions:
+  - request:
+      method: get
+      uri: http://0.0.0.0:3003/api/v1/roles?page=1&page_size=10&query=
+      body:
+        encoding: US-ASCII
+        string: ''
+      headers:
+        Authorization:
+          - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjM2OTk1MzksInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MjgzNTUzOSwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjI4MzU1MzksImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AJO2X3VaBnRl9KOSh9Chvq7Drf7G7vsg4cOym1FSwaEbIio67OVCgIglLjhYssBXQpDGycHbf7dreJMKyjl6Ri2pAM7v1DuT8ehtW8bkP0d47gQb17kflITjngjQ3B1NYF97d219uQdeYrGuLOC3GFLIyDS8ZKteKgATnoPB7mQaWeiO
+        Content-Type:
+          - application/json
+    response:
+      status:
+        code: 200
+        message: OK
+      headers:
+        X-Powered-By:
+          - Express
+        Content-Type:
+          - application/json; charset=utf-8
+        Content-Length:
+          - '1606'
+        Etag:
+          - W/"646-A7PuXvkz074C+BVKssvOeZg5YMA"
+        Cache-Control:
+          - no-cache
+        Vary:
+          - accept-encoding
+        Accept-Ranges:
+          - bytes
+        Date:
+          - Thu, 11 Jul 2019 09:30:03 GMT
+        Connection:
+          - keep-alive
+      body:
+        encoding: UTF-8
+        string: '{"requestID":"offline_awsRequestId_8967255400238734","response":{"pagination":{"page":1,"pageSize":10,"rowCount":16,"pageCount":2},"data":[{"id":1,"name":"first-role","subject_id":2,"service_id":1,"created_at":"2019-07-11T08:58:59.000Z","updated_at":"2019-07-11T08:58:59.000Z"},{"id":2,"name":"mock_name","subject_id":2,"service_id":1,"created_at":"2019-07-11T09:03:09.000Z","updated_at":"2019-07-11T09:03:09.000Z"},{"id":3,"name":"Test-Role-Name-2352","subject_id":2,"service_id":1,"created_at":"2019-07-11T09:05:38.000Z","updated_at":"2019-07-11T09:05:38.000Z"},{"id":4,"name":"Test-Role-Name-4814","subject_id":2,"service_id":1,"created_at":"2019-07-11T09:27:07.000Z","updated_at":"2019-07-11T09:27:07.000Z"},{"id":5,"name":"Test-Role-Name-1429","subject_id":2,"service_id":1,"created_at":"2019-07-11T09:27:11.000Z","updated_at":"2019-07-11T09:27:11.000Z"},{"id":6,"name":"Test-Role-Name-2596","subject_id":2,"service_id":1,"created_at":"2019-07-11T09:27:12.000Z","updated_at":"2019-07-11T09:27:12.000Z"},{"id":7,"name":"Test-Role-Name-8431","subject_id":2,"service_id":1,"created_at":"2019-07-11T09:27:14.000Z","updated_at":"2019-07-11T09:27:14.000Z"},{"id":8,"name":"Test-Role-Name-7048","subject_id":2,"service_id":1,"created_at":"2019-07-11T09:27:16.000Z","updated_at":"2019-07-11T09:27:16.000Z"},{"id":9,"name":"Test-Role-Name-1383","subject_id":2,"service_id":1,"created_at":"2019-07-11T09:27:18.000Z","updated_at":"2019-07-11T09:27:18.000Z"},{"id":10,"name":"Test-Role-Name-4847","subject_id":2,"service_id":1,"created_at":"2019-07-11T09:27:19.000Z","updated_at":"2019-07-11T09:27:19.000Z"}]}}'
+      http_version:
+    recorded_at: Thu, 11 Jul 2019 09:30:03 GMT
+recorded_with: VCR 5.0.0

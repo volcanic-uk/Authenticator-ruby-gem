@@ -1,0 +1,42 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://0.0.0.0:3003/api/v1/roles?page=2&page_size=10&query=
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjM2OTk1MzksInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MjgzNTUzOSwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjI4MzU1MzksImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AJO2X3VaBnRl9KOSh9Chvq7Drf7G7vsg4cOym1FSwaEbIio67OVCgIglLjhYssBXQpDGycHbf7dreJMKyjl6Ri2pAM7v1DuT8ehtW8bkP0d47gQb17kflITjngjQ3B1NYF97d219uQdeYrGuLOC3GFLIyDS8ZKteKgATnoPB7mQaWeiO
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '1034'
+      Etag:
+      - W/"40a-RUP/1urPsOdZIEAB7bnXMd1cDHM"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Thu, 11 Jul 2019 09:29:02 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_5642894291196059","response":{"pagination":{"page":2,"pageSize":10,"rowCount":16,"pageCount":2},"data":[{"id":11,"name":"eleventh-role","subject_id":2,"service_id":1,"created_at":"2019-07-11T09:27:21.000Z","updated_at":"2019-07-11T09:27:21.000Z"},{"id":12,"name":"Test-Role-Name-4114","subject_id":2,"service_id":1,"created_at":"2019-07-11T09:27:23.000Z","updated_at":"2019-07-11T09:27:23.000Z"},{"id":13,"name":"Test-Role-Name-5436","subject_id":2,"service_id":1,"created_at":"2019-07-11T09:27:25.000Z","updated_at":"2019-07-11T09:27:25.000Z"},{"id":14,"name":"Test-Role-Name-799","subject_id":2,"service_id":1,"created_at":"2019-07-11T09:27:26.000Z","updated_at":"2019-07-11T09:27:26.000Z"},{"id":15,"name":"Test-Role-Name-5957","subject_id":2,"service_id":1,"created_at":"2019-07-11T09:28:26.000Z","updated_at":"2019-07-11T09:28:26.000Z"},{"id":16,"name":"Test-Role-Name-8964","subject_id":2,"service_id":1,"created_at":"2019-07-11T09:28:33.000Z","updated_at":"2019-07-11T09:28:33.000Z"}]}}'
+    http_version: 
+  recorded_at: Thu, 11 Jul 2019 09:29:02 GMT
+recorded_with: VCR 5.0.0
