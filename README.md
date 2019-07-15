@@ -181,6 +181,51 @@ Delete a principal.
 Volcanic::Authenticator::V1::Principal.new(id: 1).delete
 ```
 
+## Identity
+
+**Create**
+
+Create new identity
+```ruby
+# required params is name and principal_id
+identity = Volcanic::Authenticator::V1::Identity.create('identity-name', 1)
+identity.id #=> 1
+identity.principal_id #=> 2
+identity.name # => 'identity-name'
+identity.secret #=> 'cded0d177c84163f1...'
+
+# with custom secret
+identity = Volcanic::Authenticator::V1::Identity.create('identity-name', 1, secret: 'my-secret')
+identity.secret # => 'my-secret'
+
+# with privilege ids
+identity = Volcanic::Authenticator::V1::Identity.create('identity-name', 1, privileges: [1, 2])
+
+# with role ids
+identity = Volcanic::Authenticator::V1::Identity.create('identity-name', 1, roles: [1, 2])
+
+```
+
+**Delete**
+
+Delete an identity
+```ruby
+# using existing instance object
+identity.delete
+
+# OR
+  
+Volcanic::Authenticator::V1::Identity.new(id: 1).delete
+
+```
+
+**Token**
+```ruby
+identity = Volcanic::Authenticator::V1::Identity.create('identity-name', 1)
+identity.token # => 'eyJhbGciOiJFUzUxMiIsInR5cDgwMWExIn0...'
+```
+Note: This is another way to generate a token. Always use `Token.create(name, secret).token_key` to create a token.
+
 ## Permission
 **Create**
 

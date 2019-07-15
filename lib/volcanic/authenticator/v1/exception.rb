@@ -16,5 +16,6 @@ module Volcanic::Authenticator
     class PrivilegeError < AuthorizationError; end
     class RoleError < AuthenticatorError; end
     class PrincipalError < AuthenticatorError; end
+    class IdentityError < AuthorizationError; end
   end
 end

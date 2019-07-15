@@ -11,6 +11,7 @@ require_relative 'authenticator/v1/group'
 require_relative 'authenticator/v1/privilege'
 require_relative 'authenticator/v1/role.rb'
 require_relative 'authenticator/v1/principal.rb'
+require_relative 'authenticator/v1/identity.rb'
 
 module Volcanic
   # Authenticator
