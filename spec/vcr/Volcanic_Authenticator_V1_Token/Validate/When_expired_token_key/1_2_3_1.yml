@@ -38,7 +38,7 @@ http_interactions:
     http_version: 
   recorded_at: Thu, 11 Jul 2019 03:50:31 GMT
 - request:
-    method: post
+    method: get
     uri: http://0.0.0.0:3003/api/v1/key/a5f53fa25f2f82a3843c4af11bd801a1?expired=true
     body:
       encoding: UTF-8

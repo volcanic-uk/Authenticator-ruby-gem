@@ -30,7 +30,7 @@ module Volcanic::Authenticator
         def request_public_key(kid)
           url = [PUBLIC_KEY_URL, kid].join('/')
           auth_token = AppToken.request_app_token
-          parsed = perform_post_and_parse EXCEPTION, "#{url}?expired=true", nil, auth_token
+          parsed = perform_get_and_parse EXCEPTION, "#{url}?expired=true", auth_token
           OpenSSL::PKey.read(parsed['public_key'])
         rescue OpenSSL::PKey::PKeyError => e
           raise SignatureError, e
