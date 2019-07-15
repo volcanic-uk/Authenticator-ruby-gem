@@ -1,0 +1,78 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://0.0.0.0:3003/api/v1/groups
+    body:
+      encoding: UTF-8
+      string: '{"name":"mock_name","description":"mock_description","permissions":[]}'
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjMxODAwODgsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MjMxNjA4OCwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjIzMTYwODgsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AWssouUuu8zpeWhKNMqnlhPrQ8YcCit8hgpA3Z_VrPdcBuZeTBM3byezsK1A1Bo6lXuQwKGFGk_r6M1oPIPNNL--AeDKw3VAmFvQYeKcxGy9kQB7zTDqmH_hSInCu4CGgcO6oKECtck4Iof-PCxgxcm3bz0PfkepwduM49xnuaF0Au6e
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '172'
+      Etag:
+      - W/"ac-KdTo9+a0vhXDQe17Cn8/vl5FuO4"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Fri, 05 Jul 2019 09:22:37 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_7478892330572746","response":{"name":"mock_name","updated_at":"2019-07-05T09:22:37.792Z","created_at":"2019-07-05T09:22:37.792Z","id":6}}'
+    http_version: 
+  recorded_at: Fri, 05 Jul 2019 09:22:37 GMT
+- request:
+    method: post
+    uri: http://0.0.0.0:3003/api/v1/groups
+    body:
+      encoding: UTF-8
+      string: '{"name":"mock_name","description":"mock_description","permissions":[]}'
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjMxODAwODgsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MjMxNjA4OCwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjIzMTYwODgsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AWssouUuu8zpeWhKNMqnlhPrQ8YcCit8hgpA3Z_VrPdcBuZeTBM3byezsK1A1Bo6lXuQwKGFGk_r6M1oPIPNNL--AeDKw3VAmFvQYeKcxGy9kQB7zTDqmH_hSInCu4CGgcO6oKECtck4Iof-PCxgxcm3bz0PfkepwduM49xnuaF0Au6e
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '108'
+      Etag:
+      - W/"6c-e4vT1k2ZfNDV0WVSeIh/R3zbpJo"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Fri, 05 Jul 2019 09:22:37 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_4794229626635105","message":"Duplicate
+        entry mock_name","errorCode":4002}'
+    http_version: 
+  recorded_at: Fri, 05 Jul 2019 09:22:37 GMT
+recorded_with: VCR 5.0.0

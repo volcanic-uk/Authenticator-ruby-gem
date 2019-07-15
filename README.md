@@ -2,8 +2,6 @@
 
 A ruby for gem for Volcanic Authenticator
 
-## Installation
-
 Add the following to your application's Gemfile:
 ```ruby
 gem 'volcanic-cache', git: 'git@github.com:volcanic-uk/ruby-cache.git'
@@ -175,7 +173,7 @@ permission.active? # => true
 
 **Update**
 
-Edit/Update a permission.
+Update a permission.
 ```ruby
 permission = Volcanic::Authenticator::V1::Permission.find_by_id(1)
 permission.name = 'update name'
@@ -193,4 +191,70 @@ permission.delete
 # OR
 
 Volcanic::Authenticator::V1::Permission.new(id: 1).delete
+```
+
+## Group Permission
+**Create**
+
+Create a new Group.
+
+```ruby
+group = Volcanic::Authenticator::V1::Group.create('group-a', 'description', [1, 2])
+group.name # => 'group-a'
+group.id # => '1'
+group.description # => 'description'
+```
+
+**Find**
+
+Find groups 
+```ruby
+# this is returning an Array of group
+
+# Default. This will return 10 group on the first page
+groups = Volcanic::Authenticator::V1::group.find
+groups.size # => 10
+group = groups[0]
+group.id # => 1
+group.name # => 'group a'
+...
+
+# Get for different page. The page size is default by 10
+groups = Volcanic::Authenticator::V1::group.find(page: 2)
+groups.size # => 10
+groups[0].id # => 11
+...
+
+# Get for different page size.
+groups = Volcanic::Authenticator::V1::group.find(page: 2, page_size: 5)
+groups.size # => 5
+groups[0].id # => 6
+
+# Search by key name.
+groups = Volcanic::Authenticator::V1::group.find(page: 2, page_size: 5, key_name: 'vol')
+groups.size # => 5
+groups[0].name # => 'volcanic-a'
+groups[1].name # => 'group-volcanic'
+groups[2].name # => 'volvo'
+```
+**Update**
+
+Update a group.
+```ruby 
+group = Volcanic::Authenticator::V1::Group.find_by_id(1)
+group.name = 'new group name'
+group.description = 'new group description'
+group.save
+```
+
+**Delete**
+
+Delete a group.
+```ruby
+Volcanic::Authenticator::V1::Group.new(id: 1).delete
+
+# OR
+ 
+group = Volcanic::Authenticator::V1::Group.find_by_id(1)
+group.delete
 ```
