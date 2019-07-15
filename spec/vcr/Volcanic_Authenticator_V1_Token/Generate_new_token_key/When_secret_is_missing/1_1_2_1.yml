@@ -5,7 +5,7 @@ http_interactions:
     uri: http://0.0.0.0:3003/api/v1/identity/login
     body:
       encoding: UTF-8
-      string: '{"name":"volcanic","secret":null}'
+      string: '{"name":"mock_identity_name","secret":null}'
     headers:
       Authorization:
       - Bearer
@@ -21,21 +21,21 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
-      - '123'
+      - '120'
       Etag:
-      - W/"7b-bxWdDIpJep2kEkucCfkwyilLVDI"
+      - W/"78-hfrL9hQEHuxXs1WucudbhSmxuMY"
       Cache-Control:
       - no-cache
       Vary:
       - accept-encoding
       Date:
-      - Thu, 11 Jul 2019 07:20:53 GMT
+      - Thu, 11 Jul 2019 02:26:48 GMT
       Connection:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"requestID":"offline_awsRequestId_12397685707980877","message":{"secret":"\"secret\"
+      string: '{"requestID":"offline_awsRequestId_80389289044559","message":{"secret":"\"secret\"
         must be a string"},"errorCode":10001}'
     http_version: 
-  recorded_at: Thu, 11 Jul 2019 07:20:53 GMT
+  recorded_at: Thu, 11 Jul 2019 02:26:48 GMT
 recorded_with: VCR 5.0.0

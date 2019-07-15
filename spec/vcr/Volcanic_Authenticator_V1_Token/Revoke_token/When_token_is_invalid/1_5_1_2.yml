@@ -2,10 +2,10 @@
 http_interactions:
 - request:
     method: post
-    uri: http://0.0.0.0:3003/api/v1/identity/login
+    uri: http://0.0.0.0:3003/api/v1/identity/logout
     body:
       encoding: UTF-8
-      string: '{"name":"volcanic","secret":null}'
+      string: ''
     headers:
       Authorization:
       - Bearer
@@ -13,29 +13,29 @@ http_interactions:
       - application/json
   response:
     status:
-      code: 400
-      message: Bad Request
+      code: 403
+      message: Forbidden
     headers:
       X-Powered-By:
       - Express
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
-      - '123'
+      - '100'
       Etag:
-      - W/"7b-bxWdDIpJep2kEkucCfkwyilLVDI"
+      - W/"64-16OWZZPnvfUJRvw4D6pNRUXeUwc"
       Cache-Control:
       - no-cache
       Vary:
       - accept-encoding
       Date:
-      - Thu, 11 Jul 2019 07:20:53 GMT
+      - Thu, 11 Jul 2019 02:26:48 GMT
       Connection:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"requestID":"offline_awsRequestId_12397685707980877","message":{"secret":"\"secret\"
-        must be a string"},"errorCode":10001}'
+      string: '{"requestID":"offline_awsRequestId_4003622398088347","message":"Invalid
+        JWT token","errorCode":3001}'
     http_version: 
-  recorded_at: Thu, 11 Jul 2019 07:20:53 GMT
+  recorded_at: Thu, 11 Jul 2019 02:26:48 GMT
 recorded_with: VCR 5.0.0
