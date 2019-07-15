@@ -107,7 +107,80 @@ Volcanic::Authenticator::V1::Service.new(id: 1).delete
 service = Volcanic::Authenticator::V1::Service.find_by_id(1)
 service.delete 
 
+````
+
+## Principal
+**Create**
+
+Create a new principal.
+
+```ruby
+# Principal.create(principal_name, dataset_id, role_ids, privilege_ids)
+principal = Volcanic::Authenticator::V1::Principal.create('principal-a', 1, [1, 2], [3, 4])
+principal.id # => 1
+principal.name # => 'principal_name'
+principal.dataset_id # => 1
 ```
+
+**Find**
+
+Find principals. 
+
+```ruby
+# Default. This will return 10 principal on the first page
+principals = Volcanic::Authenticator::V1::Principal.find
+principals.size # => 10
+principal = principals[0]
+principal.id # => 1
+principal.name # => 'principal a'
+...
+
+# Get on different page. The page size is default by 10
+principals = Volcanic::Authenticator::V1::Principal.find(page: 2)
+principals.size # => 10
+principals[0].id # => 11
+...
+
+# Get on different page size.
+principals = Volcanic::Authenticator::V1::Principal.find(page: 2, page_size: 5)
+principals.size # => 5
+principals[0].id # => 6
+
+# Search by key name.
+principals = Volcanic::Authenticator::V1::Principal.find(page: 2, page_size: 5, key_name: 'vol')
+principals.size # => 5
+principals[0].name # => 'volcanic-a'
+principals[1].name # => 'principal-volcanic'
+principals[2].name # => 'volvo'
+```
+
+**Find by id**
+
+Get a principal.
+```ruby
+principal =  Volcanic::Authenticator::V1::Principal.find_by_id(1)
+principal.id # => 1
+principal.name # => 'principal_name'
+principal.dataset_id # => 1
+```
+
+**Update**
+
+Edit/Update a principal.
+```ruby  
+principal = Volcanic::Authenticator::V1::Principal.find_by_id(1)
+principal.name = 'new principal name'
+principal.dataset_id = 2
+principal.save
+```
+
+**Delete**
+
+Delete a principal.
+```ruby
+Volcanic::Authenticator::V1::Principal.new(id: 1).delete
+```
+
 ## Permission
 **Create**
 

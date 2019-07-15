@@ -56,6 +56,15 @@ module Volcanic::Authenticator
         raise(RoleError, error_message) if code == 404
       end
 
+      # error handler for principal
+      def raise_exception_principal(res)
+        code = res.code
+        body = res.body
+        raise_exception_standard(res)
+        raise PrincipalError, parser(body, 'message') if code == 400
+        raise PrincipalError if code == 404
+      end
+
       # default error handler
       def raise_exception_standard(res)
         code = res.code
