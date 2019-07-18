@@ -2,40 +2,39 @@
 http_interactions:
 - request:
     method: post
-    uri: http://0.0.0.0:3003/api/v1/identity/validate
+    uri: http://0.0.0.0:3003/api/v1/token/validate
     body:
       encoding: UTF-8
-      string: '{"token":"eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE5OTQ4MTM5NjQsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MjgxMzk2NCwiYXVkaWVuY2UiOlsia3Jha2F0b2FldSIsIi0iXSwiaWF0IjoxNTYyODEzOTY0LCJpc3MiOiJ2b2xjYW5pY19hdXRoX3NlcnZpY2VfYXAyIn0.AG0N6LB2EL99-1o_BeSKIX124JNeo02SW-YoNOxW5fva3j_GJdoc7NT2MC_XBiEvJbPVz6ykJmdEt-_hqOh45mtFAe0IFp4MGPRoXMx238LKw6qGyyUE7NL0VMTEhMjufyAcORqODK_aJse6PSFtL5Vopgnjn8lICh7pmshMdWJIQEB"}'
+      string: ''
     headers:
       Authorization:
-      - Bearer
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE5OTQ4MTM5NjQsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MjgxMzk2NCwiYXVkaWVuY2UiOlsia3Jha2F0b2FldSIsIi0iXSwiaWF0IjoxNTYyODEzOTY0LCJpc3MiOiJ2b2xjYW5pY19hdXRoX3NlcnZpY2VfYXAyIn0.AG0N6LB2EL99-1o_BeSKIX124JNeo02SW-YoNOxW5fva3j_GJdoc7NT2MC_XBiEvJbPVz6ykJmdEt-_hqOh45mtFAe0IFp4MGPRoXMx238LKw6qGyyUE7NL0VMTEhMjufyAcORqODK_aJse6PSFtL5Vopgnjn8lICh7pmshMdWJIQEB
       Content-Type:
       - application/json
   response:
     status:
-      code: 403
-      message: Forbidden
+      code: 500
+      message: Internal Server Error
     headers:
       X-Powered-By:
       - Express
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
-      - '99'
+      - '106'
       Etag:
-      - W/"63-1sHoTQlniLeoyDjdjVbb859lQ4U"
+      - W/"6a-sdMztUr8/FYOyBt3iv5OFkTSFuY"
       Cache-Control:
       - no-cache
       Vary:
       - accept-encoding
       Date:
-      - Thu, 11 Jul 2019 04:08:45 GMT
+      - Thu, 18 Jul 2019 07:19:30 GMT
       Connection:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"requestID":"offline_awsRequestId_982768776880792","message":"Invalid
-        JWT token","errorCode":3001}'
+      string: '{"message":"unknown error occurred, contact support","requestID":"offline_awsRequestId_04362484763201069"}'
     http_version: 
-  recorded_at: Thu, 11 Jul 2019 04:08:45 GMT
+  recorded_at: Thu, 18 Jul 2019 07:19:30 GMT
 recorded_with: VCR 5.0.0
