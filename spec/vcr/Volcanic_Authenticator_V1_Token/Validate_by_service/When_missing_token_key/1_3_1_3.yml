@@ -2,13 +2,13 @@
 http_interactions:
 - request:
     method: post
-    uri: http://0.0.0.0:3003/api/v1/identity/validate
+    uri: http://0.0.0.0:3003/api/v1/token/validate
     body:
       encoding: UTF-8
-      string: '{"token":"wrong-id"}'
+      string: ''
     headers:
       Authorization:
-      - Bearer
+      - Bearer wrong-id
       Content-Type:
       - application/json
   response:
@@ -23,19 +23,19 @@ http_interactions:
       Content-Length:
       - '100'
       Etag:
-      - W/"64-qowaEc4iCpsDyhorKb82viehM6k"
+      - W/"64-U+uackoeeNqI9SfkyeqHf5MAmwE"
       Cache-Control:
       - no-cache
       Vary:
       - accept-encoding
       Date:
-      - Thu, 11 Jul 2019 04:06:47 GMT
+      - Thu, 18 Jul 2019 07:19:29 GMT
       Connection:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"requestID":"offline_awsRequestId_6238110832140711","message":"Invalid
+      string: '{"requestID":"offline_awsRequestId_9181725894069241","message":"Invalid
         JWT token","errorCode":3001}'
     http_version: 
-  recorded_at: Thu, 11 Jul 2019 04:06:47 GMT
+  recorded_at: Thu, 18 Jul 2019 07:19:29 GMT
 recorded_with: VCR 5.0.0
