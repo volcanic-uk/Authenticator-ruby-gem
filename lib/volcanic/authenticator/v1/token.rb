@@ -17,7 +17,7 @@ module Volcanic::Authenticator
       def_instance_delegator 'Volcanic::Cache::Cache'.to_sym, :instance, :cache
       def_instance_delegators 'Volcanic::Authenticator.config'.to_sym, :exp_token, :key_store_type
 
-      VALIDATE_TOKEN_URL = 'api/v1/identity/validate'
+      VALIDATE_TOKEN_URL = 'api/v1/token/validate'
       GENERATE_TOKEN_URL = 'api/v1/identity/login'
       REVOKE_TOKEN_URL = 'api/v1/identity/logout'
       TOKEN_EXCEPTION = :raise_exception_token
@@ -69,9 +69,7 @@ module Volcanic::Authenticator
       #
       def validate_by_service
         url = "#{Volcanic::Authenticator.config.auth_url}/#{VALIDATE_TOKEN_URL}"
-        res = HTTParty.post(url,
-                            body: { token: @token_key }.to_json,
-                            headers: bearer_header(nil))
+        res = HTTParty.post(url, headers: bearer_header(token_key))
         unless res.success?
           logger = Logger.new(STDOUT)
           logger.error JSON.parse(res.body)['message']
