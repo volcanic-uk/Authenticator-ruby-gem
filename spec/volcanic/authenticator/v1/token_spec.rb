@@ -78,7 +78,7 @@ RSpec.describe Volcanic::Authenticator::V1::Token, :vcr do
     end
 
     context 'When token is valid' do
-      it { expect(token.new(mock_token_key).remote_validate).to be false }
+      it { expect(token.new(mock_token_key).remote_validate).to be true }
     end
   end
 
