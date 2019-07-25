@@ -1,0 +1,40 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://0.0.0.0:3003/api/v1/token/validate
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE5OTQ4MTM5NjQsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MjgxMzk2NCwiYXVkaWVuY2UiOlsia3Jha2F0b2FldSIsIi0iXSwiaWF0IjoxNTYyODEzOTY0LCJpc3MiOiJ2b2xjYW5pY19hdXRoX3NlcnZpY2VfYXAyIn0.AG0N6LB2EL99-1o_BeSKIX124JNeo02SW-YoNOxW5fva3j_GJdoc7NT2MC_XBiEvJbPVz6ykJmdEt-_hqOh45mtFAe0IFp4MGPRoXMx238LKw6qGyyUE7NL0VMTEhMjufyAcORqODK_aJse6PSFtL5Vopgnjn8lICh7pmshMdWJIQEB
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 500
+      message: Internal Server Error
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '105'
+      Etag:
+      - W/"69-6U/0Nz8lYaUhTbFN2jWu2xcuXWI"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Thu, 25 Jul 2019 03:41:24 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"message":"unknown error occurred, contact support","requestID":"offline_awsRequestId_9884942488035253"}'
+    http_version: 
+  recorded_at: Thu, 25 Jul 2019 03:41:24 GMT
+recorded_with: VCR 5.0.0
