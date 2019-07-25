@@ -69,7 +69,7 @@ module Volcanic::Authenticator
       #   # => true/false
       #
       def validate
-        return true if cache.key?(@token_key)
+        return true if cache.key?(token_key)
 
         verify_signature # verify signature
         cache! # if success verify it cache the token again
@@ -86,6 +86,8 @@ module Volcanic::Authenticator
       #   # => true/false
       #
       def remote_validate
+        return true if cache.key?(token_key)
+
         res = HTTParty.post("#{auth_url}/#{VALIDATE_TOKEN_URL}",
                             headers: bearer_header(token_key))
         cache! if res.success?
