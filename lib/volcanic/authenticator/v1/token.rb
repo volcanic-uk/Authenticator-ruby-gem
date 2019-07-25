@@ -11,11 +11,13 @@ module Volcanic::Authenticator
     # Token class
     class Token
       extend Forwardable
-      include Request
       include Error
+      include Request
+      extend Error
+      extend Request
 
       def_instance_delegator 'Volcanic::Cache::Cache'.to_sym, :instance, :cache
-      def_instance_delegators 'Volcanic::Authenticator.config'.to_sym, :exp_token, :key_store_type
+      def_instance_delegators 'Volcanic::Authenticator.config'.to_sym, :exp_token, :auth_url
 
       VALIDATE_TOKEN_URL = 'api/v1/token/validate'
       GENERATE_TOKEN_URL = 'api/v1/identity/login'
@@ -27,6 +29,20 @@ module Volcanic::Authenticator
 
       def initialize(token_key = nil)
         @token_key = token_key
+      end
+
+      #
+      # return string token key
+      #
+      # eg.
+      #   Token.create(name, secret)
+      #   # => 'eyJhbGciOiJFUzUxMiIsIn...'
+      #
+      def self.create(name, secret)
+        payload = { name: name, secret: secret }.to_json
+        perform_post_and_parse(TOKEN_EXCEPTION,
+                               GENERATE_TOKEN_URL,
+                               payload, nil)['token']
       end
 
       #
@@ -67,62 +83,58 @@ module Volcanic::Authenticator
       #   Token.new(token_key).validate_by_service
       #   # => true/false
       #
-      def validate_by_service
-        url = "#{Volcanic::Authenticator.config.auth_url}/#{VALIDATE_TOKEN_URL}"
-        res = HTTParty.post(url, headers: bearer_header(token_key))
-        unless res.success?
-          logger = Logger.new(STDOUT)
-          logger.error JSON.parse(res.body)['message']
-        end
+      def remote_validate
+        res = HTTParty.post("#{auth_url}/#{VALIDATE_TOKEN_URL}",
+                            headers: bearer_header(token_key))
+        cache! if res.success?
+        # Logger.new(STDOUT).error(JSON.parse(res.body)['message']) unless res.success?
         res.success?
       end
 
       #
-      # to decode and fetch claims.
+      # fetching claims.
       #
       # eg.
-      #  token = Token.new(token_key).decode_and_fetch_claims
-      #  token.kid # => key id claim
-      #  token.sub # => subject claim
-      #  token.iss # => issuer claim
+      #  token = Token.new(token_key).fetch_claims
+      #  token.kid # => key id
+      #  token.sub # => subject
+      #  token.iss # => issuer
+      #  token.dataset_id # => dataset id
+      #  token.principal_id # => principal id
+      #  token.identity_id # => identity id
       #
-      #  token.dataset_id # => dataset id from sub
-      #  token.principal_id # => principal id from sub
-      #  token.identity_id # => identity id from su
-      #
-      def decode_and_fetch_claims
-        fetch_claims
+      def fetch_claims
+        claims_extractor
         self
       end
 
       #
-      # to remove/revoke token from cache,
-      # then blacklist the token at auth service.
+      # to clear token at cache
+      # eg.
+      #   Token.new(token_key).destroy
+      def clear!
+        cache.evict!(token_key) unless token_key.nil?
+      end
+
+      #
+      # to blacklist token and delete at cache
       # eg.
       #   Token.new(token_key).revoke!
       #
       def revoke!
-        cache.evict!(token_key) unless token_key.nil?
+        clear!
         perform_post_and_parse TOKEN_EXCEPTION, REVOKE_TOKEN_URL, nil, token_key
       end
 
       private
 
-      #
-      # to cache token
-      # Eg.
-      #  Token.new(token).cache!
-      #
       def cache!
         cache.fetch token_key, expire_in: exp_token, &method(:token_key)
       end
 
       def verify_signature
-        # fetch claims to obtain KID
-        fetch_claims
-        # Decode with verify signature
-        # current_kid = key_store_type == 'static' ? nil : kid
-        decode!(Key.fetch_and_request(kid), true)
+        claims_extractor # to fetch KID from token
+        decode!(Key.fetch_and_request(kid), true) # decode token with verify true
       end
 
       def decode!(public_key = nil, verify = false)
@@ -131,10 +143,10 @@ module Volcanic::Authenticator
         raise TokenError, e
       end
 
-      def fetch_claims
-        dec_token = decode!
-        header = dec_token.last
-        body = dec_token.first
+      def claims_extractor
+        decoded_token = decode!
+        header = decoded_token.last
+        body = decoded_token.first
         @kid = header['kid']
         @sub = body['sub']
         @iss = body['iss']

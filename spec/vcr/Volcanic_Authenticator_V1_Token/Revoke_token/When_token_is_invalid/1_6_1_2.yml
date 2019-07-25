@@ -1,0 +1,41 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://0.0.0.0:3003/api/v1/identity/logout
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      Authorization:
+      - Bearer
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 403
+      message: Forbidden
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '99'
+      Etag:
+      - W/"63-TREXnZl+HcG3gCU1cPT981FU6qM"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Thu, 25 Jul 2019 03:41:24 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_942707323359645","message":"Invalid
+        JWT token","errorCode":3001}'
+    http_version: 
+  recorded_at: Thu, 25 Jul 2019 03:41:24 GMT
+recorded_with: VCR 5.0.0
