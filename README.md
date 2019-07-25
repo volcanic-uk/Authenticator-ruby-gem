@@ -232,8 +232,8 @@ Note: This is another way to generate a token. Always use `Token.new.gen_token_k
 
 To generate a token key. `identity_name` and `identity_secret` is required for this method
 ```ruby
-token = Token.new.gen_token_key(identity_name, identity_secret)
-token.token_key # => "eyJhbGciOiJFUzUxMiIsInR5c..."
+Token.create(name, secret)
+# => "eyJhbGciOiJFUzUxMiIsInR5c..."
 ```
 
 **Validate Token Key**
@@ -248,7 +248,7 @@ Token.new(token_key).validate
 
 To validate token key by using Auth Service. This method request an api validation of the token key to auth service.
 ```ruby
-Token.new(token_key).validate_by_service
+Token.new(token_key).remote_validate
 # => true
 ```
 
@@ -256,7 +256,7 @@ Token.new(token_key).validate_by_service
 
 To fetch claims and others like `dataset_id`, `principal_id` and `identity_id` of the token
 ```ruby
-token = Token.new(token_key).decode_and_fetch_claims
+token = Token.new(token_key).fetch_claims
 token.kid # => key id claim
 token.sub # => subject claim
 token.iss # => issuer claim
