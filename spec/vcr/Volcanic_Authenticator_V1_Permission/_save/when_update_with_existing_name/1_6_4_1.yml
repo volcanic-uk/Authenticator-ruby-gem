@@ -1,0 +1,115 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://0.0.0.0:3003/api/v1/permissions
+    body:
+      encoding: UTF-8
+      string: '{"name":"duplicate-name","description":"mock_permission_description","service_id":1}'
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjU0MDEyNTcsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2NDUzNzI1NywiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjQ1MzcyNTcsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AFEQEOsNzZjuA7D-UWUTJ1UMvyD4r2pGyWiBlalm5fSSQuA3EfCKbmPad5XS5YCfoCfAnVpBNLVUPZaXIAVXv79gABvY1wu4lnp9pH5PE-eJ99twUrZrO_f3j9GUrxi-M1jcnCwvbW1OX-rLBalGKUTnCLSeTVAeYRSIzzk9162Y3eT1
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '254'
+      Etag:
+      - W/"fe-X8ZOkciUuoop26Fx6oE5v+Wr+ME"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Wed, 31 Jul 2019 03:29:17 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_8523326202576378","response":{"name":"duplicate-name","service_id":1,"description":"mock_permission_description","subject_id":"2","updated_at":"2019-07-31T03:29:17.563Z","created_at":"2019-07-31T03:29:17.563Z","id":31}}'
+    http_version: 
+  recorded_at: Wed, 31 Jul 2019 03:29:17 GMT
+- request:
+    method: post
+    uri: http://0.0.0.0:3003/api/v1/permissions
+    body:
+      encoding: UTF-8
+      string: '{"name":"mock_permission_name","description":"mock_permission_description","service_id":1}'
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjU0MDEyNTcsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2NDUzNzI1NywiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjQ1MzcyNTcsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AFEQEOsNzZjuA7D-UWUTJ1UMvyD4r2pGyWiBlalm5fSSQuA3EfCKbmPad5XS5YCfoCfAnVpBNLVUPZaXIAVXv79gABvY1wu4lnp9pH5PE-eJ99twUrZrO_f3j9GUrxi-M1jcnCwvbW1OX-rLBalGKUTnCLSeTVAeYRSIzzk9162Y3eT1
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '259'
+      Etag:
+      - W/"103-R673Ct18wcLX6YsRTu6hPJSYhwM"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Wed, 31 Jul 2019 03:29:17 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_869042927661714","response":{"name":"mock_permission_name","service_id":1,"description":"mock_permission_description","subject_id":"2","updated_at":"2019-07-31T03:29:17.612Z","created_at":"2019-07-31T03:29:17.612Z","id":32}}'
+    http_version: 
+  recorded_at: Wed, 31 Jul 2019 03:29:17 GMT
+- request:
+    method: post
+    uri: http://0.0.0.0:3003/api/v1/permissions/32
+    body:
+      encoding: UTF-8
+      string: '{"name":"duplicate-name","description":"mock_permission_description"}'
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjU0MDEyNTcsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2NDUzNzI1NywiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjQ1MzcyNTcsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AFEQEOsNzZjuA7D-UWUTJ1UMvyD4r2pGyWiBlalm5fSSQuA3EfCKbmPad5XS5YCfoCfAnVpBNLVUPZaXIAVXv79gABvY1wu4lnp9pH5PE-eJ99twUrZrO_f3j9GUrxi-M1jcnCwvbW1OX-rLBalGKUTnCLSeTVAeYRSIzzk9162Y3eT1
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '113'
+      Etag:
+      - W/"71-kY4KUa3Pe2GpKs3WmHpZdurwKHA"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Wed, 31 Jul 2019 03:29:17 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_2922305280338102","message":"Duplicate
+        entry duplicate-name","errorCode":5003}'
+    http_version: 
+  recorded_at: Wed, 31 Jul 2019 03:29:17 GMT
+recorded_with: VCR 5.0.0

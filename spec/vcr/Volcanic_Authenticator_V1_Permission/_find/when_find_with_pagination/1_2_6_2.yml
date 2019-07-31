@@ -1,0 +1,52 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://0.0.0.0:3003/api/v1/permissions?page=1&page_size=10
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjU0MDEyNTcsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2NDUzNzI1NywiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjQ1MzcyNTcsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AFEQEOsNzZjuA7D-UWUTJ1UMvyD4r2pGyWiBlalm5fSSQuA3EfCKbmPad5XS5YCfoCfAnVpBNLVUPZaXIAVXv79gABvY1wu4lnp9pH5PE-eJ99twUrZrO_f3j9GUrxi-M1jcnCwvbW1OX-rLBalGKUTnCLSeTVAeYRSIzzk9162Y3eT1
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '2180'
+      Etag:
+      - W/"884-Aa9uuPGSWjgk8tP8I1xyFbbFVZQ"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Wed, 31 Jul 2019 01:47:08 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_2517498570375247","response":{"pagination":{"page":1,"pageSize":10,"rowCount":14,"pageCount":2},"data":[{"id":1,"name":"Test
+        permission-520","description":"creating a new permission","subject_id":2,"service_id":1,"active":true,"created_at":"2019-07-29T04:14:00.661Z","updated_at":"2019-07-29T04:14:00.661Z"},{"id":2,"name":"Test
+        permission-481","description":"creating a new permission","subject_id":2,"service_id":1,"active":true,"created_at":"2019-07-29T04:14:07.984Z","updated_at":"2019-07-29T04:14:07.984Z"},{"id":3,"name":"Test
+        permission-606","description":"creating a new permission","subject_id":2,"service_id":1,"active":true,"created_at":"2019-07-29T04:14:09.734Z","updated_at":"2019-07-29T04:14:25.721Z"},{"id":4,"name":"Test
+        permission-144","description":"creating a new permission","subject_id":2,"service_id":1,"active":true,"created_at":"2019-07-29T07:16:48.734Z","updated_at":"2019-07-29T07:16:48.734Z"},{"id":5,"name":"Test
+        permission-210","description":"creating a new permission","subject_id":2,"service_id":1,"active":true,"created_at":"2019-07-31T01:46:37.886Z","updated_at":"2019-07-31T01:46:37.886Z"},{"id":6,"name":"Test
+        permission-671","description":"creating a new permission","subject_id":2,"service_id":1,"active":true,"created_at":"2019-07-31T01:46:41.068Z","updated_at":"2019-07-31T01:46:41.068Z"},{"id":7,"name":"Test
+        permission-804","description":"creating a new permission","subject_id":2,"service_id":1,"active":true,"created_at":"2019-07-31T01:46:42.377Z","updated_at":"2019-07-31T01:46:42.377Z"},{"id":8,"name":"Test
+        permission-685","description":"creating a new permission","subject_id":2,"service_id":1,"active":true,"created_at":"2019-07-31T01:46:43.264Z","updated_at":"2019-07-31T01:46:43.264Z"},{"id":9,"name":"Test
+        permission-5","description":"creating a new permission","subject_id":2,"service_id":1,"active":true,"created_at":"2019-07-31T01:46:44.120Z","updated_at":"2019-07-31T01:46:44.120Z"},{"id":10,"name":"Test
+        permission-624","description":"creating a new permission","subject_id":2,"service_id":1,"active":true,"created_at":"2019-07-31T01:46:44.960Z","updated_at":"2019-07-31T01:46:44.960Z"}]}}'
+    http_version: 
+  recorded_at: Wed, 31 Jul 2019 01:47:08 GMT
+recorded_with: VCR 5.0.0
