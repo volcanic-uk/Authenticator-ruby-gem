@@ -1,0 +1,42 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://0.0.0.0:3003/api/v1/groups?order=desc&page=1&page_size=10&sort=id
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjU0Mjk4ODgsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2NDU2NTg4OCwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjQ1NjU4ODgsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AdG2EbGgKJ61CmT9EoCTGWOicPS5D_ZHKiNHaOba75k32SHS1GDh0YNLSYTI7qMV2EYV4UOj3wkvFza8BzEDhzM3AN9BYSlzIcRlUsiPWS4oZ8JtauZ0K2rlvfuNoZDk61mlX4TiboLno8zWhUGDmFMlgHyX0wS0ZpVgTmH8jy8aKr3D
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '1789'
+      Etag:
+      - W/"6fd-3U9q8Xr5PdEF/eseMaFEQPcNKIE"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Thu, 01 Aug 2019 02:06:02 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_3984619764573203","response":{"pagination":{"page":1,"pageSize":10,"rowCount":20,"pageCount":3},"data":[{"id":20,"subject_id":null,"created_at":"2019-08-01T01:58:30.596Z","updated_at":"2019-08-01T01:58:30.596Z","name":"vol","description":null,"active":true},{"id":19,"subject_id":null,"created_at":"2019-08-01T01:58:25.895Z","updated_at":"2019-08-01T01:58:25.895Z","name":"volcanic","description":null,"active":true},{"id":18,"subject_id":null,"created_at":"2019-08-01T01:47:07.283Z","updated_at":"2019-08-01T01:47:07.283Z","name":"mock_name","description":null,"active":true},{"id":17,"subject_id":null,"created_at":"2019-08-01T01:46:52.988Z","updated_at":"2019-08-01T01:46:53.042Z","name":"new-group","description":null,"active":true},{"id":16,"name":"asdasdasdasdasasdas","description":"new-group-description","subject_id":null,"active":true,"created_at":"2019-08-01T01:46:21.893Z","updated_at":"2019-08-01T01:46:21.994Z"},{"id":15,"name":"new-groupasdasda1","description":null,"subject_id":null,"active":true,"created_at":"2019-08-01T01:45:54.410Z","updated_at":"2019-08-01T01:45:54.511Z"},{"id":14,"name":"asdasd12welkdmqw","description":null,"subject_id":null,"active":true,"created_at":"2019-08-01T01:45:24.785Z","updated_at":"2019-08-01T01:45:24.785Z"},{"id":13,"name":"asdasdasdasdasd1","description":null,"subject_id":null,"active":true,"created_at":"2019-08-01T01:44:43.024Z","updated_at":"2019-08-01T01:44:43.024Z"},{"id":12,"name":"mock_nameqwwe","description":null,"subject_id":null,"active":true,"created_at":"2019-08-01T01:43:37.918Z","updated_at":"2019-08-01T01:43:37.918Z"},{"id":11,"name":"asadasda","description":null,"subject_id":null,"active":false,"created_at":"2019-07-31T10:00:43.318Z","updated_at":"2019-07-31T10:00:43.417Z"}]}}'
+    http_version: 
+  recorded_at: Thu, 01 Aug 2019 02:06:02 GMT
+recorded_with: VCR 5.0.0
