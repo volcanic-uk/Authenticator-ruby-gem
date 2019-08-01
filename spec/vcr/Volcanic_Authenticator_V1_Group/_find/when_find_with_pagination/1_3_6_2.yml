@@ -1,0 +1,46 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://0.0.0.0:3003/api/v1/groups?page=1&page_size=10
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjU0Mjk4ODgsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2NDU2NTg4OCwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjQ1NjU4ODgsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AdG2EbGgKJ61CmT9EoCTGWOicPS5D_ZHKiNHaOba75k32SHS1GDh0YNLSYTI7qMV2EYV4UOj3wkvFza8BzEDhzM3AN9BYSlzIcRlUsiPWS4oZ8JtauZ0K2rlvfuNoZDk61mlX4TiboLno8zWhUGDmFMlgHyX0wS0ZpVgTmH8jy8aKr3D
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '1817'
+      Etag:
+      - W/"719-1pwfTAr3bh7tAvDFJdhOya/LTt0"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Thu, 01 Aug 2019 01:55:27 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_38856891659410375","response":{"pagination":{"page":1,"pageSize":10,"rowCount":20,"pageCount":2},"data":[{"id":1,"name":"Test
+        Permission Group-9871","description":null,"subject_id":null,"active":true,"created_at":"2019-07-31T02:03:23.112Z","updated_at":"2019-07-31T02:03:23.112Z"},{"id":2,"name":"Test
+        Permission Group-4249","description":null,"subject_id":null,"active":true,"created_at":"2019-07-31T02:03:26.982Z","updated_at":"2019-07-31T02:03:26.982Z"},{"id":3,"name":"Test
+        Permission Group-4559","description":null,"subject_id":null,"active":true,"created_at":"2019-07-31T03:58:13.139Z","updated_at":"2019-07-31T03:58:13.139Z"},{"id":4,"name":"Test
+        Permission Group-6811","description":"asdasdqw","subject_id":null,"active":true,"created_at":"2019-07-31T04:01:32.558Z","updated_at":"2019-07-31T04:01:53.364Z"},{"id":5,"name":"mock_nameasdasda","description":null,"subject_id":null,"active":true,"created_at":"2019-07-31T09:26:16.757Z","updated_at":"2019-07-31T09:26:16.757Z"},{"id":6,"name":"asdasdasd","description":null,"subject_id":null,"active":true,"created_at":"2019-07-31T09:28:46.113Z","updated_at":"2019-07-31T09:28:46.113Z"},{"id":7,"name":"asdasdasdadqw","description":null,"subject_id":null,"active":true,"created_at":"2019-07-31T09:31:57.380Z","updated_at":"2019-07-31T09:31:57.380Z"},{"id":8,"name":"asd","description":null,"subject_id":null,"active":true,"created_at":"2019-07-31T09:33:01.158Z","updated_at":"2019-07-31T09:33:01.158Z"},{"id":9,"name":"asdasdasdasd","description":null,"subject_id":null,"active":true,"created_at":"2019-07-31T09:39:23.758Z","updated_at":"2019-07-31T09:39:23.758Z"},{"id":10,"name":"asdas121w\n","description":null,"subject_id":null,"active":true,"created_at":"2019-07-31T09:43:09.251Z","updated_at":"2019-07-31T09:43:09.251Z"}]}}'
+    http_version: 
+  recorded_at: Thu, 01 Aug 2019 01:55:27 GMT
+recorded_with: VCR 5.0.0

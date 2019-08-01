@@ -1,0 +1,82 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://0.0.0.0:3003/api/v1/groups?page=1&page_size=1
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjU0Mjk4ODgsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2NDU2NTg4OCwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjQ1NjU4ODgsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AdG2EbGgKJ61CmT9EoCTGWOicPS5D_ZHKiNHaOba75k32SHS1GDh0YNLSYTI7qMV2EYV4UOj3wkvFza8BzEDhzM3AN9BYSlzIcRlUsiPWS4oZ8JtauZ0K2rlvfuNoZDk61mlX4TiboLno8zWhUGDmFMlgHyX0wS0ZpVgTmH8jy8aKr3D
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '318'
+      Etag:
+      - W/"13e-UF6gZcUmM5hQ1z+/DUMcraZksDM"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Thu, 01 Aug 2019 02:10:56 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_12404432560987488","response":{"pagination":{"page":1,"pageSize":1,"rowCount":20,"pageCount":20},"data":[{"id":1,"name":"Test
+        Permission Group-9871","description":null,"subject_id":null,"active":true,"created_at":"2019-07-31T02:03:23.112Z","updated_at":"2019-07-31T02:03:23.112Z"}]}}'
+    http_version: 
+  recorded_at: Thu, 01 Aug 2019 02:10:56 GMT
+- request:
+    method: get
+    uri: http://0.0.0.0:3003/api/v1/groups?page=20&page_size=1
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjU0Mjk4ODgsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2NDU2NTg4OCwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NjQ1NjU4ODgsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AdG2EbGgKJ61CmT9EoCTGWOicPS5D_ZHKiNHaOba75k32SHS1GDh0YNLSYTI7qMV2EYV4UOj3wkvFza8BzEDhzM3AN9BYSlzIcRlUsiPWS4oZ8JtauZ0K2rlvfuNoZDk61mlX4TiboLno8zWhUGDmFMlgHyX0wS0ZpVgTmH8jy8aKr3D
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '296'
+      Etag:
+      - W/"128-1r4bt+vqne99atxGisYHvuxKx8k"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Thu, 01 Aug 2019 02:10:56 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_8329853874073843","response":{"pagination":{"page":20,"pageSize":1,"rowCount":20,"pageCount":20},"data":[{"id":20,"name":"vol","description":null,"subject_id":null,"active":true,"created_at":"2019-08-01T01:58:30.596Z","updated_at":"2019-08-01T01:58:30.596Z"}]}}'
+    http_version: 
+  recorded_at: Thu, 01 Aug 2019 02:10:56 GMT
+recorded_with: VCR 5.0.0
