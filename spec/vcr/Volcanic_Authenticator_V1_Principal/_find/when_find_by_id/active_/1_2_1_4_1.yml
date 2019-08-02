@@ -1,0 +1,42 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://0.0.0.0:3003/api/v1/principals/1
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjQ5NDQ2NjEsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xLzEvMS8yIiwibmJmIjoxNTY0NzI4NjYxLCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU2NDcyODY2MSwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AbFxvIyvgUFUANVm-mzz1gZxFjyuxWmgXTzFpC5obrVb6VlwWdsAFwHzfVG93hlmXBezR87w1M_duQnNqPnX8k9sALhZ2joHjGt_Q3Y-uyii8awJ6qSV9zTJiMlKiTWx1ME_f3S3-kLqsDxxxwXXipdHRhkJQoBuyM6NWIBAKuJf7e-B
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '254'
+      Etag:
+      - W/"fe-x96MtKrT6Rp5XMMXYsW4/lQHa+g"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Fri, 02 Aug 2019 07:01:12 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_1429876325858601","response":{"id":1,"name":"volcanic-principal","dataset_id":-1,"last_active_date":null,"login_attempts":0,"active":true,"created_at":"2019-08-01T09:29:48.072Z","updated_at":"2019-08-01T09:29:48.072Z"}}'
+    http_version: 
+  recorded_at: Fri, 02 Aug 2019 07:01:12 GMT
+recorded_with: VCR 5.0.0
