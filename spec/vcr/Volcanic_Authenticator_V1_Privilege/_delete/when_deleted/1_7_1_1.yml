@@ -1,0 +1,116 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://0.0.0.0:3003/api/v1/privileges
+    body:
+      encoding: UTF-8
+      string: '{"scope":"mock_scope","permission_id":1,"group_id":1,"allow":true}'
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjQ5MjY3MDMsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xLzEvMS8yIiwibmJmIjoxNTY0NzEwNzAzLCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU2NDcxMDcwMywiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AZ54nRGLkjOd8gZW9v8SufObY8IZB4FgnoFBmB2dUZyYf3GH7Mo19XcOZFilVgx5I47LqmoFeew4LeQmkrQeECd4AEGtKXN9tGx2UwoN88x2KBjAMLtTpbYtsm7QZYS5pT7GUyzwTMegHwmleOLfoXec-QN6qb8abBuH02TH11JeP8Sb
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '236'
+      Etag:
+      - W/"ec-LJ2aEkbL5mN76PjJyh/worJyhfk"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Fri, 02 Aug 2019 02:30:04 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_4604864527233288","response":{"scope":"mock_scope","permission_id":1,"group_id":1,"subject_id":"2","allow":true,"updated_at":"2019-08-02T02:30:04.050Z","created_at":"2019-08-02T02:30:04.050Z","id":35}}'
+    http_version: 
+  recorded_at: Fri, 02 Aug 2019 02:30:04 GMT
+- request:
+    method: delete
+    uri: http://0.0.0.0:3003/api/v1/privileges/35
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjQ5MjY3MDMsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xLzEvMS8yIiwibmJmIjoxNTY0NzEwNzAzLCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU2NDcxMDcwMywiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AZ54nRGLkjOd8gZW9v8SufObY8IZB4FgnoFBmB2dUZyYf3GH7Mo19XcOZFilVgx5I47LqmoFeew4LeQmkrQeECd4AEGtKXN9tGx2UwoN88x2KBjAMLtTpbYtsm7QZYS5pT7GUyzwTMegHwmleOLfoXec-QN6qb8abBuH02TH11JeP8Sb
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '110'
+      Etag:
+      - W/"6e-DDtoXXkbquaqckCOajA3N4Z4fIk"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Fri, 02 Aug 2019 02:30:04 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_17653202936041534","response":{"message":"Successfully
+        deleted privilege"}}'
+    http_version: 
+  recorded_at: Fri, 02 Aug 2019 02:30:04 GMT
+- request:
+    method: get
+    uri: http://0.0.0.0:3003/api/v1/privileges/35
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjQ5MjY3MDMsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xLzEvMS8yIiwibmJmIjoxNTY0NzEwNzAzLCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU2NDcxMDcwMywiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AZ54nRGLkjOd8gZW9v8SufObY8IZB4FgnoFBmB2dUZyYf3GH7Mo19XcOZFilVgx5I47LqmoFeew4LeQmkrQeECd4AEGtKXN9tGx2UwoN88x2KBjAMLtTpbYtsm7QZYS5pT7GUyzwTMegHwmleOLfoXec-QN6qb8abBuH02TH11JeP8Sb
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '107'
+      Etag:
+      - W/"6b-FaEmaDw5WTNZ/TmrartDaAFQZGg"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Fri, 02 Aug 2019 02:30:04 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_2610558260097626","message":"privilege
+        does not exist","errorCode":8001}'
+    http_version: 
+  recorded_at: Fri, 02 Aug 2019 02:30:04 GMT
+recorded_with: VCR 5.0.0
