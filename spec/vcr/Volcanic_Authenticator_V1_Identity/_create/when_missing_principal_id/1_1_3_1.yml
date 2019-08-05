@@ -1,0 +1,41 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://0.0.0.0:3003/api/v1/identity
+    body:
+      encoding: UTF-8
+      string: '{"name":"mock_name","principal_id":null,"secret":null,"privileges":[],"roles":[]}'
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjQ5NTIwMjcsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xLzEvMS8yIiwibmJmIjoxNTY0NzM2MDI3LCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU2NDczNjAyNywiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.ANK_U_grNigbO7wQc7Fuvpt10E8Ld9ZRPAGm3k-yra0_CRjQUfbkHDxGmwXasHbamrF_SM5aMeMVwT3Lt-eNpAZ4AAieRMZVJxBjqIXmyS291mOCRgazmOW9qHnewZnDxvetvJ-SgJncnTQ8Re4dIsbW3UFIjBPMFee9Hz-MH8PHxyZ0
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '135'
+      Etag:
+      - W/"87-Ye+X2i77ZOA8hfyaNc+VoohMDFI"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Fri, 02 Aug 2019 08:53:47 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_42832708711536616","message":{"principal_id":"\"principal_id\"
+        must be a number"},"errorCode":10001}'
+    http_version: 
+  recorded_at: Fri, 02 Aug 2019 08:53:47 GMT
+recorded_with: VCR 5.0.0
