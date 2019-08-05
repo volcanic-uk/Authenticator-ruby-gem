@@ -12,13 +12,12 @@ module Volcanic::Authenticator
 
       # end-point
       URL = 'api/v1/identity'
-      TOKEN_CREATE_URL = 'api/v1/identity/login'
       IDENTITY_DELETE_URL = 'api/v1/identity/deactivate'
       RESET_SECRET_URL = 'api/v1/identity/secret/reset'
       EXCEPTION = :raise_exception_identity
 
-      attr_accessor :name, :principal_id
-      attr_reader :id, :secret, :created_at, :updated_at
+      attr_accessor :name, :secret
+      attr_reader :id, :principal_id, :created_at, :updated_at
 
       def initialize(id:, name: nil, secret: nil, principal_id: nil, **opts)
         @id = id
@@ -52,16 +51,14 @@ module Volcanic::Authenticator
       # updating identity
       # eg.
       #   identity = Identity.create(...)
-      #   identity.name = 'new name'
-      #   identity.principal_id = 1
+      #   identity.name = 'new_name'
+      #   identity.secret = 'new_secret'
       #   identity.save
       #
-      #   OR
-      #
-      #   Identity.new(id: 1, name: 'new name', principal_id: 1).save
+      # NOTE: Only use for updating identity. Not creating
       def save
-        payload = { name: name, principal_id: principal_id }.to_json
-        perform_post_and_parse EXCEPTION, "#{URL}/#{id}", payload
+        payload = { name: name, secret: secret }.delete_if { |_, value| value.nil? }
+        perform_post_and_parse EXCEPTION, "#{URL}/#{id}", payload.to_json
       end
 
       def reset_secret(new_secret = nil)
@@ -73,10 +70,14 @@ module Volcanic::Authenticator
       class << self
         include Request
         include Error
-        #
         # Create identity
         # eg.
-        #   identity = Identity.register(name, secret, principal_id)
+        #   name = 'volcanic'
+        #   secret = 'volcanic123'
+        #   principal_id = 1
+        #   privilege_ids = [1, 2]
+        #   role_ids = [3, 4]
+        #   identity = Identity.create(name, principal_id, secret: secret, principal_id)
         #
         def create(name, principal_id, secret: nil, privileges: [], roles: [])
           payload = { name: name,
@@ -87,6 +88,15 @@ module Volcanic::Authenticator
           parsed = perform_post_and_parse EXCEPTION, URL, payload
           parsed['secret'] = secret if parsed['secret'].nil?
           new(parsed.transform_keys!(&:to_sym))
+        end
+
+        # updating identity
+        # eg.
+        #   Identity.update(1, name: 'new_name', secret: 'new_secret')
+        #
+        def update(id, name: nil, secret: nil)
+          payload = { name: name, secret: secret }.delete_if { |_, v| v.nil? }
+          perform_post_and_parse EXCEPTION, "#{URL}/#{id}", payload.to_json
         end
       end
     end

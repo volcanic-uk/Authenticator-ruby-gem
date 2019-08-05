@@ -49,31 +49,37 @@ RSpec.describe Volcanic::Authenticator::V1::Identity, :vcr do
 
   describe '.save' do
     let(:new_name) { 'new_name' }
-    let(:new_principal_id) { 2 }
+    let(:new_secret) { 'new_secret' }
+    subject(:ident) { identity.new(id: 2) }
 
-    context 'When required field is nil' do
-      before { new_identity.name = nil }
-      it { expect { new_identity.save }.to raise_error identity_error }
+    context 'when changed name' do
+      before do
+        ident.name = new_name
+        ident.save
+      end
+      its(:name) { should eq new_name }
     end
 
-    context 'When required field is empty' do
-      before { new_identity.name = '' }
-      it { expect { new_identity.save }.to raise_error identity_error }
+    context 'when changed secret' do
+      before do
+        ident.secret = new_secret
+        ident.save
+      end
+      its(:secret) { should eq new_secret }
+    end
+  end
+
+  describe '.update' do
+    let(:new_name) { 'new_name' }
+    let(:new_secret) { 'new_secret' }
+    context 'When id not exists' do
+      it { expect { identity.update(123_456_789, name: new_name, secret: new_secret) }.to raise_error identity_error }
     end
 
-    # context 'When changed name' do
-    #   before do
-    #     new_identity.name = new_name
-    #     new_identity.save
-    #   end
-    #   subject { role.find(new_identity.id) }
-    #   its(:name) { should eq new_name }
-    # end
-
-    # context 'When update with existing name' do
-    #   before { new_identity.name = new_name }
-    #   it { expect { new_identity.save }.to raise_error identity_error }
-    # end
+    context 'when updating name and secret' do
+      subject { identity.update(2, name: new_name, secret: new_secret) }
+      it { should_not eq raise_error }
+    end
   end
 
   describe '.reset_secret' do
