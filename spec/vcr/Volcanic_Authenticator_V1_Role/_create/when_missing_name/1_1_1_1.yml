@@ -1,0 +1,78 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://0.0.0.0:3003/api/v1/identity/login
+    body:
+      encoding: UTF-8
+      string: '{"name":"volcanic","secret":"volcanic!123"}'
+    headers:
+      Authorization:
+      - Bearer
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '527'
+      Etag:
+      - W/"20f-yCT8NqpI/ZsHp/B6HZzcCKD9q5Y"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Fri, 02 Aug 2019 03:50:43 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_11232567814795646","response":{"token":"eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjQ5MzM4NDMsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xLzEvMS8yIiwibmJmIjoxNTY0NzE3ODQzLCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU2NDcxNzg0MywiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AeUj8t7t_ud_Zuxg-QExtR5qFdJBiR8gHu_mqoRBgFiz22_Z97XvF9TFcas4FMit7rV1LCmIk7GeOqbvP4Wul76bAFTDoUQbl5EF7300yRipNe-B_v8kDqqDpC0634TBZkrf1XoUBqw94XjJE9pDPwHV7IhnHox5Y536njffhpsz9vLM"}}'
+    http_version: 
+  recorded_at: Fri, 02 Aug 2019 03:50:43 GMT
+- request:
+    method: post
+    uri: http://0.0.0.0:3003/api/v1/roles
+    body:
+      encoding: UTF-8
+      string: '{"name":null,"service_id":1,"privileges":[]}'
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjQ5MzM4NDMsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xLzEvMS8yIiwibmJmIjoxNTY0NzE3ODQzLCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU2NDcxNzg0MywiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AeUj8t7t_ud_Zuxg-QExtR5qFdJBiR8gHu_mqoRBgFiz22_Z97XvF9TFcas4FMit7rV1LCmIk7GeOqbvP4Wul76bAFTDoUQbl5EF7300yRipNe-B_v8kDqqDpC0634TBZkrf1XoUBqw94XjJE9pDPwHV7IhnHox5Y536njffhpsz9vLM
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '118'
+      Etag:
+      - W/"76-X8U8gSqXxKu5V7tSIwr7mHb6ibQ"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Fri, 02 Aug 2019 03:50:44 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_9639007271772506","message":{"name":"\"name\"
+        must be a string"},"errorCode":10001}'
+    http_version: 
+  recorded_at: Fri, 02 Aug 2019 03:50:44 GMT
+recorded_with: VCR 5.0.0

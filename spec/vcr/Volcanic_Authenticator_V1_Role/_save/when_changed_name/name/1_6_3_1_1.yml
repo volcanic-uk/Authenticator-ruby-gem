@@ -1,0 +1,116 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://0.0.0.0:3003/api/v1/roles
+    body:
+      encoding: UTF-8
+      string: '{"name":"mock_name","service_id":1,"privileges":[1,2]}'
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjQ5MzM4NDMsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xLzEvMS8yIiwibmJmIjoxNTY0NzE3ODQzLCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU2NDcxNzg0MywiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AeUj8t7t_ud_Zuxg-QExtR5qFdJBiR8gHu_mqoRBgFiz22_Z97XvF9TFcas4FMit7rV1LCmIk7GeOqbvP4Wul76bAFTDoUQbl5EF7300yRipNe-B_v8kDqqDpC0634TBZkrf1XoUBqw94XjJE9pDPwHV7IhnHox5Y536njffhpsz9vLM
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '206'
+      Etag:
+      - W/"ce-oIbzvAPrcnpu2zbSLm7wrdiuliU"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Fri, 02 Aug 2019 04:20:43 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_21954640685039895","response":{"name":"mock_name","subject_id":"2","service_id":1,"updated_at":"2019-08-02T04:20:43.401Z","created_at":"2019-08-02T04:20:43.401Z","id":24}}'
+    http_version: 
+  recorded_at: Fri, 02 Aug 2019 04:20:43 GMT
+- request:
+    method: post
+    uri: http://0.0.0.0:3003/api/v1/roles/24
+    body:
+      encoding: UTF-8
+      string: '{"name":"new-role","service_id":1}'
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjQ5MzM4NDMsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xLzEvMS8yIiwibmJmIjoxNTY0NzE3ODQzLCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU2NDcxNzg0MywiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AeUj8t7t_ud_Zuxg-QExtR5qFdJBiR8gHu_mqoRBgFiz22_Z97XvF9TFcas4FMit7rV1LCmIk7GeOqbvP4Wul76bAFTDoUQbl5EF7300yRipNe-B_v8kDqqDpC0634TBZkrf1XoUBqw94XjJE9pDPwHV7IhnHox5Y536njffhpsz9vLM
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '187'
+      Etag:
+      - W/"bb-knG02lqGMfGvUPBhoDvyTIRtsGo"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Fri, 02 Aug 2019 04:20:43 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_5503347738410607","response":{"id":24,"name":"new-role","service_id":1,"created_at":"2019-08-02T04:20:43.401Z","updated_at":"2019-08-02T04:20:43.466Z"}}'
+    http_version: 
+  recorded_at: Fri, 02 Aug 2019 04:20:43 GMT
+- request:
+    method: get
+    uri: http://0.0.0.0:3003/api/v1/roles/24
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjQ5MzM4NDMsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xLzEvMS8yIiwibmJmIjoxNTY0NzE3ODQzLCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU2NDcxNzg0MywiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AeUj8t7t_ud_Zuxg-QExtR5qFdJBiR8gHu_mqoRBgFiz22_Z97XvF9TFcas4FMit7rV1LCmIk7GeOqbvP4Wul76bAFTDoUQbl5EF7300yRipNe-B_v8kDqqDpC0634TBZkrf1XoUBqw94XjJE9pDPwHV7IhnHox5Y536njffhpsz9vLM
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '203'
+      Etag:
+      - W/"cb-WyOBc+XCcP22NyyCmvx15ifo2dU"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Fri, 02 Aug 2019 04:20:43 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_49661375578447164","response":{"id":24,"name":"new-role","subject_id":2,"service_id":1,"created_at":"2019-08-02T04:20:43.401Z","updated_at":"2019-08-02T04:20:43.466Z"}}'
+    http_version: 
+  recorded_at: Fri, 02 Aug 2019 04:20:43 GMT
+recorded_with: VCR 5.0.0

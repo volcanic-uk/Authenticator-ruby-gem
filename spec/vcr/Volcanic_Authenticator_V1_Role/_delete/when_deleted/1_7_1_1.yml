@@ -1,0 +1,116 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://0.0.0.0:3003/api/v1/roles
+    body:
+      encoding: UTF-8
+      string: '{"name":"mock_name","service_id":1,"privileges":[1,2]}'
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjQ5MzM4NDMsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xLzEvMS8yIiwibmJmIjoxNTY0NzE3ODQzLCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU2NDcxNzg0MywiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AeUj8t7t_ud_Zuxg-QExtR5qFdJBiR8gHu_mqoRBgFiz22_Z97XvF9TFcas4FMit7rV1LCmIk7GeOqbvP4Wul76bAFTDoUQbl5EF7300yRipNe-B_v8kDqqDpC0634TBZkrf1XoUBqw94XjJE9pDPwHV7IhnHox5Y536njffhpsz9vLM
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '206'
+      Etag:
+      - W/"ce-F8SM0G2rSPl/OiKKJoBk2AqkPII"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Fri, 02 Aug 2019 04:21:48 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_45585587334858313","response":{"name":"mock_name","subject_id":"2","service_id":1,"updated_at":"2019-08-02T04:21:48.671Z","created_at":"2019-08-02T04:21:48.671Z","id":26}}'
+    http_version: 
+  recorded_at: Fri, 02 Aug 2019 04:21:48 GMT
+- request:
+    method: delete
+    uri: http://0.0.0.0:3003/api/v1/roles/26
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjQ5MzM4NDMsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xLzEvMS8yIiwibmJmIjoxNTY0NzE3ODQzLCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU2NDcxNzg0MywiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AeUj8t7t_ud_Zuxg-QExtR5qFdJBiR8gHu_mqoRBgFiz22_Z97XvF9TFcas4FMit7rV1LCmIk7GeOqbvP4Wul76bAFTDoUQbl5EF7300yRipNe-B_v8kDqqDpC0634TBZkrf1XoUBqw94XjJE9pDPwHV7IhnHox5Y536njffhpsz9vLM
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '105'
+      Etag:
+      - W/"69-ecfJ1CwMcMIJtIh0K6LrNb1o82k"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Fri, 02 Aug 2019 04:21:48 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_29530228652814516","response":{"message":"Successfully
+        deleted role"}}'
+    http_version: 
+  recorded_at: Fri, 02 Aug 2019 04:21:48 GMT
+- request:
+    method: get
+    uri: http://0.0.0.0:3003/api/v1/roles/26
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjQ5MzM4NDMsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xLzEvMS8yIiwibmJmIjoxNTY0NzE3ODQzLCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU2NDcxNzg0MywiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AeUj8t7t_ud_Zuxg-QExtR5qFdJBiR8gHu_mqoRBgFiz22_Z97XvF9TFcas4FMit7rV1LCmIk7GeOqbvP4Wul76bAFTDoUQbl5EF7300yRipNe-B_v8kDqqDpC0634TBZkrf1XoUBqw94XjJE9pDPwHV7IhnHox5Y536njffhpsz9vLM
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '103'
+      Etag:
+      - W/"67-1CJvrbjRDHSd3CtSBAQ4maNAj8k"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Fri, 02 Aug 2019 04:21:48 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_19631124858436833","message":"role
+        does not exist","errorCode":9001}'
+    http_version: 
+  recorded_at: Fri, 02 Aug 2019 04:21:48 GMT
+recorded_with: VCR 5.0.0
