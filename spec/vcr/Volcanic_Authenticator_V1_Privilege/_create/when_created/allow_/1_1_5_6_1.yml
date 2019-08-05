@@ -1,0 +1,40 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://0.0.0.0:3003/api/v1/privileges
+    body:
+      encoding: UTF-8
+      string: '{"scope":"mock_scope","permission_id":1,"group_id":1,"allow":true}'
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjQ5MjY3MDMsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xLzEvMS8yIiwibmJmIjoxNTY0NzEwNzAzLCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU2NDcxMDcwMywiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AZ54nRGLkjOd8gZW9v8SufObY8IZB4FgnoFBmB2dUZyYf3GH7Mo19XcOZFilVgx5I47LqmoFeew4LeQmkrQeECd4AEGtKXN9tGx2UwoN88x2KBjAMLtTpbYtsm7QZYS5pT7GUyzwTMegHwmleOLfoXec-QN6qb8abBuH02TH11JeP8Sb
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '235'
+      Etag:
+      - W/"eb-nvotBSB6iwA5kiCQwNOdgplRaNY"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Fri, 02 Aug 2019 01:51:44 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_7105252161837556","response":{"scope":"mock_scope","permission_id":1,"group_id":1,"subject_id":"2","allow":true,"updated_at":"2019-08-02T01:51:44.762Z","created_at":"2019-08-02T01:51:44.762Z","id":8}}'
+    http_version: 
+  recorded_at: Fri, 02 Aug 2019 01:51:44 GMT
+recorded_with: VCR 5.0.0
