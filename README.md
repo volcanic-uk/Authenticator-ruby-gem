@@ -2,20 +2,16 @@
 
 A ruby for gem for Volcanic Authenticator
 
-Add the following to your application's Gemfile:
+## Install
 ```ruby
 gem 'volcanic-cache', git: 'git@github.com:volcanic-uk/ruby-cache.git'
-
 gem 'volcanic-authenticator', git: 'git@github.com:volcanic-uk/Authenticator-ruby-gem.git'
 ```
-
-And run `bundle install`
+[volcanic-cache](https://github.com/volcanic-uk/ruby-cache) is required to run this gem. 
     
-## Setup
+## Configuration
 
 Add the following to `config/application.rb`:
-
-required
 ```ruby
 # Authenticator server url
 Volcanic::Authenticator.config.auth_url = 'https://auth.aws.local'
@@ -27,562 +23,277 @@ Volcanic::Authenticator.config.app_name = 'app_name'
 Volcanic::Authenticator.config.app_secret = 'app_secret' 
 ```
 
-## Service
-**Create**
-
-Create a new service.
-
+to configure expire time of token cache
 ```ruby
-service = Volcanic::Authenticator::V1::Service.create('service-a')
-service.name # => 'service-a'
-service.id # => '1'
+Volcanic::Authenticator.config.exp_token = 5 * 60 # default 5 minute
 ```
 
-**Find**
-
-Find services. This returns an array of services
+to configure expire time of application token cache
 ```ruby
-# Default. This will return 10 service on the first page
-services = Volcanic::Authenticator::V1::Service.find
-services.size # => 10
-service = services[0]
-service.id # => 1
-service.name # => 'service a'
-...
-
-# Get on different page. The page size is default by 10
-services = Volcanic::Authenticator::V1::Service.find(page: 2)
-services.size # => 10
-services[0].id # => 11
-...
-
-# Get on different page size.
-services = Volcanic::Authenticator::V1::Service.find(page: 2, page_size: 5)
-services.size # => 5
-services[0].id # => 6
-
-# Search by key name.
-services = Volcanic::Authenticator::V1::Service.find(page: 2, page_size: 5, key_name: 'vol')
-services.size # => 5
-services[0].name # => 'volcanic-a'
-services[1].name # => 'service-volcanic'
-services[2].name # => 'volvo'
+Volcanic::Authenticator.config.exp_app_token = 5 * 60 # default 1 day
 ```
 
-**Find by id**
-
-Get a service.
+to configure expire time of public key cache
 ```ruby
-#
-# Service.find_by_id(service_ID)
-service = Volcanic::Authenticator::V1::Service.find_by_id(1)
-service.name # => 'service_name'
-service.id # => '<service_ID>'
-service.active? # => true
+Volcanic::Authenticator.config.exp_public_key = 5 * 60 # default 1 day
 ```
 
-**Update**
-
-Edit/Update a service.
-```ruby
-         
-service = Volcanic::Authenticator::V1::Service.find_by_id(1)
-service.name = 'new-service-name'
-service.save
-
-updated_service = Volcanic::Authenticator::V1::Service.find_by_id(1)
-updated_service.name # => 'new-service-name'
-```
-
-**Delete**
+Note: all expire time are in seconds basis
 
 
-Delete a service.
-```ruby
-
-Volcanic::Authenticator::V1::Service.new(id: 1).delete
-
-## OR
- 
-service = Volcanic::Authenticator::V1::Service.find_by_id(1)
-service.delete 
-
-````
-
-## Principal
-**Create**
-
-Create a new principal.
-
-```ruby
-# Principal.create(principal_name, dataset_id, role_ids, privilege_ids)
-principal = Volcanic::Authenticator::V1::Principal.create('principal-a', 1, [1, 2], [3, 4])
-principal.id # => 1
-principal.name # => 'principal_name'
-principal.dataset_id # => 1
-```
-
-**Find**
-
-Find principals. 
-
-```ruby
-# Default. This will return 10 principal on the first page
-principals = Volcanic::Authenticator::V1::Principal.find
-principals.size # => 10
-principal = principals[0]
-principal.id # => 1
-principal.name # => 'principal a'
-...
-
-# Get on different page. The page size is default by 10
-principals = Volcanic::Authenticator::V1::Principal.find(page: 2)
-principals.size # => 10
-principals[0].id # => 11
-...
-
-# Get on different page size.
-principals = Volcanic::Authenticator::V1::Principal.find(page: 2, page_size: 5)
-principals.size # => 5
-principals[0].id # => 6
-
-# Search by key name.
-principals = Volcanic::Authenticator::V1::Principal.find(page: 2, page_size: 5, key_name: 'vol')
-principals.size # => 5
-principals[0].name # => 'volcanic-a'
-principals[1].name # => 'principal-volcanic'
-principals[2].name # => 'volvo'
-```
-
-**Find by id**
-
-Get a principal.
-```ruby
-principal =  Volcanic::Authenticator::V1::Principal.find_by_id(1)
-principal.id # => 1
-principal.name # => 'principal_name'
-principal.dataset_id # => 1
-```
-
-**Update**
-
-Edit/Update a principal.
-```ruby  
-principal = Volcanic::Authenticator::V1::Principal.find_by_id(1)
-principal.name = 'new principal name'
-principal.dataset_id = 2
-principal.save
-```
-
-**Delete**
-
-Delete a principal.
-```ruby
-Volcanic::Authenticator::V1::Principal.new(id: 1).delete
-```
-
-## Identity
-
-**Create**
-
-Create new identity
-```ruby
-# required params is name and principal_id
-identity = Volcanic::Authenticator::V1::Identity.create('identity-name', 1)
-identity.id #=> 1
-identity.principal_id #=> 2
-identity.name # => 'identity-name'
-identity.secret #=> 'cded0d177c84163f1...'
-
-# with custom secret
-identity = Volcanic::Authenticator::V1::Identity.create('identity-name', 1, secret: 'my-secret')
-identity.secret # => 'my-secret'
-
-# with privilege ids
-identity = Volcanic::Authenticator::V1::Identity.create('identity-name', 1, privileges: [1, 2])
-
-# with role ids
-identity = Volcanic::Authenticator::V1::Identity.create('identity-name', 1, roles: [1, 2])
-
-```
-
-**Delete**
-
-Delete an identity
-```ruby
-# using existing instance object
-identity.delete
-
-# OR
-  
-Volcanic::Authenticator::V1::Identity.new(id: 1).delete
-
-```
+## Usage
 
 **Token**
+
+attribute
+`token_key`
+
+create token 
 ```ruby
-identity = Volcanic::Authenticator::V1::Identity.create('identity-name', 1)
-identity.token # => 'eyJhbGciOiJFUzUxMiIsInR5cDgwMWExIn0...'
-```
-Note: This is another way to generate a token. Always use `Token.new.gen_token_key(identity_name, identity_secret).token_key` to create a token.
-
-## Token
-
-**Generate Token key**
-
-To generate a token key. `identity_name` and `identity_secret` is required for this method
-```ruby
-Token.create(name, secret)
-# => "eyJhbGciOiJFUzUxMiIsInR5c..."
+token = Volcanic::Authenticator::V1::Token.create(name, secret)
+token.token_key # => 'eyJhbGciOiJFUzUxMiIsIn...'
 ```
 
-**Validate Token Key**
-
-To validate token key using keystore. Validate of signature, expiry date, and content 
+validate token
 ```ruby
-Token.new(token_key).validate
-# => true
+Volcanic::Authenticator::V1::Token.new(token_key).validate
+# => true/false
 ```
 
-**Validate Token Key by Auth Service**
-
-To validate token key by using Auth Service. This method request an api validation of the token key to auth service.
+validate token (remotely)
 ```ruby
-Token.new(token_key).remote_validate
-# => true
+Volcanic::Authenticator::V1::Token.new(token_key).remote_validate
+# => true/false
 ```
 
-**Fetch claims**
-
-To fetch claims and others like `dataset_id`, `principal_id` and `identity_id` of the token
+fetch token claims
 ```ruby
-token = Token.new(token_key).fetch_claims
-token.kid # => key id claim
-token.sub # => subject claim
-token.iss # => issuer claim
-token.dataset_id # => dataset id from sub
-token.principal_id # => principal id from sub
-token.identity_id # => identity id from su
-
+token = Volcanic::Authenticator::V1::Token.new(token_key).fetch_claims
+token.kid # => 'a5f53fa2...'
+token.sub # => 'user://sandbox/-1/1/1/2'
+token.iss # => 'volcanic_auth_service_ap2'
+token.dataset_id # => -1
+token.subject_id # => 1
+token.principal_id # => 1
+token.identity_id # => 2
 ```
 
-**Revoke Token Key**
-
-To revoke/blacklist token key from the auth service. This will also remove the token key at the gem's cache if it available.
+revoke token (logout or blacklist token).
 ```ruby
-Token.new(token_key).revoke!
+Volcanic::Authenticator::V1::Token.new(token_key).revoke!
 ```
 
-## Permission
-**Create**
+**Identity**
 
-Create a new Permission.
+attributes `id`, `name`, `principal_id`, `secret`, `created_at`, `updated_at`
 
+create identity
 ```ruby
-#
-# Permission.create(PERMISSION_NAME, DESCRIPTION, SERVICE_ID) 
-permission = Volcanic::Authenticator::V1::Permission.create('Permission-a', 'new permission', 1)
-permission.name # => 'Permission-a'
-permission.id # => '1'
-permission.description # => 1
-permission.subject_id # => 3
-permission.service_id # => 10
-...
-```
-**Find**
-
-Find permission. 
-```ruby
-# this is returning an Array of permission
-
-# Default. This will return 10 permission on the first page
-permissions = Volcanic::Authenticator::V1::Permission.find
-permissions.size # => 10
-permission = permissions[0]
-permission.id # => 1
-permission.name # => 'permission a'
-...
-
-# Get on different page. The page size is default by 10
-permissions = Volcanic::Authenticator::V1::Permission.find(page: 2)
-permissions.size # => 10
-permissions[0].id # => 11
-...
-
-# Get on different page size.
-permissions = Volcanic::Authenticator::V1::Permission.find(page: 2, page_size: 5)
-permissions.size # => 5
-permissions[0].id # => 6
-
-# Search by key name.
-permissions = Volcanic::Authenticator::V1::Permission.find(page: 2, page_size: 5, key_name: 'vol')
-permissions.size # => 5
-permissions[0].name # => 'volcanic-a'
-permissions[1].name # => 'permission-volcanic'
-permissions[2].name # => 'volvo'
-
+name = 'any_name'
+principal_id = 1 # need to create principal
+identity = Volcanic::Authenticator::V1::Identity.create(name, principal_id)
+identity.name # => 'any_name'
+identity.secret # => random_password
 ```
 
-**Find by id**
+create identity with custom secret
+ ```ruby
+ identity = Volcanic::Authenticator::V1::Identity.create(name, principal_id, secret: 'any_secret')
+ identity.secret # => 'any_secret'
+````
 
-Find permission by id.
+create identity with roles and privileges
+ ```ruby
+ roles = [1, 2] # ids of role
+ privileges = [3, 4] # ids of privilege
+ identity = Volcanic::Authenticator::V1::Identity.create(name, principal_id, privileges: privileges, roles: roles)
+ ...
+````
+
+updating identity. (only applicable to `name` and `secret`)
 ```ruby
-permission = Volcanic::Authenticator::V1::Permission.find_by_id(1)
-permission.id # => 1
-permission.name # => 'permission-a'
-permission.description # => 1
-permission.subject_id # => 3
-permission.service_id # => 10
-permission.active? # => true
-```
-
-**Update**
-
-Update a permission.
-```ruby
-permission = Volcanic::Authenticator::V1::Permission.find_by_id(1)
-permission.name = 'update name'
-permission.description = 'update description'
-permission.save
-```
-
-**Delete**
-
-Delete a permission.
-```ruby
-permission = Volcanic::Authenticator::V1::Permission.find_by_id(1)
-permission.delete
-
-# OR
-
-Volcanic::Authenticator::V1::Permission.new(id: 1).delete
-```
-
-## Group Permission
-**Create**
-
-Create a new Group.
-
-```ruby
-group = Volcanic::Authenticator::V1::Group.create('group-a', 'description', [1, 2])
-group.name # => 'group-a'
-group.id # => '1'
-group.description # => 'description'
-```
-
-**Find**
-
-Find groups 
-```ruby
-# this is returning an Array of group
-
-# Default. This will return 10 group on the first page
-groups = Volcanic::Authenticator::V1::group.find
-groups.size # => 10
-group = groups[0]
-group.id # => 1
-group.name # => 'group a'
-...
-
-# Get for different page. The page size is default by 10
-groups = Volcanic::Authenticator::V1::group.find(page: 2)
-groups.size # => 10
-groups[0].id # => 11
-...
-
-# Get for different page size.
-groups = Volcanic::Authenticator::V1::group.find(page: 2, page_size: 5)
-groups.size # => 5
-groups[0].id # => 6
-
-# Search by key name.
-groups = Volcanic::Authenticator::V1::group.find(page: 2, page_size: 5, key_name: 'vol')
-groups.size # => 5
-groups[0].name # => 'volcanic-a'
-groups[1].name # => 'group-volcanic'
-groups[2].name # => 'volvo'
-```
-**Update**
-
-Update a group.
-```ruby 
-group = Volcanic::Authenticator::V1::Group.find_by_id(1)
-group.name = 'new group name'
-group.description = 'new group description'
-group.save
-```
-
-**Delete**
-
-Delete a group.
-```ruby
-Volcanic::Authenticator::V1::Group.new(id: 1).delete
+identity = Volcanic::Authenticator::V1::Identity.create(name, principal_id)
+identity.name = 'new_name'
+identity.secret = 'new_secret'
+identity.save
 
 # OR
  
-group = Volcanic::Authenticator::V1::Group.find_by_id(1)
-group.delete
+Volcanic::Authenticator::V1::Identity.update(1, name: 'new_name', secret: 'new_secret')  
+# 1 is the identity id
 ```
 
-## Privilege
-**Create**
-
-Create a new Privilege.
-
+resetting identity secret
 ```ruby
-#
-# Privilege.create(PRIVILEGE_NAME, PERMISSION_ID, GROUP_NAME) 
-privilege = Volcanic::Authenticator::V1::Privilege.create('privilege-a', 2, 10)
+Volcanic::Authenticator::V1::Identity.new(id: 1).reset_secret
 
-privilege.scope # => 'Privilege-a'
-privilege.id # => 1
-privilege.permission_id # => 2
-privilege.group_id # => 10
+# OR
+
+Volcanic::Authenticator::V1::Identity.new(id: 1).reset_secret('custom_secret')
 ```
 
-**Find**
-
-Find privileges
+deleting identity
 ```ruby
-# Default. This will return 10 service on the first page
-privileges = Volcanic::Authenticator::V1::Privilege.find
-privileges.size # => 10
-privilege = privileges[0]
-privilege.id # => 1
-privilege.name # => 'service a'
+Volcanic::Authenticator::V1::Identity.new(id: 1).delete
+```
+
+##Others
+1. Service
+2. Permission
+3. Group
+4. Privilege
+5. Role
+6. Principal
+
+
+create
+```ruby
+# Service
+name = 'any_name' 
+service = Volcanic::Authenticator::V1::Service.create(name)
+service.id # => 1
+service.name # => 'any_name'
+service.subject_id 
+service.active? # => true/false
 ...
 
-# Get on different page. The page size is default by 10
-privileges = Volcanic::Authenticator::V1::Privilege.find(page: 2)
-privileges.size # => 10
-privileges[0].id # => 11
+# Permission 
+permission = Volcanic::Authenticator::V1::Permission.create(name, service.id, description)
+permission.id
+permission.name
+permission.description
+permission.subject_id
+permission.service_id
+permission.created_at
+permission.updated_at
+permission.active? # => true/false
 ...
 
-# Get on different page size.
-privileges = Volcanic::Authenticator::V1::Privilege.find(page: 2, page_size: 5)
-privileges.size # => 5
-privileges[0].id # => 6
+# Group
+permissions = [1, 2] # optional
+group = Volcanic::Authenticator::V1::Group.create(name, description, permissions)
+group.id
+group.name
+group.description
+group.subject_id
+group.created_at
+group.updated_at
+group.active? # => true/false
+...
 
-# Search by key name.
-privileges = Volcanic::Authenticator::V1::Privilege.find(page: 2, page_size: 5, key_name: 'vol')
-privileges.size # => 5
-privileges[0].name # => 'volcanic-a'
-privileges[1].name # => 'service-volcanic'
-privileges[2].name # => 'volvo'
+# Privilege
+scope = 'vrn:sandbox:*:jobs/*' 
+privilege = Volcanic::Authenticator::V1::Privilege.create(scope, permission.id, group.id) 
+privilege.id
+privilege.scope
+privilege.permission_id
+privilege.group_id
+privilege.subject_id
+privilege.created_at
+privilege.updated_at
+privilege.allow? # => true/false
+privilege.allow! # to allow privilege
+privilege.deny! # to deny privilege
+...
+# group id is optional
+
+# Role
+privileges = [1, 3] # optional
+role = Volcanic::Authenticator::V1::Role.create(name, service.id, privileges)
+role.id
+role.name
+role.service_id
+role.subject_id
+role.created_at
+role.updated_at
+...
+
+
+# Principal
+dataset_id = 1 
+roles = [1, 2] # ids of roles. Optional
+privileges = [1, 3] # ids of privilege. Optional
+principal = Volcanic::Authenticator::V1::Principal.create(name, dataset_id, roles, privileges)
+principal.id
+principal.name
+principal.dataset_id
+principal.created_at
+principal.updated_at
+principal.active? # => true/false
 ```
-
-**Find by id**
-
-Find privilege by id
+find
 ```ruby
-privilege =  Volcanic::Authenticator::V1::Privilege.find_by_id(1)
-privilege.name # => 'Privilege-a'
-privilege.id # => 1
-privilege.permission_id # => 2
-privilege.group_id # => 10
-privilege.allow # => true
-```
+# example for service
+service = Service.find(1) # find by id 
+service.id
+service.name
+... 
 
-**Update**
+# by page, page_size, query, sort, order, pagination
 
-Update a privilege.
-```ruby
-privilege = Volcanic::Authenticator::V1::Privilege.find_by_id(1)
-privilege.name = 'new-service-name'
-privilege.save
-
-Volcanic::Authenticator::V1::Privilege.find_by_id(1).name # => 'new-service-name'
-```
-**Delete**
-
-Delete a privilege.
-```ruby
-
-Volcanic::Authenticator::V1::Privilege.new(id: 1).delete
-
-## OR
+Service.find(page: 1, page_size: 2)
+# => [ <Service:1>, <Service:2> ]
+# page is the current page taken
+# page_size is the size of the page 
+# is deafault to page: 1, page_size: 10 
  
-privilege = Volcanic::Authenticator::V1::Privilege.find_by_id(1)
-privilege.delete 
+Service.find(query: 'vol') 
+# => [ <Service:1 @name='volcanic'>, <Service:2 @name='volume'>, ... ]
+# query is a character of field name. Typically it search for object that has name match with query.
+# in case of Privilege, it search for the scope instead of name 
+
+Service.find(sort: 'id', order: 'desc')  
+# => [ <Service:1 @id = 10>, <Service:2 @id=9'>, ... ]    
+# sort must be one of [id, name, created_at, updated_at]
+# order must be one of [asc, desc]
+        
+Service.find(pagination: true)
+# => { 
+#       pagination: { page:1, pageSize:10, rowCount:10, pageCount: 1 }, 
+#       data: [...] 
+#    }   
+# page is current page
+# pageSize is the size of the data in a page
+# rowCount is the total count of data
+# pageCount is the total count of page.
+# data is the array of Objects
+# Note: by default pagination is set to false     
 ```
 
-## Role
-**Create**
-
-Create a new role.
-
+save
 ```ruby
-role = Volcanic::Authenticator::V1::Role.create('role-a')
-role.id # => 1
-role.name # => 'role-a'
-...
+# service
+service.name 
+
+# permission
+permission.name
+permission.description 
+
+# group
+group.name
+group.description 
+
+# privilege
+privilege.scope 
+privilege.permission_id 
+privilege.group_id
+
+# role
+role.name 
+role.service_id 
+role.privileges 
+
+# principal 
+principal.name
+principal.dataset_id 
 ```
+delete
 
-**Find**
-
-Find roles. This returns an array of roles
 ```ruby
-# Default. This will return 10 role on the first page
-roles = Volcanic::Authenticator::V1::Role.find
-roles.size # => 10
-role = roles[0]
-role.id # => 1
-role.name # => 'role a'
-...
-
-# Get on different page. The page size is default by 10
-roles = Volcanic::Authenticator::V1::Role.find(page: 2)
-roles.size # => 10
-roles[0].id # => 11
-...
-
-# Get on different page size.
-roles = Volcanic::Authenticator::V1::Role.find(page: 2, page_size: 5)
-roles.size # => 5
-roles[0].id # => 6
-
-# Search by key name.
-roles = Volcanic::Authenticator::V1::Role.find(page: 2, page_size: 5, key_name: 'vol')
-roles.size # => 5
-roles[0].name # => 'volcanic-a'
-roles[1].name # => 'role-volcanic'
-roles[2].name # => 'volvo'
-```
-**Find by id**
-
-Find role by id.
-```ruby
-#
-# Role.find_by_id(role_ID)
-role = Volcanic::Authenticator::V1::Role.find_by_id(1)
-role.id # => 1
-role.name # => 'role_name'
-...
-
-```
-**Update**
-
-Update a role.
-```ruby
-         
-role = Volcanic::Authenticator::V1::Role.find_by_id(1)
-role.name = 'new-role-name'
-role.save
-
-updated_role = Volcanic::Authenticator::V1::Role.find_by_id(1)
-updated_role.name # => 'new-role-name'
-```
-
-**Delete**
-
-Delete a role.
-```ruby
-
-Volcanic::Authenticator::V1::Role.new(id: 1).delete
-
-## OR
- 
-role = Volcanic::Authenticator::V1::Role.find_by_id(1)
-role.delete 
-
+# service
+# permission
+# group
+# privilege
+# role
+# principal 
 ```

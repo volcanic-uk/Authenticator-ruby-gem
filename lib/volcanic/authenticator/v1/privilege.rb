@@ -42,7 +42,7 @@ module Volcanic::Authenticator
       end
 
       # to disallow privilege
-      def disallow!
+      def deny!
         return unless allow?
 
         @tmp_allow = false
