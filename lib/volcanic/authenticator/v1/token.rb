@@ -24,43 +24,46 @@ module Volcanic::Authenticator
       VALIDATE_TOKEN_URL = 'api/v1/token/validate'
       GENERATE_TOKEN_URL = 'api/v1/identity/login'
       REVOKE_TOKEN_URL = 'api/v1/identity/logout'
-      TOKEN_EXCEPTION = :raise_exception_token
+      EXCEPTION = :raise_exception_token
 
       attr_accessor :token_key
-      attr_reader :kid, :sub, :iss, :dataset_id, :principal_id, :identity_id
+      attr_reader :kid, :exp, :sub, :nbf, :audience, :iat, :iss
+      attr_reader :dataset_id, :subject_id, :principal_id, :identity_id
 
       def initialize(token_key = nil)
         @token_key = token_key
       end
 
       #
-      # return string token key
+      # creating a token (login identity)
       #
       # eg.
-      #   Token.create(name, secret)
-      #   # => 'eyJhbGciOiJFUzUxMiIsIn...'
+      #   token = Token.create(name, secret)
+      #   token.token_key # => 'eyJhbGciOiJFUzUxMiIsIn...'
+      #   token.validate
+      #   ...
       #
       def self.create(name, secret)
         payload = { name: name, secret: secret }.to_json
-        perform_post_and_parse(TOKEN_EXCEPTION,
-                               GENERATE_TOKEN_URL,
-                               payload, nil)['token']
+        parsed = perform_post_and_parse(EXCEPTION,
+                                        GENERATE_TOKEN_URL,
+                                        payload, nil)
+        new(parsed['token']).cache! true
       end
 
       #
-      # to generate/request token key
       # eg.
       #   token = Token.new.gen_token_key(name, secret)
       #   token.token_key # => 'eyJhbGciOiJFUzUxMiIsIn...'
       #   ....
       #
-      def gen_token_key(identity_name, identity_secret)
-        payload = { name: identity_name, secret: identity_secret }.to_json
-        parsed = perform_post_and_parse TOKEN_EXCEPTION, GENERATE_TOKEN_URL, payload, nil
-        @token_key = parsed['token']
-        cache!
-        self
-      end
+      # def gen_token_key(name, secret)
+      #   payload = { name: name, secret: secret }.to_json
+      #   parsed = perform_post_and_parse EXCEPTION, GENERATE_TOKEN_URL, payload, nil
+      #   @token_key = parsed['token']
+      #   cache!
+      #   self
+      # end
 
       #
       # to validate token exists at cache or has a valid signature.
@@ -71,8 +74,8 @@ module Volcanic::Authenticator
       def validate
         return true if cache.key?(token_key)
 
-        verify_signature # verify signature
-        cache! # if success verify it cache the token again
+        verify_signature # verify token signature
+        cache! # if success, token is cache again
         true
       rescue TokenError
         false
@@ -113,28 +116,30 @@ module Volcanic::Authenticator
       end
 
       #
-      # to clear token at cache
+      # to clear token from cache
       # eg.
-      #   Token.new(token_key).destroy
+      #   Token.new(token_key).clear!
       def clear!
         cache.evict!(token_key) unless token_key.nil?
       end
 
       #
-      # to blacklist token and delete at cache
+      # to blacklist token (logout)
       # eg.
       #   Token.new(token_key).revoke!
       #
       def revoke!
         clear!
-        perform_post_and_parse TOKEN_EXCEPTION, REVOKE_TOKEN_URL, nil, token_key
+        perform_post_and_parse EXCEPTION, REVOKE_TOKEN_URL, nil, token_key
+      end
+
+      # caching token
+      def cache!(return_self = false)
+        cache.fetch token_key, expire_in: exp_token, &method(:token_key)
+        self if return_self
       end
 
       private
-
-      def cache!
-        cache.fetch token_key, expire_in: exp_token, &method(:token_key)
-      end
 
       def verify_signature
         claims_extractor # to fetch KID from token
@@ -152,11 +157,18 @@ module Volcanic::Authenticator
         header = decoded_token.last
         body = decoded_token.first
         @kid = header['kid']
+        @exp = body['exp']
         @sub = body['sub']
+        @nbf = body['nbf']
+        @audience = body['audience']
+        @iat = body['iat']
         @iss = body['iss']
 
         sub_uri = URI(@sub)
-        _, @dataset_id, @principal_id, @identity_id = sub_uri.path.split('/')
+        subject = sub_uri.path.split('/').map do |v|
+          ['', 'undefined', 'null'].include?(v) ? nil : v.to_i
+        end
+        _, @dataset_id, @subject_id, @principal_id, @identity_id = subject
       end
     end
   end

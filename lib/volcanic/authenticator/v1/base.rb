@@ -11,7 +11,7 @@ module Volcanic::Authenticator
     class Base
       extend SingleForwardable
       def_delegator 'Volcanic::Cache::Cache'.to_sym, :instance, :cache
-      def_delegators 'Volcanic::Authenticator.config'.to_sym, :exp_app_token, :exp_public_key, :app_issuer
+      def_delegators 'Volcanic::Authenticator.config'.to_sym, :exp_app_token, :exp_public_key, :app_name, :app_secret
     end
   end
 end
