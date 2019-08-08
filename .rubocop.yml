@@ -20,5 +20,8 @@ Metrics/AbcSize:
 Metrics/ClassLength:
   Max: 160
 
+Metrics/PerceivedComplexity:
+  Max: 10
+
 Style/ClassAndModuleChildren:
   Enabled: false
