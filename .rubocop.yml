@@ -9,13 +9,13 @@ Metrics/LineLength:
   Enabled: false
 
 Metrics/MethodLength:
-  Max: 18
+  Max: 20
 
 Metrics/BlockLength:
   Enabled: false
 
 Metrics/AbcSize:
-  Max: 25
+  Max: 32
 
 Metrics/ClassLength:
   Max: 160
