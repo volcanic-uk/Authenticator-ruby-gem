@@ -9,13 +9,16 @@ Metrics/LineLength:
   Enabled: false
 
 Metrics/MethodLength:
-  Max: 18
+  Max: 20
 
 Metrics/BlockLength:
   Enabled: false
 
 Metrics/AbcSize:
-  Max: 25
+  Max: 33
+
+Metrics/PerceivedComplexity:
+  Max: 10
 
 Metrics/ClassLength:
   Max: 160
