@@ -26,6 +26,10 @@ module Volcanic::Authenticator
           @exp_public_key ||= 24 * 60 * 60 # default of 1 day
         end
 
+        def exp_authorize_token
+          @exp_authorize_token ||= 5 * 60
+        end
+
         def exp_token=(value)
           raise ConfigurationError unless integer? value
 
@@ -42,6 +46,12 @@ module Volcanic::Authenticator
           raise ConfigurationError unless integer? value
 
           @exp_public_key = value.to_i
+        end
+
+        def exp_authorize_token=(value)
+          raise ConfigurationError unless integer? value
+
+          @exp_authorize_token = value.to_i
         end
 
         # this is kind of kill switch inside the gem.
