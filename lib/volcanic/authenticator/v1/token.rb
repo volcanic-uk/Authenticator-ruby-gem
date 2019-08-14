@@ -5,6 +5,7 @@ require 'logger'
 require 'httparty'
 require_relative 'helper/request'
 require_relative 'helper/error'
+require_relative 'helper/app_token'
 
 module Volcanic::Authenticator
   module V1
@@ -19,11 +20,12 @@ module Volcanic::Authenticator
       extend Request
 
       def_instance_delegator 'Volcanic::Cache::Cache'.to_sym, :instance, :cache
-      def_instance_delegators 'Volcanic::Authenticator.config'.to_sym, :exp_token, :auth_url
+      def_instance_delegators 'Volcanic::Authenticator.config'.to_sym, :exp_token, :auth_url, :service_name, :exp_authorize_token
 
       VALIDATE_TOKEN_URL = 'api/v1/token/validate'
       GENERATE_TOKEN_URL = 'api/v1/identity/login'
       REVOKE_TOKEN_URL = 'api/v1/identity/logout'
+      PRIVILEGES_URL = 'api/v1/privileges'
       EXCEPTION = :raise_exception_token
 
       attr_accessor :token_key
@@ -72,7 +74,7 @@ module Volcanic::Authenticator
       #   # => true/false
       #
       def validate
-        return true if cache.key?(@token_key)
+        return true if cache.key?(token_key)
 
         verify_signature # verify token signature
         cache! # if success, token is cache again
@@ -89,7 +91,7 @@ module Volcanic::Authenticator
       #   # => true/false
       #
       def remote_validate
-        return true if cache.key?(@token_key)
+        return true if cache.key?(token_key)
 
         res = HTTParty.post("#{auth_url}/#{VALIDATE_TOKEN_URL}",
                             headers: bearer_header(token_key))
@@ -139,7 +141,76 @@ module Volcanic::Authenticator
         self if return_self
       end
 
+      # to check token authorization
+      # eg.
+      #   token.authorize(controller_name, action_name, resource_id)
+      #   # => true/false
+      #
+      #   token.authorize('jobs', 'create', 1)
+      #   # => true
+      #
+      #   token.authorize('users', 'delete')
+      #   # = > false
+      #
+      # Note: resource_id with nil value will send as '*' (all)
+      def authorize?(controller, action, id = '*')
+        fetch_claims if sub.nil?
+        id = id.nil? ? '*' : id.to_s
+        cache.fetch "#{controller}:#{action}:#{sub}:#{id}", expire_in: exp_authorize_token do
+          perform_authorize(controller, action, id)
+        end
+      end
+
       private
+
+      def perform_authorize(controller, action, id)
+        privileges = fetch_privileges(controller, action)
+        return false if privileges.empty?
+
+        return privileges[0]['allow'] if privileges.count == 1
+
+        allow?(privileges, controller, id)
+      end
+
+      def fetch_privileges(permission, action)
+        end_point = [service_name, "#{permission}:#{action}"].join('/')
+        url = "#{PRIVILEGES_URL}/#{end_point}?fullyQualifiedSubject=#{sub}"
+        exception = :raise_exception_token
+        perform_get_and_parse(exception, url, AppToken.request_app_token)
+      end
+
+      def allow?(privileges, permission, id)
+        priorities = []
+        subject = sub.split('/')
+        privileges.each do |p|
+          scope = p['scope'].split(':')
+          stack = scope[1]
+          dataset_id = scope[2]
+          resource = scope.last.split('/')
+          point = 0
+          # check for accurate stack
+          next unless ['*', subject[2]].include?(stack)
+
+          # check for accurate dataset_id
+          next unless ['*', subject[3]].include?(dataset_id)
+
+          # check for accurate permission/resource type
+          next unless permission == resource.first
+
+          # check for accurate resource id
+          next unless ['*', id].include?(resource.last)
+
+          point += 10 if stack == subject[2]
+          point += 30 if dataset_id == subject[3]
+          point += 50 if resource.last == id
+          point += 1 unless p['allow']
+          priorities.push(priority: point, allow: p['allow'])
+        end
+
+        return false if priorities.nil?
+
+        priorities.max_by { |p| p[:priority] }[:allow]
+      end
 
       def verify_signature
         claims_extractor # to fetch KID from token

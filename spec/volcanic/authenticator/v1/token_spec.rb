@@ -18,28 +18,6 @@ RSpec.describe Volcanic::Authenticator::V1::Token, :vcr do
     it { expect(token.create(mock_identity_name, mock_identity_secret).token_key).to eq mock_token_key }
   end
 
-  describe 'Generate new token key' do
-    # context 'When name is missing' do
-    #   it { expect { token.new.gen_token_key(nil, mock_identity_secret) }.to raise_error token_error }
-    #   it { expect { token.new.gen_token_key('', mock_identity_secret) }.to raise_error token_error }
-    # end
-    #
-    # context 'When secret is missing' do
-    #   it { expect { token.new.gen_token_key(mock_identity_name, nil) }.to raise_error token_error }
-    #   it { expect { token.new.gen_token_key(mock_identity_name, '') }.to raise_error token_error }
-    # end
-    #
-    # context 'When invalid name or secret' do
-    #   it { expect { token.new.gen_token_key('wrong-name', mock_identity_secret) }.to raise_error authorization_error }
-    #   it { expect { token.new.gen_token_key(mock_identity_name, 'wrong-secret') }.to raise_error authorization_error }
-    # end
-    #
-    # context 'When success' do
-    #   subject { token.new.gen_token_key(mock_identity_name, mock_identity_secret) }
-    #   its(:token_key) { should eq mock_token_key }
-    # end
-  end
-
   describe 'Validate' do
     context 'When missing token key' do
       it { expect(token.new(nil).validate).to be false }
@@ -111,6 +89,22 @@ RSpec.describe Volcanic::Authenticator::V1::Token, :vcr do
     context 'When success' do
       before { token.new(mock_token_key).revoke! }
       it { expect(token.new(mock_token_key).remote_validate).to be false }
+    end
+  end
+
+  describe '.authorize' do
+    let(:permission) { 'jobs' }
+    let(:action) { 'create' }
+    context 'when missing permission' do
+      it { expect(token.new(mock_token_key).authorize?(nil, action)).to be false }
+    end
+
+    context 'when missing action' do
+      it { expect(token.new(mock_token_key).authorize?(permission, nil)).to be false }
+    end
+
+    context 'when authorised' do
+      it { expect(token.new(mock_token_key).authorize?(permission, action)).to be false }
     end
   end
 end

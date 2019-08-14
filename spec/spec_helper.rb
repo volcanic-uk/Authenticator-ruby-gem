@@ -30,6 +30,7 @@ module Configuration
     Volcanic::Authenticator.config.auth_url = 'http://0.0.0.0:3003'
     Volcanic::Authenticator.config.app_name = 'volcanic'
     Volcanic::Authenticator.config.app_secret = 'volcanic!123'
+    Volcanic::Authenticator.config.service_name = 'vault'
   end
 
   # reset setting
