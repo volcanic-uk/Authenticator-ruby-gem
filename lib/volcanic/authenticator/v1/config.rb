@@ -8,7 +8,7 @@ module Volcanic::Authenticator
     # after installation of this gem, these need to be configure.
     class Config
       class << self
-        attr_accessor :auth_url, :app_name, :app_secret
+        attr_accessor :auth_url, :app_name, :app_secret, :service_name
         attr_writer :key_store_type
 
         # currently auth service has 2 types of key_store
@@ -34,6 +34,10 @@ module Volcanic::Authenticator
           @exp_public_key ||= 24 * 60 * 60 # default of 1 day
         end
 
+        def exp_authorize_token
+          @exp_authorize_token ||= 5 * 60
+        end
+
         def exp_token=(value)
           raise ConfigurationError unless integer? value
 
@@ -50,6 +54,12 @@ module Volcanic::Authenticator
           raise ConfigurationError unless integer? value
 
           @exp_public_key = value.to_i
+        end
+
+        def exp_authorize_token=(value)
+          raise ConfigurationError unless integer? value
+
+          @exp_authorize_token = value.to_i
         end
 
         private
