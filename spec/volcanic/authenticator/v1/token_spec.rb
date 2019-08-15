@@ -15,7 +15,7 @@ RSpec.describe Volcanic::Authenticator::V1::Token, :vcr do
   let(:mock_expired_token_key) { 'eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjI4MTU2MDEsInN1YiI6InVzZXI6Ly91bmRlZmluZWQvbnVsbC8xLzEvMiIsIm5iZiI6MTU2MjgxNTYwMSwiYXVkaWVuY2UiOlsia3Jha2F0b2FldSIsIi0iXSwiaWF0IjoxNTYyODE1NjAxLCJpc3MiOiJ2b2xjYW5pY19hdXRoX3NlcnZpY2VfYXAyIn0.ARlJIfffiPQM_fDJ6uJLrOv1yYa-jHtg38ZWR74_6T0fM7YlBC_SFcGj8Rgsb4RJg8RFAc5DZ9fGP1iYvzt-5xG3AcsW9cG-sTtOoCilwDbOfV0tAmaz7t45ZTTvmC_MUM62kFp-V2dlxYZkwNqPre2TOKHrzj7lhz6mSxNINOcP1mLj' }
 
   describe 'Create token' do
-    it { expect(token.create(mock_identity_name, mock_identity_secret).token_key).to eq mock_token_key }
+    it { expect(token.create(mock_identity_name, mock_identity_secret, 1).token_key).to eq mock_token_key }
   end
 
   describe 'Validate' do

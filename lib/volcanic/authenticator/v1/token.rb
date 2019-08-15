@@ -45,8 +45,10 @@ module Volcanic::Authenticator
       #   token.validate
       #   ...
       #
-      def self.create(name, secret)
-        payload = { name: name, secret: secret }.to_json
+      def self.create(name, secret, principal_id)
+        payload = { name: name,
+                    secret: secret,
+                    principal_id: principal_id }.to_json
         parsed = perform_post_and_parse(EXCEPTION,
                                         GENERATE_TOKEN_URL,
                                         payload, nil)
