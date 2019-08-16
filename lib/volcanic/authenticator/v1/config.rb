@@ -8,16 +8,12 @@ module Volcanic::Authenticator
     # after installation of this gem, these need to be configure.
     class Config
       class << self
-        attr_accessor :auth_url, :app_name, :app_secret, :service_name
-        attr_writer :key_store_type
-
-        # currently auth service has 2 types of key_store
-        # Dynamic and Static. Generally this is regarding to key rotation.
-        # After the key rotation features is finalise, this will be remove.
-        # Only dynamic key will be use.
-        def key_store_type
-          @key_store_type ||= 'static'
-        end
+        # :auth_url is domain url for authenticator service
+        # :app_name is the identity name for a service.
+        # :app_secret is the identity secret for a service.
+        # :app_principal_id is the principal_id use to create a token.
+        # :service_name typically the service name.
+        attr_accessor :auth_url, :app_name, :app_secret, :app_principal_id, :service_name
 
         # expiration time of cache tokens
         def exp_token
