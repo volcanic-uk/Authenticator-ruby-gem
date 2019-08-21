@@ -1,0 +1,42 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://0.0.0.0:3003/api/v1/services/1
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjY1ODY5MzEsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xLzEvMS8yIiwibmJmIjoxNTY2MzcwOTMxLCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU2NjM3MDkzMSwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AAgw91SZitSWuMHQU3t6CjeBtyBA7kfLGV7564azekCCO8mhkB3ALbaReSgaeH8AvfJd1GPAW-aTscFkEHzKHEyXAFPdn_EwE0sFnoKHeM_3M2UtMKyhrecZcxPIU2x7mXhmy0-EkA0Wxmw5X6CmonQCdg-X_RIouEKmUpCO14ZFramg
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '200'
+      Etag:
+      - W/"c8-PZmsXE2aiXs3oNMQpl42s719MvQ"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Wed, 21 Aug 2019 07:02:12 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_35328292426741803","response":{"id":1,"name":"auth","active":true,"subject_id":null,"created_at":"2019-08-20T07:17:45.052Z","updated_at":"2019-08-20T07:17:45.052Z"}}'
+    http_version: 
+  recorded_at: Wed, 21 Aug 2019 07:02:12 GMT
+recorded_with: VCR 5.0.0

@@ -1,0 +1,40 @@
+---
+http_interactions:
+  - request:
+      method: post
+      uri: http://0.0.0.0:3003/api/v1/services
+      body:
+        encoding: UTF-8
+        string: '{"name":"mock_name"}'
+      headers:
+        Authorization:
+          - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjY1ODY5MzEsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xLzEvMS8yIiwibmJmIjoxNTY2MzcwOTMxLCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU2NjM3MDkzMSwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AAgw91SZitSWuMHQU3t6CjeBtyBA7kfLGV7564azekCCO8mhkB3ALbaReSgaeH8AvfJd1GPAW-aTscFkEHzKHEyXAFPdn_EwE0sFnoKHeM_3M2UtMKyhrecZcxPIU2x7mXhmy0-EkA0Wxmw5X6CmonQCdg-X_RIouEKmUpCO14ZFramg
+        Content-Type:
+          - application/json
+    response:
+      status:
+        code: 201
+        message: Created
+      headers:
+        X-Powered-By:
+          - Express
+        Content-Type:
+          - application/json; charset=utf-8
+        Content-Length:
+          - '189'
+        Etag:
+          - W/"bd-dVObgr1tkCiQKhu+4tAxr0ab4MM"
+        Cache-Control:
+          - no-cache
+        Vary:
+          - accept-encoding
+        Date:
+          - Wed, 21 Aug 2019 07:02:12 GMT
+        Connection:
+          - keep-alive
+      body:
+        encoding: UTF-8
+        string: '{"requestID":"offline_awsRequestId_8539832773949663","response":{"name":"mock_name","subject_id":"2","updated_at":"2019-08-21T07:02:12.188Z","created_at":"2019-08-21T07:02:12.188Z","id":1}}'
+      http_version:
+    recorded_at: Wed, 21 Aug 2019 07:02:12 GMT
+recorded_with: VCR 5.0.0
