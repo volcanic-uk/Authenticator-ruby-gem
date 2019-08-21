@@ -1,0 +1,41 @@
+---
+http_interactions:
+- request:
+    method: delete
+    uri: http://0.0.0.0:3003/api/v1/services/wrong-id
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjY1ODY5MzEsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xLzEvMS8yIiwibmJmIjoxNTY2MzcwOTMxLCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU2NjM3MDkzMSwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AAgw91SZitSWuMHQU3t6CjeBtyBA7kfLGV7564azekCCO8mhkB3ALbaReSgaeH8AvfJd1GPAW-aTscFkEHzKHEyXAFPdn_EwE0sFnoKHeM_3M2UtMKyhrecZcxPIU2x7mXhmy0-EkA0Wxmw5X6CmonQCdg-X_RIouEKmUpCO14ZFramg
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '114'
+      Etag:
+      - W/"72-PzMeqKtH8c66FEKRb3wsu+zbD6k"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Wed, 21 Aug 2019 07:02:14 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_6185311913932969","message":{"id":"\"id\"
+        must be a number"},"errorCode":10001}'
+    http_version: 
+  recorded_at: Wed, 21 Aug 2019 07:02:14 GMT
+recorded_with: VCR 5.0.0
