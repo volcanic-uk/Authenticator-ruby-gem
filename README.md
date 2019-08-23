@@ -79,56 +79,56 @@ Volcanic::Authenticator.config.exp_authorize_token = 5 * 60
 
 attributes `id`, `name`, `principal_id`, `secret`, `created_at`, `updated_at`
 
-Create identity
-```ruby
-identity = Volcanic::Authenticator::V1::Identity.create(name, principal_id)
-identity.id # => 1
-...
+1. create identity.
+    ```ruby
+    identity = Volcanic::Authenticator::V1::Identity.create(name, principal_id)
+    identity.id # => 1
+    ...
+    
+    # with custom secret
+    identity = Volcanic::Authenticator::V1::Identity.create(name, principal_id, secret: 'any_secret')
+    identity.secret # => 'any_secret'
+    ...
+    
+    # assign privileges and roles.
+    identity = Volcanic::Authenticator::V1::Identity.create(name, principal_id, secret: 'any_secret', privileges: [1, 2], roles: [3])
+    # see Privileges and Roles for getting the ids.
+    ```
 
-# with custom secret
-identity = Volcanic::Authenticator::V1::Identity.create(name, principal_id, secret: 'any_secret')
-identity.secret # => 'any_secret'
-...
+2.  update identity
+    ```ruby
+    # current object
+    identity.name = 'new_name'
+    identity.secret = 'new_secret'
+    identity.roles = [1]
+    identity.privileges = [1, 3]
+    identity.save # initiate update to auth service
+    
+    # singleton way
+    id = 1 # identity id 
+    update_fields = { name: 'new_name', secret: 'new_secret', roles: [1], privileges: [1, 3]} 
+    Volcanic::Authenticator::V1::Identity.update(id, update_fields)
+    ```
 
-# assign privileges and roles.
-identity = Volcanic::Authenticator::V1::Identity.create(name, principal_id, secret: 'any_secret', privileges: [1, 2], roles: [3])
-# see Privileges and Roles for getting the ids.
-```
+3.  reset secret
+    ```ruby
+    # Generate new secret
+    identity.reset_secret
+    # OR
+    Volcanic::Authenticator::V1::Identity.reset_secret(1) # identity id
+     
+    # Use your own custom secret
+    identity.reset_secret('new_secret') 
+    # OR
+    Volcanic::Authenticator::V1::Identity.reset_secret(1, 'new_secret')
+    ```
 
-Update identity
-```ruby
-# current object
-identity.name = 'new_name'
-identity.secret = 'new_secret'
-identity.roles = [1]
-identity.privileges = [1, 3]
-identity.save # initiate update to auth service
-
-# singleton way
-id = 1 # identity id 
-update_fields = { name: 'new_name', secret: 'new_secret', roles: [1], privileges: [1, 3]} 
-Volcanic::Authenticator::V1::Identity.update(id, update_fields)
-```
-
-Reset secret
-```ruby
-# Generate new secret
-identity.reset_secret
-# OR
-Volcanic::Authenticator::V1::Identity.reset_secret(1) # identity id
- 
-# Use your own custom secret
-identity.reset_secret('new_secret') 
-# OR
-Volcanic::Authenticator::V1::Identity.reset_secret(1, 'new_secret')
-```
-
-Delete identity
-```ruby
-identity.delete
-# OR
-Volcanic::Authenticator::V1::Identity.delete(1) # identity id
-```
+4.  delete identity
+    ```ruby
+    identity.delete
+    # OR
+    Volcanic::Authenticator::V1::Identity.delete(1) # identity id
+    ```
 
 ##Others
 1. Service
