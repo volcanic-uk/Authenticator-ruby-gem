@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'forwardable'
 require_relative 'helper/request'
 require_relative 'helper/error'
 

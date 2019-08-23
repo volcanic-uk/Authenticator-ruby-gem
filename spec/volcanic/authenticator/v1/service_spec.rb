@@ -7,106 +7,126 @@ RSpec.describe Volcanic::Authenticator::V1::Service, :vcr do
   let(:mock_description) { 'mock_description' }
   let(:service_error) { Volcanic::Authenticator::V1::ServiceError }
   let(:new_service) { service.create(mock_name) }
-  describe 'Create' do
-    context 'When missing name' do
+  describe '.create' do
+    context 'when missing name' do
       it { expect { service.create(nil) }.to raise_error service_error }
       it { expect { service.create('') }.to raise_error service_error }
     end
 
-    context 'When duplicate name' do
+    context 'when duplicate name' do
       before { service.create('service-a') }
       it { expect { service.create('service-a') }.to raise_error service_error }
     end
 
-    context 'When creating' do
+    context 'when creating' do
       subject { service.create(mock_name) }
+      its(:id) { should eq 1 }
       its(:name) { should eq mock_name }
+      its(:subject_id) { should eq '2' }
+    end
+  end
+
+  describe '.find' do
+    context 'when find by id' do
+      subject { service.find(1) }
+      its(:id) { should eq 1 }
+      its(:name) { should eq mock_name }
+      its(:subject_id) { should eq '2' }
+      its(:active?) { should eq true }
+    end
+
+    context 'when find with specific page' do
+      subject(:services) { service.find(page: 2) }
+      it { expect(services[0].id).to eq 11 }
+      it { expect(services.count).to be <= 10 } # taking the page size to 10
+    end
+
+    context 'when find with specific page size' do
+      subject(:services) { service.find(page_size: 2) }
+      it { expect(services[0].id).to eq 1 }
+      it { expect(services.count).to be <= 2 }
+    end
+
+    context 'when find with page and page size' do
+      subject(:services) { service.find(page: 2, page_size: 3) }
+      it { expect(services[0].id).to eq 4 }
+      it { expect(services.count).to be <= 3 }
+    end
+
+    context 'when find with query' do
+      subject(:services) { service.find(query: 'vol') }
+      it { expect(services[0].name).to eq 'volcanic' }
+      it { expect(services[1].name).to eq 'vol' }
+    end
+
+    context 'when find with pagination' do
+      subject(:services) { service.find(pagination: true) }
+      let(:mock_pagination_result) { { page: 1, pageSize: 10, rowCount: 20, pageCount: 2 } }
+      it { expect(services[:pagination]).to eq mock_pagination_result }
+      it { expect(services[:data].count).to eq 10 }
+    end
+
+    context 'when find with sort and order' do
+      subject(:services) { service.find(sort: 'id', order: 'desc') }
+      it { expect(services[0].id).to eq 20 }
+      it { expect(services[1].id).to eq 19 }
+      it { expect(services[2].id).to eq 18 }
+    end
+  end
+
+  describe '.first' do
+    context 'when received first object' do
+      subject { service.first }
       its(:id) { should eq 1 }
     end
   end
 
-  describe 'Find' do
-    context 'When find with default setting' do
-      # this will return a default page: 1 and page_size: 10
-      subject(:services) { service.find }
-      it { expect(services[0].id).to eq 1 } # taking the first page
-      it { expect(services[0].name).to eq 'first-service' }
-      it { expect(services.count).to be <= 10 } # taking the page size to 10
-    end
-
-    context 'When find with specific page' do
-      subject(:services) { service.find(page: 2) }
-      it { expect(services[0].id).to eq 11 }
-      it { expect(services[0].name).to eq 'eleventh-service' }
-      it { expect(services.count).to be <= 10 }
-    end
-
-    context 'When find with specific page size' do
-      subject(:services) { service.find(page_size: 2) }
-      it { expect(services[0].id).to eq 1 }
-      it { expect(services[0].name).to eq 'first-service' }
-      it { expect(services.count).to be <= 2 }
-    end
-
-    context 'When find with page and page size' do
-      subject(:services) { service.find(page: 2, page_size: 3) }
-      it { expect(services[0].id).to eq 4 }
-      it { expect(services[0].name).to eq 'fourth-service' }
-      it { expect(services.count).to be <= 3 }
+  describe '.last' do
+    context 'when received last object' do
+      subject { service.last }
+      its(:id) { should eq 20 }
     end
   end
 
-  describe 'Find by given id' do
-    subject { service.find_by_id(new_service.id) }
-    context 'When missing id' do
-      it { expect { service.find_by_id(nil) }.to raise_error ArgumentError }
-      it { expect { service.find_by_id('') }.to raise_error ArgumentError }
-    end
-
-    context 'When invalid id' do
-      it { expect { service.find_by_id('wrong_id') }.to raise_error service_error }
-    end
-
-    context 'When success' do
-      its(:name) { should eq new_service.name }
-      its(:id) { should eq new_service.id }
-      its(:active?) { should be true }
-    end
+  describe '.count' do
+    subject { service.count }
+    it { should eq 20 }
   end
 
-  describe 'Update' do
+  describe '.save' do
     let(:new_name) { 'new-service' }
+    let(:new_description) { 'new-service-description' }
 
-    context 'When required field is nil' do
+    context 'when required field is nil' do
       before { new_service.name = nil }
       it { expect { new_service.save }.to raise_error service_error }
     end
 
-    context 'When required field is empty' do
-      before { new_service.name = nil }
+    context 'when required field is empty' do
+      before { new_service.name = '' }
       it { expect { new_service.save }.to raise_error service_error }
     end
 
-    context 'When changed name' do
+    context 'when changed name' do
       before do
         new_service.name = new_name
         new_service.save
       end
-      subject { service.find_by_id(new_service.id) }
+      subject { service.find(new_service.id) }
       its(:name) { should eq new_name }
     end
 
-    context 'When update with existing name' do
+    context 'when update with existing name' do
       before { new_service.name = new_name }
       it { expect { new_service.save }.to raise_error service_error }
     end
   end
 
-  describe 'Delete' do
+  describe '.delete' do
     let(:service_id) { new_service.id }
-    context 'When deleted' do
+    context 'when deleted' do
       before { new_service.delete }
-      subject { service.find_by_id(service_id) }
+      subject { service.find(service_id) }
       its(:active?) { should be false }
     end
 
@@ -114,7 +134,7 @@ RSpec.describe Volcanic::Authenticator::V1::Service, :vcr do
       it { expect { new_service.delete }.to raise_error service_error }
     end
 
-    context 'When invalid or non-exist id' do
+    context 'when invalid or non-exist id' do
       it { expect { service.new(id: 'wrong-id').delete }.to raise_error service_error }
       it { expect { service.new(id: 123_456_789).delete }.to raise_error service_error }
     end
