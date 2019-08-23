@@ -36,6 +36,7 @@ Volcanic::Authenticator.config.exp_authorize_token = 5 * 60
 
 **Token**
 
+attributes `token_key`
 1. create token 
     ```ruby
     principal_id = 1 # see how to create Principal
