@@ -143,7 +143,7 @@ attributes `id`, `name`, `principal_id`, `secret`, `created_at`, `updated_at`
     Identity.set_roles(1, 1, 2) 
     ```       
 
-##Others
+## Others
 
 The below objects may have similar method:
 
