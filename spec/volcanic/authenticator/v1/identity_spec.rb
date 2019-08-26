@@ -83,16 +83,18 @@ RSpec.describe Volcanic::Authenticator::V1::Identity, :vcr do
   end
 
   describe '.reset_secret' do
-    subject(:ident) { new_identity }
+    # subject(:ident) { new_identity }
     context 'when secret is nil' do
-      before { ident.reset_secret }
-      its(:secret) { should eq '3cdfe148d7c13178fb829935508e3541ac79e19a' }
+      # before { ident.reset_secret }
+      # its(:secret) { should eq '3cdfe148d7c13178fb829935508e3541ac79e19a' }
+      it { expect(identity.reset_secret(2)).to eq 'dae1f82da95171d02e91518edbd60e00b5d2b455' }
     end
 
     context 'when secret is not nil' do
       let(:update_secret) { 'update_secret' }
-      before { ident.reset_secret(update_secret) }
-      its(:secret) { should eq update_secret }
+      # before { ident.reset_secret(update_secret) }
+      # its(:secret) { should eq update_secret }
+      it { expect(identity.reset_secret(2, update_secret)).to eq 'update_secret' }
     end
   end
 
@@ -126,12 +128,15 @@ RSpec.describe Volcanic::Authenticator::V1::Identity, :vcr do
     # end
 
     context 'when identity already been deleted' do
-      it { expect { identity.new(id: 2).delete }.to raise_error identity_error }
+      # it { expect { identity.new(id: 2).delete }.to raise_error identity_error }
+      it { expect { identity.delete(2) }.to raise_error identity_error }
     end
 
     context 'when invalid or non-exist id' do
       # it { expect { identity.new(id: 'wrong-id').delete }.to raise_error identity_error }
-      it { expect { identity.new(id: 123_456_789).delete }.to raise_error identity_error }
+      # it { expect { identity.delete('wrong_id') }.to raise_error identity_error }
+      # it { expect { identity.new(id: 123_456_789).delete }.to raise_error identity_error }
+      it { expect { identity.delete(123_456_789) }.to raise_error identity_error }
     end
   end
 end

@@ -1,0 +1,78 @@
+---
+http_interactions:
+  - request:
+      method: post
+      uri: http://0.0.0.0:3003/api/v1/identity/login
+      body:
+        encoding: UTF-8
+        string: '{"name":"volcanic","secret":"volcanic!123"}'
+      headers:
+        Authorization:
+          - Bearer
+        Content-Type:
+          - application/json
+    response:
+      status:
+        code: 200
+        message: OK
+      headers:
+        X-Powered-By:
+          - Express
+        Content-Type:
+          - application/json; charset=utf-8
+        Content-Length:
+          - '526'
+        Etag:
+          - W/"20e-nLaq6IriKny6vnE1rR3ms1G8+PM"
+        Cache-Control:
+          - no-cache
+        Vary:
+          - accept-encoding
+        Date:
+          - Mon, 26 Aug 2019 03:49:19 GMT
+        Connection:
+          - keep-alive
+      body:
+        encoding: UTF-8
+        string: '{"requestID":"offline_awsRequestId_3096683345091371","response":{"token":"eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjcwMDczNTksInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xLzEvMS8yIiwibmJmIjoxNTY2NzkxMzU5LCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU2Njc5MTM1OSwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AKEbWfr6E3yvQ90M1o5F4fSVhjL_nvnrQTgdDSFPehlwv55-IWUf-avm_ZRIv1nJU4_zBKtz0C48T7I5WKeeZ_38AEgfwpp1k7R6y844uPgAa5D59WNResg1QbzSEuHn9XuZkG-z068JdUiDW7yAQJ8PkX_SWSVCrC7Iw1KsL2mcEg92"}}'
+      http_version:
+    recorded_at: Mon, 26 Aug 2019 03:49:19 GMT
+  - request:
+      method: post
+      uri: http://0.0.0.0:3003/api/v1/identity/secret/reset/2
+      body:
+        encoding: UTF-8
+        string: "{}"
+      headers:
+        Authorization:
+          - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjcwMDczNTksInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xLzEvMS8yIiwibmJmIjoxNTY2NzkxMzU5LCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU2Njc5MTM1OSwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AKEbWfr6E3yvQ90M1o5F4fSVhjL_nvnrQTgdDSFPehlwv55-IWUf-avm_ZRIv1nJU4_zBKtz0C48T7I5WKeeZ_38AEgfwpp1k7R6y844uPgAa5D59WNResg1QbzSEuHn9XuZkG-z068JdUiDW7yAQJ8PkX_SWSVCrC7Iw1KsL2mcEg92
+        Content-Type:
+          - application/json
+    response:
+      status:
+        code: 200
+        message: OK
+      headers:
+        X-Powered-By:
+          - Express
+        Content-Type:
+          - application/json; charset=utf-8
+        Content-Length:
+          - '163'
+        Etag:
+          - W/"a3-DNUQFdK0id8i4tnrP/++4rccpn8"
+        Cache-Control:
+          - no-cache
+        Vary:
+          - accept-encoding
+        Date:
+          - Mon, 26 Aug 2019 03:49:20 GMT
+        Connection:
+          - keep-alive
+      body:
+        encoding: UTF-8
+        string: '{"requestID":"offline_awsRequestId_21562630036982045","response":{"message":"Secret
+        regenerated successfully","secret":"dae1f82da95171d02e91518edbd60e00b5d2b455"}}'
+      http_version:
+    recorded_at: Mon, 26 Aug 2019 03:49:20 GMT
+recorded_with: VCR 5.0.0
