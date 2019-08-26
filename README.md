@@ -144,6 +144,7 @@ attributes `id`, `name`, `principal_id`, `secret`, `created_at`, `updated_at`
     ```       
 
 ##Others
+
 The below objects may have similar method:
 
 1. Service ```:id, :name, :subject_id, :created_at, :updated_at, :active?```
