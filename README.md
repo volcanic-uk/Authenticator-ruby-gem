@@ -80,7 +80,7 @@ attributes `token_key`
 
 attributes `id`, `name`, `principal_id`, `secret`, `created_at`, `updated_at`
 
-1. create identity.
+1. create identity
     ```ruby
     identity = Volcanic::Authenticator::V1::Identity.create(name, principal_id)
     identity.id # => 1
@@ -98,14 +98,12 @@ attributes `id`, `name`, `principal_id`, `secret`, `created_at`, `updated_at`
 
 2.  update identity
     ```ruby
-    # current object
     identity.name = 'new_name'
     identity.secret = 'new_secret'
     identity.roles = [1]
     identity.privileges = [1, 3]
     identity.save # initiate update to auth service
-    
-    # singleton way
+    # OR
     id = 1 # identity id 
     update_fields = { name: 'new_name', secret: 'new_secret', roles: [1], privileges: [1, 3]} 
     Volcanic::Authenticator::V1::Identity.update(id, update_fields)
@@ -116,7 +114,7 @@ attributes `id`, `name`, `principal_id`, `secret`, `created_at`, `updated_at`
     # Generate new secret
     identity.reset_secret
     # OR
-    Volcanic::Authenticator::V1::Identity.reset_secret(1) # identity id
+    Volcanic::Authenticator::V1::Identity.reset_secret(1) 
      
     # Use your own custom secret
     identity.reset_secret('new_secret') 
@@ -128,94 +126,66 @@ attributes `id`, `name`, `principal_id`, `secret`, `created_at`, `updated_at`
     ```ruby
     identity.delete
     # OR
-    Volcanic::Authenticator::V1::Identity.delete(1) # identity id
+    Volcanic::Authenticator::V1::Identity.delete(1) 
     ```
+    
+5.  set privileges
+    ```ruby
+    Identity.set_privileges(1, [1, 2])
+    # OR
+    Identity.set_privileges(1, 1, 2) 
+    ```     
+    
+6.  set roles
+    ```ruby
+    Identity.set_roles(1, [1, 2])
+    # OR
+    Identity.set_roles(1, 1, 2) 
+    ```       
 
 ##Others
-1. Service
-2. Permission
-3. Group
-4. Privilege
-5. Role
-6. Principal
+The below objects may have similar method:
 
+1. Service ```:id, :name, :subject_id, :created_at, :updated_at, :active?```
+2. Permission ```:id, :name, :description, :subject_id, :service_id, :created_at, :updated_at, :active?```
+3. Group ```:id, :name, :description, :subject_id, :created_at, :updated_at, :active?```
+4. Privilege ```:id, :scope, :permission_id, :group_id, :subject_id, :created_at, :updated_at, :allow?, :allow!, deny!```
+5. Role ```:id, :name, :description, :service_id, :subject_id, :created_at, :updated_at```
+6. Principal ```:id, :name, :dataset_id, :created_at, :updated_at, :active?```
 
-create
+Create method
 ```ruby
 # Service
-name = 'any_name' 
 service = Volcanic::Authenticator::V1::Service.create(name)
-service.id # => 1
-service.name # => 'any_name'
-service.subject_id 
-service.active? # => true/false
 ...
 
 # Permission 
 permission = Volcanic::Authenticator::V1::Permission.create(name, service.id, description)
-permission.id
-permission.name
-permission.description
-permission.subject_id
-permission.service_id
-permission.created_at
-permission.updated_at
-permission.active? # => true/false
 ...
 
 # Group
 permissions = [1, 2] # optional
 group = Volcanic::Authenticator::V1::Group.create(name, description, permissions)
-group.id
-group.name
-group.description
-group.subject_id
-group.created_at
-group.updated_at
-group.active? # => true/false
 ...
 
 # Privilege
 scope = 'vrn:sandbox:*:jobs/*' 
 privilege = Volcanic::Authenticator::V1::Privilege.create(scope, permission.id, group.id) 
-privilege.id
-privilege.scope
-privilege.permission_id
-privilege.group_id
-privilege.subject_id
-privilege.created_at
-privilege.updated_at
-privilege.allow? # => true/false
-privilege.allow! # to allow privilege
-privilege.deny! # to deny privilege
 ...
-# group id is optional
 
 # Role
 privileges = [1, 3] # optional
 role = Volcanic::Authenticator::V1::Role.create(name, service.id, privileges)
-role.id
-role.name
-role.service_id
-role.subject_id
-role.created_at
-role.updated_at
 ...
-
 
 # Principal
 dataset_id = 1 
-roles = [1, 2] # ids of roles. Optional
-privileges = [1, 3] # ids of privilege. Optional
+roles = [1, 2] 
+privileges = [1, 3] 
 principal = Volcanic::Authenticator::V1::Principal.create(name, dataset_id, roles, privileges)
-principal.id
-principal.name
-principal.dataset_id
-principal.created_at
-principal.updated_at
-principal.active? # => true/false
 ```
-find
+
+Search (find) method. This apply to all the objects (not just for `service` as example below). 
 ```ruby
 # example for service
 service = Service.find(1) # find by id 
@@ -223,7 +193,7 @@ service.id
 service.name
 ... 
 
-# by page, page_size, query, sort, order, pagination
+# then by :page, :page_size, :query, :sort, :order, :pagination
 
 Service.find(page: 1, page_size: 2)
 # => [ <Service:1>, <Service:2> ]
@@ -254,40 +224,65 @@ Service.find(pagination: true)
 # Note: by default pagination is set to false     
 ```
 
-save
+Update object attributes. Example below is the possible attributes that can be updated.
 ```ruby
-# service
-service.name 
+# to initiate update, can just run instance method of .save
 
-# permission
-permission.name
-permission.description 
+# Service
+service.name = 'new_name'
+service.save 
 
-# group
-group.name
-group.description 
+# Permission
+permission.name = 'new_name'
+permission.description = 'new_description'
+permission.save 
 
-# privilege
-privilege.scope 
-privilege.permission_id 
-privilege.group_id
+# Group
+group.name = 'new_name'
+group.description = 'new_description' 
+group.save
 
-# role
-role.name 
-role.service_id 
-role.privileges 
+# Privilege
+privilege.scope = 'vrn:*:*:jobs/*'
+privilege.permission_id = 1
+privilege.group_id = 1
+privilege.save
+privilege.allow! # this will allow privilege
+privilege.deny! # this will deny privilege
+privilege.allow? # get allow status
 
-# principal 
-principal.name
-principal.dataset_id 
+# Role
+role.name = 'new_name'
+role.service_id = 1
+role.save
+
+# Principal
+principal.name = 'new_name'
+principal.dataset_id = 1
+principal.save
 ```
-delete
+
+Delete. 
 
 ```ruby
-# service
-# permission
-# group
-# privilege
-# role
-# principal 
+# this also applies to others. here is only example of service
+service.delete
+```
+
+Get first row of the objects
+```ruby
+# this also applies to others. here is only example of service
+service.first # => return service object
+```
+
+Get last row of the objects
+```ruby
+# this also applies to others. here is only example of service
+service.last # => return service object
+```
+
+Get total row of the objects
+```ruby
+# this also applies to others. here is only example of service
+service.count # => return count number
 ```
