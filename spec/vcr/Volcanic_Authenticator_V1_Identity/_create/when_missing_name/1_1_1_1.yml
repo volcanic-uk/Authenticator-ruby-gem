@@ -39,7 +39,7 @@ http_interactions:
   recorded_at: Fri, 02 Aug 2019 08:53:47 GMT
 - request:
     method: post
-    uri: http://0.0.0.0:3003/api/v1/identity
+    uri: http://0.0.0.0:3003/api/v1/identity/
     body:
       encoding: UTF-8
       string: '{"name":null,"principal_id":1,"secret":null,"privileges":[],"roles":[]}'
