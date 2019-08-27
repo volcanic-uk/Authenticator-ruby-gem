@@ -267,23 +267,23 @@ Delete.
 
 ```ruby
 # this also applies to others. here is only example of service
-service.delete
+Service.delete
 ```
 
 Get first row of the objects
 ```ruby
 # this also applies to others. here is only example of service
-service.first # => return service object
+Service.first # => return service object
 ```
 
 Get last row of the objects
 ```ruby
 # this also applies to others. here is only example of service
-service.last # => return service object
+Service.last # => return service object
 ```
 
 Get total row of the objects
 ```ruby
 # this also applies to others. here is only example of service
-service.count # => return count number
+Service.count # => return count number
 ```
