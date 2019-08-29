@@ -12,7 +12,7 @@ module Volcanic::Authenticator
 
       # end-point
       URL = 'api/v1/identity/'
-      IDENTITY_DELETE_URL = 'api/v1/identity/deactivate'
+      IDENTITY_DELETE_URL = 'api/v1/identity/deactivate/'
       RESET_SECRET_URL = 'api/v1/identity/secret/reset/'
       EXCEPTION = :raise_exception_identity
 
@@ -47,7 +47,7 @@ module Volcanic::Authenticator
       #   Identity.delete(identity_id)
       #
       def delete
-        perform_post_and_parse EXCEPTION, "#{IDENTITY_DELETE_URL}/#{id}"
+        perform_post_and_parse EXCEPTION, [IDENTITY_DELETE_URL, id].join
       end
 
       # updating identity
