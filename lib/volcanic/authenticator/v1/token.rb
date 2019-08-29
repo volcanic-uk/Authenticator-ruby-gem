@@ -22,7 +22,7 @@ module Volcanic::Authenticator
 
       def_instance_delegator 'Volcanic::Cache::Cache'.to_sym, :instance, :cache
       def_instance_delegators 'Volcanic::Authenticator.config'.to_sym, :exp_token, :auth_url, :service_name, :exp_authorize_token
-      def_delegators 'Volcanic::Authenticator.config'.to_sym, :service_name
+      def_delegator 'Volcanic::Authenticator.config'.to_sym, :service_name
 
       VALIDATE_TOKEN_URL = 'api/v1/token/validate'
       GENERATE_TOKEN_URL = 'api/v1/identity/login'
