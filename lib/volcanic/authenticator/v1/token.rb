@@ -14,6 +14,7 @@ module Volcanic::Authenticator
     # attr => :token, :kid, :sub, :iss, :dataset_id, :principal_id, :identity_id
     class Token
       extend Forwardable
+      extend SingleForwardable
       include Error
       include Request
       extend Error
@@ -21,6 +22,7 @@ module Volcanic::Authenticator
 
       def_instance_delegator 'Volcanic::Cache::Cache'.to_sym, :instance, :cache
       def_instance_delegators 'Volcanic::Authenticator.config'.to_sym, :exp_token, :auth_url, :service_name, :exp_authorize_token
+      def_delegator 'Volcanic::Authenticator.config'.to_sym, :service_name
 
       VALIDATE_TOKEN_URL = 'api/v1/token/validate'
       GENERATE_TOKEN_URL = 'api/v1/identity/login'
@@ -45,10 +47,12 @@ module Volcanic::Authenticator
       #   token.validate
       #   ...
       #
-      def self.create(name, secret, principal_id)
+      def self.create(name, secret, principal_id, *audience)
+        aud = [service_name, audience].flatten.compact
         payload = { name: name,
                     secret: secret,
-                    principal_id: principal_id }.to_json
+                    principal_id: principal_id,
+                    audience: aud }.to_json
         parsed = perform_post_and_parse(EXCEPTION,
                                         GENERATE_TOKEN_URL,
                                         payload, nil)
