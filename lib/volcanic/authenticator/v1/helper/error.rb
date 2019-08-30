@@ -4,81 +4,123 @@ module Volcanic::Authenticator
   module V1
     # Error helper
     module Error
-      # error handler for application token
-      def raise_exception_app_token(res)
-        code = res.code
-        raise_exception_standard(res)
-        raise ApplicationTokenError, parser(res.body, 'message') if code == 400
+      # raise exception
+      class RaiseException
+        attr_reader :res, :status, :body, :exception
+
+        def initialize(res, exception)
+          @res = res
+          @status = res.code
+          @body = JSON.parse(res.body)
+          @exception = exception
+          raise_exception
+        end
+
+        private
+
+        def raise_exception
+          #
+          standard_error
+          #
+          raise exception, message if [400, 404, 422].include?(status)
+        end
+
+        def standard_error
+          raise SignatureError, message if status == 400 && error_code == 3002
+          raise AuthorizationError, message if [401, 403].include?(status)
+        end
+
+        def message
+          return "HTTP error #{status}" unless body.key?('message')
+
+          body['message']
+        end
+
+        def error_code
+          return '' unless body.key?('errorCode')
+
+          body['errorCode']
+        end
       end
 
-      # error handler for permission
-      def raise_exception_permission(res)
-        code = res.code
-        raise_exception_standard(res)
-        raise PermissionError, parser(res.body, 'message') if code == 400
-        raise PermissionError if code == 404
+      # error handler for application token
+      def raise_exception_app_token(res)
+        RaiseException.new(res, ApplicationTokenError)
       end
 
       # error handler for service
       def raise_exception_service(res)
-        code = res.code
-        raise_exception_standard(res)
-        raise ServiceError, parser(res.body, 'message') if code == 400
-        raise ServiceError if code == 404
+        RaiseException.new(res, ServiceError)
+      end
+
+      def raise_exception_permission(res)
+        RaiseException.new(res, PermissionError)
       end
 
       # error handler for group
       def raise_exception_group(res)
-        code = res.code
-        body = res.body
-        raise_exception_standard(res)
-        raise GroupError, parser(body, %w[message]) if code == 400
-        raise GroupError if code == 404
+        RaiseException.new(res, GroupError)
+
+        # code = res.code
+        # body = res.body
+        # raise_exception_standard(res)
+        # raise GroupError, parser(body, %w[message]) if code == 400
+        # raise GroupError if code == 404
       end
 
       # error handler for Privilege
       def raise_exception_privilege(res)
-        code = res.code
-        body = res.body
-        raise_exception_standard(res)
-        raise PrivilegeError, parser(body, %w[message]) if code == 400
-        raise PrivilegeError, 'not found' if code == 404
+        RaiseException.new(res, PrivilegeError)
+
+        # code = res.code
+        # body = res.body
+        # raise_exception_standard(res)
+        # raise PrivilegeError, parser(body, %w[message]) if code == 400
+        # raise PrivilegeError, 'not found' if code == 404
       end
 
       # error handler for role
       def raise_exception_role(res)
-        code = res.code
-        body = res.body
-        raise_exception_standard(res)
-        raise RoleError, parser(body, 'message') if code == 400
+        RaiseException.new(res, RoleError)
 
-        error_message = parser(body, 'errorCode' == 9001) ? parser(body, 'message') : 'url not found'
-        raise(RoleError, error_message) if code == 404
+        # code = res.code
+        # body = res.body
+        # raise_exception_standard(res)
+        # raise RoleError, parser(body, 'message') if code == 400
+        #
+        # error_message = parser(body, 'errorCode' == 9001) ? parser(body, 'message') : 'url not found'
+        # raise(RoleError, error_message) if code == 404
       end
 
       # error handler for principal
       def raise_exception_principal(res)
-        code = res.code
-        body = res.body
-        raise_exception_standard(res)
-        raise PrincipalError, parser(body, 'message') if code == 400
-        raise PrincipalError if code == 404
+        RaiseException.new(res, PrincipalError)
+
+        # code = res.code
+        # body = res.body
+        # raise_exception_standard(res)
+        # raise PrincipalError, parser(body, 'message') if code == 400
+        # raise PrincipalError if code == 404
       end
 
       # error handler for identity
       def raise_exception_identity(res)
-        code = res.code
-        body = res.body
-        raise_exception_standard(res)
-        raise IdentityError, parser(body, 'message') if [400, 404, 422].include? code
+        RaiseException.new(res, IdentityError)
+
+        # code = res.code
+        # body = res.body
+        # raise_exception_standard(res)
+        # raise IdentityError, parser(body, 'message') if [400, 404, 422].include? code
       end
 
       # error handler for identity
       def raise_exception_token(res)
-        code = res.code
-        raise_exception_standard(res)
-        raise TokenError, parser(res.body, 'message') if code == 400
-        raise TokenError if code == 404
+        RaiseException.new(res, TokenError)
+
+        # code = res.code
+        # raise_exception_standard(res)
+        # raise TokenError, parser(res.body, 'message') if code == 400
+        # raise TokenError if code == 404
       end
 
       # default error handler
