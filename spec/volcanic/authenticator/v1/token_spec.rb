@@ -5,6 +5,7 @@ require 'jwt'
 RSpec.describe Volcanic::Authenticator::V1::Token, :vcr do
   before { Configuration.set }
   let(:mock_identity_name) { 'mock_identity_name' }
+  let(:mock_identity_id) { 1 }
   let(:mock_identity_secret) { 'mock_identity_secret' }
   let(:token) { Volcanic::Authenticator::V1::Token }
   let(:token_error) { Volcanic::Authenticator::V1::TokenError }
@@ -16,6 +17,18 @@ RSpec.describe Volcanic::Authenticator::V1::Token, :vcr do
 
   describe 'Create token' do
     it { expect(token.create(mock_identity_name, mock_identity_secret, 1).token_key).to eq mock_token_key }
+  end
+
+  describe 'Create token by identity' do
+    context 'default setting' do
+      it { expect(token.create_by_identity(mock_identity_id).token_key).to eq mock_token_key }
+    end
+
+    context 'nbf and exp in date format' do
+      let(:nbf) { '09/01/2019' }
+      let(:exp) { '09/02/2019' }
+      it { expect(token.create_by_identity(mock_identity_id, nbf: nbf, exp: exp).token_key).to eq mock_token_key }
+    end
   end
 
   describe 'Validate' do
