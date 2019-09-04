@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'forwardable'
+require 'active_resource'
 
 module Volcanic::Authenticator
   module V1
