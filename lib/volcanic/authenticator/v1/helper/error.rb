@@ -19,9 +19,7 @@ module Volcanic::Authenticator
         private
 
         def raise_exception
-          #
           standard_error
-          #
           raise exception, message if [400, 404, 422].include?(status)
         end
 
