@@ -24,6 +24,9 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_runtime_dependency 'httparty'
+
+  spec.add_runtime_dependency 'activeresource'
+  spec.add_runtime_dependency 'activeresource-response'
   spec.add_runtime_dependency 'jwt'
   spec.add_runtime_dependency 'volcanic-cache'
   spec.add_development_dependency 'bundler', '~> 1.16.1'
