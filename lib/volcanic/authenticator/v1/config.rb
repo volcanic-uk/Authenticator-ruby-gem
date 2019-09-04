@@ -14,6 +14,7 @@ module Volcanic::Authenticator
         # :app_principal_id is the principal_id use to create a token.
         # :service_name typically the service name.
         attr_accessor :auth_url, :app_name, :app_secret, :app_principal_id, :service_name
+        attr_writer :vault_url, :krakatoa_url, :ats_url, :xenolith_url
 
         # expiration time of cache tokens
         def exp_token
@@ -56,6 +57,22 @@ module Volcanic::Authenticator
           raise ConfigurationError unless integer? value
 
           @exp_authorize_token = value.to_i
+        end
+
+        def vault_url
+          @vault_url ||= ENV['VAULT_DOMAIN']
+        end
+
+        def krakatoa_url
+          @krakatoa_url ||= ENV['KRAKATOA_DOMAIN']
+        end
+
+        def ats_url
+          @ats_url ||= ENV['ATS_DOMAIN']
+        end
+
+        def xenolith_url
+          @xenolith_url ||= ENV['XENOLITH_DOMAIN']
         end
 
         private
