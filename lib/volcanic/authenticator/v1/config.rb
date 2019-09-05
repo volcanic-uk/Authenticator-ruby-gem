@@ -9,15 +9,7 @@ module Volcanic::Authenticator
     class Config
       class << self
         attr_accessor :auth_url, :app_name, :app_secret
-        attr_writer :key_store_type
-
-        # currently auth service has 2 types of key_store
-        # Dynamic and Static. Generally this is regarding to key rotation.
-        # After the key rotation features is finalise, this will be remove.
-        # Only dynamic key will be use.
-        def key_store_type
-          @key_store_type ||= 'static'
-        end
+        attr_writer :vault_url, :krakatoa_url, :ats_url, :xenolith_url
 
         # expiration time of cache tokens
         def exp_token
@@ -50,6 +42,22 @@ module Volcanic::Authenticator
           raise ConfigurationError unless integer? value
 
           @exp_public_key = value.to_i
+        end
+
+        def vault_url
+          @vault_url ||= ENV['VAULT_DOMAIN']
+        end
+
+        def krakatoa_url
+          @krakatoa_url ||= ENV['KRAKATOA_DOMAIN']
+        end
+
+        def ats_url
+          @ats_url ||= ENV['ATS_DOMAIN']
+        end
+
+        def xenolith_url
+          @xenolith_url ||= ENV['XENOLITH_DOMAIN']
         end
 
         private
