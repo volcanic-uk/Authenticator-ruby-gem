@@ -41,14 +41,14 @@ module Volcanic::Authenticator
         include HTTParty
         extend Forwardable
 
-        attr_accessor :uri, :args, :block
+        attr_accessor :url, :args, :block
         def_instance_delegators 'Volcanic::Authenticator.config'.to_sym, :vault_url, :krakatoa_url, :ats_url, :xenolith_url
 
         def initialize(klass, *args, &block)
           @args = args
           @block = block
-          @uri = uri
-          self.class.base_uri fetch_url(klass)
+          @url = fetch_url(klass)
+          self.class.base_uri url
           self.class.headers auth_header
         end
 
@@ -73,7 +73,7 @@ module Volcanic::Authenticator
         end
 
         def download(endpoint, **opts)
-          path = [uri, endpoint].join
+          path = [url, endpoint].join
           opts[:headers] = auth_header
           Down.download(path, opts)
         end
