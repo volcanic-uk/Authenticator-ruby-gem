@@ -6,21 +6,14 @@ require 'httparty'
 require_relative 'helper/request'
 require_relative 'helper/error'
 require_relative 'helper/app_token'
+require_relative 'base'
 
 module Volcanic::Authenticator
   module V1
     # Token class
-    class Token
-      extend Forwardable
-      extend SingleForwardable
+    class Token < Base
       include Error
       include Request
-      extend Error
-      extend Request
-
-      def_instance_delegator 'Volcanic::Cache::Cache'.to_sym, :instance, :cache
-      def_instance_delegators 'Volcanic::Authenticator.config'.to_sym, :exp_token, :auth_url, :service_name, :exp_authorize_token
-      def_delegator 'Volcanic::Authenticator.config'.to_sym, :service_name
 
       VALIDATE_TOKEN_URL = 'api/v1/token/validate'
       GEN_TOKEN_URL = 'api/v1/identity/login'
@@ -37,44 +30,47 @@ module Volcanic::Authenticator
         @token_key = token_key
       end
 
-      # creating a token (login identity)
-      #
-      # eg.
-      #   token = Token.create(name, secret)
-      #   token.token_key # => 'eyJhbGciOiJFUzUxMiIsIn...'
-      #   token.validate
-      #   ...
-      #
-      def self.create(name, secret, principal_id, *audience)
-        aud = [service_name, audience].flatten.compact
-        payload = { name: name,
-                    secret: secret,
-                    principal_id: principal_id,
-                    audience: aud }.to_json
-        parsed = perform_post_and_parse(EXCEPTION,
-                                        GEN_TOKEN_URL,
-                                        payload, nil)
-        new(parsed['token']).cache!
-      end
+      class << self
+        include Error
+        include Request
+        # create a token (login identity)
+        # +name+ is the identity name
+        # +secret+ is the identity secret
+        # +principal_id+ is the principal_id
+        # +audience+ a string array of audience. who/what the token can access
+        def create(name, secret, principal_id, *audience)
+          aud = [service_name, audience].flatten.compact
+          payload = { name: name,
+                      secret: secret,
+                      principal_id: principal_id,
+                      audience: aud }.to_json
+          parsed = perform_post_and_parse(EXCEPTION,
+                                          GEN_TOKEN_URL,
+                                          payload, nil)
+          new(parsed['token']).cache!
+        end
 
-      # create token by identity
-      # +id+ is the identity id
-      # +opts+ configuration options to generate the token
-      # :audience an array of strings of who can use the token
-      # :exp a expiry date. eg 'mm-dd-yyyy' or 1567180514000 epoch time in millisecond
-      # :nbf a not before date. eg 'mm-dd-yyyy' or 1567180514000 epoch time in millisecond
-      # :single_use a boolean to set if the token is a single use token
-      def self.create_by_identity(id, **opts)
-        payload = { identity: { id: id },
-                    audience: [service_name, opts[:audience]].flatten.compact,
-                    expiry_date: opts[:exp],
-                    single_use: opts[:single_use] || false,
-                    nbf: opts[:nbf] }
-        payload.delete_if { |_, value| value.nil? }
-        parsed = perform_post_and_parse(EXCEPTION,
-                                        GEN_TOKEN_NON_CREDENTIAL_URL,
-                                        payload.to_json)
-        new(parsed['token']).cache!
+        # request token on behalf of the identity. No
+        # credentials such +name+ or +secret+ is needed.
+        # +id+ is the identity id
+        # +opts+ a hash object of configuration options to generate the token
+        # options:
+        # +:audience+ an array of strings of who can use the token
+        # +:exp+ a expiry date. eg 'mm-dd-yyyy' or 1567180514000 epoch time in millisecond
+        # +:nbf+ a not before date. eg 'mm-dd-yyyy' or 1567180514000 epoch time in millisecond
+        # +:single_use+ a boolean to set if the token is a single use token
+        def request(id, **opts)
+          payload = { identity: { id: id },
+                      audience: [service_name, opts[:audience]].flatten.compact,
+                      expiry_date: opts[:exp],
+                      single_use: opts[:single_use] || false,
+                      nbf: opts[:nbf] }
+          payload.delete_if { |_, value| value.nil? }
+          parsed = perform_post_and_parse(EXCEPTION,
+                                          GEN_TOKEN_NON_CREDENTIAL_URL,
+                                          payload.to_json)
+          new(parsed['token']).cache!
+        end
       end
 
       # eg.
