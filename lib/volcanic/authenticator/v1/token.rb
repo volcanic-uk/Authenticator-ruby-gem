@@ -69,7 +69,8 @@ module Volcanic::Authenticator
           parsed = perform_post_and_parse(EXCEPTION,
                                           GEN_TOKEN_NON_CREDENTIAL_URL,
                                           payload.to_json)
-          new(parsed['token']).cache!
+          token = new(parsed['token'])
+          token.cache! unless opts[:single_use]
         end
       end
 
