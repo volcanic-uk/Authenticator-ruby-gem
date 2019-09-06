@@ -21,13 +21,13 @@ RSpec.describe Volcanic::Authenticator::V1::Token, :vcr do
 
   describe 'Create token by identity' do
     context 'default setting' do
-      it { expect(token.create_by_identity(mock_identity_id).token_key).to eq mock_token_key }
+      it { expect(token.request(mock_identity_id).token_key).to eq mock_token_key }
     end
 
     context 'nbf and exp in date format' do
       let(:nbf) { '09/01/2019' }
       let(:exp) { '09/02/2019' }
-      it { expect(token.create_by_identity(mock_identity_id, nbf: nbf, exp: exp).token_key).to eq mock_token_key }
+      it { expect(token.request(mock_identity_id, nbf: nbf, exp: exp).token_key).to eq mock_token_key }
     end
   end
 
