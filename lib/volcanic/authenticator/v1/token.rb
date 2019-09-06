@@ -25,11 +25,12 @@ module Volcanic::Authenticator
       EXCEPTION = :raise_exception_token
 
       attr_accessor :token_key
-      attr_reader :kid, :exp, :sub, :nbf, :audience, :iat, :iss
+      attr_reader :kid, :exp, :sub, :nbf, :audience, :iat, :iss, :jti
       attr_reader :dataset_id, :subject_id, :principal_id, :identity_id
 
       def initialize(token_key = nil)
         @token_key = token_key
+        fetch_claims
       end
 
       class << self
@@ -71,8 +72,7 @@ module Volcanic::Authenticator
           parsed = perform_post_and_parse(EXCEPTION,
                                           GEN_TOKEN_NON_CREDENTIAL_URL,
                                           payload.to_json)
-          token = new(parsed['token'])
-          token.cache! unless opts[:single_use]
+          new(parsed['token']).cache!
         end
       end
 
@@ -159,7 +159,7 @@ module Volcanic::Authenticator
 
       # caching token
       def cache!
-        cache.fetch token_key, expire_in: exp_token, &method(:token_key)
+        cache.fetch token_key, expire_in: exp_token, &method(:token_key) unless jti
         self
       end
 
@@ -256,6 +256,7 @@ module Volcanic::Authenticator
         @audience = body['audience']
         @iat = body['iat']
         @iss = body['iss']
+        @jti = body['jti']
 
         sub_uri = URI(@sub)
         subject = sub_uri.path.split('/').map do |v|
