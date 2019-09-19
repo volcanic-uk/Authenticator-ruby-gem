@@ -39,7 +39,7 @@ http_interactions:
   recorded_at: Wed, 14 Aug 2019 06:01:43 GMT
 - request:
     method: get
-    uri: http://0.0.0.0:3003/api/v1/privileges/vault/:create?fullyQualifiedSubject=user://undefined/null/1/1/2
+    uri: http://0.0.0.0:3003/api/v1/privileges/vault/:create?subject=user://undefined/null/1/1/2
     body:
       encoding: US-ASCII
       string: ''
