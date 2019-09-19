@@ -188,8 +188,7 @@ module Volcanic::Authenticator
 
       # run both authenticate and authorize
       def authenticate_and_authorize?(*opts)
-        validate
-        authorize?(*opts)
+        validate && authorize?(*opts)
       end
 
       private
