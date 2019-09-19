@@ -33,12 +33,12 @@ RSpec.describe Volcanic::Authenticator::V1::Token, :vcr do
 
   describe 'Validate' do
     context 'When missing token key' do
-      it { expect { token.new(nil).validate }.to raise_error token_error }
-      it { expect { token.new('').validate }.to raise_error token_error }
+      it { expect{ token.new(nil).validate }.to raise_error token_error }
+      it { expect{ token.new('').validate }.to raise_error token_error }
     end
 
     context 'When invalid token key' do
-      it { expect { token.new('token').validate }.to raise_error token_error }
+      it { expect{ token.new('wrong-token-key').validate }.to raise_error token_error }
     end
 
     context 'When expired token key' do
@@ -56,9 +56,9 @@ RSpec.describe Volcanic::Authenticator::V1::Token, :vcr do
 
   describe 'Validate by service' do
     context 'When missing token key' do
-      it { expect { token.new(nil).remote_validate }.to raise_error token_error }
-      it { expect { token.new('').remote_validate }.to raise_error token_error }
-      it { expect { token.new('wrong-id').remote_validate }.to raise_error token_error }
+      it { expect{ token.new(nil).remote_validate }.to raise_error token_error }
+      it { expect{ token.new('').remote_validate }.to raise_error token_error }
+      it { expect{ token.new('wrong-id').remote_validate }.to raise_error token_error }
     end
 
     context 'When expire token key' do
@@ -94,9 +94,9 @@ RSpec.describe Volcanic::Authenticator::V1::Token, :vcr do
 
   describe 'Revoke token' do
     context 'When token is invalid' do
-      it { expect { token.new('').revoke! }.to raise_error token_error }
-      it { expect { token.new(nil).revoke! }.to raise_error token_error }
-      it { expect { token.new('wrong-token').revoke! }.to raise_error token_error }
+      it { expect{ token.new(nil).revoke! }.to raise_error token_error }
+      it { expect{ token.new('').revoke! }.to raise_error token_error }
+      it { expect{ token.new('wrong-token').revoke! }.to raise_error token_error }
     end
 
     context 'When success' do
