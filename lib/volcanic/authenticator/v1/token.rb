@@ -174,6 +174,9 @@ module Volcanic::Authenticator
       #   token.authorize('users', 'delete')
       #   # = > false
       #
+      #  #if contains namespace such as 'api/v1/users'
+      #  token.authorize?('api:v1:users', 'index')
+      #
       # Note: resource_id with nil value will send as '*' (all)
       def authorize?(controller, action, id = '*')
         fetch_claims if sub.nil?
@@ -181,6 +184,12 @@ module Volcanic::Authenticator
         cache.fetch "#{controller}:#{action}:#{sub}:#{id}", expire_in: exp_authorize_token do
           perform_authorize(controller, action, id)
         end
+      end
+
+      # run both authenticate and authorize
+      def authenticate_and_authorize?(*opts)
+        validate
+        authorize? *opts
       end
 
       private
@@ -196,7 +205,7 @@ module Volcanic::Authenticator
 
       def fetch_privileges(permission, action)
         end_point = [service_name, "#{permission}:#{action}"].join('/')
-        url = "#{PRIVILEGES_URL}/#{end_point}?fullyQualifiedSubject=#{sub}"
+        url = "#{PRIVILEGES_URL}/#{end_point}?subject=#{sub}"
         exception = :raise_exception_token
         perform_get_and_parse(exception, url, AppToken.request_app_token)
       end
