@@ -76,7 +76,7 @@ RSpec.describe Volcanic::Authenticator::V1::Token, :vcr do
 
   describe 'Decodes and fetch claims' do
     context 'When invalid token key' do
-      it { expect { token.new.fetch_claims }.to raise_error token_error }
+      it { expect { token.new(nil).fetch_claims }.to raise_error token_error }
       it { expect { token.new('wrong-token').fetch_claims }.to raise_error token_error }
     end
 
