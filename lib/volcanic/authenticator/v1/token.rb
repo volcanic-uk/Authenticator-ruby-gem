@@ -26,7 +26,7 @@ module Volcanic::Authenticator
       attr_reader :kid, :exp, :sub, :nbf, :audience, :iat, :iss, :jti
       attr_reader :dataset_id, :subject_id, :principal_id, :identity_id
 
-      def initialize(token_key = nil)
+      def initialize(token_key)
         @token_key = token_key
         fetch_claims
       end
