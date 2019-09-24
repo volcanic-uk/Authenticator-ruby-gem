@@ -96,7 +96,7 @@ module Volcanic::Authenticator
         end
 
         def auth_header
-          @auth_header ||= { 'Authorization' => "Bearer #{AppToken.fetch_and_request}" }
+          { 'Authorization' => "Bearer #{AppToken.fetch_and_request}" } if ENV['AUTH_SENDING_TOKEN'] == 'true' || ENV['AUTH_SENDING_TOKEN'].nil?
         end
       end
     end
