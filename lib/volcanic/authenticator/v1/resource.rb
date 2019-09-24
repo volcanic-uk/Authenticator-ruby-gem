@@ -24,7 +24,7 @@ module Volcanic::Authenticator
         end
 
         def self.auth_token
-          "Bearer #{Volcanic::Authenticator::V1::AppToken.fetch_and_request}"
+          "Bearer #{Volcanic::Authenticator::V1::AppToken.fetch_and_request}" if ENV['AUTH_SENDING_TOKEN'] == 'true' || ENV['AUTH_SENDING_TOKEN'].nil?
         end
 
         def self.endpoint=(endpoint)
