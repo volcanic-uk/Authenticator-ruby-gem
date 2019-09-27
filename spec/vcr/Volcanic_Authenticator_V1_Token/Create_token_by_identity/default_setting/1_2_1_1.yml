@@ -34,7 +34,7 @@ http_interactions:
           - keep-alive
       body:
         encoding: UTF-8
-        string: '{"requestID":"offline_awsRequestId_20818846218213682","response":{"token":"eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjcxNzczNzAsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xLzEvMS8yIiwibmJmIjoxNTY3MTU5MzcwLCJhdWRpZW5jZSI6WyJ2YXVsdCJdLCJpYXQiOjE1NjcxNTkzNzAsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AYmGQ1H9gpqv2WLQoSxfndFz_CQgX8KWp283c5SII9HztF7DUXXhT6oRIuVvNU0h1rJllW340j3IWwwE2eUc2I-6AdyOMwuq2OK0fF4y0uYrU4QG73UHAYxvWmUECCVEDU7UduwS27Jr6UIDGXGsKh4PkJ1betow1JVZ71yMAbcChJcD"}}'
+        string: '{"requestID":"offline_awsRequestId_20818846218213682","response":{"token":"eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE4MzkxMjAyMjgsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xLzEvMS8yIiwibmJmIjoxNTY5NTUyMjI4LCJhdWRpZW5jZSI6WyJWQVVMVCIsIi0iXSwiaWF0IjoxNTY5NTUyMjI4LCJpc3MiOiJ2b2xjYW5pY19hdXRoX3NlcnZpY2VfYXAyIn0.AHG4BG-PU1vG_9i-QPcrG19KZGcpdmDzXnZVrEsg3xWuRdLdR7HKLx3cB83HM3HY-ZbfAxhTUHarrc42j75sYtmyAF8TD1YTjM6L450H0-Wevw2-8XEE53GlM8IIMJnxmqR5o_10Sg0UgzUVmkyu3TK3pXoxWOmnCEzv7txJEpy8Umrg"}}'
       http_version:
     recorded_at: Fri, 30 Aug 2019 10:02:50 GMT
   - request:

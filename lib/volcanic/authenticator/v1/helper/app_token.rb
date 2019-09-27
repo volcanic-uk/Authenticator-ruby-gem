@@ -4,6 +4,7 @@ require_relative 'header'
 require_relative 'error'
 require_relative '../base'
 require_relative 'request'
+require_relative '../token'
 
 module Volcanic::Authenticator
   module V1
@@ -24,7 +25,15 @@ module Volcanic::Authenticator
         EXCEPTION = :raise_exception_app_token
 
         def fetch_and_request
-          cache.fetch APP_TOKEN, expire_in: exp_app_token, &method(:request_app_token)
+          # TODO: need to update test script
+          app_token = cache.fetch APP_TOKEN, expire_in: exp_app_token, &method(:request_app_token)
+          token = Token.new(app_token)
+          if token.expired?
+            token.clear!(APP_TOKEN)
+            return cache.fetch APP_TOKEN, expire_in: exp_app_token, &method(:request_app_token)
+          end
+
+          app_token
         end
 
         def request_app_token
