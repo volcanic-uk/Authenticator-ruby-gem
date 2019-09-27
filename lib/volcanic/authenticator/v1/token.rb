@@ -76,6 +76,16 @@ module Volcanic::Authenticator
         end
       end
 
+      def create_app_token
+        payload = { name: app_name,
+                    secret: app_secret,
+                    principal_id: app_principal_id,
+                    audience: [service_name].compact }.to_json
+        perform_post_and_parse(:raise_exception_app_token,
+                               GEN_TOKEN_URL,
+                               payload, nil)
+      end
+
       # eg.
       #   token = Token.new.gen_token_key(name, secret)
       #   token.token_key # => 'eyJhbGciOiJFUzUxMiIsIn...'
@@ -96,6 +106,7 @@ module Volcanic::Authenticator
       #   # => true/false
       #
       def validate
+        clear! if expired?
         return true if cache.key?(token_key)
 
         verify_signature # verify token signature
@@ -113,6 +124,7 @@ module Volcanic::Authenticator
       #   # => true/false
       #
       def remote_validate
+        clear! if expired?
         return true if cache.key?(token_key)
 
         res = HTTParty.post("#{auth_url}/#{VALIDATE_TOKEN_URL}",
@@ -143,8 +155,8 @@ module Volcanic::Authenticator
       # to clear token from cache
       # eg.
       #   Token.new(token_key).clear!
-      def clear!
-        cache.evict!(token_key) unless token_key.nil?
+      def clear!(token = token_key)
+        cache.evict!(token) unless token.nil?
       end
 
       #
@@ -189,6 +201,10 @@ module Volcanic::Authenticator
       # run both authenticate and authorize
       def authenticate_and_authorize?(*opts)
         remote_validate && authorize?(*opts)
+      end
+
+      def expired?
+        exp < Time.now.to_i
       end
 
       private
