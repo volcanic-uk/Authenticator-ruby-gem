@@ -86,7 +86,7 @@ module Volcanic::Authenticator
             vault_url
           when :krakatoa
             krakatoa_url
-          when :xenoltih
+          when :xenolith
             xenolith_url
           when :ats
             ats_url
