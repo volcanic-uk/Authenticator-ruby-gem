@@ -8,8 +8,8 @@ module Volcanic::Authenticator
     # after installation of this gem, these need to be configure.
     class Config
       class << self
-        attr_accessor :auth_url, :app_name, :app_secret
-        attr_writer :key_store_type
+        attr_accessor :app_name, :app_secret
+        attr_writer :auth_url, :key_store_type
 
         # currently auth service has 2 types of key_store
         # Dynamic and Static. Generally this is regarding to key rotation.
@@ -50,6 +50,12 @@ module Volcanic::Authenticator
           raise ConfigurationError unless integer? value
 
           @exp_public_key = value.to_i
+        end
+
+        def auth_url
+          raise ConfigurationError, 'auth_url cannot be nil.' if @auth_url.nil?
+
+          @auth_url
         end
 
         private
