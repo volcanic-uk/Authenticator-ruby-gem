@@ -55,6 +55,12 @@ module Volcanic::Authenticator
           @auth_enabled ||= true
         end
 
+        def auth_url
+          raise ConfigurationError, 'auth_url cannot be nil.' if @auth_url.nil?
+
+          @auth_url
+        end
+
         private
 
         def integer?(value)

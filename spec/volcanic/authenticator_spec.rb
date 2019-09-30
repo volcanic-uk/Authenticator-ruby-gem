@@ -7,7 +7,7 @@ RSpec.describe Volcanic::Authenticator, :vcr do
 
     context 'When missing auth url' do
       before { Configuration.reset }
-      it { expect(config.auth_url).to be nil }
+      it { expect { config.auth_url }.to raise_error Volcanic::Authenticator::V1::ConfigurationError }
     end
 
     context 'When missing application name' do
