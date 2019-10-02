@@ -10,6 +10,7 @@ require_relative 'base'
 
 module Volcanic::Authenticator
   module V1
+    # TODO: fix test file
     # Token class
     # method => :validate, :validate_by_service, :decode_and_fetch_claims, :cache! :revoke!
     # attr => :token, :kid, :sub, :iss, :dataset_id, :principal_id, :identity_id
@@ -286,7 +287,7 @@ module Volcanic::Authenticator
         subject = sub_uri.path.split('/').map do |v|
           ['', 'undefined', 'null'].include?(v) ? nil : v.to_i
         end
-        _, @dataset_id, @subject_id, @principal_id, @identity_id = subject
+        _, @dataset_id, @principal_id, @identity_id, @subject_id = subject
       end
     end
   end
