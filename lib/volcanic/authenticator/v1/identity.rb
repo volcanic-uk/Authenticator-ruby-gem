@@ -120,9 +120,12 @@ module Volcanic::Authenticator
         #   opts = { secret: 'new_secret', privileges: [1, 3], roles: [1] }
         #   Identity.create('name', 1, opts)
         #
-        def create(name, principal_id, secret: nil, privileges: [], roles: [])
+        def create(name, principal_id, secret: nil, skip_secret_encryption: false, **opts)
+          roles = opts[:roles] || []
+          privileges = opts[:privileges] || []
           payload = { name: name,
                       principal_id: principal_id,
+                      skip_secret_encryption: skip_secret_encryption,
                       secret: secret,
                       privileges: privileges,
                       roles: roles }.to_json
