@@ -22,7 +22,7 @@ module Volcanic::Authenticator
     #
     # VaultRequest.get('api/v1/user')
     #
-    class Request
+    class HTTPRequest
       class << self
         def get(*args, &block)
           RequestBase.new(self::BASE_URI, *args, &block).get
