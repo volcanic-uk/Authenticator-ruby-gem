@@ -14,7 +14,7 @@ module Volcanic::Authenticator
         # :app_principal_id is the principal_id use to create a token.
         # :service_name typically the service name.
         attr_accessor :app_name, :app_secret, :app_principal_id, :service_name
-        attr_writer :auth_url, :vault_url, :krakatoa_url, :ats_url, :xenolith_url
+        attr_writer :auth_url
 
         # expiration time of cache tokens
         def exp_token
@@ -53,26 +53,16 @@ module Volcanic::Authenticator
           @exp_public_key = value.to_i
         end
 
-        def exp_authorize_token=(value)
-          raise ConfigurationError unless integer? value
+        # this is kind of kill switch inside the gem.
+        # only accept boolean value
+        def auth_enabled=(value)
+          raise ConfigurationError, 'auth_enable must be a boolean' unless boolean? value
 
-          @exp_authorize_token = value.to_i
+          @auth_enabled = value
         end
 
-        def vault_url
-          @vault_url ||= ENV['VAULT_DOMAIN']
-        end
-
-        def krakatoa_url
-          @krakatoa_url ||= ENV['KRAKATOA_DOMAIN']
-        end
-
-        def ats_url
-          @ats_url ||= ENV['ATS_DOMAIN']
-        end
-
-        def xenolith_url
-          @xenolith_url ||= ENV['XENOLITH_DOMAIN']
+        def auth_enabled?
+          @auth_enabled ||= true
         end
 
         def auth_url
@@ -85,6 +75,10 @@ module Volcanic::Authenticator
 
         def integer?(value)
           value.is_a? Integer
+        end
+
+        def boolean?(value)
+          [true, false].include? value
         end
       end
     end
