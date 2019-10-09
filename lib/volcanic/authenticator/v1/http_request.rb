@@ -17,35 +17,37 @@ module Volcanic::Authenticator
     # to extend class:
     #
     # VaultRequest < Request
-    #   BASE_URI = 'http://abc.com/'
+    #   self.base_uri = 'http://abc.com/'
     # end
     #
     # VaultRequest.get('api/v1/user')
     #
     class HTTPRequest
       class << self
+        attr_accessor :base_uri
+
         def get(*args, &block)
-          RequestBase.new(self::BASE_URI, *args, &block).get
+          RequestBase.new(base_uri, *args, &block).get
         end
 
         def post(*args, &block)
-          RequestBase.new(self::BASE_URI, *args, &block).post
+          RequestBase.new(base_uri, *args, &block).post
         end
 
         def patch(*args, &block)
-          RequestBase.new(self::BASE_URI, *args, &block).patch
+          RequestBase.new(base_uri, *args, &block).patch
         end
 
         def put(*args, &block)
-          RequestBase.new(self::BASE_URI, *args, &block).put
+          RequestBase.new(base_uri, *args, &block).put
         end
 
         def delete(*args, &block)
-          RequestBase.new(self::BASE_URI, *args, &block).delete
+          RequestBase.new(base_uri, *args, &block).delete
         end
 
         def download(*args)
-          RequestBase.new(self::BASE_URI).download(*args)
+          RequestBase.new(base_uri).download(*args)
         end
       end
 

@@ -43,14 +43,26 @@ module Volcanic::Authenticator
           @exp_public_key = value.to_i
         end
 
+        # this is kind of kill switch inside the gem.
+        # only accept boolean value
+        def auth_enabled=(value)
+          raise ConfigurationError, 'auth_enable must be a boolean' unless boolean? value
+
+          @auth_enabled = value
+        end
+
         def auth_enabled?
-          ENV['AUTH_SENDING_TOKEN'] == 'true' || ENV['AUTH_SENDING_TOKEN'].nil?
+          @auth_enabled ||= true
         end
 
         private
 
         def integer?(value)
           value.is_a? Integer
+        end
+
+        def boolean?(value)
+          [true, false].include? value
         end
       end
     end
