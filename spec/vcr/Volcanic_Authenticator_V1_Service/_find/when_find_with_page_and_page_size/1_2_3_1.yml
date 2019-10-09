@@ -1,0 +1,40 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://0.0.0.0:3003/api/v1/services?page=2&page_size=3
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjY1ODY5MzEsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xLzEvMS8yIiwibmJmIjoxNTY2MzcwOTMxLCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU2NjM3MDkzMSwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AAgw91SZitSWuMHQU3t6CjeBtyBA7kfLGV7564azekCCO8mhkB3ALbaReSgaeH8AvfJd1GPAW-aTscFkEHzKHEyXAFPdn_EwE0sFnoKHeM_3M2UtMKyhrecZcxPIU2x7mXhmy0-EkA0Wxmw5X6CmonQCdg-X_RIouEKmUpCO14ZFramg
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 403
+      message: Forbidden
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '93'
+      Etag:
+      - W/"5d-KBt6czQR3yiw9UCYdc9AiXiOqTc"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Tue, 08 Oct 2019 08:59:09 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_01577541725578202","message":"Forbidden","errorCode":3001}'
+    http_version: 
+  recorded_at: Tue, 08 Oct 2019 08:59:09 GMT
+recorded_with: VCR 5.0.0

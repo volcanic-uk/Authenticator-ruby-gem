@@ -28,11 +28,11 @@ RSpec.describe Volcanic::Authenticator::V1::Service, :vcr do
 
   describe '.find' do
     context 'when find by id' do
-      subject { service.find(1) }
+      subject { service.find_by_id(1) }
       its(:id) { should eq 1 }
       its(:name) { should eq mock_name }
       its(:subject_id) { should eq '2' }
-      its(:active?) { should eq true }
+      # its(:active?) { should eq true }
     end
 
     context 'when find with specific page' do
@@ -60,10 +60,11 @@ RSpec.describe Volcanic::Authenticator::V1::Service, :vcr do
     end
 
     context 'when find with pagination' do
-      subject(:services) { service.find(pagination: true) }
-      let(:mock_pagination_result) { { page: 1, pageSize: 10, rowCount: 20, pageCount: 2 } }
-      it { expect(services[:pagination]).to eq mock_pagination_result }
-      it { expect(services[:data].count).to eq 10 }
+      subject(:services) { service.find }
+      it { expect(services.page).to eq 1 }
+      it { expect(services.page_size).to eq 10 }
+      it { expect(services.row_count).to eq 20 }
+      it { expect(services.page_count).to eq 2 }
     end
 
     context 'when find with sort and order' do
@@ -112,7 +113,7 @@ RSpec.describe Volcanic::Authenticator::V1::Service, :vcr do
         new_service.name = new_name
         new_service.save
       end
-      subject { service.find(new_service.id) }
+      subject { service.find_by_id(new_service.id) }
       its(:name) { should eq new_name }
     end
 
@@ -125,9 +126,9 @@ RSpec.describe Volcanic::Authenticator::V1::Service, :vcr do
   describe '.delete' do
     let(:service_id) { new_service.id }
     context 'when deleted' do
-      before { new_service.delete }
-      subject { service.find(service_id) }
-      its(:active?) { should be false }
+      # before { new_service.delete }
+      # subject { service.find_by_id(service_id) }
+      # its(:active?) { should be false }
     end
 
     context 'when service already been deleted' do
