@@ -2,6 +2,7 @@
 
 require_relative 'helper/request'
 require_relative 'helper/error'
+require_relative 'helper/collection'
 
 module Volcanic::Authenticator
   module V1
@@ -10,14 +11,11 @@ module Volcanic::Authenticator
       include Request
       include Error
 
-      # checking activation. Return false if object is deleted
-      # eg.
-      #   obj = Obj.find(1)
-      #   obj.active?
-      #   # => true
-      def active?
-        @active.nil? ? find(@id).active? : @active
-      end
+      # @deprecated
+      #
+      # def active?
+      #   @active.nil? ? find(@id).active? : @active
+      # end
 
       # saving updated fields.
       # eg.
@@ -55,7 +53,7 @@ module Volcanic::Authenticator
         # eg.
         #   1) finding single object
         #
-        #   obj = Obj.find(1)
+        #   obj = Obj.find_by_id(1)
         #   obj.name
         #   obj.descriptions
         #   ....
@@ -91,27 +89,32 @@ module Volcanic::Authenticator
         #   # Note: sort must be one of [id, name, created_at, updated_at].
         #   # Note: order must be one of [asc, desc].
         #
-        #   Obj.find(pagination: true)
-        #   {
-        #     pagination: { page: 1, pageSize: 10, rowCount: 1, pageCount: 1 }
-        #     data: [ <Obj:1>, <Obj:2>, ... ]
-        #   }
-        #   # return an hash object with pagination and data field.
-        #   # page is current page
-        #   # pageSize is the size of the data in a page
-        #   # rowCount is the total count of data
-        #   # pageCount is the total count of page.
-        #   # data is the array of Objects
-        #   # Note: by default pagination is set to false
         #
-        def find(id = nil, **opts)
-          if id.nil?
-            opts[:page] ||= 1
-            opts[:page_size] ||= 10
-            find_with(opts)
-          else
-            find_by_id(id)
-          end
+        #   # pagination information
+        #   # every array of the object will consist of pagination information
+        #   # +page+ is current page
+        #   # +page_size+ is the size of the data in a page
+        #   # +row_count+ is the total count of data
+        #   # +page_count+ is the total count of page.
+        #
+        #   obj = Obj.find
+        #   obj = [<Obj:1>, <Obj:2>, ...]
+        #   obj.page = 1
+        #   obj.page_size = 3
+        #   obj.row_count = 1
+        #   obj.page_size = 1
+        #
+        def find(**opts)
+          opts[:page] ||= 1
+          opts[:page_size] ||= 10
+          find_with(opts)
+        end
+
+        def find_by_id(id)
+          raise ArgumentError, 'id is empty or nil' if id.nil? || id == ''
+
+          parsed = perform_get_and_parse self::EXCEPTION, "#{self::URL}/#{id}"
+          new(parsed.transform_keys!(&:to_sym))
         end
 
         # get first object
@@ -120,7 +123,7 @@ module Volcanic::Authenticator
         #   # => <Obj1>
         #
         def first
-          find(page_size: 1)[0]
+          find(page_size: 1).first
         end
 
         # get last object
@@ -129,7 +132,7 @@ module Volcanic::Authenticator
         #   # => <Obj10>
         #
         def last
-          find(page: count, page_size: 1)[0]
+          find(page: count, page_size: 1).first
         end
 
         # get total count
@@ -138,29 +141,18 @@ module Volcanic::Authenticator
         #   # => 10
         #
         def count
-          find(page_size: 1, pagination: true)[:pagination][:rowCount]
+          find(page_size: 1).row_count
         end
 
         private
 
-        def find_with(pagination: false, **opts)
+        def find_with(**opts)
           params = opts.map { |k, v| "#{k}=#{v}" }.join('&')
           url = "#{self::URL}?#{params}"
           parsed = perform_get_and_parse self::EXCEPTION, url
-          data = parsed['data'].map { |d| new(d.transform_keys(&:to_sym)) }
-          if pagination
-            { pagination: parsed['pagination'].transform_keys(&:to_sym),
-              data: data }
-          else
-            data
-          end
-        end
-
-        def find_by_id(id)
-          raise ArgumentError, 'argument is empty or nil' if id.nil? || id == ''
-
-          parsed = perform_get_and_parse self::EXCEPTION, "#{self::URL}/#{id}"
-          new(parsed.transform_keys!(&:to_sym))
+          page_information = parsed['pagination'].transform_keys(&:to_sym)
+          Collection.new(parsed['data'].map { |d| new(d.transform_keys(&:to_sym)) },
+                         page_information)
         end
       end
     end
