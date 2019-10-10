@@ -8,9 +8,12 @@ module Volcanic::Authenticator
   module V1
     # Common method
     class Common
-      KEYS_FROM_AUTH_SERVICE = { pageSize: :page_size, rowCount: :row_count, pageCount: :page_count }.freeze
       include Request
       include Error
+
+      def self.path
+        raise NotImplementedError
+      end
 
       # saving updated fields.
       # eg.
@@ -19,14 +22,14 @@ module Volcanic::Authenticator
       #   obj.save
       def save(payload)
         payload.delete_if { |_, value| value.nil? }
-        perform_post_and_parse self.class::EXCEPTION, "#{self.class::URL}/#{id}", payload.to_json
+        perform_post_and_parse self.class::EXCEPTION, "#{self.class.path}/#{id}", payload.to_json
       end
 
       # deleting object
       # eg.
       #   Obj.find(1).delete
       def delete
-        perform_delete_and_parse self.class::EXCEPTION, "#{self.class::URL}/#{id}"
+        perform_delete_and_parse self.class::EXCEPTION, "#{self.class.path}/#{id}"
       end
 
       class << self
@@ -40,7 +43,7 @@ module Volcanic::Authenticator
         #   obj.description
         #   ...
         def create(payload)
-          parsed = perform_post_and_parse self::EXCEPTION, self::URL, payload.to_json
+          parsed = perform_post_and_parse self::EXCEPTION, path, payload.to_json
           new(parsed.transform_keys(&:to_sym))
         end
 
@@ -108,7 +111,7 @@ module Volcanic::Authenticator
         def find_by_id(id)
           raise ArgumentError, 'id is empty or nil' if id.nil? || id == ''
 
-          parsed = perform_get_and_parse self::EXCEPTION, "#{self::URL}/#{id}"
+          parsed = perform_get_and_parse self::EXCEPTION, "#{path}/#{id}"
           new(parsed.transform_keys!(&:to_sym))
         end
 
@@ -116,18 +119,11 @@ module Volcanic::Authenticator
 
         def find_with(**opts)
           params = opts.map { |k, v| "#{k}=#{v}" }.join('&')
-          url = "#{self::URL}?#{params}"
+          url = "#{path}?#{params}"
           parsed = perform_get_and_parse self::EXCEPTION, url
-          page_information = snake_case!(parsed['pagination'].transform_keys(&:to_sym))
-          Collection.new(parsed['data'].map { |d| new(d.transform_keys(&:to_sym)) },
-                         page_information)
-        end
-
-        def snake_case!(hash)
-          KEYS_FROM_AUTH_SERVICE.each do |svc_key, ruby_key|
-            hash[ruby_key] = hash.delete(svc_key) if hash.key?(svc_key)
-          end
-          hash
+          page_information = parsed['pagination'].transform_keys(&:to_sym)
+          Collection.from_auth_service(parsed['data'].map { |d| new(d.transform_keys(&:to_sym)) },
+                                       page_information)
         end
       end
     end
