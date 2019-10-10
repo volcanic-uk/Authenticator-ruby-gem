@@ -8,27 +8,29 @@ module Volcanic::Authenticator
     class Service < Common
       include Request
       include Error
-      # end-point
-      URL = 'api/v1/services'
+
+      PATH = 'api/v1/services'
       EXCEPTION = :raise_exception_service
 
       attr_accessor :name
       attr_reader :id, :subject_id, :updated_at, :created_at
 
       # initialize new service
-      def initialize(id:, **opt)
+      def initialize(id:, **opts)
         @id = id
-        @name = opt[:name]
-        @subject_id = opt[:subject_id]
-        @active = opt[:active]
-        @created_at = opt[:created_at]
-        @updated_at = opt[:updated_at]
+        %i[name subject_id created_at updated_at].each do |key|
+          instance_variable_set("@#{key}", opts[key])
+        end
       end
 
       # service.name = 'update_name'
       # service.save
       def save
         super({ name: name })
+      end
+
+      def self.path
+        PATH
       end
 
       # service = Service.create('vault')
