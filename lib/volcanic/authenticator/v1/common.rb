@@ -8,6 +8,7 @@ module Volcanic::Authenticator
   module V1
     # Common method
     class Common
+      KEYS_FROM_AUTH_SERVICE = { pageSize: :page_size, rowCount: :row_count, pageCount: :page_count }.freeze
       include Request
       include Error
 
@@ -117,9 +118,16 @@ module Volcanic::Authenticator
           params = opts.map { |k, v| "#{k}=#{v}" }.join('&')
           url = "#{self::URL}?#{params}"
           parsed = perform_get_and_parse self::EXCEPTION, url
-          page_information = parsed['pagination'].transform_keys(&:to_sym)
+          page_information = snake_case!(parsed['pagination'].transform_keys(&:to_sym))
           Collection.new(parsed['data'].map { |d| new(d.transform_keys(&:to_sym)) },
                          page_information)
+        end
+
+        def snake_case!(hash)
+          KEYS_FROM_AUTH_SERVICE.each do |svc_key, ruby_key|
+            hash[ruby_key] = hash.delete(svc_key) if hash.key?(svc_key)
+          end
+          hash
         end
       end
     end
