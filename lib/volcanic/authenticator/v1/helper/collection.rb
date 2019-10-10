@@ -7,6 +7,8 @@ module Volcanic::Authenticator
     class Collection < Array
       attr_accessor :page, :page_size, :row_count, :page_count
 
+      # rubocop:disable Naming/UncommunicativeMethodParamName
+      # rubocop:disable Naming/VariableName:
       def initialize(array, page: nil, pageSize: nil, rowCount: nil, pageCount: nil, **_opts)
         @page = page
         @page_size = pageSize
@@ -14,6 +16,8 @@ module Volcanic::Authenticator
         @page_count = pageCount
         super array
       end
+      # rubocop:enable Naming/UncommunicativeMethodParamName
+      # rubocop:enable Naming/VariableName:
     end
   end
 end
