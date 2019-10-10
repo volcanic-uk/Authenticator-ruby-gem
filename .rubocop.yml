@@ -20,5 +20,8 @@ Metrics/AbcSize:
 Metrics/ClassLength:
   Max: 160
 
+Metrics/ParameterLists:
+  Max: 6
+
 Style/ClassAndModuleChildren:
   Enabled: false
