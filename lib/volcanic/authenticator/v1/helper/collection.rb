@@ -7,7 +7,7 @@ module Volcanic::Authenticator
     class Collection < Array
       attr_accessor :page, :page_size, :row_count, :page_count
 
-      def initialize(array, page: nil, pageSize: nil, rowCount: nil, pageCount: nil, **opts)
+      def initialize(array, page: nil, pageSize: nil, rowCount: nil, pageCount: nil, **_opts)
         @page = page
         @page_size = pageSize
         @row_count = rowCount
