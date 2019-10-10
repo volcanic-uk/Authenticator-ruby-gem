@@ -11,12 +11,6 @@ module Volcanic::Authenticator
       include Request
       include Error
 
-      # @deprecated
-      #
-      # def active?
-      #   @active.nil? ? find(@id).active? : @active
-      # end
-
       # saving updated fields.
       # eg.
       #   obj = Obj.find(1)
@@ -115,33 +109,6 @@ module Volcanic::Authenticator
 
           parsed = perform_get_and_parse self::EXCEPTION, "#{self::URL}/#{id}"
           new(parsed.transform_keys!(&:to_sym))
-        end
-
-        # get first object
-        # eg.
-        #   Obj.first
-        #   # => <Obj1>
-        #
-        def first
-          find(page_size: 1).first
-        end
-
-        # get last object
-        # eg.
-        #   Obj.last
-        #   # => <Obj10>
-        #
-        def last
-          find(page: count, page_size: 1).first
-        end
-
-        # get total count
-        # eg.
-        #   Obj.count
-        #   # => 10
-        #
-        def count
-          find(page_size: 1).row_count
         end
 
         private
