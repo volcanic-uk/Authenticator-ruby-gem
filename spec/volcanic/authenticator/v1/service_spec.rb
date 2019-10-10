@@ -76,22 +76,15 @@ RSpec.describe Volcanic::Authenticator::V1::Service, :vcr do
   end
 
   describe '.first' do
-    context 'when received first object' do
-      subject { service.first }
-      its(:id) { should eq 1 }
-    end
+    # TODO: need to be remove
   end
 
   describe '.last' do
-    context 'when received last object' do
-      subject { service.last }
-      its(:id) { should eq 20 }
-    end
+    # TODO: need to be remove
   end
 
   describe '.count' do
-    subject { service.count }
-    it { should eq 20 }
+    # TODO: need to be remove
   end
 
   describe '.save' do
@@ -126,9 +119,7 @@ RSpec.describe Volcanic::Authenticator::V1::Service, :vcr do
   describe '.delete' do
     let(:service_id) { new_service.id }
     context 'when deleted' do
-      # before { new_service.delete }
-      # subject { service.find_by_id(service_id) }
-      # its(:active?) { should be false }
+      # TODO: write some test here
     end
 
     context 'when service already been deleted' do
