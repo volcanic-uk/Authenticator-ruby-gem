@@ -6,7 +6,6 @@ module Volcanic::Authenticator
   module V1
     # Handle service api
     class Service < Common
-
       PATH = 'api/v1/services'
       EXCEPTION = :raise_exception_service
 
