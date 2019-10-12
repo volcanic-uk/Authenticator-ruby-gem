@@ -6,7 +6,6 @@ module Volcanic::Authenticator
   module V1
     # Principal api
     class Principal < Common
-
       # Principal end-point
       PATH = 'api/v1/principals'
       EXCEPTION = :raise_exception_principal
