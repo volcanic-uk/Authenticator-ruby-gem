@@ -6,23 +6,23 @@ module Volcanic::Authenticator
   module V1
     # Principal api
     class Principal < Common
-      # include Request
-      # include Error
 
       # Principal end-point
-      URL = 'api/v1/principals'
+      PATH = 'api/v1/principals'
       EXCEPTION = :raise_exception_principal
 
-      attr_reader :id, :created_at, :updated_at
+      attr_reader :id, :created_at, :updated_at, :active
       attr_accessor :name, :dataset_id
 
       def initialize(id:, **opts)
         @id = id
-        @name = opts[:name]
-        @dataset_id = opts[:dataset_id]
-        @active = opts[:active]
-        @created_at = opts[:created_at]
-        @updated_at = opts[:updated_at]
+        %i[name dataset_id active created_at updated_at].each do |key|
+          instance_variable_set("@#{key}", opts[key])
+        end
+      end
+
+      def active?
+        active
       end
 
       # to update a principal.
@@ -50,6 +50,10 @@ module Volcanic::Authenticator
                     roles: roles,
                     privileges: privileges }
         super payload
+      end
+
+      def self.path
+        PATH
       end
     end
   end

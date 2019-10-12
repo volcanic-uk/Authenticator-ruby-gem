@@ -20,26 +20,20 @@ RSpec.describe Volcanic::Authenticator::V1::Principal, :vcr do
       it { expect { principal.create(mock_name, mock_dataset_id) }.to raise_error principal_error }
     end
 
-    context 'when missing dataset_id' do
-      # it { expect { principal.create(mock_name, nil) }.to raise_error principal_error }
-    end
-
     context 'when success' do
       subject { new_principal }
       its(:id) { should eq 1 }
       its(:name) { should eq mock_name }
       its(:dataset_id) { should eq mock_dataset_id }
-      its(:active?) { should eq true }
     end
   end
 
   describe '.find' do
     context 'when find by id' do
-      subject { principal.find(1) }
+      subject { principal.find_by_id(1) }
       its(:id) { should eq 1 }
       its(:name) { should eq mock_name }
       its(:dataset_id) { should eq mock_dataset_id }
-      its(:active?) { should eq true }
     end
 
     context 'when find with specific page' do
@@ -67,30 +61,12 @@ RSpec.describe Volcanic::Authenticator::V1::Principal, :vcr do
     end
 
     context 'when find with pagination' do
-      subject(:principals) { principal.find(pagination: true) }
-      let(:mock_pagination) { { page: 1, pageSize: 10, rowCount: 20, pageCount: 2 } }
-      it { expect(principals[:pagination]). to eq mock_pagination }
-      it { expect(principals[:data].count). to eq 10 }
+      subject(:principals) { principal.find }
+      it { expect(principals.page). to eq 1 }
+      it { expect(principals.page_size). to eq 10 }
+      it { expect(principals.row_count). to eq 20 }
+      it { expect(principals.page_count). to eq 2 }
     end
-  end
-
-  describe '.first' do
-    context 'when received first object' do
-      subject { principal.first }
-      its(:id) { should eq 1 }
-    end
-  end
-
-  describe '.last' do
-    context 'when received last object' do
-      subject { principal.last }
-      its(:id) { should eq 20 }
-    end
-  end
-
-  describe '.count' do
-    subject { principal.count }
-    it { should eq 20 }
   end
 
   describe '.save' do
@@ -111,30 +87,20 @@ RSpec.describe Volcanic::Authenticator::V1::Principal, :vcr do
         new_principal.name = new_name
         new_principal.save
       end
-      subject { principal.find(new_principal.id) }
+      subject { principal.find_by_id(new_principal.id) }
       its(:name) { should eq new_name }
     end
-
-    # context 'when update with existing name' do
-    #   before { new_principal.name = new_name }
-    #   it { expect { new_principal.save }.to raise_error principal_error }
-    # end
   end
 
   describe '.delete' do
-    let(:principal_id) { new_principal.id }
     context 'when deleted' do
       before { new_principal.delete }
-      subject { principal.find(principal_id) }
-      its(:active?) { should be false }
-    end
-
-    context 'when principal already been deleted' do
-      it { expect { new_principal.delete }.to raise_error principal_error }
+      subject { principal.find_by_id(new_principal.id) }
+      its(:active?) { should eq false }
     end
 
     context 'when invalid or non-exist id' do
-      # it { expect { principal.new(id: 'wrong-id').delete }.to raise_error principal_error }
+      it { expect { principal.new(id: 'wrong-id').delete }.to raise_error principal_error }
       it { expect { principal.new(id: 123_456_789).delete }.to raise_error principal_error }
     end
   end
