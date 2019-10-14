@@ -286,6 +286,8 @@ module Volcanic::Authenticator
           ['', 'undefined', 'null'].include?(v) ? nil : v.to_i
         end
         _, @dataset_id, @principal_id, @identity_id, @subject_id = subject
+      rescue ArgumentError => e
+        raise TokenError, e
       end
     end
   end
