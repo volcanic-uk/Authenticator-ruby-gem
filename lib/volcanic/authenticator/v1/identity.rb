@@ -2,52 +2,32 @@
 
 require_relative 'helper/error'
 require_relative 'helper/request'
+require_relative 'common'
 
 module Volcanic::Authenticator
   module V1
     # Identity API
-    class Identity
+    class Identity < Common
       include Request
       include Error
 
       # end-point
-      URL = 'api/v1/identity/'
-      IDENTITY_DELETE_URL = 'api/v1/identity/deactivate/'
-      RESET_SECRET_URL = 'api/v1/identity/secret/reset/'
+      PATH = 'api/v1/identity'
       EXCEPTION = :raise_exception_identity
 
       attr_accessor :name, :secret
-      attr_reader :id, :principal_id, :privileges, :roles, :created_at, :updated_at
+      attr_reader :id, :principal_id, :created_at, :updated_at
+      attr_writer :_privileges, :_roles
 
       def initialize(id:, **opts)
         @id = id
-        @name = opts[:name]
-        @principal_id = opts[:principal_id]
-        @secret = opts[:secret]
-        @privileges = opts[:privileges] || []
-        @roles = opts[:roles] || []
-        @created_at = opts[:created_at]
-        @updated_at = opts[:updated_at]
+        %i[name principal_id secret created_at updated_at].each do |key|
+          instance_variable_set("@#{key}", opts[key])
+        end
       end
 
-      # to generate new token.
-      # this is similar to
-      #   Token.create(name, secret).token
-      #
-      # eg.
-      #  token = Identity.new(name, secret).token
-      #  # => return a token
-      #
-      def token
-        # Token.create(name, secret, principal_id).token_key
-      end
-
-      # Deactivate an identity and blacklist all associate tokens.
-      # Eg.
-      #   Identity.delete(identity_id)
-      #
-      def delete
-        perform_post_and_parse EXCEPTION, [IDENTITY_DELETE_URL, id].join
+      def self.path
+        PATH
       end
 
       # updating identity
@@ -59,30 +39,35 @@ module Volcanic::Authenticator
       #
       # NOTE: Only use for updating identity. Not creating
       def save
-        payload = { name: name }
-        url = [URL, id].join
-        perform_post_and_parse EXCEPTION, url, payload.to_json
+        super({ name: name })
       end
 
       # updating privileges
-      def save_privileges
-        payload = { privileges: privileges }
-        url = [URL, id, '/privileges'].join
-        perform_post_and_parse EXCEPTION, url, payload.to_json
+      # TODO: able to accept objects or ids
+      def update_privileges(*ids)
+        payload = { privileges: ids.flatten.compact }
+        path = [PATH, "/#{id}", '/privileges'].join
+        _res = perform_post_and_parse EXCEPTION, path, payload.to_json
+        # TODO: return array of Privileges
+        # @_privileges = Privilege.new(res)
       end
 
-      def save_roles
-        payload = { roles: roles }
-        url = [URL, id, '/roles'].join
-        perform_post_and_parse EXCEPTION, url, payload.to_json
+      # updating roles
+      # TODO: able to accept objects or ids
+      def update_roles(*ids)
+        payload = { roles: ids.flatten.compact }
+        path = [PATH, "/#{id}", '/roles'].join
+        _res = perform_post_and_parse EXCEPTION, path, payload.to_json
+        # TODO: return array of Roles
+        # @_roles = Role.new(res)
       end
 
-      def privileges=(*ids)
-        @privileges = ids.flatten.compact
+      def privileges
+        @_privileges
       end
 
-      def roles=(*ids)
-        @roles = ids.flatten.compact
+      def roles
+        @_roles
       end
 
       # reset secret
@@ -96,14 +81,23 @@ module Volcanic::Authenticator
       #
       # return the new secret
       def reset_secret(new_secret = nil)
-        payload = new_secret.nil? ? {} : { secret: new_secret }
-        parsed = perform_post_and_parse EXCEPTION, [RESET_SECRET_URL, id].join, payload.to_json
-        @secret = new_secret.nil? ? parsed['secret'] : new_secret
+        payload = { secret: new_secret }.to_json
+        path = [PATH, '/secret/reset/', id].join
+        parsed = perform_post_and_parse EXCEPTION, path, payload
+        self.secret = parsed['secret'] || new_secret
+      end
+
+      # delete identity
+      def delete
+        path = [PATH, '/deactivate/', id].join
+        perform_post_and_parse EXCEPTION, path
       end
 
       class << self
-        include Request
-        include Error
+        # identity not supporting this method
+        undef_method :find
+        undef_method :find_by_id
+
         # Create identity
         # Identity.create(name, principal_id, secret: nil, privileges: [], roles: [])
         # eg.
@@ -114,25 +108,29 @@ module Volcanic::Authenticator
         #   Identity.create('name,' 1, secret: 'secret')
         #
         #   # assign roles or privileges
-        #   Identity.create('name', 1, privileges: [1, 3] roles: [1])
+        #   privileges = Privileges.find(query: '123@abc.com') # return collection of privileges
+        #   roles = Roles.find(query: 'auth_admin') # return collection of roles
+        #   Identity.create('name', 1, privileges: privileges roles: roles)
         #
         #   # all options
-        #   opts = { secret: 'new_secret', privileges: [1, 3], roles: [1] }
+        #   opts = { secret: 'new_secret', privileges: privileges, roles: roles }
         #   Identity.create('name', 1, opts)
         #
-        def create(name, principal_id, secret: nil, skip_secret_encryption: false, **opts)
-          roles = opts[:roles] || []
-          privileges = opts[:privileges] || []
+        def create(name, principal_id, secret: nil, skip_encryption: false, privileges: [], roles: [])
+          # TODO: raise error if privileges and roles not an objects
+          privilege_ids = privileges.collect(&:id)
+          role_ids = roles.collect(&:id)
           payload = { name: name,
                       principal_id: principal_id,
-                      skip_secret_encryption: skip_secret_encryption,
+                      skip_secret_encryption: skip_encryption,
                       secret: secret,
-                      privileges: privileges,
-                      roles: roles }.to_json
-          parsed = perform_post_and_parse EXCEPTION, URL, payload
-          parsed['secret'] = secret if parsed['secret'].nil?
-          parsed.merge!(privileges: privileges, roles: roles)
-          new(parsed.transform_keys!(&:to_sym))
+                      privileges: privilege_ids,
+                      roles: role_ids }
+          identity = super payload
+          identity.secret ||= secret
+          identity._privileges = privileges
+          identity._roles = roles
+          identity
         end
 
         # updating identity
@@ -140,38 +138,36 @@ module Volcanic::Authenticator
         # eg.
         #   updates = { name: 'new_name', secret: 'new_secret', roles: [1], privileges: [1, 3]}
         #   Identity.update(1, updates)
-        def update(id, **payload)
-          payload.merge!(id: id)
-          new(payload.transform_keys!(&:to_sym)).save
-        end
-
-        # reset identity
-        def reset_secret(id, secret = nil)
-          new(id: id).reset_secret(secret)
-        end
-
-        # delete identity
-        def delete(id)
-          new(id: id).delete
-        end
+        # def update(id, **payload)
+        #   payload.merge!(id: id)
+        #   new(payload.transform_keys!(&:to_sym)).save
+        # end
+        #
+        # # reset identity
+        # def reset_secret(id, secret = nil)
+        #   new(id: id).reset_secret(secret)
+        # end
+        #
+        # # delete identity
+        # def delete(id)
+        #   new(id: id).delete
+        # end
 
         # similar to update, but ony for privileges update
         #  eg.
         #   Identity.set_privileges(1, 1, 2)
         #   # OR
         #   Identity.set_privileges(1, [1, 2])
-        def set_privileges(id, *privileges)
-          new(id: id, privileges: privileges.flatten.compact).save_privileges
-        end
+        # def W
 
         # similar to update, but ony for roles update
         #  eg.
         #   Identity.set_roles(1, 1, 2)
         #   # OR
         #   Identity.set_roles(1, [1, 2])
-        def set_roles(id, *roles)
-          new(id: id, roles: roles.flatten.compact).save_roles
-        end
+        # def set_roles(id, *roles)
+        #   new(id: id, roles: roles.flatten.compact).save_roles
+        # end
       end
     end
   end
