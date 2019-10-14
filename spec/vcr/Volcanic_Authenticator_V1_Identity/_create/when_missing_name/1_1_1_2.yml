@@ -2,40 +2,40 @@
 http_interactions:
 - request:
     method: post
-    uri: http://0.0.0.0:3003/api/v1/identity/
+    uri: http://0.0.0.0:3003/api/v1/identity
     body:
       encoding: UTF-8
-      string: '{"name":"","principal_id":1,"secret":null,"privileges":[],"roles":[]}'
+      string: '{"name":"","principal_id":1,"skip_secret_encryption":false,"secret":null,"privileges":[],"roles":[]}'
     headers:
       Authorization:
-      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NjQ5NTIwMjcsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xLzEvMS8yIiwibmJmIjoxNTY0NzM2MDI3LCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU2NDczNjAyNywiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.ANK_U_grNigbO7wQc7Fuvpt10E8Ld9ZRPAGm3k-yra0_CRjQUfbkHDxGmwXasHbamrF_SM5aMeMVwT3Lt-eNpAZ4AAieRMZVJxBjqIXmyS291mOCRgazmOW9qHnewZnDxvetvJ-SgJncnTQ8Re4dIsbW3UFIjBPMFee9Hz-MH8PHxyZ0
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1NzEwMzYyMTMsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xLzEvMS8yIiwibmJmIjoxNTcxMDM2MjczLCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU3MTAzNjI3MywiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AJY1zm0ekpCRjRcRCfh56m3DOknF1_Hnf1oQukIy4w4jrqWNPq9FJltAvFT42z0qe0-4mV43VG4Xhb3xj8F5B7v_AelUayqQw1lhlDsDk58gK0enqaON5GH3t_75XKyULsmClCmgUsGS4dAqArBbs7hJ5we9GAkkptSIaQr2NsbfPTBU
       Content-Type:
       - application/json
   response:
     status:
-      code: 400
-      message: Bad Request
+      code: 422
+      message: Unprocessable Entity
     headers:
       X-Powered-By:
       - Express
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
-      - '128'
+      - '129'
       Etag:
-      - W/"80-M6CwRhAz5o38ec3BuyJ6jwa0lz8"
+      - W/"81-q0m+is5itLGMFXJ8c4WAIyNgUmg"
       Cache-Control:
       - no-cache
       Vary:
       - accept-encoding
       Date:
-      - Fri, 02 Aug 2019 08:53:47 GMT
+      - Mon, 14 Oct 2019 06:57:53 GMT
       Connection:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"requestID":"offline_awsRequestId_6393086623770527","message":{"name":"\"name\"
+      string: '{"requestID":"offline_awsRequestId_25889546333166624","message":{"name":"\"name\"
         is not allowed to be empty"},"errorCode":10001}'
     http_version: 
-  recorded_at: Fri, 02 Aug 2019 08:53:47 GMT
+  recorded_at: Mon, 14 Oct 2019 06:57:53 GMT
 recorded_with: VCR 5.0.0
