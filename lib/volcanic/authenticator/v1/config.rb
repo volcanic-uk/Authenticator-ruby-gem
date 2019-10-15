@@ -8,7 +8,8 @@ module Volcanic::Authenticator
     # after installation of this gem, these need to be configure.
     class Config
       class << self
-        attr_accessor :auth_url, :app_name, :app_secret
+        attr_accessor :app_name, :app_secret
+        attr_writer :auth_url
 
         # expiration time of cache tokens
         def exp_token
