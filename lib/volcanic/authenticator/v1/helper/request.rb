@@ -37,7 +37,6 @@ module Volcanic::Authenticator
         res = HTTParty.delete url, headers: bearer_header(auth_token)
         exception_handler_and_parser(exception, res)
       rescue Timeout::Error, Errno::EINVAL, Errno::ECONNREFUSED, Errno::ECONNRESET, EOFError => e
-        # Errno::EADDRNOTAVAI
         raise ConnectionError, e
       end
 
