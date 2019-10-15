@@ -6,23 +6,21 @@ module Volcanic::Authenticator
   module V1
     # Handle permission api
     class Permission < Common
-      URL = 'api/v1/permissions'
+      PATH = 'api/v1/permissions'
       EXCEPTION = :raise_exception_permission
 
       attr_accessor :name, :description
-      attr_reader :id, :subject_id, :service_id, :created_at, :updated_at
+      attr_reader :id, :active, :subject_id, :service_id, :created_at, :updated_at
       #
       # initialize permission
-      def initialize(id:, **opt)
+      def initialize(id:, **opts)
         @id = id
-        @name = opt[:name]
-        @description = opt[:description]
-        @subject_id = opt[:subject_id]
-        @service_id = opt[:service_id]
-        @active = opt[:active]
-        @created_at = opt[:created_at]
-        @updated_at = opt[:updated_at]
+        %i[name description subject_id service_id active created_at updated_at].each do |key|
+          instance_variable_set("@#{key}", opts[key])
+        end
       end
+
+      alias active? active
 
       def save
         payload = { name: name, description: description }
@@ -34,6 +32,10 @@ module Volcanic::Authenticator
                     description: description,
                     service_id: service_id }
         super payload
+      end
+
+      def self.path
+        PATH
       end
     end
   end
