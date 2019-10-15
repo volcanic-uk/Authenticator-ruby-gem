@@ -50,6 +50,11 @@ module Volcanic::Authenticator
       def raise_exception_service(res)
         RaiseException.new(res, ServiceError)
       end
+
+      # error handler for permission
+      def raise_exception_permission(res)
+        RaiseException.new(res, PermissionError)
+      end
     end
   end
 end
