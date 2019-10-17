@@ -41,6 +41,11 @@ module Volcanic::Authenticator
         end
       end
 
+      # when include this module, it will extend it too
+      def self.included(base)
+        base.extend self
+      end
+
       # error handler for application token
       def raise_exception_app_token(res)
         RaiseException.new(res, ApplicationTokenError)

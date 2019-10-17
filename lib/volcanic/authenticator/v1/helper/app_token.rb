@@ -1,10 +1,7 @@
 # frozen_string_literal: true
 
-require_relative 'header'
-require_relative 'error'
 require_relative '../base'
 require_relative 'request'
-require_relative '../token'
 
 module Volcanic::Authenticator
   module V1
@@ -15,8 +12,6 @@ module Volcanic::Authenticator
     # It request a new token when cache expire.
     class AppToken < Base
       class << self
-        include Error
-        include Header
         include Request
 
         APP_TOKEN = 'volcanic_application_token'
