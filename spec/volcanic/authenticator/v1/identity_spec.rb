@@ -61,13 +61,13 @@ RSpec.describe Volcanic::Authenticator::V1::Identity, :vcr do
 
     context 'update roles' do
       let(:new_roles) { [1, 2] }
-      before { identity_update.update_roles(new_roles) }
+      # before { identity_update.update_roles(new_roles) }
       # TODO: test should return collection of roles
     end
 
     context 'update privileges' do
       let(:new_privileges) { [1, 2] }
-      before { identity_update.update_privileges(new_privileges) }
+      # before { identity_update.update_privileges(new_privileges) }
       # TODO: test should return collection of privileges
     end
   end
