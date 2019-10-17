@@ -30,7 +30,7 @@ module Volcanic::Authenticator
       #   obj = Obj.find_by_id(1)
       #   obj.name = 'new name'
       #   obj.save
-      def save(payload)
+      def save(**payload)
         payload.delete_if { |_, value| value.nil? }
         perform_post_and_parse self.class.exception, "#{self.class.path}/#{id}", payload.to_json
       end
