@@ -1,0 +1,114 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://0.0.0.0:3003/api/v1/identity/login
+    body:
+      encoding: UTF-8
+      string: '{"name":"volcanic","secret":"volcanic!123","principal_id":1}'
+    headers:
+      Authorization:
+      - Bearer
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '525'
+      Etag:
+      - W/"20d-LSkL81rytdkWYtg023ZPIDxeZrc"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Thu, 17 Oct 2019 04:25:09 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_779093180035461","response":{"token":"eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NzEyODY5MDksInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xLzEvMS8yIiwibmJmIjoxNTcxMjg2MzA5LCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU3MTI4NjMwOSwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AdUlHkG_Kjor0KXxIxz18SvYtPBawHK6nazU7eQFw2PIixO4HiYCm5za2_kUd5_mlRGATeY-ClwZBRdlGIZTyE_lAc_D0sVeTSsJaNJdSB5AjtowFTchZ9IVfpNDmjE0Aswy64EjMFfq4HaLYbh-DoH0cWFIMcDLcIkV0YI56snvXr46"}}'
+    http_version: 
+  recorded_at: Thu, 17 Oct 2019 04:25:09 GMT
+- request:
+    method: post
+    uri: http://0.0.0.0:3003/api/v1/principals
+    body:
+      encoding: UTF-8
+      string: '{"name":"mock_name","dataset_id":1,"roles":[1,2],"privileges":[3,4]}'
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NzEyODY5MDksInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xLzEvMS8yIiwibmJmIjoxNTcxMjg2MzA5LCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU3MTI4NjMwOSwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AdUlHkG_Kjor0KXxIxz18SvYtPBawHK6nazU7eQFw2PIixO4HiYCm5za2_kUd5_mlRGATeY-ClwZBRdlGIZTyE_lAc_D0sVeTSsJaNJdSB5AjtowFTchZ9IVfpNDmjE0Aswy64EjMFfq4HaLYbh-DoH0cWFIMcDLcIkV0YI56snvXr46
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '188'
+      Etag:
+      - W/"bc-OV60x26FV4VEEumlTQme7tFI9bo"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Thu, 17 Oct 2019 04:25:09 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_3003947645962255","response":{"name":"mock_name","dataset_id":1,"updated_at":"2019-10-17T04:25:09.332Z","created_at":"2019-10-17T04:25:09.332Z","id":86}}'
+    http_version: 
+  recorded_at: Thu, 17 Oct 2019 04:25:09 GMT
+- request:
+    method: post
+    uri: http://0.0.0.0:3003/api/v1/principals/86/roles
+    body:
+      encoding: UTF-8
+      string: '{"roles":[1,"2"]}'
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NzEyODY5MDksInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xLzEvMS8yIiwibmJmIjoxNTcxMjg2MzA5LCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU3MTI4NjMwOSwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AdUlHkG_Kjor0KXxIxz18SvYtPBawHK6nazU7eQFw2PIixO4HiYCm5za2_kUd5_mlRGATeY-ClwZBRdlGIZTyE_lAc_D0sVeTSsJaNJdSB5AjtowFTchZ9IVfpNDmjE0Aswy64EjMFfq4HaLYbh-DoH0cWFIMcDLcIkV0YI56snvXr46
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '461'
+      Etag:
+      - W/"1cd-3lHyBHFIdsieaQm/8uRvU19j+Oo"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Thu, 17 Oct 2019 04:25:09 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_007409527845499753","response":[{"id":1,"name":"authenticator_super_user","subject_id":null,"service_id":1,"created_at":"2019-10-03T06:49:59.536Z","updated_at":"2019-10-03T06:49:59.536Z","_pivot_subject_id":176,"_pivot_role_id":1},{"id":2,"name":"krakatoa_super_user","subject_id":null,"service_id":2,"created_at":"2019-10-03T06:49:59.599Z","updated_at":"2019-10-03T06:49:59.599Z","_pivot_subject_id":176,"_pivot_role_id":2}]}'
+    http_version: 
+  recorded_at: Thu, 17 Oct 2019 04:25:09 GMT
+recorded_with: VCR 5.0.0
