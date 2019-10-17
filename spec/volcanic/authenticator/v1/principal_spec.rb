@@ -9,7 +9,7 @@ RSpec.describe Volcanic::Authenticator::V1::Principal, :vcr do
   let(:mock_privileges) { [3, 4] }
   let(:principal_error) { Volcanic::Authenticator::V1::PrincipalError }
   let(:new_principal) { Volcanic::Authenticator::V1::Principal.create(mock_name, mock_dataset_id, mock_roles, mock_privileges) }
-  describe '.create' do
+  describe '#create' do
     context 'when missing name' do
       it { expect { principal.create(nil, 1) }.to raise_error principal_error }
       it { expect { principal.create('', 1) }.to raise_error principal_error }
@@ -28,7 +28,7 @@ RSpec.describe Volcanic::Authenticator::V1::Principal, :vcr do
     end
   end
 
-  describe '.find' do
+  describe '#find' do
     context 'when find by id' do
       subject { principal.find_by_id(1) }
       its(:id) { should eq 1 }
@@ -69,7 +69,7 @@ RSpec.describe Volcanic::Authenticator::V1::Principal, :vcr do
     end
   end
 
-  describe '.save' do
+  describe '#save' do
     let(:new_name) { 'new-principal' }
 
     context 'when required field is nil' do
@@ -92,7 +92,7 @@ RSpec.describe Volcanic::Authenticator::V1::Principal, :vcr do
     end
   end
 
-  describe '.delete' do
+  describe '#delete' do
     context 'when deleted' do
       before { new_principal.delete }
       subject { principal.find_by_id(new_principal.id) }
@@ -102,6 +102,54 @@ RSpec.describe Volcanic::Authenticator::V1::Principal, :vcr do
     context 'when invalid or non-exist id' do
       it { expect { principal.new(id: 'wrong-id').delete }.to raise_error principal_error }
       it { expect { principal.new(id: 123_456_789).delete }.to raise_error principal_error }
+    end
+  end
+
+  describe '#update_role_ids' do
+    subject(:principal_update) { new_principal }
+
+    context 'When role id is nil' do
+      before { principal_update.update_role_ids(nil) }
+      its(:role_ids) { should eq [] }
+    end
+
+    context 'When updating with integer and strings' do
+      before { principal_update.update_role_ids(1, '2') }
+      its(:role_ids) { should eq [1, 2] }
+    end
+
+    context 'When updating with array value' do
+      before { principal_update.update_role_ids([1, 2]) }
+      its(:role_ids) { should eq [1, 2] }
+    end
+
+    context 'When updating with empty array' do
+      before { principal_update.update_role_ids([]) }
+      its(:role_ids) { should eq [] }
+    end
+  end
+
+  describe '#update_privilege_ids' do
+    subject(:principal_update) { new_principal }
+
+    context 'When role id is nil' do
+      before { principal_update.update_privilege_ids(nil) }
+      its(:privilege_ids) { should eq [] }
+    end
+
+    context 'When updating with integer and strings' do
+      before { principal_update.update_privilege_ids(1, '2') }
+      its(:privilege_ids) { should eq [1, 2] }
+    end
+
+    context 'When updating with array value' do
+      before { principal_update.update_privilege_ids([1, 2]) }
+      its(:privilege_ids) { should eq [1, 2] }
+    end
+
+    context 'When updating with empty array' do
+      before { principal_update.update_privilege_ids([]) }
+      its(:privilege_ids) { should eq [] }
     end
   end
 end
