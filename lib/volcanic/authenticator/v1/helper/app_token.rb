@@ -25,15 +25,7 @@ module Volcanic::Authenticator
         EXCEPTION = :raise_exception_app_token
 
         def fetch_and_request
-          # TODO: need to update test script
-          app_token = cache.fetch APP_TOKEN, expire_in: exp_app_token, &method(:request_app_token)
-          token = Token.new(app_token)
-          if token.expired?
-            token.clear!(APP_TOKEN)
-            return cache.fetch APP_TOKEN, expire_in: exp_app_token, &method(:request_app_token)
-          end
-
-          app_token
+          cache.fetch APP_TOKEN, expire_in: exp_app_token, &method(:request_app_token)
         end
 
         def request_app_token

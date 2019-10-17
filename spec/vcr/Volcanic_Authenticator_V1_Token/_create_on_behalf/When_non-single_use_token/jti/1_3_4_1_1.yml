@@ -1,0 +1,77 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://0.0.0.0:3003/api/v1/identity/login
+    body:
+      encoding: UTF-8
+      string: '{"name":"volcanic","secret":"volcanic!123","principal_id":1,"audience":["vault"]}'
+    headers:
+      Authorization:
+      - Bearer
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '532'
+      Etag:
+      - W/"214-ftM8AaoHEJ/SHRVAtBWapSbdvlc"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Wed, 16 Oct 2019 15:31:26 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_7725907515593788","response":{"token":"eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1NzEyMzk4MjYsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xLzEvMS8yIiwibmJmIjoxNTcxMjM5ODg2LCJhdWRpZW5jZSI6WyJ2YXVsdCJdLCJpYXQiOjE1NzEyMzk4ODYsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AcBdfL_FTdT-StUDiYhuW26lvoPpdU1I4UmAc0lZx1tykjbrfzysex89bwFn979zYINza47y9a1RW-UOy0SDl1DRAV68iTg1BN_hngBJzG0trQ3rGc-qEDBMq8LhT4vCbi5Lz2uTqDMIBaHqm3vUCfP8Dm88ypyKOwW4IJiN2uKajHU9"}}'
+    http_version: 
+  recorded_at: Wed, 16 Oct 2019 15:31:26 GMT
+- request:
+    method: post
+    uri: http://0.0.0.0:3003/api/v1/identity/token/generate
+    body:
+      encoding: UTF-8
+      string: '{"identity":{"id":1},"audience":[],"single_use":false}'
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1NzEyMzk4MjYsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xLzEvMS8yIiwibmJmIjoxNTcxMjM5ODg2LCJhdWRpZW5jZSI6WyJ2YXVsdCJdLCJpYXQiOjE1NzEyMzk4ODYsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AcBdfL_FTdT-StUDiYhuW26lvoPpdU1I4UmAc0lZx1tykjbrfzysex89bwFn979zYINza47y9a1RW-UOy0SDl1DRAV68iTg1BN_hngBJzG0trQ3rGc-qEDBMq8LhT4vCbi5Lz2uTqDMIBaHqm3vUCfP8Dm88ypyKOwW4IJiN2uKajHU9
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '522'
+      Etag:
+      - W/"20a-LgFKcwFrRYBR38zEuV+es0BDHrI"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Wed, 16 Oct 2019 15:31:26 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_8778760135076822","response":{"token":"eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1NzEyMzk4MjYsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xLzEvMS8yIiwibmJmIjoxNTcxMjM5ODg2LCJhdWRpZW5jZSI6W10sImlhdCI6MTU3MTIzOTg4NiwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.ADAsHRxYYRoW-q29CcDhXLYOttZBKz-2B6cUpOR420LiYa41UZmIcfvyf5K1ofXTRDbMed4tiRZeMJVxH7cyNf0bAH3iBUuYACm44BOOZZuLgckL3fxR7_rBvUipf3Bg0YS-CQmI5dcokSm2s8CDrPOamj0ExQWQrKHtT50YQbTBZzDJ"}}'
+    http_version: 
+  recorded_at: Wed, 16 Oct 2019 15:31:26 GMT
+recorded_with: VCR 5.0.0

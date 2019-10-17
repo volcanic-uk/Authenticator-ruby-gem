@@ -1,0 +1,40 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://0.0.0.0:3003/api/v1/identity/token/generate
+    body:
+      encoding: UTF-8
+      string: '{"identity":{"id":1},"audience":["auth"],"expiry_date":1571443200000,"single_use":true,"nbf":1571356800000}'
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1NzEyMzk3MjksInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xLzEvMS8yIiwibmJmIjoxNTcxMjM5Nzg5LCJhdWRpZW5jZSI6WyJ2YXVsdCJdLCJpYXQiOjE1NzEyMzk3ODksImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.ADDMDZZuvCtg6p2zcQUO7M5e_a3mWrY0aB8mvLZ6WH9YZV4bVIO3Tt3uAqdY6Pq_rGLeF3CMcOJypHB8Gg6FhSh0ARhBjdQyoHpfLIkXm6wPT6GsSDysaQhN0kXAEHBTj2bvtFfYCgVpztmSBR9wa2P98iwK9e8PSBEilu2u41eLhfQd
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '591'
+      Etag:
+      - W/"24f-NE7iNXEEFwWjUVcEXWKuCcxCqsc"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Wed, 16 Oct 2019 15:29:50 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_47789722870389073","response":{"token":"eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NzEzMjYxOTAsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xLzEvMS8yIiwibmJmIjoxNTcxMzU2ODAwLCJhdWRpZW5jZSI6WyJhdXRoIl0sImlhdCI6MTU3MTIzOTc5MCwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiIsImp0aSI6ImNiMTljNWEwLWYwMjktMTFlOS1hZGE5LTIxMmI1OTQ1NzFiNiJ9.AAS1F1nRBUSgcZADdvj0mPjo0tHuOYKXnuhlNgGOpx3HxBtf2nUJQSkdbem3dPuG26ElCETveSSVnKOvRBIfXYjuAF4FHyYJkcLI-UhKe7QVmR2PtE3FPCeypA-hA9K8cqsgvxx7_zAH88rmR2pquVRPwiu1C3APEIJeZm3wDfMBnIY-"}}'
+    http_version: 
+  recorded_at: Wed, 16 Oct 2019 15:29:50 GMT
+recorded_with: VCR 5.0.0
