@@ -12,14 +12,6 @@ RSpec.describe Volcanic::Authenticator, :vcr do
       it { expect { config.auth_url }.to raise_error configuration_error }
     end
 
-    context 'When missing application name' do
-      it { expect(config.app_name).to be nil }
-    end
-
-    context 'When missing application secret' do
-      it { expect(config.app_secret).to be nil }
-    end
-
     context 'When invalid expiration token' do
       it { expect { config.exp_token = '123' }.to raise_error configuration_error }
     end
@@ -30,6 +22,17 @@ RSpec.describe Volcanic::Authenticator, :vcr do
 
     context 'When invalid expiration public key' do
       it { expect { config.exp_public_key = '123' }.to raise_error configuration_error }
+    end
+
+    context 'When auth_url is nil' do
+      before { config.auth_url = nil }
+      it { expect { config.auth_url }.to raise_error configuration_error }
+    end
+
+    context 'When auth_enable is non boolean value' do
+      it { expect { config.auth_enabled = nil }.to raise_error configuration_error }
+      it { expect { config.auth_enabled = '' }.to raise_error configuration_error }
+      it { expect { config.auth_enabled = 1234 }.to raise_error configuration_error }
     end
   end
 
