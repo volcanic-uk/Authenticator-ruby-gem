@@ -1,13 +1,15 @@
 # frozen_string_literal: true
 
 RSpec.describe Volcanic::Authenticator, :vcr do
+  let(:config) { Volcanic::Authenticator.config }
+  let(:app_token) { Volcanic::Authenticator::V1::AppToken }
+  let(:configuration_error) { Volcanic::Authenticator::V1::ConfigurationError }
+  let(:app_token_error) { Volcanic::Authenticator::V1::ApplicationTokenError }
+  let(:authorization_error) { Volcanic::Authenticator::V1::AuthorizationError }
   describe 'Config' do
-    let(:config) { Volcanic::Authenticator.config }
-    let(:app_token) { Volcanic::Authenticator::V1::AppToken }
-
     context 'When missing auth url' do
       before { Configuration.reset }
-      it { expect { config.auth_url }.to raise_error Volcanic::Authenticator::V1::ConfigurationError }
+      it { expect { config.auth_url }.to raise_error configuration_error }
     end
 
     context 'When missing application name' do
@@ -19,15 +21,15 @@ RSpec.describe Volcanic::Authenticator, :vcr do
     end
 
     context 'When invalid expiration token' do
-      it { expect { config.exp_token = '123' }.to raise_error Volcanic::Authenticator::V1::ConfigurationError }
+      it { expect { config.exp_token = '123' }.to raise_error configuration_error }
     end
 
     context 'When invalid expiration application token' do
-      it { expect { config.exp_app_token = '123' }.to raise_error Volcanic::Authenticator::V1::ConfigurationError }
+      it { expect { config.exp_app_token = '123' }.to raise_error configuration_error }
     end
 
     context 'When invalid expiration public key' do
-      it { expect { config.exp_public_key = '123' }.to raise_error Volcanic::Authenticator::V1::ConfigurationError }
+      it { expect { config.exp_public_key = '123' }.to raise_error configuration_error }
     end
   end
 
@@ -42,22 +44,22 @@ RSpec.describe Volcanic::Authenticator, :vcr do
 
       context 'when missing app_name' do
         before { set.app_name = nil }
-        it { expect { app_token.request_app_token }.to raise_error Volcanic::Authenticator::V1::ApplicationTokenError }
+        it { expect { app_token.request_app_token }.to raise_error app_token_error }
       end
 
       context 'when invalid app_name' do
         before { set.app_secret = 'wrong_name' }
-        it { expect { app_token.request_app_token }.to raise_error Volcanic::Authenticator::V1::AuthorizationError }
+        it { expect { app_token.request_app_token }.to raise_error authorization_error }
       end
 
       context 'when missing app_secret' do
         before { set.app_secret = nil }
-        it { expect { app_token.request_app_token }.to raise_error Volcanic::Authenticator::V1::ApplicationTokenError }
+        it { expect { app_token.request_app_token }.to raise_error app_token_error }
       end
 
       context 'when invalid app_secret' do
         before { set.app_secret = 'wrong_secret' }
-        it { expect { app_token.request_app_token }.to raise_error Volcanic::Authenticator::V1::AuthorizationError }
+        it { expect { app_token.request_app_token }.to raise_error authorization_error }
       end
 
       context 'When requesting' do
@@ -67,7 +69,16 @@ RSpec.describe Volcanic::Authenticator, :vcr do
       context 'When fetch and requesting' do
         subject { app_token.fetch_and_request }
         it { should_not be nil }
-        # it { expect(cache.fetch('volcanic_application_token')).not_to be nil }
+      end
+
+      context 'When app_principal_id is nil' do
+        before { set.app_principal_id = nil }
+        it { expect { app_token.request_app_token }.to raise_error app_token_error }
+      end
+
+      context 'When app_principal_id is empty' do
+        before { set.app_principal_id = '' }
+        it { expect { app_token.request_app_token }.to raise_error app_token_error }
       end
     end
 
@@ -79,7 +90,7 @@ RSpec.describe Volcanic::Authenticator, :vcr do
 
       context 'When failed to generate application token' do
         before { set.app_secret = nil }
-        it { expect { key.request_public_key(kid) }.to raise_error Volcanic::Authenticator::V1::ApplicationTokenError }
+        it { expect { key.request_public_key(kid) }.to raise_error app_token_error }
       end
 
       context 'When fetch and requesting' do
