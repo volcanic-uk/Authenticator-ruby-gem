@@ -1,0 +1,41 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://0.0.0.0:3003/api/v1/identity/login
+    body:
+      encoding: UTF-8
+      string: '{"name":"volcanic","secret":"volcanic!123","principal_id":null,"audience":["auth"]}'
+    headers:
+      Authorization:
+      - Bearer
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 422
+      message: Unprocessable Entity
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '134'
+      Etag:
+      - W/"86-iWB27I1snOkhECwl+AUg1lN4L7g"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Thu, 17 Oct 2019 01:47:49 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_7778967867820639","message":{"principal_id":"\"principal_id\"
+        must be a number"},"errorCode":10001}'
+    http_version: 
+  recorded_at: Thu, 17 Oct 2019 01:47:49 GMT
+recorded_with: VCR 5.0.0
