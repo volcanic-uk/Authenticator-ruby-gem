@@ -1,0 +1,78 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://0.0.0.0:3003/api/v1/identity/login
+    body:
+      encoding: UTF-8
+      string: '{"name":"volcanic","secret":"volcanic!123","principal_id":1,"audience":["vault"]}'
+    headers:
+      Authorization:
+      - Bearer
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '532'
+      Etag:
+      - W/"214-SaQ6co1T9uziczArQS43FUIHYRU"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Wed, 16 Oct 2019 15:28:02 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_8573888861267924","response":{"token":"eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1NzEyMzk2MjIsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xLzEvMS8yIiwibmJmIjoxNTcxMjM5NjgyLCJhdWRpZW5jZSI6WyJ2YXVsdCJdLCJpYXQiOjE1NzEyMzk2ODIsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.ARdiB3-JL4OGgL9mZPobcGsaH8m4zTPk59JZjnEfGQ6TPZ2VV2Ua5yNOp9vft2HWXAY75JKTO-rPu4w_oyt77XIPAY_HmucfobCK8469DY6Q0hJaozh1QT2_mxPqHzPeQ1XPJTSA7gN2crPMja6Rull2IUbVwHRM1ha5r6QFi5iqm8rm"}}'
+    http_version: 
+  recorded_at: Wed, 16 Oct 2019 15:28:02 GMT
+- request:
+    method: post
+    uri: http://0.0.0.0:3003/api/v1/identity/token/generate
+    body:
+      encoding: UTF-8
+      string: '{"identity":{"id":123456789},"audience":[],"single_use":false}'
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1NzEyMzk2MjIsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xLzEvMS8yIiwibmJmIjoxNTcxMjM5NjgyLCJhdWRpZW5jZSI6WyJ2YXVsdCJdLCJpYXQiOjE1NzEyMzk2ODIsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.ARdiB3-JL4OGgL9mZPobcGsaH8m4zTPk59JZjnEfGQ6TPZ2VV2Ua5yNOp9vft2HWXAY75JKTO-rPu4w_oyt77XIPAY_HmucfobCK8469DY6Q0hJaozh1QT2_mxPqHzPeQ1XPJTSA7gN2crPMja6Rull2IUbVwHRM1ha5r6QFi5iqm8rm
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '106'
+      Etag:
+      - W/"6a-+FE5JtIpB9NfN5L7Oc/fSlDGWY4"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Wed, 16 Oct 2019 15:28:02 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_3180722848223345","message":"Identity
+        does not exist","errorCode":1004}'
+    http_version: 
+  recorded_at: Wed, 16 Oct 2019 15:28:02 GMT
+recorded_with: VCR 5.0.0

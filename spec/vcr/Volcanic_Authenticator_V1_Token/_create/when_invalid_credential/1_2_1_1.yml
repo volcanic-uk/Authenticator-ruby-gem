@@ -1,0 +1,41 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://0.0.0.0:3003/api/v1/identity/login
+    body:
+      encoding: UTF-8
+      string: '{"name":"wrong-name","secret":"wrong-secret","principal_id":1,"audience":[]}'
+    headers:
+      Authorization:
+      - Bearer
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 403
+      message: Forbidden
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '111'
+      Etag:
+      - W/"6f-EgyejPRCY1KLYi+DIM86QDtgB3w"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Wed, 16 Oct 2019 15:24:21 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_9653659070661813","message":"invalid
+        credentials provided","errorCode":1001}'
+    http_version: 
+  recorded_at: Wed, 16 Oct 2019 15:24:21 GMT
+recorded_with: VCR 5.0.0
