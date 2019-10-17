@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require_relative 'header'
-require_relative 'error'
 require_relative '../base'
 require_relative 'app_token'
 require_relative 'request'
@@ -12,8 +10,6 @@ module Volcanic::Authenticator
     # Public key and Application token helper
     class Key < Base
       class << self
-        include Error
-        include Header
         include Request
 
         PUBLIC_KEY = 'volcanic_public_key'

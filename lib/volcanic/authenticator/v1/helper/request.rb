@@ -2,15 +2,19 @@
 
 require 'httparty'
 require_relative 'header'
+require_relative 'error'
 require_relative 'app_token'
 
 module Volcanic::Authenticator
   module V1
-    ##
     # Request helper
     module Request
       include Header
-      extend Header
+      include Error
+
+      def self.included(base)
+        base.extend self
+      end
 
       # performing post method request
       def perform_post_and_parse(exception, end_point, body = nil, auth_token = AppToken.fetch_and_request)
