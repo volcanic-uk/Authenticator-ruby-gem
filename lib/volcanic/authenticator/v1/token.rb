@@ -78,8 +78,11 @@ module Volcanic::Authenticator
       #   Token.new(token_key).validate
       #   # => true/false
       #
-      def validate
-        valid_token_signature?
+      def validate(sign_key = Key.fetch_and_request(kid))
+        decode!(sign_key, true) # decode token with verify true
+        true
+      rescue TokenError
+        false
       end
 
       # to validate token by authenticator service
@@ -89,7 +92,10 @@ module Volcanic::Authenticator
       #   # => true/false
       #
       def remote_validate
-        valid_token?
+        perform_post_and_parse EXCEPTION, TOKEN_VALIDATE_PATH, nil, token_key
+        true
+      rescue AuthorizationError
+        false
       end
 
       #
@@ -104,22 +110,6 @@ module Volcanic::Authenticator
 
       private
 
-      # validate token_key by auth service
-      def valid_token?
-        perform_post_and_parse EXCEPTION, TOKEN_VALIDATE_PATH, nil, token_key
-        true
-      rescue TokenError, AuthorizationError
-        false
-      end
-
-      # validate the signature token by a given key
-      def valid_token_signature?
-        decode!(Key.fetch_and_request(kid), true) # decode token with verify true
-        true
-      rescue TokenError
-        false
-      end
-
       def decode!(public_key = nil, verify = false)
         JWT.decode token_key, public_key, verify, algorithm: 'ES512'
       rescue JWT::DecodeError, JWT::ImmatureSignature, JWT::ExpiredSignature => e
@@ -127,10 +117,9 @@ module Volcanic::Authenticator
       end
 
       def fetch_claims
+        # set all claim as getter
         body, header = decode!
         @kid = header['kid']
-
-        # set all claim as getter
         body.each do |k, v|
           instance_variable_set("@#{k}", v)
         end
