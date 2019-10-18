@@ -9,6 +9,15 @@ module Volcanic::Authenticator
     # privilege and role ids. This class inherit with Common.rb, so it
     # also support all the common methods.
     class CommonPrincipalIdentity < Common
+      # these methods are required to be define at child classes.
+      def role_ids
+        raise_not_implemented 'role_ids'
+      end
+
+      def privilege_ids
+        raise_not_implemented 'privilege_ids'
+      end
+
       # updating role ids
       #  eg.
       #   obj = Object.find_by_id(1)
@@ -38,7 +47,11 @@ module Volcanic::Authenticator
       private
 
       def request_to_update(path, payload)
-        perform_post_and_parse self.class::EXCEPTION, path, payload.to_json
+        perform_post_and_parse self.class.exception, path, payload.to_json
+      end
+
+      def raise_not_implemented(key)
+        raise NotImplementedError, "#{key} must be defined by child classes"
       end
     end
   end

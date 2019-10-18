@@ -6,14 +6,17 @@ module Volcanic::Authenticator
   module V1
     # Principal api
     class Principal < CommonPrincipalIdentity
-      EXCEPTION = :raise_exception_principal
-
       attr_reader :id, :created_at, :updated_at, :active
       attr_accessor :name, :dataset_id, :role_ids, :privilege_ids
 
       # Principal end-point
       def self.path
         'api/v1/principals'
+      end
+
+      # Exception method for handling error. Please find this at helper/error.rb
+      def self.exception
+        :raise_exception_principal
       end
 
       def initialize(id:, **opts)
@@ -30,11 +33,10 @@ module Volcanic::Authenticator
       #  eg.
       #   principal = Principal.find_by_id(1)
       #   principal.name = 'update_name'
-      #   principal.dataset_id = 1
       #   principal.save
       #
       def save
-        payload = { name: name, dataset_id: dataset_id }
+        payload = { name: name }
         super payload
       end
 
