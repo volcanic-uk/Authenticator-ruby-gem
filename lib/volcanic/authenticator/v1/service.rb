@@ -6,11 +6,16 @@ module Volcanic::Authenticator
   module V1
     # Handle service api
     class Service < Common
-      PATH = 'api/v1/services'
-      EXCEPTION = :raise_exception_service
-
       attr_accessor :name
       attr_reader :id, :subject_id, :updated_at, :created_at
+
+      def self.path
+        'api/v1/services'
+      end
+
+      def self.exception
+        :raise_exception_service
+      end
 
       # initialize new service
       def initialize(id:, **opts)
@@ -24,10 +29,6 @@ module Volcanic::Authenticator
       # service.save
       def save
         super({ name: name })
-      end
-
-      def self.path
-        PATH
       end
 
       # service = Service.create('vault')
