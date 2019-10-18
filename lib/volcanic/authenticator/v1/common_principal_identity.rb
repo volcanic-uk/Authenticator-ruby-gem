@@ -1,14 +1,20 @@
 # frozen_string_literal: true
 
-require_relative 'helper/request'
-require_relative 'helper/error'
 require_relative 'common'
 
 module Volcanic::Authenticator
   module V1
-    # extend this class only for updating roles and privileges.
-    # for now only Principal and Identity support this.
-    class CommonUpdate < Common
+    # This class only support for Principal and Identity class.
+    # Both of this class contains a similar method which is updating
+    # privilege and role ids. This class inherit with Common.rb, so it
+    # also support all the common methods.
+    class CommonPrincipalIdentity < Common
+      # updating role ids
+      #  eg.
+      #   obj = Object.find_by_id(1)
+      #   obj.role_ids = [1, 2]
+      #   obj.update_role_ids(3, '4', [5], nil)
+      #   obj.role_ids = [3, 4, 5]
       def update_role_ids(*ids)
         payload = { roles: ids.flatten.compact }
         path = [self.class.path, "/#{id}/roles"].join
@@ -16,6 +22,12 @@ module Volcanic::Authenticator
         self.role_ids = ids.flatten.compact.map!(&:to_i)
       end
 
+      # updating privilege ids
+      #  eg.
+      #   obj = Object.find_by_id(1)
+      #   obj.privilege_ids = [1, 2]
+      #   obj.update_privilege_ids(3, '4', [5], nil)
+      #   obj.privilege_ids = [3, 4, 5]
       def update_privilege_ids(*ids)
         payload = { privileges: ids.flatten.compact }
         path = [self.class.path, "/#{id}/privileges"].join
