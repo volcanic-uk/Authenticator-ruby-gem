@@ -14,7 +14,15 @@ module Volcanic::Authenticator
       include Error
 
       def self.path
-        raise NotImplementedError
+        raise NotImplementedError, 'self.path must be defined by child classes'
+      end
+
+      def self.exception
+        raise NotImplementedError, 'self.exception must be defined by child classes'
+      end
+
+      def id
+        raise NotImplementedError, 'id must be defined by child classes'
       end
 
       # saving updated fields.
@@ -24,14 +32,14 @@ module Volcanic::Authenticator
       #   obj.save
       def save(payload)
         payload.delete_if { |_, value| value.nil? }
-        perform_post_and_parse self.class::EXCEPTION, "#{self.class.path}/#{id}", payload.to_json
+        perform_post_and_parse self.class.exception, "#{self.class.path}/#{id}", payload.to_json
       end
 
       # deleting object
       # eg.
       #   Obj.find_by_id(1).delete
       def delete
-        perform_delete_and_parse self.class::EXCEPTION, "#{self.class.path}/#{id}"
+        perform_delete_and_parse self.class.exception, "#{self.class.path}/#{id}"
       end
 
       class << self
@@ -45,7 +53,7 @@ module Volcanic::Authenticator
         #   obj.description
         #   ...
         def create(payload)
-          parsed = perform_post_and_parse self::EXCEPTION, path, payload.to_json
+          parsed = perform_post_and_parse exception, path, payload.to_json
           new(parsed.transform_keys(&:to_sym))
         end
 
@@ -113,7 +121,7 @@ module Volcanic::Authenticator
         def find_by_id(id)
           raise ArgumentError, 'id is empty or nil' if id.nil? || id == ''
 
-          parsed = perform_get_and_parse self::EXCEPTION, "#{path}/#{id}"
+          parsed = perform_get_and_parse exception, "#{path}/#{id}"
           new(parsed.transform_keys!(&:to_sym))
         end
 
@@ -122,7 +130,7 @@ module Volcanic::Authenticator
         def find_with(**opts)
           params = opts.map { |key, val| "#{key}=#{val}" }.join('&') # convert to query string
           url = "#{path}?#{params}"
-          parsed = perform_get_and_parse self::EXCEPTION, url
+          parsed = perform_get_and_parse exception, url
           page_information = parsed['pagination'].transform_keys(&:to_sym)
           Collection.from_auth_service(parsed['data'].map { |d| new(d.transform_keys(&:to_sym)) },
                                        page_information) # return as collections (object array)
