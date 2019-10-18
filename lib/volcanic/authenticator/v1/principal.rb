@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-require_relative 'common_update'
+require_relative 'common_principal_identity'
 
 module Volcanic::Authenticator
   module V1
     # Principal api
-    class Principal < CommonUpdate
+    class Principal < CommonPrincipalIdentity
       EXCEPTION = :raise_exception_principal
 
       attr_reader :id, :created_at, :updated_at, :active
@@ -28,6 +28,10 @@ module Volcanic::Authenticator
 
       # to update a principal.
       #  eg.
+      #   principal = Principal.find_by_id(1)
+      #   principal.name = 'update_name'
+      #   principal.dataset_id = 1
+      #   principal.save
       #
       def save
         payload = { name: name, dataset_id: dataset_id }

@@ -6,7 +6,9 @@ require_relative 'helper/collection'
 
 module Volcanic::Authenticator
   module V1
-    # Common method
+    # This is a common class where it contains all the common methods
+    # for all the features in auth service. For now this class support for:
+    # Identity, Principal, Service, Permission, GroupPermission, Role and Privileges
     class Common
       include Request
       include Error
@@ -17,7 +19,7 @@ module Volcanic::Authenticator
 
       # saving updated fields.
       # eg.
-      #   obj = Obj.find(1)
+      #   obj = Obj.find_by_id(1)
       #   obj.name = 'new name'
       #   obj.save
       def save(payload)
@@ -27,7 +29,7 @@ module Volcanic::Authenticator
 
       # deleting object
       # eg.
-      #   Obj.find(1).delete
+      #   Obj.find_by_id(1).delete
       def delete
         perform_delete_and_parse self.class::EXCEPTION, "#{self.class.path}/#{id}"
       end
@@ -118,12 +120,12 @@ module Volcanic::Authenticator
         private
 
         def find_with(**opts)
-          params = opts.map { |k, v| "#{k}=#{v}" }.join('&')
+          params = opts.map { |key, val| "#{key}=#{val}" }.join('&') # convert to query string
           url = "#{path}?#{params}"
           parsed = perform_get_and_parse self::EXCEPTION, url
           page_information = parsed['pagination'].transform_keys(&:to_sym)
           Collection.from_auth_service(parsed['data'].map { |d| new(d.transform_keys(&:to_sym)) },
-                                       page_information)
+                                       page_information) # return as collections (object array)
         end
       end
     end
