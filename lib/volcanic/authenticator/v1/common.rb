@@ -13,15 +13,15 @@ module Volcanic::Authenticator
       include Request
 
       def self.path
-        raise NotImplementedError, 'self.path must be defined by child classes'
+        raise_not_implemented_error 'self.path'
       end
 
       def self.exception
-        raise NotImplementedError, 'self.exception must be defined by child classes'
+        raise_not_implemented_error 'self.exception'
       end
 
       def id
-        raise NotImplementedError, 'id must be defined by child classes'
+        raise_not_implemented_error 'id'
       end
 
       # saving updated fields.
