@@ -12,8 +12,8 @@ module Volcanic::Authenticator
       include Request
       include Error
 
-      attr_accessor :name, :secret, :privilege_ids, :role_ids
-      attr_reader :id, :principal_id, :created_at, :updated_at
+      attr_accessor :id, :name, :secret, :privilege_ids, :role_ids
+      attr_reader :secure_id, :principal_id, :dataset_id, :source, :created_at, :updated_at
 
       # identity base path
       def self.path
@@ -26,7 +26,7 @@ module Volcanic::Authenticator
       end
 
       def initialize(**opts)
-        %i[id name principal_id secret created_at updated_at].each do |key|
+        %i[id secure_id name secret principal_id dataset_id source created_at updated_at].each do |key|
           instance_variable_set("@#{key}", opts[key])
         end
       end
@@ -71,7 +71,7 @@ module Volcanic::Authenticator
       def login(*audience)
         payload = { name: name,
                     secret: secret,
-                    principal_id: principal_id,
+                    dataset_id: dataset_id,
                     audience: audience.flatten.compact }
         request_token '/login', payload, nil
       end
@@ -115,7 +115,7 @@ module Volcanic::Authenticator
         # Create identity
         # Required parameters:
         #   +name+: The name of identity. This is required for login/generate token
-        #   +rubi+: This id can be extract from Principal class. This is required for login/generate token
+        #   +principal_id+: this is the secure id of Principal
         #
         # Options:
         #   +secret+: Secret can be optional during identity creation but required for login. If secret is nil, random secret will be created.
@@ -148,6 +148,8 @@ module Volcanic::Authenticator
                       privileges: privilege_ids,
                       roles: role_ids }
           identity = super payload
+          # TODO: remove this when auth returning the correct id (secure_id)
+          identity.id = identity.secure_id unless identity.secure_id.nil?
           #  set attr that are not provided by api response
           identity.secret ||= secret
           identity.privilege_ids = privilege_ids
