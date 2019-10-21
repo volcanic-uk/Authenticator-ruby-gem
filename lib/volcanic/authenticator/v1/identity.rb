@@ -2,17 +2,15 @@
 
 require_relative 'helper/error'
 require_relative 'helper/request'
-require_relative 'common'
+require_relative 'common_principal_identity'
 require_relative 'token'
 
 module Volcanic::Authenticator
   module V1
     # Identity API
-    class Identity < Common
+    class Identity < CommonPrincipalIdentity
       include Request
       include Error
-
-      EXCEPTION = :raise_exception_identity
 
       attr_accessor :name, :secret, :privilege_ids, :role_ids
       attr_reader :id, :principal_id, :created_at, :updated_at
@@ -20,6 +18,11 @@ module Volcanic::Authenticator
       # identity base path
       def self.path
         'api/v1/identity'
+      end
+
+      # setting the exception method
+      def self.exception
+        :raise_exception_identity
       end
 
       def initialize(**opts)
@@ -52,7 +55,7 @@ module Volcanic::Authenticator
       # return the new secret
       def reset_secret(new_secret = nil)
         payload = { secret: new_secret }.to_json
-        parsed = perform_post_and_parse EXCEPTION, path('/secret/reset/', id), payload
+        parsed = perform_post_and_parse self.class.exception, path('/secret/reset/', id), payload
         self.secret = parsed['secret'] || new_secret
       end
 
@@ -163,7 +166,7 @@ module Volcanic::Authenticator
       # this method request to auth service and returning it as Token object
       def request_token(endpoint, payload, auth_token = AppToken.fetch_and_request)
         payload.delete_if { |_, value| value.nil? } # delete nil value hash
-        token = perform_post_and_parse(EXCEPTION, path(endpoint),
+        token = perform_post_and_parse(self.class.exception, path(endpoint),
                                        payload.to_json, auth_token)['token']
         Token.new(token)
       end

@@ -62,14 +62,16 @@ RSpec.describe Volcanic::Authenticator::V1::Identity, :vcr do
       its(:name) { should eq new_name }
     end
 
-    context 'update roles' do
-      let(:new_roles) { [1, 2] }
-      # TODO: write test when merge with AUTH-92
+    context 'update role ids' do
+      let(:new_role_ids) { [3, 4] }
+      before { identity_update.update_role_ids(new_role_ids) }
+      its(:role_ids) { should eq new_role_ids }
     end
 
-    context 'update privileges' do
-      let(:new_privileges) { [1, 2] }
-      # TODO: write test when merge with AUTH-92
+    context 'update privilege ids' do
+      let(:new_privilege_ids) { [3, 4] }
+      before { identity_update.update_privilege_ids(new_privilege_ids) }
+      its(:privilege_ids) { should eq new_privilege_ids }
     end
   end
 
