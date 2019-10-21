@@ -11,11 +11,11 @@ module Volcanic::Authenticator
     class CommonPrincipalIdentity < Common
       # these methods are required to be define at child classes.
       def role_ids
-        raise_not_implemented 'role_ids'
+        raise_not_implemented_error 'role_ids'
       end
 
       def privilege_ids
-        raise_not_implemented 'privilege_ids'
+        raise_not_implemented_error 'privilege_ids'
       end
 
       # updating role ids
@@ -48,10 +48,6 @@ module Volcanic::Authenticator
 
       def request_to_update(path, payload)
         perform_post_and_parse self.class.exception, path, payload.to_json
-      end
-
-      def raise_not_implemented(key)
-        raise NotImplementedError, "#{key} must be defined by child classes"
       end
     end
   end
