@@ -7,10 +7,13 @@ RSpec.describe Volcanic::Authenticator::V1::Identity, :vcr do
   let(:mock_secret) { 'mock_secret' }
   let(:mock_privileges) { [1, 2] }
   let(:mock_roles) { [1, 2] }
-  let(:identity) { Volcanic::Authenticator::V1::Identity }
   let(:new_identity) { identity.create(mock_name, mock_principal_id, secret: mock_secret) }
+  let(:identity) { Volcanic::Authenticator::V1::Identity }
+  let(:token) { Volcanic::Authenticator::V1::Token }
   let(:identity_error) { Volcanic::Authenticator::V1::IdentityError }
   let(:authorization_error) { Volcanic::Authenticator::V1::AuthorizationError }
+  let(:mock_tokens) { JSON.parse(Configuration.mock_tokens) }
+  let(:mock_token_base64) { mock_tokens['1'] }
 
   describe '#create' do
     context 'when missing name' do
@@ -61,14 +64,12 @@ RSpec.describe Volcanic::Authenticator::V1::Identity, :vcr do
 
     context 'update roles' do
       let(:new_roles) { [1, 2] }
-      # before { identity_update.update_roles(new_roles) }
-      # TODO: test should return collection of roles
+      # TODO: write test when merge with AUTH-92
     end
 
     context 'update privileges' do
       let(:new_privileges) { [1, 2] }
-      # before { identity_update.update_privileges(new_privileges) }
-      # TODO: test should return collection of privileges
+      # TODO: write test when merge with AUTH-92
     end
   end
 
@@ -87,10 +88,46 @@ RSpec.describe Volcanic::Authenticator::V1::Identity, :vcr do
   end
 
   describe '#delete' do
-    let(:identity_delete) { new_identity }
-    context 'when deleted' do
-      before { identity_delete.delete }
-      it { expect { identity_delete.delete }.to raise_error identity_error }
+    # TODO: waiting for auth service to be fix
+    # subject(:identity_delete) { new_identity }
+    # context 'when deleted' do
+    #   before { identity_delete.delete }
+    #   it { expect { identity_delete.delete }.to raise_error identity_error }
+    # end
+  end
+
+  describe '#login' do
+    subject(:identity_login) { new_identity }
+
+    context 'When name is missing' do
+      it { expect { identity.new(name: '').login }.to raise_error identity_error }
+      it { expect { identity.new(name: nil).login }.to raise_error identity_error }
+    end
+
+    context 'When secret is missing' do
+      it { expect { identity.new(name: mock_name, secret: '').login }.to raise_error identity_error }
+      it { expect { identity.new(name: mock_name, secret: nil).login }.to raise_error identity_error }
+    end
+
+    context 'When principal_id is missing' do
+      it { expect { identity.new(name: mock_name, secret: '1234', principal_id: '').login }.to raise_error identity_error }
+      it { expect { identity.new(name: mock_name, secret: '1234', principal_id: nil).login }.to raise_error identity_error }
+    end
+
+    context 'when login' do
+      subject { identity_login.login }
+      its(:token_base64) { is_expected.to eq mock_token_base64 }
+    end
+
+    context 'when generating token' do
+      subject { identity.new(id: 1).token }
+      its(:token_base64) { is_expected.to eq mock_token_base64 }
+    end
+
+    context 'when generating token with args' do
+      let(:args) { { audience: ['*'], nbf: 1_571_708_316_000, exp: 1_571_794_716_000, single_use: true } }
+      subject { identity.new(id: 1).token(args) }
+      its(:token_base64) { is_expected.to eq mock_token_base64 }
     end
   end
 end
