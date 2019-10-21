@@ -6,8 +6,8 @@ module Volcanic::Authenticator
   module V1
     # Principal api
     class Principal < CommonPrincipalIdentity
-      attr_reader :id, :created_at, :updated_at, :active
-      attr_accessor :name, :dataset_id, :role_ids, :privilege_ids
+      attr_reader :created_at, :updated_at, :active
+      attr_accessor :id, :secure_id, :name, :dataset_id, :role_ids, :privilege_ids
 
       # Principal end-point
       def self.path
@@ -19,9 +19,8 @@ module Volcanic::Authenticator
         :raise_exception_principal
       end
 
-      def initialize(id:, **opts)
-        @id = id
-        %i[name dataset_id active created_at updated_at].each do |key|
+      def initialize(**opts)
+        %i[id secure_id name dataset_id active created_at updated_at].each do |key|
           instance_variable_set("@#{key}", opts[key])
         end
       end
@@ -56,6 +55,8 @@ module Volcanic::Authenticator
                     roles: role_ids,
                     privileges: privilege_ids }
         principal = super payload
+        # TODO: remove this when auth returning the correct id (secure_id)
+        principal.id = principal.secure_id unless principal.secure_id.nil?
         # set information that does not provide by the api response
         principal.role_ids = role_ids
         principal.privilege_ids = privilege_ids

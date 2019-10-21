@@ -3,7 +3,7 @@
 RSpec.describe Volcanic::Authenticator::V1::Identity, :vcr do
   before { Configuration.set }
   let(:mock_name) { 'mock_name' }
-  let(:mock_principal_id) { 1 }
+  let(:mock_principal_id) { '25f5dad773' }
   let(:mock_secret) { 'mock_secret' }
   let(:mock_privileges) { [1, 2] }
   let(:mock_roles) { [1, 2] }
@@ -38,10 +38,11 @@ RSpec.describe Volcanic::Authenticator::V1::Identity, :vcr do
 
     context 'when success' do
       subject { new_identity }
-      its(:id) { should eq 1 }
+      its(:id) { should eq 'deb526106b' }
       its(:name) { should eq mock_name }
       its(:secret) { should eq mock_secret }
       its(:principal_id) { should eq 1 }
+      its(:dataset_id) { should eq '-1' }
     end
 
     context 'when generating a random secret' do
@@ -90,12 +91,11 @@ RSpec.describe Volcanic::Authenticator::V1::Identity, :vcr do
   end
 
   describe '#delete' do
-    # TODO: waiting for auth service to be fix
-    # subject(:identity_delete) { new_identity }
-    # context 'when deleted' do
-    #   before { identity_delete.delete }
-    #   it { expect { identity_delete.delete }.to raise_error identity_error }
-    # end
+    subject(:identity_delete) { new_identity }
+    context 'when deleted' do
+      before { identity_delete.delete }
+      it { expect { identity_delete.delete }.to raise_error identity_error }
+    end
   end
 
   describe '#login' do
