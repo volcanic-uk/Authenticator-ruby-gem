@@ -30,7 +30,7 @@ module Volcanic::Authenticator
         def request_app_token
           name = Volcanic::Authenticator.config.app_name
           secret = Volcanic::Authenticator.config.app_secret
-          payload = { name: name, secret: secret, principal_id: 1 }.to_json
+          payload = { name: name, secret: secret, dataset_id: '-1' }.to_json
           perform_post_and_parse(EXCEPTION, GENERATE_TOKEN_URL, payload, nil)['token']
         end
       end
