@@ -38,4 +38,8 @@ module Configuration
     Volcanic::Authenticator.config.app_name = nil
     Volcanic::Authenticator.config.app_secret = nil
   end
+
+  def self.mock_tokens
+    File.read('spec/mock_tokens.json')
+  end
 end

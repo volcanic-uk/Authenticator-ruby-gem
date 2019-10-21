@@ -3,6 +3,7 @@
 require_relative 'helper/error'
 require_relative 'helper/request'
 require_relative 'common'
+require_relative 'token'
 
 module Volcanic::Authenticator
   module V1
@@ -55,12 +56,6 @@ module Volcanic::Authenticator
         self.secret = parsed['secret'] || new_secret
       end
 
-      # TODO: need to remove this when auth service is fixed
-      # delete identity
-      def delete
-        perform_post_and_parse EXCEPTION, path('/deactivate/', id)
-      end
-
       # login. retrieve token when credential is provided
       #
       # eg.
@@ -68,15 +63,14 @@ module Volcanic::Authenticator
       #   or
       #   opts = { name: 'abc@123.com', secret: 'abc123' }
       #   Identity.new(opts).login('service-a', 'abc123')
-      #   # => return token string
+      #   # => return token object
       #
       def login(*audience)
         payload = { name: name,
                     secret: secret,
                     principal_id: principal_id,
                     audience: audience.flatten.compact }
-        perform_post_and_parse(EXCEPTION, path('/login'),
-                               payload.to_json, nil)['token']
+        request_token '/login', payload, nil
       end
 
       # token. retrieve token when credential is not provided
@@ -92,16 +86,16 @@ module Volcanic::Authenticator
       #
       # eg.
       #   identity.token(audience: ['auth'], exp: 1571296171000, nbf: 1571296171000, single_use: true)
-      #   # => return token string
+      #   # => return token object
       #
+      # NOTE: exp date will only accept maximum time of 1 day from the current time.
       def token(audience: [], exp: nil, nbf: nil, single_use: false)
         payload = { identity: { id: id },
                     audience: audience,
                     expiry_date: exp,
                     single_use: single_use,
                     nbf: nbf }
-        perform_post_and_parse(EXCEPTION, path('/token/generate'),
-                               payload.to_json)['token']
+        request_token '/token/generate', payload
       end
 
       class << self
@@ -118,7 +112,7 @@ module Volcanic::Authenticator
         # Create identity
         # Required parameters:
         #   +name+: The name of identity. This is required for login/generate token
-        #   +principal_id+: This id can be extract from Principal class. This is required for login/generate token
+        #   +rubi+: This id can be extract from Principal class. This is required for login/generate token
         #
         # Options:
         #   +secret+: Secret can be optional during identity creation but required for login. If secret is nil, random secret will be created.
@@ -164,6 +158,14 @@ module Volcanic::Authenticator
       def path(*end_point)
         combine_path = end_point.flatten.compact.join
         [self.class.path, combine_path].join
+      end
+
+      # this method request to auth service and returning it as Token object
+      def request_token(endpoint, payload, auth_token = AppToken.fetch_and_request)
+        payload.delete_if { |_, value| value.nil? } # delete nil value hash
+        token = perform_post_and_parse(EXCEPTION, path(endpoint),
+                                       payload.to_json, auth_token)['token']
+        Token.new(token)
       end
     end
   end
