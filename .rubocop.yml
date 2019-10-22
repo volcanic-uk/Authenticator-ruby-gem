@@ -9,7 +9,7 @@ Metrics/LineLength:
   Enabled: false
 
 Metrics/MethodLength:
-  Max: 20
+  Max: 18
 
 Metrics/BlockLength:
   Enabled: false
