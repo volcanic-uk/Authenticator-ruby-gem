@@ -104,11 +104,13 @@ module Volcanic::Authenticator
       class << self
         # identity not supporting this method
         def find
+          # TODO: (AUTH-211) implement this method to support the api
           raise NotImplementedError
         end
 
         # identity not supporting this method
         def find_by_id
+          # TODO: (AUTH-211) implement this method to support this api
           raise NotImplementedError
         end
 
@@ -148,7 +150,7 @@ module Volcanic::Authenticator
                       privileges: privilege_ids,
                       roles: role_ids }
           identity = super payload
-          # TODO: remove this when auth returning the correct id (secure_id)
+          # TODO: (AUTH-215) remove this when auth returning the correct id (secure_id)
           identity.id = identity.secure_id unless identity.secure_id.nil?
           #  set attr that are not provided by api response
           identity.secret ||= secret
