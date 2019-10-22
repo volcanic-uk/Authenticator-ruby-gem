@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require_relative 'helper/error'
-require_relative 'helper/request'
 require_relative 'common_principal_identity'
 require_relative 'token'
 
@@ -9,9 +7,6 @@ module Volcanic::Authenticator
   module V1
     # Identity API
     class Identity < CommonPrincipalIdentity
-      include Request
-      include Error
-
       attr_accessor :id, :name, :secret, :privilege_ids, :role_ids
       attr_reader :secure_id, :principal_id, :dataset_id, :source, :created_at, :updated_at
 

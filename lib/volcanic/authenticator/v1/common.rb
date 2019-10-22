@@ -11,7 +11,6 @@ module Volcanic::Authenticator
     # Identity, Principal, Service, Permission, GroupPermission, Role and Privileges
     class Common
       include Request
-      include Error
 
       def self.path
         raise NotImplementedError, 'self.path must be defined by child classes'

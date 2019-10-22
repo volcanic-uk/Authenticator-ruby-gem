@@ -10,7 +10,7 @@ RSpec.describe Volcanic::Authenticator::V1::Token, :vcr do
   let(:token) { Volcanic::Authenticator::V1::Token }
   let(:token_error) { Volcanic::Authenticator::V1::TokenError }
   let(:authorization_error) { Volcanic::Authenticator::V1::AuthorizationError }
-  let(:tokens) { JSON.parse(Configuration.token_json) }
+  let(:tokens) { JSON.parse(Configuration.mock_tokens) }
   let(:mock_token_key) { tokens['token'] }
   let(:mock_token_key_2) { tokens['token_2'] }
   let(:mock_exp_token_key) { tokens['token_3'] }

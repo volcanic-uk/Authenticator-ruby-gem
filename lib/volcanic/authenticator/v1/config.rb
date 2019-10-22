@@ -8,7 +8,7 @@ module Volcanic::Authenticator
     # after installation of this gem, these need to be configure.
     class Config
       class << self
-        attr_accessor :app_name, :app_secret
+        attr_accessor :app_name, :app_secret, :app_dataset_id, :service_name
         attr_writer :auth_url
 
         # expiration time of cache tokens
@@ -67,7 +67,7 @@ module Volcanic::Authenticator
         end
 
         def auth_url
-          raise ConfigurationError, 'auth_url cannot be nil.' if @auth_url.nil?
+          raise ConfigurationError, 'auth_url must not be nil' if @auth_url.nil?
 
           @auth_url
         end
