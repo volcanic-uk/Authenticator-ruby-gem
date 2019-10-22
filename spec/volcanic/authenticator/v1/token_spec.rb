@@ -33,6 +33,7 @@ RSpec.describe Volcanic::Authenticator::V1::Token, :vcr do
     end
 
     context 'When token is valid' do
+      # initialize token by using a mock token at spec/mock_tokens.json
       subject { token.new(mock_token_key) }
       its(:token_key) { mock_token_key }
       its(:kid) { should eq 'a5f53fa25f2f82a3843c4af11bd801a1' }
