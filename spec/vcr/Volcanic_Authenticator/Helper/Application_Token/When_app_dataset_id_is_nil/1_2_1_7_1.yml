@@ -5,7 +5,7 @@ http_interactions:
     uri: http://0.0.0.0:3003/api/v1/identity/login
     body:
       encoding: UTF-8
-      string: '{"name":"volcanic","secret":"volcanic!123","principal_id":null,"audience":["auth"]}'
+      string: '{"name":"volcanic","secret":"volcanic!123","dataset_id":null,"audience":["*"]}'
     headers:
       Authorization:
       - Bearer
@@ -21,21 +21,21 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
-      - '134'
+      - '130'
       Etag:
-      - W/"86-odGLlKQKIj+pmC9Z8rNgchgR5Bc"
+      - W/"82-F+/7NxKycEOmXb1KbB79V1sm5nI"
       Cache-Control:
       - no-cache
       Vary:
       - accept-encoding
       Date:
-      - Thu, 17 Oct 2019 01:48:46 GMT
+      - Tue, 22 Oct 2019 02:47:50 GMT
       Connection:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"requestID":"offline_awsRequestId_7476899209156715","message":{"principal_id":"\"principal_id\"
-        must be a number"},"errorCode":10001}'
+      string: '{"requestID":"offline_awsRequestId_9150516007944296","message":{"dataset_id":"\"dataset_id\"
+        must be a string"},"errorCode":10001}'
     http_version: 
-  recorded_at: Thu, 17 Oct 2019 01:48:46 GMT
+  recorded_at: Tue, 22 Oct 2019 02:47:50 GMT
 recorded_with: VCR 5.0.0

@@ -74,13 +74,13 @@ RSpec.describe Volcanic::Authenticator, :vcr do
         it { should_not be nil }
       end
 
-      context 'When app_principal_id is nil' do
-        before { set.app_principal_id = nil }
+      context 'When app_dataset_id is nil' do
+        before { set.app_dataset_id = nil }
         it { expect { app_token.request_app_token }.to raise_error app_token_error }
       end
 
-      context 'When app_principal_id is empty' do
-        before { set.app_principal_id = '' }
+      context 'When app_dataset_id is empty' do
+        before { set.app_dataset_id = '' }
         it { expect { app_token.request_app_token }.to raise_error app_token_error }
       end
     end
