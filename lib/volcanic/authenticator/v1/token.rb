@@ -75,14 +75,17 @@ module Volcanic::Authenticator
         CLAIMS.each do |claim|
           instance_variable_set("@#{claim}", body[claim.to_s])
         end
+        extract_subject
+      end
 
-        # typical subject structure is:
-        # "user://{stack_id}/{dataset_id}/{principal_id}/{identity_id}"
+      def extract_subject
+        # subject: "user://{stack_id}/{dataset_id}/{principal_id}/{identity_id}"
         sub_uri = URI(@sub)
         @stack_id = sub_uri.host
         subject = sub_uri.path.split('/').map do |v|
           ['', 'undefined', 'null'].include?(v) ? nil : v
         end
+        # set these as instance variable
         _, @dataset_id, @principal_id, @identity_id, = subject
       rescue ArgumentError => e
         raise TokenError, e
