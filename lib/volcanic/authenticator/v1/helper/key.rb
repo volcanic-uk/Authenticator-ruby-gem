@@ -18,7 +18,7 @@ module Volcanic::Authenticator
         EXCEPTION = :raise_exception_app_token
 
         def fetch_and_request(kid)
-          cache.fetch PUBLIC_KEY, expire_in: exp_public_key do
+          cache.fetch kid, expire_in: exp_public_key do
             request_public_key(kid)
           end
         end
