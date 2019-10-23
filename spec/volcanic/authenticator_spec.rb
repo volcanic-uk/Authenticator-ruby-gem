@@ -99,7 +99,7 @@ RSpec.describe Volcanic::Authenticator, :vcr do
       context 'When fetch and requesting' do
         subject { key.fetch_and_request(kid) }
         it { should_not be nil }
-        it { expect(cache.fetch('volcanic_public_key')).not_to be nil }
+        it { expect(cache.fetch(kid)).not_to be nil }
       end
     end
   end
