@@ -4,6 +4,7 @@ RSpec.describe Volcanic::Authenticator::V1::Identity, :vcr do
   before { Configuration.set }
   let(:mock_name) { 'mock_name' }
   let(:mock_principal_id) { '25f5dad773' }
+  let(:mock_identity_id) { 1 }
   let(:mock_secret) { 'mock_secret' }
   let(:mock_privileges) { [1, 2] }
   let(:mock_roles) { [1, 2] }
@@ -122,13 +123,16 @@ RSpec.describe Volcanic::Authenticator::V1::Identity, :vcr do
     end
 
     context 'when generating token' do
-      subject { identity.new(id: 1).token }
+      subject { identity.new(id: mock_identity_id).token }
       its(:token_base64) { is_expected.to eq mock_token_base64 }
     end
 
     context 'when generating token with args' do
-      let(:args) { { audience: ['*'], nbf: 1_571_708_316_000, exp: 1_571_794_716_000, single_use: true } }
-      subject { identity.new(id: 1).token(args) }
+      let(:mock_nbf) { 1_571_708_316_000 }
+      let(:mock_exp) { 1_571_794_716_000 }
+      let(:mock_audience) { ['*'] }
+      let(:args) { { audience: mock_audience, nbf: mock_nbf, exp: mock_exp, single_use: true } }
+      subject { identity.new(id: mock_identity_id).token(args) }
       its(:token_base64) { is_expected.to eq mock_token_base64 }
     end
   end
