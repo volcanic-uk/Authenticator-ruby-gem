@@ -3,7 +3,7 @@
 require_relative '../base'
 require_relative 'app_token'
 require_relative 'request'
-``
+
 module Volcanic::Authenticator
   module V1
     ##
