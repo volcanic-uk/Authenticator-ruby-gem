@@ -11,10 +11,10 @@ RSpec.describe Volcanic::Authenticator::V1::Token, :vcr do
   let(:token_error) { Volcanic::Authenticator::V1::TokenError }
   let(:authorization_error) { Volcanic::Authenticator::V1::AuthorizationError }
   let(:tokens) { JSON.parse(Configuration.mock_tokens) }
-  let(:mock_token_key) { tokens['token'] }
-  let(:mock_token_key_2) { tokens['token_2'] }
-  let(:mock_exp_token_key) { tokens['token_3'] }
-  let(:mock_invalid_token_key) { tokens['token_4'] }
+  let(:mock_token_base64) { tokens['token'] }
+  let(:mock_token_base64_2) { tokens['token_2'] }
+  let(:mock_token_base64_exp) { tokens['token_3'] }
+  let(:mock_token_base64_invalid) { tokens['token_4'] }
 
   describe '#initialize' do
     context 'When token is nil/empty' do
@@ -34,8 +34,9 @@ RSpec.describe Volcanic::Authenticator::V1::Token, :vcr do
 
     context 'When token is valid' do
       # initialize token by using a mock token at spec/mock_tokens.json
-      subject { token.new(mock_token_key) }
-      its(:token_key) { mock_token_key }
+      subject { token.new(mock_token_base64) }
+      # below information are claims and details extract from the mock_token
+      its(:token_key) { mock_token_base64 }
       its(:kid) { should eq 'a5f53fa25f2f82a3843c4af11bd801a1' }
       its(:exp) { should eq 7_571_210_994 }
       its(:sub) { should eq 'user://sandbox/-1/1/1/2' }
@@ -52,36 +53,36 @@ RSpec.describe Volcanic::Authenticator::V1::Token, :vcr do
 
   describe '#validate' do
     context 'When expired token key' do
-      it { expect(token.new(mock_exp_token_key).validate).to be false }
+      it { expect(token.new(mock_token_base64_exp).validate).to be false }
     end
 
     context 'When invalid signature' do
-      it { expect(token.new(mock_invalid_token_key).validate).to be false }
+      it { expect(token.new(mock_token_base64_invalid).validate).to be false }
     end
 
     context 'When token is valid' do
-      it { expect(token.new(mock_token_key).validate).to be true }
+      it { expect(token.new(mock_token_base64).validate).to be true }
     end
   end
 
   describe '#remote_validate' do
     context 'When expire token key' do
-      it { expect(token.new(mock_exp_token_key).remote_validate).to be false }
+      it { expect(token.new(mock_token_base64_exp).remote_validate).to be false }
     end
 
     context 'When invalid signature' do
-      it { expect(token.new(mock_invalid_token_key).remote_validate).to be false }
+      it { expect(token.new(mock_token_base64_invalid).remote_validate).to be false }
     end
 
     context 'When token is valid' do
-      it { expect(token.new(mock_token_key).remote_validate).to be true }
+      it { expect(token.new(mock_token_base64).remote_validate).to be true }
     end
   end
 
   describe '#revoke' do
     context 'When success' do
-      before { token.new(mock_token_key_2).revoke! }
-      it { expect(token.new(mock_token_key_2).remote_validate).to be false }
+      before { token.new(mock_token_base64_2).revoke! }
+      it { expect(token.new(mock_token_base64_2).remote_validate).to be false }
     end
   end
 end
