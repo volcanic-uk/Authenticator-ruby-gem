@@ -2,287 +2,339 @@
 
 A ruby for gem for Volcanic Authenticator
 
-## Installation
+## Getting Started
 
-Add the following to your application's Gemfile:
+Install with:
 ```ruby
 gem 'volcanic-cache', git: 'git@github.com:volcanic-uk/ruby-cache.git'
 
 gem 'volcanic-authenticator', git: 'git@github.com:volcanic-uk/Authenticator-ruby-gem.git'
 ```
 
-And run `bundle install`
-    
-## Setup
-
-Add the following to `config/application.rb`:
-
-required
+Configure these to `config/application.rb`:
 ```ruby
-# Authenticator server url
-Volcanic::Authenticator.config.auth_url = 'https://auth.aws.local'
+# +auth_url+: the domain for authenticator service
+Volcanic::Authenticator.config.auth_url = 'https://auth.aws.local' 
 
-# Application name
+# +app_name+: the application identity name 
+# +app_secret+: the application identity secret
+# +app_dataset_id+: the application dataset id
+# please request these credentials from the authenticator admin.
 Volcanic::Authenticator.config.app_name = 'app_name'
-
-# Application secret
 Volcanic::Authenticator.config.app_secret = 'app_secret' 
+Volcanic::Authenticator.config.app_dataset_id = 'dataset_id' 
+
+# If you are using auth in local development:
+Volcanic::Authenticator.config.app_name = 'volcanic'
+Volcanic::Authenticator.config.app_secret = 'volcanic!123' 
+Volcanic::Authenticator.config.app_dataset_id = '-1'
+
+### Optional ### 
+# +exp_token+: the expiry time for token.
+# +exp_app_token+: the expiry time for application token 
+# +exp_public_key+: the expiry time for signature public key 
+# below configurations are in seconds basis
+Volcanic::Authenticator.config.exp_token = 300 # 5 minutes
+Volcanic::Authenticator.config.exp_app_token = 24 * 60 * 60  # 1 day
+Volcanic::Authenticator.config.exp_public_key = 24  # 24 seconds
 ```
 
-optional
+## Features
+**Identity**
+
+To create a new identity (with random secret). This is the minimum requirement for creating an identity:
 ```ruby
-# Cache expiration time for application token. Default 1 day
-Volcanic::Authenticator.config.exp_app_token = 24 * 60 * 60 
+identity = Volcanic::Authenticator::V1::Identity.create('name', 'principal_id')
+identity.secret = '12ab...'
+```
+`principal_id ` can be retrieve when calling `principal.id`. See at Principal.
 
-# Cache expiration time for public key. Default 1 day
-Volcanic::Authenticator.config.exp_public_key = 24 * 60 * 60  
-
-# Cache expiration time for tokens. Default 5 minutes
-Volcanic::Authenticator.config.exp_token = 5 * 60 
-
-# Note: these expiration time are in seconds basis.
+To create a new identity with secret
+```ruby
+identity = Volcanic::Authenticator::V1::Identity.create('name', 'principal_id', secret: '1234abcd')
+identity.secret = '1234abcd'
 ```
 
-## Service
-**Create**
-
-Create a new service.
-
+To create a new identity with privilege ids or role ids
 ```ruby
-service = Volcanic::Authenticator::V1::Service.create('service-a')
-service.name # => 'service-a'
-service.id # => '1'
+identity = Volcanic::Authenticator::V1::Identity.create('name', 'principal_id', privilege_ids: [1, 2], role_ids: [3, 4])
+identity.privilege_ids = [1, 2]
+identity.role_ids = [3, 4]
+```
+see at Privilege or Roles features on retrieving the id.
+
+Method/Attr available for `Identity` are:
+```ruby
+identity.id
+identity.name
+identity.secret
+identity.privilege_ids
+identity.role_ids
+identity.principal_id
+identity.dataset_id
+identity.source
+identity.created_at
+identity.updated_at
 ```
 
-**Find**
-
-Find services. This returns an array of services
+To update name
 ```ruby
-# Default. This will return 10 service on the first page
-services = Volcanic::Authenticator::V1::Service.find
-services.size # => 10
-service = services[0]
-service.id # => 1
-service.name # => 'service a'
-...
-
-# Get on different page. The page size is default by 10
-services = Volcanic::Authenticator::V1::Service.find(page: 2)
-services.size # => 10
-services[0].id # => 11
-...
-
-# Get on different page size.
-services = Volcanic::Authenticator::V1::Service.find(page: 2, page_size: 5)
-services.size # => 5
-services[0].id # => 6
-
-# Search by key name.
-services = Volcanic::Authenticator::V1::Service.find(page: 2, page_size: 5, key_name: 'vol')
-services.size # => 5
-services[0].name # => 'volcanic-a'
-services[1].name # => 'service-volcanic'
-services[2].name # => 'volvo'
+identity.name = 'new_name'
+identity.save
 ```
 
-**Find by id**
-
-Get a service.
+To update privilege_ids 
 ```ruby
-#
-# Service.find_by_id(service_ID)
-service = Volcanic::Authenticator::V1::Service.find_by_id(1)
-service.name # => 'service_name'
-service.id # => '<service_ID>'
-service.active? # => true
+identity.update_privilege_ids([4, 5])
 ```
 
-**Update**
-
-Edit/Update a service.
+To update role_ids
 ```ruby
-         
-service = Volcanic::Authenticator::V1::Service.find_by_id(1)
-service.name = 'new-service-name'
-service.save
-
-updated_service = Volcanic::Authenticator::V1::Service.find_by_id(1)
-updated_service.name # => 'new-service-name'
+identity.update_role_ids([4, 5])
 ```
 
-**Delete**
-
-Delete a service.
+To reset secret
 ```ruby
-
-Volcanic::Authenticator::V1::Service.new(id: 1).delete
-
-## OR
- 
-service = Volcanic::Authenticator::V1::Service.find_by_id(1)
-service.delete 
-
-````
-
-## Principal
-**Create**
-
-Create a new principal.
-
-```ruby
-# Principal.create(principal_name, dataset_id, role_ids, privilege_ids)
-principal = Volcanic::Authenticator::V1::Principal.create('principal-a', 1, [1, 2], [3, 4])
-principal.id # => 1
-principal.name # => 'principal_name'
-principal.dataset_id # => 1
+identity.reset_secret('my_new_secret')
 ```
 
-**Find**
-
-Find principals. 
-
+To reset secret with random value
 ```ruby
-# Default. This will return 10 principal on the first page
-principals = Volcanic::Authenticator::V1::Principal.find
-principals.size # => 10
-principal = principals[0]
-principal.id # => 1
-principal.name # => 'principal a'
-...
-
-# Get on different page. The page size is default by 10
-principals = Volcanic::Authenticator::V1::Principal.find(page: 2)
-principals.size # => 10
-principals[0].id # => 11
-...
-
-# Get on different page size.
-principals = Volcanic::Authenticator::V1::Principal.find(page: 2, page_size: 5)
-principals.size # => 5
-principals[0].id # => 6
-
-# Search by key name.
-principals = Volcanic::Authenticator::V1::Principal.find(page: 2, page_size: 5, key_name: 'vol')
-principals.size # => 5
-principals[0].name # => 'volcanic-a'
-principals[1].name # => 'principal-volcanic'
-principals[2].name # => 'volvo'
+identity.reset_secret
+identity.secret # => 'e7fb7...'
 ```
 
-**Find by id**
-
-Get a principal.
+To login
 ```ruby
-principal =  Volcanic::Authenticator::V1::Principal.find_by_id(1)
-principal.id # => 1
-principal.name # => 'principal_name'
-principal.dataset_id # => 1
+# login after successful create new identity
+identity = Volcanic::Authenticator::V1::Identity.create('name', 'principal_id', secret: '1234abcd')
+identity.login # => return a Token Object.
+
+# login with new instance
+Volcanic::Authenticator::V1::Identity.new(name: 'name', principal: 'principal_id', secret: '1234abcd').login # => return a Token Object.
+
+# login with audience details
+identity.login(['abc@123.com', '*']) 
 ```
 
-**Update**
-
-Edit/Update a principal.
-```ruby  
-principal = Volcanic::Authenticator::V1::Principal.find_by_id(1)
-principal.name = 'new principal name'
-principal.dataset_id = 2
-principal.save
-```
-
-**Delete**
-
-Delete a principal.
+To generate a token (login without credential)
 ```ruby
-Volcanic::Authenticator::V1::Principal.new(id: 1).delete
-```
+# minimum requirements
+Volcanic::Authenticator::V1::Identity.new(id: 'identity_id').token # => return a token Object
 
-## Identity
-
-**Create**
-
-Create new identity
-```ruby
-# required params is name and principal_id
-identity = Volcanic::Authenticator::V1::Identity.create('identity-name', 1)
-identity.id #=> 1
-identity.principal_id #=> 2
-identity.name # => 'identity-name'
-identity.secret #=> 'cded0d177c84163f1...'
-
-# with custom secret
-identity = Volcanic::Authenticator::V1::Identity.create('identity-name', 1, secret: 'my-secret')
-identity.secret # => 'my-secret'
-
-# with privilege ids
-identity = Volcanic::Authenticator::V1::Identity.create('identity-name', 1, privileges: [1, 2])
-
-# with role ids
-identity = Volcanic::Authenticator::V1::Identity.create('identity-name', 1, roles: [1, 2])
-
-```
-
-**Delete**
-
-Delete an identity
-```ruby
-# using existing instance object
-identity.delete
-
-# OR
-  
-Volcanic::Authenticator::V1::Identity.new(id: 1).delete
-
+# with options
+#   +audience+: A set of information to tell who/what the token use for. It is a set strings array
+#   +exp+: A token expiry time. only accept unix timestamp in milliseconds format.
+#   +nbf+: A token not before time. token will be invalid until it reach nbf time. only accept unix timestamp in milliseconds format.
+#   +single_use+: If set to true, token can only be use once. 
+Volcanic::Authenticator::V1::Identity.new(id: 'identity_id').token(audience: ['abc@123.com'], exp: 1571296171000, nbf: 1571296171000, single_use: false)
+# => return a token object
 ```
 
 **Token**
+
+When initializing a token
 ```ruby
-identity = Volcanic::Authenticator::V1::Identity.create('identity-name', 1)
-identity.token # => 'eyJhbGciOiJFUzUxMiIsInR5cDgwMWExIn0...'
+token = Token.new(jwt_token)
+token.token_base64
+# below are all the claims and information that been extract
+token.kid 
+token.sub
+token.exp
+token.nbf
+token.audience
+token.iat
+token.iss
+token.jti
+token.stack_id
+token.dataset_id
+token.principal_id
+token.identity_id
 ```
 
-## Token
-
-**Generate Token key**
-
-To generate a token key. `identity_name` and `identity_secret` is required for this method
+To validate token. This method validate token locally by checking its signature key.
+WARNING: this method may not be accurate due to it cannot know whether the token already been revoke or not.
 ```ruby
-Token.create(name, secret)
-# => "eyJhbGciOiJFUzUxMiIsInR5c..."
+token.validate #=> true/false
 ```
 
-**Validate Token Key**
-
-To validate token key using keystore. Validate of signature, expiry date, and content 
+To validate token by authenticator service. (more accurate!)
 ```ruby
-Token.new(token_key).validate
-# => true
+token.remote_validate #=> true/false
 ```
 
-**Validate Token Key by Auth Service**
-
-To validate token key by using Auth Service. This method request an api validation of the token key to auth service.
+To revoke token. This is a one way method. Token will be revoke forever and cannot be use anymore.
 ```ruby
-Token.new(token_key).remote_validate
-# => true
+token.revoke!
 ```
 
-**Fetch claims**
+**Principal**
 
-To fetch claims and others like `dataset_id`, `principal_id` and `identity_id` of the token
+To create a new principal.
 ```ruby
-token = Token.new(token_key).fetch_claims
-token.kid # => key id claim
-token.sub # => subject claim
-token.iss # => issuer claim
-token.dataset_id # => dataset id from sub
-token.principal_id # => principal id from sub
-token.identity_id # => identity id from su
-
+Volcanic::Authenticator::V1::Principal.create('name', 'dataset_id')
 ```
 
-**Revoke Token Key**
-
-To revoke/blacklist token key from the auth service. This will also remove the token key at the gem's cache if it available.
+To create a new principal with privilege and role ids
 ```ruby
-Token.new(token_key).revoke!
+privilege_ids = [1, 2]
+role_ids = [3, 4]
+Volcanic::Authenticator::V1::Principal.create('name', 'dataset_id', privilege_ids, role_ids)
+```
+
+attributes in principal:
+```ruby
+principal.id
+principal.name
+principal.dataset_id
+principal.privilege_ids
+principal.role_ids
+principal.active?
+principal.created_at
+principal.updated_at
+```
+
+To update principal name
+```ruby
+principal.name = 'new_principal_name'
+principal.save
+```
+
+To update principal privilege_ids 
+```ruby
+principal.update_privilege_ids([4, 5])
+```
+
+To update principal role_ids
+```ruby
+principal.update_role_ids([4, 5])
+```
+
+To delete a principal
+```ruby
+principal.delete
+```
+
+To find principal by id
+```ruby
+Volcanic::Authenticator::V1::Principal.find_by_id('principal_id')
+```
+
+To find principal in collections
+```ruby
+# search for name
+principals = Volcanic::Authenticator::V1::Principal.find(query: 'principal')
+principals[0].name # => 'principal-A'
+principals[1].name # => 'principal-B'
+
+# search for dataset_id
+Volcanic::Authenticator::V1::Principal.find(dataset_id: '1')
+
+# search by page. by default it returns the first page that has 15 collections
+Volcanic::Authenticator::V1::Principal.find(page: 1)
+
+# search by page size.
+Volcanic::Authenticator::V1::Principal.find(page: 2, page_size: 2) # this return the 2nd page with 2 collections
+
+# sorting the collections by field
+Volcanic::Authenticator::V1::Principal.find(sort: 'id') # sort by id
+Volcanic::Authenticator::V1::Principal.find(sort: 'name') # sort by name
+...
+
+# sort in order
+Volcanic::Authenticator::V1::Principal.find(sort: 'id', order: 'asc')  # in ascending order
+Volcanic::Authenticator::V1::Principal.find(sort: 'id', order: 'desc') # in descending order
+#
+```
+
+**Resource**
+
+Some micro-service may have a model class that extend to `ActiveResource` on requesting to the other service. 
+By following the authenticator structure, all request from service to service required an `Authorization` header.
+This can be done by replacing from extending `ActiveResource` to `Volcanic::Authenticator::V1::Resource`
+
+example:
+```ruby
+# using ActiveResource
+class User < ActiveResource::Base
+  self.site = "https://vault.aws.local"
+end
+
+# using auth-gem 
+class User < Volcanic::Authenticator::V1::Resource
+  self.site = 'https://vault.aws.local'
+end
+```
+
+
+
+**HTTPRequest**
+
+For non-`ActiveResource`request:
+
+```ruby
+Volcanic::Authenticator::V1::HTTPRequest.get('https://vault.aws.local/user')
+# support 'get', 'post', 'put', 'patch', 'delete'
+```
+
+This class included `HTTParty` gem to it. So it has similar configuration with `HTTParty`
+
+```ruby
+response = Volcanic::Authenticator::V1::HTTPRequest.post('https://vault.aws.local/user', body: { name: 'john' }.to_json, headers: { 'Content-Type' => 'application/json' })
+response.body
+response.code
+response.message
+response.headers.inspect
+```
+
+to predefine base uri:
+```ruby
+class VaultRequest < Volcanic::Authenticator::V1::HTTPRequest
+  # set base uri
+  self.base_uri = 'https://vault.aws.local'
+
+  def get_user
+     self.class.get('/v1/user')
+  end
+end
+
+# OR 
+VaultRequest.get('/v1/user')
+```
+
+**Service**
+
+To create a new service.
+```ruby
+service = Volcanic::Authenticator::V1::Service.create('name')
+```
+
+attributes in principal:
+```ruby
+service.id
+service.name
+service.subject_id
+service.created_at
+service.updated_at
+```
+
+To update service name:
+```ruby
+service.name = 'new_service_name'
+service.save
+```
+
+To delete service:
+```ruby
+service.delete
+```
+
+To find service by id:
+```ruby
+service = Volcanic::Authenticator::V1::Service.find_by_id(1)
+```
+
+To find service in collections:
+```ruby
+# similar to Principal.find but without dataset_id args
 ```

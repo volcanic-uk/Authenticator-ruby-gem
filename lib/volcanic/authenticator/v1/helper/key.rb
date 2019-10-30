@@ -12,7 +12,6 @@ module Volcanic::Authenticator
       class << self
         include Request
 
-        PUBLIC_KEY = 'volcanic_public_key'
         # Public Key end-point
         PUBLIC_KEY_URL = 'api/v1/key'
         EXCEPTION = :raise_exception_app_token
@@ -25,7 +24,7 @@ module Volcanic::Authenticator
 
         def request_public_key(kid)
           url = [PUBLIC_KEY_URL, kid].join('/')
-          auth_token = AppToken.request_app_token
+          auth_token = AppToken.request_app_token # request auth token for header
           parsed = perform_get_and_parse EXCEPTION, "#{url}?expired=true", auth_token
           OpenSSL::PKey.read(parsed['public_key'])
         rescue OpenSSL::PKey::PKeyError => e
