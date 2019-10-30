@@ -42,8 +42,7 @@ module Volcanic::Authenticator
           @body ||= begin
                       JSON.parse(raw_body)
                     rescue JSON::ParserError
-                      # return this if not a json
-                      {}
+                      {} # return an empty hash if not json
                     end
         end
 
