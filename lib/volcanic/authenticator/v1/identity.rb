@@ -138,23 +138,30 @@ module Volcanic::Authenticator
         #   Identity.create('name', 1, opts)
         #
         def create(name, principal_id, **opts)
-          privilege_ids = opts[:privilege_ids] || []
-          role_ids = opts[:role_ids] || []
-          payload = { name: name,
-                      principal_id: principal_id,
-                      source: opts[:source],
-                      skip_secret_encryption: opts[:skip_encryption] || false,
-                      secret: opts[:secret],
-                      privileges: privilege_ids,
-                      roles: privilege_ids }
+          payload = payload_handler(**opts)
+          payload[:name] = name
+          payload[:principal_id] = principal_id
           identity = super payload
           # TODO: (AUTH-215) remove this when auth returning the correct id (secure_id)
           identity.id = identity.secure_id unless identity.secure_id.nil?
-          #  set attr that are not provided by api response
-          identity.secret ||= opts[:secret]
-          identity.privilege_ids = privilege_ids
-          identity.role_ids = role_ids
+          #  set attributes that are not provided by the api response
+          identity.secret ||= payload[:secret]
+          identity.privilege_ids = payload[:privileges]
+          identity.role_ids = payload[:roles]
           identity
+        end
+
+        private
+
+        def payload_handler(**opts)
+          {
+            source: opts[:source],
+            skip_secret_encryption: opts[:skip_encryption] || false,
+            secret: opts[:secret],
+            privileges: opts[:privilege_ids] || [],
+            roles: opts[:privilege_ids] || [],
+            secretless: opts[:secretless] || false
+          }
         end
       end
 
