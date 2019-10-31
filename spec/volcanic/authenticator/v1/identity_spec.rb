@@ -8,7 +8,9 @@ RSpec.describe Volcanic::Authenticator::V1::Identity, :vcr do
   let(:mock_secret) { 'mock_secret' }
   let(:mock_privileges) { [1, 2] }
   let(:mock_roles) { [1, 2] }
-  let(:new_identity) { identity.create(mock_name, mock_principal_id, secret: mock_secret) }
+  let(:mock_source) { 'mock_source' }
+  let(:new_identity) \
+    { identity.create(mock_name, mock_principal_id, secret: mock_secret, source: mock_source) }
   let(:identity) { Volcanic::Authenticator::V1::Identity }
   let(:token) { Volcanic::Authenticator::V1::Token }
   let(:identity_error) { Volcanic::Authenticator::V1::IdentityError }
@@ -44,6 +46,7 @@ RSpec.describe Volcanic::Authenticator::V1::Identity, :vcr do
       its(:secret) { should eq mock_secret }
       its(:principal_id) { should eq 1 }
       its(:dataset_id) { should eq '-1' }
+      its(:source) { should eq mock_source }
     end
 
     context 'when generating a random secret' do
