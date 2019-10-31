@@ -133,9 +133,11 @@ module Volcanic::Authenticator
         #   roles = Roles.find(query: 'auth_admin') # return collection of roles
         #   Identity.create('name', 1, privileges: privileges roles: roles)
         #
-        #   # all options
-        #   opts = { secret: 'new_secret', privileges: privileges, roles: roles }
-        #   Identity.create('name', 1, opts)
+        #   # to set the source of the identity
+        #   Identity.create('name', pincipal_id, source: 'facebook')
+        #
+        #   # to set the identity as secretless. When this is true the identity will not have any secret.
+        #   Identity.create('name', pincipal_id, secretless: true)
         #
         def create(name, principal_id, **opts)
           payload = payload_handler(**opts)
