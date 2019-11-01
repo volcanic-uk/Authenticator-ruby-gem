@@ -42,7 +42,7 @@ http_interactions:
     uri: http://0.0.0.0:3003/api/v1/identity/token/generate
     body:
       encoding: UTF-8
-      string: '{"identity":{"id":1},"audience":["*"],"expiry_date":1571794716000,"single_use":true,"nbf":1571708316000}'
+      string: '{"identity":{"id":"mock_id"},"audience":["*"],"expiry_date":1571794716000,"single_use":true,"nbf":1571708316000}'
     headers:
       Authorization:
       - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NzE2MjI2NTUsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xLzEvMS8yIiwibmJmIjoxNTcxNjIyMDU1LCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU3MTYyMjA1NSwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AeqYq5lvLmExhBY2_aO4VQzHvaBuNVr8vmvRomQqeMGSya29lmkTHJTN0UMF5JrPgEPIYNYGxa8dyctkcqKtNCK1AOfeogPNBrAykQHWvNuWnqS7Bg2_UL8SoSd2Bdq2z96dtMjhnaDX7SUqYaBKChk_raSnjfThPMFXTTbiam8NquiW

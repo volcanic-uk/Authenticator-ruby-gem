@@ -97,18 +97,6 @@ module Volcanic::Authenticator
       end
 
       class << self
-        # identity not supporting this method
-        def find
-          # TODO: (AUTH-211) implement this method to support the api
-          raise NotImplementedError
-        end
-
-        # identity not supporting this method
-        def find_by_id
-          # TODO: (AUTH-211) implement this method to support this api
-          raise NotImplementedError
-        end
-
         # Create identity
         # Required parameters:
         #   +name+: The name of identity. This is required for login/generate token
@@ -133,11 +121,10 @@ module Volcanic::Authenticator
         #   roles = Roles.find(query: 'auth_admin') # return collection of roles
         #   Identity.create('name', 1, privileges: privileges roles: roles)
         #
-        #   # to set the source of the identity
-        #   Identity.create('name', pincipal_id, source: 'facebook')
-        #
-        #   # to set the identity as secretless. When this is true the identity will not have any secret.
-        #   Identity.create('name', pincipal_id, secretless: true)
+        #   # Source and secretless
+        #   # identity may be created under a source, eg 'facebook' or 'linkedIn'.
+        #   # To create identity with a source, secretless must be set as true.
+        #   Identity.create('name', pincipal_id, source: 'google', secretless: true)
         #
         def create(name, principal_id, **opts)
           payload = payload_handler(**opts)
@@ -158,8 +145,8 @@ module Volcanic::Authenticator
         def payload_handler(**opts)
           {
             source: opts[:source],
-            skip_secret_encryption: opts[:skip_encryption] || false,
             secret: opts[:secret],
+            skip_secret_encryption: opts[:skip_encryption] || false,
             privileges: opts[:privilege_ids] || [],
             roles: opts[:privilege_ids] || [],
             secretless: opts[:secretless] || false

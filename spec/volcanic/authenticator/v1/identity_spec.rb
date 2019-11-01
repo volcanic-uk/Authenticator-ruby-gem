@@ -4,13 +4,15 @@ RSpec.describe Volcanic::Authenticator::V1::Identity, :vcr do
   before { Configuration.set }
   let(:mock_name) { 'mock_name' }
   let(:mock_principal_id) { '25f5dad773' }
-  let(:mock_identity_id) { 1 }
+  let(:mock_identity_id) { 'mock_id' }
+  let(:mock_dataset_id) { 'mock_dataset_id' }
   let(:mock_secret) { 'mock_secret' }
   let(:mock_privileges) { [1, 2] }
   let(:mock_roles) { [1, 2] }
   let(:mock_source) { 'mock_source' }
+  let(:mock_random_secret) { 'cded0d177c84163f1a460f573b9b14e1b8b1e515' }
   let(:new_identity) \
-    { identity.create(mock_name, mock_principal_id, secret: mock_secret, source: mock_source) }
+    { identity.create(mock_name, mock_principal_id, secret: mock_secret) }
   let(:identity) { Volcanic::Authenticator::V1::Identity }
   let(:token) { Volcanic::Authenticator::V1::Token }
   let(:identity_error) { Volcanic::Authenticator::V1::IdentityError }
@@ -46,12 +48,17 @@ RSpec.describe Volcanic::Authenticator::V1::Identity, :vcr do
       its(:secret) { should eq mock_secret }
       its(:principal_id) { should eq 1 }
       its(:dataset_id) { should eq '-1' }
-      its(:source) { should eq mock_source }
+      its(:source) { should eq nil } # source should be nil for non-source identity
     end
 
     context 'when generating a random secret' do
       subject { identity.create(mock_name, mock_principal_id, secret: nil) }
-      its(:secret) { should eq 'cded0d177c84163f1a460f573b9b14e1b8b1e515' }
+      its(:secret) { should eq mock_random_secret }
+    end
+
+    context 'when creating with source and secret' do
+      subject { identity.create(mock_name, mock_principal_id, source: mock_source, secretless: true) }
+      its(:source) { should eq mock_source }
     end
   end
 
@@ -137,6 +144,57 @@ RSpec.describe Volcanic::Authenticator::V1::Identity, :vcr do
       let(:args) { { audience: mock_audience, nbf: mock_nbf, exp: mock_exp, single_use: true } }
       subject { identity.new(id: mock_identity_id).token(args) }
       its(:token_base64) { is_expected.to eq mock_token_base64 }
+    end
+  end
+
+  describe '.find' do
+    context 'when find by id' do
+      subject { identity.find_by_id(mock_identity_id) }
+      its(:id) { should eq mock_identity_id }
+      its(:name) { should eq mock_name }
+      its(:principal_id) { should eq mock_principal_id }
+      its(:dataset_id) { should eq mock_dataset_id }
+      its(:source) { should eq 'mock_source' }
+      its(:secret) { should eq nil } # secret will not be returning when finding
+    end
+
+    context 'when find with specific page' do
+      subject(:identities) { identity.find(page: 1) }
+      it { expect(identities[0].id).to eq 1 }
+      it { expect(identities.count).to be <= 10 } # taking the page size to 10
+    end
+
+    context 'when find with specific page size' do
+      subject(:identities) { identity.find(page_size: 2) }
+      it { expect(identities[0].id).to eq 1 }
+      it { expect(identities.count).to be <= 2 }
+    end
+
+    context 'when find with page and page size' do
+      subject(:identities) { identity.find(page: 2, page_size: 3) }
+      it { expect(identities[0].id).to eq 4 }
+      it { expect(identities.count).to be <= 3 }
+    end
+
+    context 'when find with query' do
+      subject(:identities) { identity.find(query: 'vol') }
+      it { expect(identities[0].name).to eq 'volcanic' }
+      it { expect(identities[1].name).to eq 'volcanic2' }
+    end
+
+    context 'when find with pagination' do
+      subject(:identities) { identity.find }
+      it { expect(identities.page).to eq 1 }
+      it { expect(identities.page_size).to eq 10 }
+      it { expect(identities.row_count).to eq 5 }
+      it { expect(identities.page_count).to eq 1 }
+    end
+
+    context 'when find with sort and order' do
+      subject(:identities) { identity.find(sort: 'id', order: 'desc') }
+      it { expect(identities[0].id).to eq 5 }
+      it { expect(identities[1].id).to eq 4 }
+      it { expect(identities[2].id).to eq 3 }
     end
   end
 end
