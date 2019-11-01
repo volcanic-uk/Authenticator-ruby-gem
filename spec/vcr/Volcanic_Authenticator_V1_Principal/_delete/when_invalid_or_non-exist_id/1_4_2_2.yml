@@ -2,7 +2,7 @@
 http_interactions:
   - request:
       method: delete
-      uri: http://0.0.0.0:3003/api/v1/principals/wrong-id
+      uri: http://localhost:3004/api/v1/principals/wrong-id
       body:
         encoding: US-ASCII
         string: ''
@@ -39,7 +39,7 @@ http_interactions:
     recorded_at: Fri, 02 Aug 2019 07:43:34 GMT
   - request:
       method: delete
-      uri: http://0.0.0.0:3003/api/v1/principals/123456789
+      uri: http://localhost:3004/api/v1/principals/123456789
       body:
         encoding: US-ASCII
         string: ''

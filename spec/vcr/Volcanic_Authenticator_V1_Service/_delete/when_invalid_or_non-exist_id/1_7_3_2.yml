@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: delete
-    uri: http://0.0.0.0:3003/api/v1/services/123456789
+    uri: http://localhost:3004/api/v1/services/123456789
     body:
       encoding: US-ASCII
       string: ''

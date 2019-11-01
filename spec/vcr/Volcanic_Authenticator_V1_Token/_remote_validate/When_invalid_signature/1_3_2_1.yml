@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: http://0.0.0.0:3003/api/v1/token/validate
+    uri: http://localhost:3004/api/v1/token/validate
     body:
       encoding: UTF-8
       string: ''
