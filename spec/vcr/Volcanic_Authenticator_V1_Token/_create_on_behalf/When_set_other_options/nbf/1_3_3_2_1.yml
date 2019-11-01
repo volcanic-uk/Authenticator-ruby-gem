@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: http://0.0.0.0:3003/api/v1/identity/token/generate
+    uri: http://localhost:3004/api/v1/identity/token/generate
     body:
       encoding: UTF-8
       string: '{"identity":{"id":1},"audience":["auth"],"expiry_date":1571443200000,"single_use":true,"nbf":1571356800000}'

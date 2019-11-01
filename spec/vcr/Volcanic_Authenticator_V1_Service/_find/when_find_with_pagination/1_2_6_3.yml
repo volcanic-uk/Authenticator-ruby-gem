@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://0.0.0.0:3003/api/v1/services?page=1&page_size=10
+    uri: http://localhost:3004/api/v1/services?page=1&page_size=10
     body:
       encoding: US-ASCII
       string: ''

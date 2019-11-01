@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: http://0.0.0.0:3003/api/v1/services
+    uri: http://localhost:3004/api/v1/services
     body:
       encoding: UTF-8
       string: '{"name":"mock_name"}'
@@ -39,7 +39,7 @@ http_interactions:
   recorded_at: Wed, 21 Aug 2019 07:24:25 GMT
 - request:
     method: post
-    uri: http://0.0.0.0:3003/api/v1/services/25
+    uri: http://localhost:3004/api/v1/services/25
     body:
       encoding: UTF-8
       string: '{"name":"new-service"}'
@@ -76,7 +76,7 @@ http_interactions:
   recorded_at: Wed, 21 Aug 2019 07:24:25 GMT
 - request:
     method: get
-    uri: http://0.0.0.0:3003/api/v1/services/25
+    uri: http://localhost:3004/api/v1/services/25
     body:
       encoding: US-ASCII
       string: ''
