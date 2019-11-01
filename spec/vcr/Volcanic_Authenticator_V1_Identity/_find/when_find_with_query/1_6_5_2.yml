@@ -1,0 +1,73 @@
+---
+http_interactions:
+  - request:
+      method: post
+      uri: http://0.0.0.0:3003/api/v1/identity/login
+      body:
+        encoding: UTF-8
+        string: '{"name":"volcanic","secret":"volcanic!123","dataset_id":"-1","audience":["*"]}'
+      headers:
+        Authorization:
+          - Bearer
+        Content-Type:
+          - application/json
+    response:
+      status:
+        code: 200
+        message: OK
+      headers:
+        X-Powered-By:
+          - Express
+        X-Auth-Request-Id:
+          - undefined
+        Content-Type:
+          - application/json; charset=utf-8
+        Content-Length:
+          - '490'
+        Etag:
+          - W/"1ea-TpzM5fAyOnOpqg48yVSeJi9gX+8"
+        Date:
+          - Fri, 01 Nov 2019 04:24:18 GMT
+        Connection:
+          - keep-alive
+      body:
+        encoding: UTF-8
+        string: '{"response":{"token":"eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NzI1ODI4NTgsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTcyNTgyMjU4LCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU3MjU4MjI1OCwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.ACdX5wXVbdFvYWRLaVPxWPdvfABc8sEXBbjUx9-lW1bBBDOR_ipb1BPjoJT_xUfBSnD6BTIroQJeu1UceLeWGOT5AIKsVTXFGZzzQp9Vu6qE_nWKQYvrr8RWV3V_NQOpcOQDRi6L6nKCogf53OF3_auL5R0Jp8BxPIwcS3uzMYd53xOZ"}}'
+      http_version:
+    recorded_at: Fri, 01 Nov 2019 04:24:18 GMT
+  - request:
+      method: get
+      uri: http://0.0.0.0:3003/api/v1/identity?page=1&page_size=10&query=vol
+      body:
+        encoding: US-ASCII
+        string: ''
+      headers:
+        Authorization:
+          - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NzI1ODI4NTgsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTcyNTgyMjU4LCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU3MjU4MjI1OCwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.ACdX5wXVbdFvYWRLaVPxWPdvfABc8sEXBbjUx9-lW1bBBDOR_ipb1BPjoJT_xUfBSnD6BTIroQJeu1UceLeWGOT5AIKsVTXFGZzzQp9Vu6qE_nWKQYvrr8RWV3V_NQOpcOQDRi6L6nKCogf53OF3_auL5R0Jp8BxPIwcS3uzMYd53xOZ
+        Content-Type:
+          - application/json
+    response:
+      status:
+        code: 200
+        message: OK
+      headers:
+        X-Powered-By:
+          - Express
+        X-Auth-Request-Id:
+          - undefined
+        Content-Type:
+          - application/json; charset=utf-8
+        Content-Length:
+          - '333'
+        Etag:
+          - W/"14d-S7FrtDZ6jH1DVfhatm3DAs7wYoE"
+        Date:
+          - Fri, 01 Nov 2019 04:24:18 GMT
+        Connection:
+          - keep-alive
+      body:
+        encoding: UTF-8
+        string: '{"response":{"pagination":{"page":1,"pageSize":10,"rowCount":1,"pageCount":1},"data":[{"id":1,"principal_id":1,"name":"volcanic","dataset_id":"-1","source":null,"last_active_date":null,"last_used_ip_address":null,"active":true,"created_at":"2019-11-01T03:49:42.244Z","updated_at":"2019-11-01T03:49:42.244Z","secure_id":"volcanic"}, {"id":1,"principal_id":1,"name":"volcanic2","dataset_id":"-1","source":null,"last_active_date":null,"last_used_ip_address":null,"active":true,"created_at":"2019-11-01T03:49:42.244Z","updated_at":"2019-11-01T03:49:42.244Z","secure_id":"volcanic2"}]}}'
+      http_version:
+    recorded_at: Fri, 01 Nov 2019 04:24:18 GMT
+recorded_with: VCR 5.0.0
