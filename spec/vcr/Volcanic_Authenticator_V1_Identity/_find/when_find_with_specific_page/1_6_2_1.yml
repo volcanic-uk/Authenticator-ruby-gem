@@ -1,0 +1,73 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://0.0.0.0:3003/api/v1/identity/login
+    body:
+      encoding: UTF-8
+      string: '{"name":"volcanic","secret":"volcanic!123","dataset_id":"-1","audience":["*"]}'
+    headers:
+      Authorization:
+      - Bearer
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      X-Auth-Request-Id:
+      - undefined
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '490'
+      Etag:
+      - W/"1ea-4nLWtTGoVeyIi/wQgvbaPK4gc5w"
+      Date:
+      - Fri, 01 Nov 2019 04:22:21 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"response":{"token":"eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NzI1ODI3NDEsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTcyNTgyMTQxLCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU3MjU4MjE0MSwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AI371RvDjH1ml1tLf2gfz1cpmyqo6S9Lcho81kOjk6m7eJ1BN2Ocdjb2tT7tDVMgRcGEWVoygjHvYrY2ZMJhZopoAQmGXMVuka5LmOd5V1sinmZFFiBwscbrqogsv0w93hXSH-uY8yAWBb32b-946hwUMs0OCFjAVJmI84hWR2Ulxour"}}'
+    http_version: 
+  recorded_at: Fri, 01 Nov 2019 04:22:21 GMT
+- request:
+    method: get
+    uri: http://0.0.0.0:3003/api/v1/identity?page=1&page_size=10
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NzI1ODI3NDEsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTcyNTgyMTQxLCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU3MjU4MjE0MSwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AI371RvDjH1ml1tLf2gfz1cpmyqo6S9Lcho81kOjk6m7eJ1BN2Ocdjb2tT7tDVMgRcGEWVoygjHvYrY2ZMJhZopoAQmGXMVuka5LmOd5V1sinmZFFiBwscbrqogsv0w93hXSH-uY8yAWBb32b-946hwUMs0OCFjAVJmI84hWR2Ulxour
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      X-Auth-Request-Id:
+      - undefined
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '1377'
+      Etag:
+      - W/"561-3EO6bW1jIzJw7QV+Kt/MzpB96lI"
+      Date:
+      - Fri, 01 Nov 2019 04:22:21 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"response":{"pagination":{"page":1,"pageSize":10,"rowCount":5,"pageCount":1},"data":[{"id":1,"principal_id":1,"name":"volcanic","dataset_id":"-1","source":null,"last_active_date":null,"last_used_ip_address":null,"active":true,"created_at":"2019-11-01T03:49:42.244Z","updated_at":"2019-11-01T03:49:42.244Z","secure_id":"volcanic"},{"id":2,"principal_id":1,"name":"post_man_1572580244","dataset_id":"-1","source":"any","last_active_date":null,"last_used_ip_address":null,"active":true,"created_at":"2019-11-01T03:50:44.445Z","updated_at":"2019-11-01T03:50:44.445Z","secure_id":"1254bbcd43"},{"id":3,"principal_id":1,"name":"post_man_1572580284","dataset_id":"-1","source":"any","last_active_date":null,"last_used_ip_address":null,"active":true,"created_at":"2019-11-01T03:51:24.077Z","updated_at":"2019-11-01T03:51:24.077Z","secure_id":"2d3734ae31"},{"id":4,"principal_id":1,"name":"farid","dataset_id":"-1","source":null,"last_active_date":null,"last_used_ip_address":null,"active":true,"created_at":"2019-11-01T03:58:52.606Z","updated_at":"2019-11-01T03:58:52.606Z","secure_id":"d1872b3562"},{"id":5,"principal_id":1,"name":"post_man_1572580284-without-secret","dataset_id":"-1","source":"mock_source","last_active_date":null,"last_used_ip_address":null,"active":true,"created_at":"2019-11-01T03:59:58.837Z","updated_at":"2019-11-01T03:59:58.837Z","secure_id":"27420e2832"}]}}'
+    http_version: 
+  recorded_at: Fri, 01 Nov 2019 04:22:21 GMT
+recorded_with: VCR 5.0.0
