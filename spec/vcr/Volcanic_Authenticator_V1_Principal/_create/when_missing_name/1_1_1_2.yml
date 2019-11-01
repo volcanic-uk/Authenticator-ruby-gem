@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: http://0.0.0.0:3003/api/v1/principals
+    uri: http://localhost:3004/api/v1/principals
     body:
       encoding: UTF-8
       string: '{"name":"","dataset_id":1,"roles":[],"privileges":[]}'

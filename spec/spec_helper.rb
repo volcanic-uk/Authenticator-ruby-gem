@@ -27,7 +27,7 @@ end
 module Configuration
   # configure setting
   def self.set
-    Volcanic::Authenticator.config.auth_url = 'http://0.0.0.0:3003'
+    Volcanic::Authenticator.config.auth_url = 'http://localhost:3004'
     Volcanic::Authenticator.config.app_name = 'volcanic'
     Volcanic::Authenticator.config.app_secret = 'volcanic!123'
     Volcanic::Authenticator.config.app_dataset_id = '-1'

@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://0.0.0.0:3003/api/v1/services?page=1&page_size=1
+    uri: http://localhost:3004/api/v1/services?page=1&page_size=1
     body:
       encoding: US-ASCII
       string: ''
@@ -41,7 +41,7 @@ http_interactions:
   recorded_at: Wed, 21 Aug 2019 07:16:29 GMT
 - request:
     method: get
-    uri: http://0.0.0.0:3003/api/v1/services?page=20&page_size=1
+    uri: http://localhost:3004/api/v1/services?page=20&page_size=1
     body:
       encoding: US-ASCII
       string: ''
