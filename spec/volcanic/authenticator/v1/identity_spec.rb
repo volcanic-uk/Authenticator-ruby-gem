@@ -55,12 +55,6 @@ RSpec.describe Volcanic::Authenticator::V1::Identity, :vcr do
       subject { identity.create(mock_name, mock_principal_id, secret: nil) }
       its(:secret) { should eq mock_random_secret }
     end
-
-    context 'when creating with source and secret' do
-      subject { identity.create(mock_name, mock_principal_id, source: mock_source, secretless: true) }
-      its(:source) { should eq mock_source }
-      its(:secret) { should eq nil }
-    end
   end
 
   describe '#update' do
