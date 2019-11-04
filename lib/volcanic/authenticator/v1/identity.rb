@@ -119,12 +119,12 @@ module Volcanic::Authenticator
         #   # assign roles or privileges
         #   privileges = Privileges.find(query: '123@abc.com') # return collection of privileges
         #   roles = Roles.find(query: 'auth_admin') # return collection of roles
-        #   Identity.create('name', 1, privileges: privileges roles: roles)
+        #   Identity.create('name', principal_id, privileges: privileges roles: roles)
         #
         #   # Source
         #   # identity can be created with a source options, eg 'facebook' or 'linkedIn'.
         #   # note that, this will generate a secretless identity.
-        #   Identity.create('name', pincipal_id, source: 'google')
+        #   Identity.create('name', principal_id, source: 'google')
         #
         def create(name, principal_id, **opts)
           payload = payload_handler(**opts)
@@ -142,14 +142,18 @@ module Volcanic::Authenticator
 
         private
 
+        # by default identity will have source with value `password`.
+        # if source is set to others value, secretless will force to be true.
+        # if source is nil, default value will be taken.
+        # if source is empty, it raise IdentityError
         def payload_handler(**opts)
           {
-            source: opts[:source],
+            source: source = opts[:source] || 'password',
             secret: opts[:secret],
             skip_secret_encryption: opts[:skip_encryption] || false,
             privileges: opts[:privilege_ids] || [],
-            roles: opts[:privilege_ids] || [],
-            secretless: opts[:source].nil? ? false : true # secretless will force to true if source exists
+            roles: opts[:role_ids] || [],
+            secretless: source != 'password' # secretless will be false if source is 'password'
           }
         end
       end
