@@ -55,6 +55,20 @@ RSpec.describe Volcanic::Authenticator::V1::Identity, :vcr do
       subject { identity.create(mock_name, mock_principal_id, secret: nil) }
       its(:secret) { should eq mock_random_secret }
     end
+
+    context 'when create with empty source' do
+      it { expect { identity.create(mock_name, mock_principal_id, source: '') }.to raise_error identity_error }
+    end
+
+    context 'when create with nil source' do
+      subject { identity.create(mock_name, mock_principal_id, source: nil) }
+      its(:source) { should eq 'password' } # by default source is set to 'password'
+    end
+
+    context 'when create with source value' do
+      subject { identity.create(mock_name, mock_principal_id, source: mock_source) }
+      its(:source) { should eq mock_source }
+    end
   end
 
   describe '#update' do
