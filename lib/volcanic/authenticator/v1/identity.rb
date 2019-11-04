@@ -121,10 +121,10 @@ module Volcanic::Authenticator
         #   roles = Roles.find(query: 'auth_admin') # return collection of roles
         #   Identity.create('name', 1, privileges: privileges roles: roles)
         #
-        #   # Source and secretless
-        #   # identity may be created under a source, eg 'facebook' or 'linkedIn'.
-        #   # To create identity with a source, secretless must be set as true.
-        #   Identity.create('name', pincipal_id, source: 'google', secretless: true)
+        #   # Source
+        #   # identity can be created with a source options, eg 'facebook' or 'linkedIn'.
+        #   # note that, this will generate a secretless identity.
+        #   Identity.create('name', pincipal_id, source: 'google')
         #
         def create(name, principal_id, **opts)
           payload = payload_handler(**opts)
@@ -149,7 +149,7 @@ module Volcanic::Authenticator
             skip_secret_encryption: opts[:skip_encryption] || false,
             privileges: opts[:privilege_ids] || [],
             roles: opts[:privilege_ids] || [],
-            secretless: opts[:secretless] || false
+            secretless: opts[:source].nil? ? false : true # secretless will force to true if source exists
           }
         end
       end
