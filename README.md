@@ -63,11 +63,11 @@ identity.role_ids = [3, 4]
 ```
 see at Privilege or Roles features on retrieving the id.
 
-To create a new identity with a source and secretless options:
+To create a new identity with a source option:
 ```ruby
-Volcanic::Authenticator::V1::Identity.create('name', 'principal_id', source: 'facebook', secretless: true)
+Volcanic::Authenticator::V1::Identity.create('name', 'principal_id', source: 'facebook')
 ```
-this options create identity without generating a secret. 
+this options create identity without generating a secret (secretless identity). 
 
 Method/Attr available for `Identity` are:
 ```ruby
