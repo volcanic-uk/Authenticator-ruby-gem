@@ -64,7 +64,9 @@ module Volcanic::Authenticator
       def decode!(public_key = nil, verify = true)
         # public key is required if verify is set to true
         JWT.decode token_base64, public_key, verify, algorithm: 'ES512'
-      rescue JWT::DecodeError, JWT::ImmatureSignature, JWT::ExpiredSignature => e
+      rescue JWT::ImmatureSignature, JWT::ExpiredSignature => e
+        raise TokenError, e
+      rescue JWT::DecodeError => e
         raise TokenError, e
       end
 
