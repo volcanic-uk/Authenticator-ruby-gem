@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require_relative '../authenticator'
-
-module Volcanic::Authenticator
-  VERSION = '0.0.1'
+module Volcanic
+  module Authenticator
+    VERSION = '1.0.1'
+  end
 end
