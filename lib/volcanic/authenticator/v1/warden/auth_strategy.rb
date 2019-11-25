@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'warden'
+require 'warden/strategies/base'
 require 'forwardable'
 require_relative '../token'
 
