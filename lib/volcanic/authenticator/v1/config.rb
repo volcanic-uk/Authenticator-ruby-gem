@@ -10,6 +10,7 @@ module Volcanic::Authenticator
       class << self
         attr_accessor :app_name, :app_secret, :app_dataset_id, :service_name
         attr_writer :auth_url
+        attr_reader :validate_token, :validate_token_when_presented
 
         # expiration time of cache tokens
         def exp_token
@@ -70,6 +71,26 @@ module Volcanic::Authenticator
           raise ConfigurationError, 'auth_url must not be nil' if @auth_url.nil?
 
           @auth_url
+        end
+
+        def validate_token_when_presented
+          @validate_token_when_presented ||= false
+        end
+
+        def validate_token_when_presented=(value)
+          raise ConfigurationError, 'validate_token_when_presented must be a boolean' unless boolean? value
+
+          @validate_token_when_presented = value
+        end
+
+        def validate_token_always
+          @validate_token_always ||= true
+        end
+
+        def validate_token_always=(value)
+          raise ConfigurationError, 'validate_token_always must be a boolean' unless boolean? value
+
+          @validate_token = value
         end
 
         private

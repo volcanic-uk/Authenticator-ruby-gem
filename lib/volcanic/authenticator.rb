@@ -17,8 +17,18 @@ module Volcanic
   module Authenticator
     # Authenticator base
     module Base
+
       def config
         Volcanic::Authenticator::V1::Config
+      end
+
+      # handling multiple configurations
+      # Volcanic::Authenticator.setup do |config|
+      #   config.auth_url = 'auth.com'
+      #   config.auth_enabled = true
+      # end
+      def setup
+        yield Volcanic::Authenticator::V1::Config
       end
     end
 
