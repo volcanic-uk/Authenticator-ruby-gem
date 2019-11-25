@@ -10,7 +10,6 @@ module Volcanic::Authenticator
       class << self
         attr_accessor :app_name, :app_secret, :app_dataset_id, :service_name
         attr_writer :auth_url
-        attr_reader :validate_token, :validate_token_when_presented
 
         # expiration time of cache tokens
         def exp_token

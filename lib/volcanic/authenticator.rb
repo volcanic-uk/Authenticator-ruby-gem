@@ -17,7 +17,6 @@ module Volcanic
   module Authenticator
     # Authenticator base
     module Base
-
       def config
         Volcanic::Authenticator::V1::Config
       end
