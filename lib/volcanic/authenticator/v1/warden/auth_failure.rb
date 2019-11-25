@@ -1,6 +1,9 @@
+# frozen_string_literal: true
+
 module Volcanic::Authenticator
   module V1
     module Warden
+      # this class create a rack for auth strategy failure
       class AuthFailure
         def call(env)
           @env = env

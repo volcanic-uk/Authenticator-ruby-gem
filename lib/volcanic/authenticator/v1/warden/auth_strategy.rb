@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'warden'
 require 'forwardable'
 require_relative '../token'
@@ -5,16 +7,14 @@ require_relative '../token'
 module Volcanic::Authenticator
   module V1
     module Warden
+      # this class handle the auth service authentication by using warden
       class AuthStrategy < Warden::Strategies::Base
         extend Forwardable
-        def_delegator 'Volcanic::Authenticator.config'.to_sym, :validate_token, :validate_token_when_presented
+        def_delegator 'Volcanic::Authenticator.config'.to_sym, :validate_token_always, :validate_token_when_presented
 
         def authenticate!
-          return missing! if validate_token && auth_token.empty?
-
-          return success! '' if validate_token_when_presented && auth_token.empty?
-
-          return success! '' if all_options_disabled?
+          # check for which options is enabled
+          validate_when_required
 
           token = Volcanic::Authenticator::V1::Token.new(auth_token)
           if token.remote_validate
@@ -42,8 +42,28 @@ module Volcanic::Authenticator
           fail! 'Authorization header is missing!'
         end
 
+        # 4 cases will be check here base on 2 options
+        # +validate_token_always+ and +validate_token_when_presented+
+        # 1st: validate_token_always is enabled and token is empty.
+        #   this return invalid with missing message
+        # 2nd: validate_token_when_presented and token is exists
+        #   proceed the validation
+        # 3rd: validate_token_when_presented and token is empty
+        #   return success without validating token
+        # 4th: validate_token_always and validate_token_when_presented is disabled
+        #   return success without validating token
+        def validate_when_required
+          return missing! if validate_token_always && auth_token.empty?
+
+          return success! '' if validate_token_when_presented && auth_token.empty?
+
+          return success! '' if all_options_disabled?
+
+          nil
+        end
+
         def all_options_disabled?
-          !validate_token && !validate_token_when_presented
+          !validate_token_always && !validate_token_when_presented
         end
       end
     end
