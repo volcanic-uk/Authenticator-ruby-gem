@@ -221,4 +221,50 @@ RSpec.describe Volcanic::Authenticator::V1::Identity, :vcr do
       it { expect(identities.first.name).to eq 'volcanic+1234' }
     end
   end
+
+  describe '#deactivate!' do
+    subject(:ident) { new_identity }
+
+    context 'when activated' do
+      it { expect { ident.deactivate! }.not_to raise_error }
+    end
+
+    context 'when deactivated' do
+      before { ident.deactivate! }
+      it { expect { ident.deactivate! }.to raise_error identity_error }
+    end
+
+    context 'when not existed' do
+      before { ident.id = 'nil' }
+      it { expect { ident.deactivate! }.to raise_error identity_error }
+    end
+
+    context 'when not allowed' do
+      before { Configuration.set_authorize_identity }
+      it { expect { ident.deactivate! }.to raise_error authorization_error }
+    end
+  end
+
+  describe '#activate!' do
+    subject(:ident) { new_identity }
+
+    context 'when activated' do
+      it { expect { ident.activate! }.not_to raise_error }
+    end
+
+    context 'when deactivated' do
+      before { ident.deactivate! }
+      it { expect { ident.activate! }.not_to raise_error }
+    end
+
+    context 'when not existed' do
+      before { ident.id = 'nil' }
+      it { expect { ident.activate! }.to raise_error identity_error }
+    end
+
+    context 'when not allowed' do
+      before { Configuration.set_authorize_identity }
+      it { expect { ident.activate! }.to raise_error authorization_error }
+    end
+  end
 end

@@ -25,9 +25,7 @@ module Volcanic::Authenticator
       #   obj.update_role_ids(3, '4', [5], nil)
       #   obj.role_ids = [3, 4, 5]
       def update_role_ids(*ids)
-        payload = { roles: ids.flatten.compact }
-        path = [self.class.path, "/#{id}/roles"].join
-        request_to_update path, payload
+        perform_request "/#{id}/roles", roles: ids.flatten.compact
         self.role_ids = ids.flatten.compact.map!(&:to_i)
       end
 
@@ -38,16 +36,24 @@ module Volcanic::Authenticator
       #   obj.update_privilege_ids(3, '4', [5], nil)
       #   obj.privilege_ids = [3, 4, 5]
       def update_privilege_ids(*ids)
-        payload = { privileges: ids.flatten.compact }
-        path = [self.class.path, "/#{id}/privileges"].join
-        request_to_update path, payload
+        perform_request "/#{id}/privileges", privileges: ids.flatten.compact
         self.privilege_ids = ids.flatten.compact.map!(&:to_i)
+      end
+
+      def activate!
+        perform_request("/#{id}/activate")
+      end
+
+      # deactivate identity.
+      def deactivate!
+        perform_request("/#{id}/deactivate")
       end
 
       private
 
-      def request_to_update(path, payload)
-        perform_post_and_parse self.class.exception, path, payload.to_json
+      def perform_request(endpoint, **payloads)
+        path = [self.class.path, endpoint].join
+        perform_post_and_parse self.class.exception, path, payloads.to_json
       end
     end
   end
