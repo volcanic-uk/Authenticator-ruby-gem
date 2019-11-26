@@ -11,6 +11,9 @@ require_relative 'authenticator/v1/resource.rb'
 require_relative 'authenticator/v1/principal.rb'
 require_relative 'authenticator/v1/identity.rb'
 require_relative 'authenticator/v1/token.rb'
+require_relative 'authenticator/v1/warden/auth_token_when_presented.rb'
+require_relative 'authenticator/v1/warden/auth_token.rb'
+require_relative 'authenticator/v1/warden/auth_failure.rb'
 
 module Volcanic
   # Authenticator

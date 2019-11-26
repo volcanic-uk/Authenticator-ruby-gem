@@ -63,33 +63,13 @@ module Volcanic::Authenticator
         end
 
         def auth_enabled?
-          @auth_enabled ||= true
+          @auth_enabled.nil? ? true : @auth_enabled
         end
 
         def auth_url
           raise ConfigurationError, 'auth_url must not be nil' if @auth_url.nil?
 
           @auth_url
-        end
-
-        def validate_token_when_presented
-          @validate_token_when_presented ||= false
-        end
-
-        def validate_token_when_presented=(value)
-          raise ConfigurationError, 'validate_token_when_presented must be a boolean' unless boolean? value
-
-          @validate_token_when_presented = value
-        end
-
-        def validate_token_always
-          @validate_token_always ||= true
-        end
-
-        def validate_token_always=(value)
-          raise ConfigurationError, 'validate_token_always must be a boolean' unless boolean? value
-
-          @validate_token = value
         end
 
         private
