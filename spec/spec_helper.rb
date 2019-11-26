@@ -44,4 +44,10 @@ module Configuration
   def self.mock_tokens
     File.read('spec/mock_tokens.json')
   end
+
+  def self.set_authorize_identity
+    Volcanic::Authenticator.config.app_name = 'unauthorise'
+    Volcanic::Authenticator.config.app_secret = 'secret'
+    Volcanic::Authenticator.config.app_dataset_id = '90'
+  end
 end

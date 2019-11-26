@@ -4,10 +4,11 @@ RSpec.describe Volcanic::Authenticator::V1::Principal, :vcr do
   before { Configuration.set }
   let(:principal) { Volcanic::Authenticator::V1::Principal }
   let(:mock_name) { 'mock_name' }
-  let(:mock_dataset_id) { 1 }
+  let(:mock_dataset_id) { '1' }
   let(:mock_roles) { [1, 2] }
   let(:mock_privileges) { [3, 4] }
   let(:principal_error) { Volcanic::Authenticator::V1::PrincipalError }
+  let(:authorization_error) { Volcanic::Authenticator::V1::AuthorizationError }
   let(:new_principal) { Volcanic::Authenticator::V1::Principal.create(mock_name, mock_dataset_id, mock_roles, mock_privileges) }
   describe '#create' do
     context 'when missing name' do
@@ -165,6 +166,52 @@ RSpec.describe Volcanic::Authenticator::V1::Principal, :vcr do
     context 'When updating with empty array' do
       before { principal_update.update_privilege_ids([]) }
       its(:privilege_ids) { should eq [] }
+    end
+  end
+
+  describe '#deactivate!' do
+    subject(:princ) { new_principal }
+
+    context 'when activated' do
+      it { expect { princ.deactivate! }.not_to raise_error }
+    end
+
+    context 'when deactivated' do
+      before { princ.deactivate! }
+      it { expect { princ.deactivate! }.to raise_error principal_error }
+    end
+
+    context 'when not existed' do
+      before { princ.id = 'nil' }
+      it { expect { princ.deactivate! }.to raise_error principal_error }
+    end
+
+    context 'when not allowed' do
+      before { Configuration.set_authorize_identity }
+      it { expect { princ.deactivate! }.to raise_error authorization_error }
+    end
+  end
+
+  describe '#activate!' do
+    subject(:princ) { new_principal }
+
+    context 'when activated' do
+      it { expect { princ.activate! }.not_to raise_error }
+    end
+
+    context 'when deactivated' do
+      before { princ.deactivate! }
+      it { expect { princ.activate! }.not_to raise_error }
+    end
+
+    context 'when not existed' do
+      before { princ.id = 'nil' }
+      it { expect { princ.activate! }.to raise_error principal_error }
+    end
+
+    context 'when not allowed' do
+      before { Configuration.set_authorize_identity }
+      it { expect { princ.activate! }.to raise_error authorization_error }
     end
   end
 end

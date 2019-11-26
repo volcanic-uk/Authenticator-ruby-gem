@@ -1,0 +1,106 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://localhost:3004/api/v1/identity/login
+    body:
+      encoding: UTF-8
+      string: '{"name":"volcanic","secret":"volcanic!123","dataset_id":"-1","audience":["*"]}'
+    headers:
+      Authorization:
+      - Bearer
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      X-Auth-Request-Id:
+      - undefined
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '490'
+      Etag:
+      - W/"1ea-/qYxKq5Mr3UQZUuIm4KNtyDdYQc"
+      Date:
+      - Thu, 05 Dec 2019 08:21:50 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"response":{"token":"eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1NzU1MzQxMTAsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTc1NTM0MTEwLCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU3NTUzNDExMCwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AdfN1iz6iKzeGDw_kjPnrCyES2UNhulDt4oIzyrEZ3M7k-NbqUprh1UeMQAEhTmjDZexhRW_slYrnRur859gdqSdALCTfHJhhgmNx-oJ1qk8Gho1qpPjLN2dGtXFq2KduyTvP_nYxKjoNCnUFrniCTGGf1VsicBxhwAOq27qIfYtHsL7"}}'
+    http_version: 
+  recorded_at: Thu, 05 Dec 2019 08:21:50 GMT
+- request:
+    method: post
+    uri: http://localhost:3004/api/v1/principals
+    body:
+      encoding: UTF-8
+      string: '{"name":"mock_name","dataset_id":"1","roles":[1,2],"privileges":[3,4]}'
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1NzU1MzQxMTAsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTc1NTM0MTEwLCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU3NTUzNDExMCwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AdfN1iz6iKzeGDw_kjPnrCyES2UNhulDt4oIzyrEZ3M7k-NbqUprh1UeMQAEhTmjDZexhRW_slYrnRur859gdqSdALCTfHJhhgmNx-oJ1qk8Gho1qpPjLN2dGtXFq2KduyTvP_nYxKjoNCnUFrniCTGGf1VsicBxhwAOq27qIfYtHsL7
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      X-Powered-By:
+      - Express
+      X-Auth-Request-Id:
+      - undefined
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '164'
+      Etag:
+      - W/"a4-1+EkVIu24mZIs+SOYnthQQVpw7I"
+      Date:
+      - Thu, 05 Dec 2019 08:21:51 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"response":{"name":"mock_name","dataset_id":"1","secure_id":"89a4137436","updated_at":"2019-12-05T08:21:50.980Z","created_at":"2019-12-05T08:21:50.980Z","id":126}}'
+    http_version: 
+  recorded_at: Thu, 05 Dec 2019 08:21:51 GMT
+- request:
+    method: post
+    uri: http://localhost:3004/api/v1/principals/nil/deactivate
+    body:
+      encoding: UTF-8
+      string: "{}"
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1NzU1MzQxMTAsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTc1NTM0MTEwLCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU3NTUzNDExMCwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AdfN1iz6iKzeGDw_kjPnrCyES2UNhulDt4oIzyrEZ3M7k-NbqUprh1UeMQAEhTmjDZexhRW_slYrnRur859gdqSdALCTfHJhhgmNx-oJ1qk8Gho1qpPjLN2dGtXFq2KduyTvP_nYxKjoNCnUFrniCTGGf1VsicBxhwAOq27qIfYtHsL7
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '55'
+      Etag:
+      - W/"37-lXt0UbMm6XRHyny0ZHq2g87rRb4"
+      Date:
+      - Thu, 05 Dec 2019 08:21:51 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"message":"Principal does not exist","errorCode":2002}'
+    http_version: 
+  recorded_at: Thu, 05 Dec 2019 08:21:51 GMT
+recorded_with: VCR 5.0.0

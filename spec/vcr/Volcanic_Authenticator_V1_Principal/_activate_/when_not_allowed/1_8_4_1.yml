@@ -1,0 +1,72 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://localhost:3004/api/v1/identity/login
+    body:
+      encoding: UTF-8
+      string: '{"name":"unauthorise","secret":"secret","dataset_id":"90","audience":["*"]}'
+    headers:
+      Authorization:
+      - Bearer
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      X-Auth-Request-Id:
+      - undefined
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '496'
+      Etag:
+      - W/"1f0-zXLQGHHhzdEE6SbnC/XodfgqJV0"
+      Date:
+      - Thu, 05 Dec 2019 07:53:47 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"response":{"token":"eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1NzU1MzI0MjcsInN1YiI6InVzZXI6Ly9zYW5kYm94LzkwLzI1Yjk0ODI5MDEvYzgzODc5YTdkNyIsIm5iZiI6MTU3NTUzMjQyNywiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NzU1MzI0MjcsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AcoeE8qO-NUMsdy6N3Jc-ZlJJSkGRH47Kdrf5J4tBfuT4fJfoUftcQcpWSi0-NG3sQir5rQ5xUUR6ltrK4oot36uAUZHokkNrb0l7zVhudq3CYKP1ut1meHIsfKM9_zB5Iy8oPvLbFwu_KJX9n-Uy79TOgQ7-iE2Ka5eb4XHb-l6PYwA"}}'
+    http_version: 
+  recorded_at: Thu, 05 Dec 2019 07:53:47 GMT
+- request:
+    method: post
+    uri: http://localhost:3004/api/v1/principals
+    body:
+      encoding: UTF-8
+      string: '{"name":"mock_name","dataset_id":"1","roles":[1,2],"privileges":[3,4]}'
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1NzU1MzI0MjcsInN1YiI6InVzZXI6Ly9zYW5kYm94LzkwLzI1Yjk0ODI5MDEvYzgzODc5YTdkNyIsIm5iZiI6MTU3NTUzMjQyNywiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NzU1MzI0MjcsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AcoeE8qO-NUMsdy6N3Jc-ZlJJSkGRH47Kdrf5J4tBfuT4fJfoUftcQcpWSi0-NG3sQir5rQ5xUUR6ltrK4oot36uAUZHokkNrb0l7zVhudq3CYKP1ut1meHIsfKM9_zB5Iy8oPvLbFwu_KJX9n-Uy79TOgQ7-iE2Ka5eb4XHb-l6PYwA
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 401
+      message: Unauthorized
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '127'
+      Etag:
+      - W/"7f-Csu4O3/6+HJJJKHmMJOJnMUvVjc"
+      Date:
+      - Thu, 05 Dec 2019 07:53:48 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"message":"You are not allowed to perform this action for resource
+        type of principal on resource id of \\*","errorCode":10003}'
+    http_version: 
+  recorded_at: Thu, 05 Dec 2019 07:53:48 GMT
+recorded_with: VCR 5.0.0
