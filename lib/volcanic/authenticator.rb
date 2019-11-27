@@ -11,8 +11,9 @@ require_relative 'authenticator/v1/resource.rb'
 require_relative 'authenticator/v1/principal.rb'
 require_relative 'authenticator/v1/identity.rb'
 require_relative 'authenticator/v1/token.rb'
-require_relative 'authenticator/v1/warden/auth_token_when_presented.rb'
-require_relative 'authenticator/v1/warden/auth_token.rb'
+require_relative 'authenticator/v1/warden/validate_token_present.rb'
+require_relative 'authenticator/v1/warden/validate_token_always.rb'
+require_relative 'authenticator/v1/warden/allow_always.rb'
 require_relative 'authenticator/v1/warden/auth_failure.rb'
 
 module Volcanic
@@ -21,16 +22,8 @@ module Volcanic
     # Authenticator base
     module Base
       def config
+        yield Volcanic::Authenticator::V1::Config if block_given?
         Volcanic::Authenticator::V1::Config
-      end
-
-      # handling multiple configurations
-      # Volcanic::Authenticator.setup do |config|
-      #   config.auth_url = 'auth.com'
-      #   config.auth_enabled = true
-      # end
-      def setup
-        yield Volcanic::Authenticator::V1::Config
       end
     end
 
