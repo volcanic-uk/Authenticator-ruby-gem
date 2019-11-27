@@ -5,7 +5,8 @@ require_relative 'strategy_helper'
 
 module Volcanic::Authenticator
   module V1::Warden
-    # A strategy class for warden. this strategy authenticate token always
+    # this strategy validate token always.
+    # if authorization header not present or missing, it fail the request
     class ValidateTokenAlways < Warden::Strategies::Base
       include StrategyHelper
 

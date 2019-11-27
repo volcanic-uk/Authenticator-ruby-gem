@@ -5,7 +5,9 @@ require_relative 'strategy_helper'
 
 module Volcanic::Authenticator
   module V1::Warden
-    # A strategy class for warden. this strategy authenticate token when it presented
+      # this strategy validate when only authorization header is presented.
+      # if present or missing, it will not fail the request.
+      # if present and invalid token, it fail request
     class ValidatePresentToken < Warden::Strategies::Base
       include StrategyHelper
 
