@@ -5,7 +5,7 @@ require_relative '../token'
 
 module Volcanic::Authenticator
   module V1::Warden
-    # this class handle the auth service authentication by using warden
+    # Strategy helper module
     module StrategyHelper
       include Warden::Mixins::Common
 

@@ -2,10 +2,10 @@
 
 module Volcanic::Authenticator
   module V1::Warden
-    # this class create a rack for auth strategy failure
-    # this can be modify base it needs.
+    # this class create a rack for auth strategy failure response
+    # It can be customise or use as it default
+    # Default is [401, { 'Content-Type' => 'application/json' }, { message: @env['warden'].message }]
     class AuthFailure
-
       attr_accessor :status, :headers, :body
 
       def initialize(status = nil, headers = nil, body = nil)
