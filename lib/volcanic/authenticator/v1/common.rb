@@ -67,7 +67,7 @@ module Volcanic::Authenticator
         #
         #   2) finding multiple objects
         #
-        #   # by page, page_size, query, sort, order, pagination
+        #   # by page, page_size, query, name, sort, order, pagination
         #
         #   Obj.find(page: 1, page_size: 2)
         #   [
@@ -84,6 +84,20 @@ module Volcanic::Authenticator
         #     ...
         #   ]
         #   # return objects with name contains of 'vol'.
+        #
+        #   Obj.find(name: 'vol')
+        #   [
+        #     <Obj:1 @name='vol'>
+        #   ]
+        #   # return objects with the exact name.
+        #   # this will only work for principal and identity class.
+        #
+        #   Obj.find(dataset_id: 'volcanic')
+        #   [
+        #     <Obj:1 @dataset_id='vol'>
+        #   ]
+        #   # return objects with the exact dataset_id.
+        #   # this will only work for principal and identity class.
         #
         #   Obj.find(sort: 'id', order: 'desc')
         #   [
@@ -127,7 +141,7 @@ module Volcanic::Authenticator
         private
 
         def find_with(**opts)
-          params = opts.map { |key, val| "#{key}=#{val}" }.join('&') # convert to query string
+          params = opts.map { |key, val| "#{key}=#{CGI.escape(val.to_s)}" }.join('&') # convert to query string
           url = "#{path}?#{params}"
           parsed = perform_get_and_parse exception, url
           page_information = parsed['pagination'].transform_keys(&:to_sym)

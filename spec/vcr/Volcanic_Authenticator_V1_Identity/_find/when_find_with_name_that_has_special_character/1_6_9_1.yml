@@ -1,0 +1,74 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://localhost:3004/api/v1/identity/login
+    body:
+      encoding: UTF-8
+      string: '{"name":"volcanic","secret":"volcanic!123","dataset_id":"-1","audience":["*"]}'
+    headers:
+      Authorization:
+      - Bearer
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      X-Auth-Request-Id:
+      - undefined
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '490'
+      Etag:
+      - W/"1ea-s5X0Imutbizg/eWvPbDLbSXMWGI"
+      Date:
+      - Tue, 03 Dec 2019 02:11:16 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"response":{"token":"eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1NzUzMzkwNzYsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTc1MzM5MDc2LCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU3NTMzOTA3NiwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AEB-lTBRWatSsjKWblWsi3_xliRqNmXhbourMKe-EEYLtOa4tdQZl_QYOQ3tununN9ksq8jKOVLnROjxj_http3hAIX8XoTULfDZ44yzcSq0TIYgVTQBAFrJ2QuP2n-rmHUM02XgKv2sM3JX2OHfdliJ4Ok6y_nITId5WjQZksBd5mFu"}}'
+    http_version: 
+  recorded_at: Tue, 03 Dec 2019 02:11:16 GMT
+- request:
+    method: get
+    uri: http://localhost:3004/api/v1/identity?name=volcanic_%C3%BD&page=1&page_size=10
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1NzUzMzkwNzYsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTc1MzM5MDc2LCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU3NTMzOTA3NiwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AEB-lTBRWatSsjKWblWsi3_xliRqNmXhbourMKe-EEYLtOa4tdQZl_QYOQ3tununN9ksq8jKOVLnROjxj_http3hAIX8XoTULfDZ44yzcSq0TIYgVTQBAFrJ2QuP2n-rmHUM02XgKv2sM3JX2OHfdliJ4Ok6y_nITId5WjQZksBd5mFu
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      X-Auth-Request-Id:
+      - undefined
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '345'
+      Etag:
+      - W/"159-MFVCQgzsfWizcA7vc5nDMJbWG9g"
+      Date:
+      - Tue, 03 Dec 2019 02:11:16 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        eyJyZXNwb25zZSI6eyJwYWdpbmF0aW9uIjp7InBhZ2UiOjEsInBhZ2VTaXplIjoxMCwicm93Q291bnQiOjEsInBhZ2VDb3VudCI6MX0sImRhdGEiOlt7ImlkIjoxMCwicHJpbmNpcGFsX2lkIjoxLCJuYW1lIjoidm9sY2FuaWNfw70iLCJkYXRhc2V0X2lkIjoiLTEiLCJzb3VyY2UiOiJsaW5rZWRpbiIsImxhc3RfYWN0aXZlX2RhdGUiOm51bGwsImxhc3RfdXNlZF9pcF9hZGRyZXNzIjpudWxsLCJhY3RpdmUiOnRydWUsImNyZWF0ZWRfYXQiOiIyMDE5LTExLTIwVDA1OjQ2OjUxLjE2MFoiLCJ1cGRhdGVkX2F0IjoiMjAxOS0xMS0yMFQwNTo0Njo1MS4xNjBaIiwic2VjdXJlX2lkIjoiYWM1NDA1ZDRjMCJ9XX19
+    http_version: 
+  recorded_at: Tue, 03 Dec 2019 02:11:16 GMT
+recorded_with: VCR 5.0.0

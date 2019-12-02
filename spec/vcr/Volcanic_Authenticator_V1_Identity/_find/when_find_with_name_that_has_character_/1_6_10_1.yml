@@ -1,0 +1,73 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://localhost:3004/api/v1/identity/login
+    body:
+      encoding: UTF-8
+      string: '{"name":"volcanic","secret":"volcanic!123","dataset_id":"-1","audience":["*"]}'
+    headers:
+      Authorization:
+      - Bearer
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      X-Auth-Request-Id:
+      - undefined
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '490'
+      Etag:
+      - W/"1ea-b+jgmti1wF8Z+aMR+wzag66tm4E"
+      Date:
+      - Tue, 03 Dec 2019 14:54:05 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"response":{"token":"eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1NzUzODQ4NDUsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTc1Mzg0ODQ1LCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU3NTM4NDg0NSwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.ADmIMiWAYdTNYxfnQGrP6PMTKwxpOXC-5Iobo1rlVuPLl6Pdf2rHQjpIYt2Kq3rpi1nbA8oGenIcaISRXNnGH38jAdrIFjnnTvH-sE35yr736PK25smp82sGLKRlMOlUGFySv3e3WknlQQK9pmVPMmVVnYe0fxuc2fqS19wWUghGMrme"}}'
+    http_version: 
+  recorded_at: Tue, 03 Dec 2019 14:54:05 GMT
+- request:
+    method: get
+    uri: http://localhost:3004/api/v1/identity?name=volcanic%2B1234&page=1&page_size=10
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1NzUzODQ4NDUsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTc1Mzg0ODQ1LCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU3NTM4NDg0NSwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.ADmIMiWAYdTNYxfnQGrP6PMTKwxpOXC-5Iobo1rlVuPLl6Pdf2rHQjpIYt2Kq3rpi1nbA8oGenIcaISRXNnGH38jAdrIFjnnTvH-sE35yr736PK25smp82sGLKRlMOlUGFySv3e3WknlQQK9pmVPMmVVnYe0fxuc2fqS19wWUghGMrme
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      X-Auth-Request-Id:
+      - undefined
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '349'
+      Etag:
+      - W/"15d-QE4uGDiOCbX6aFqA0EUqeqUemiw"
+      Date:
+      - Tue, 03 Dec 2019 14:54:05 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"response":{"pagination":{"page":1,"pageSize":10,"rowCount":1,"pageCount":1},"data":[{"id":11,"principal_id":9,"name":"volcanic+1234","dataset_id":"8954","source":"password","last_active_date":null,"last_used_ip_address":null,"active":true,"created_at":"2019-11-28T03:27:33.883Z","updated_at":"2019-11-28T03:27:33.883Z","secure_id":"58d235f2a9"}]}}'
+    http_version: 
+  recorded_at: Tue, 03 Dec 2019 14:54:05 GMT
+recorded_with: VCR 5.0.0
