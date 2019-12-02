@@ -1,0 +1,73 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://localhost:3004/api/v1/identity/login
+    body:
+      encoding: UTF-8
+      string: '{"name":"volcanic","secret":"volcanic!123","dataset_id":"-1","audience":["*"]}'
+    headers:
+      Authorization:
+      - Bearer
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      X-Auth-Request-Id:
+      - undefined
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '490'
+      Etag:
+      - W/"1ea-9+bih6YaccgzwrdZQqvXcdtzf/U"
+      Date:
+      - Tue, 03 Dec 2019 14:54:30 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"response":{"token":"eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1NzUzODQ4NzAsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTc1Mzg0ODcwLCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU3NTM4NDg3MCwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AW_8sIx6yUpAeoZne5ylU89NrtDUchOR3AmsRprzhOmAIOfbrOxa-ZnpJfnSThbszhaKqG-kgxiN_7dE71cD98BvACCS5jUKQZpt3zVfrMSP6ZzzHoK5CrmypcyLIz7gSoKjrz5PdFzD5VZbUDFQfMknYt6wfKhhGURU-RW-BGnBYdVh"}}'
+    http_version: 
+  recorded_at: Tue, 03 Dec 2019 14:54:30 GMT
+- request:
+    method: get
+    uri: http://localhost:3004/api/v1/principals?name=volcanic%2B1234&page=1&page_size=10
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1NzUzODQ4NzAsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTc1Mzg0ODcwLCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU3NTM4NDg3MCwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AW_8sIx6yUpAeoZne5ylU89NrtDUchOR3AmsRprzhOmAIOfbrOxa-ZnpJfnSThbszhaKqG-kgxiN_7dE71cD98BvACCS5jUKQZpt3zVfrMSP6ZzzHoK5CrmypcyLIz7gSoKjrz5PdFzD5VZbUDFQfMknYt6wfKhhGURU-RW-BGnBYdVh
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      X-Auth-Request-Id:
+      - undefined
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '303'
+      Etag:
+      - W/"12f-CU8m2CZJnyjo5iVAamcRD48fhcA"
+      Date:
+      - Tue, 03 Dec 2019 14:54:30 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"response":{"pagination":{"page":1,"pageSize":10,"rowCount":1,"pageCount":1},"data":[{"id":13,"secure_id":"ea6927cbf6","name":"volcanic+1234","dataset_id":"8966","last_active_date":null,"login_attempts":0,"active":true,"created_at":"2019-11-28T06:14:09.013Z","updated_at":"2019-11-28T06:14:09.013Z"}]}}'
+    http_version: 
+  recorded_at: Tue, 03 Dec 2019 14:54:30 GMT
+recorded_with: VCR 5.0.0

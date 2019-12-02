@@ -67,6 +67,21 @@ RSpec.describe Volcanic::Authenticator::V1::Principal, :vcr do
       it { expect(principals.row_count). to eq 20 }
       it { expect(principals.page_count). to eq 2 }
     end
+
+    context 'when find with name' do
+      subject(:principals) { principal.find(name: 'volcanic') }
+      it { expect(principals.first.name).to eq 'volcanic' }
+    end
+
+    context 'when find with name that has special character' do
+      subject(:principals) { principal.find(name: 'volcanic_ý') }
+      it { expect(principals.first.name).to eq 'volcanic_ý' }
+    end
+
+    context 'when find with name that has + character ' do
+      subject(:principals) { principal.find(name: 'volcanic+1234') }
+      it { expect(principals.first.name).to eq 'volcanic+1234' }
+    end
   end
 
   describe '#save' do

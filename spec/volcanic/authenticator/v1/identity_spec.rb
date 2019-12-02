@@ -205,5 +205,20 @@ RSpec.describe Volcanic::Authenticator::V1::Identity, :vcr do
       it { expect(identities[1].id).to eq 4 }
       it { expect(identities[2].id).to eq 3 }
     end
+
+    context 'when find with name' do
+      subject(:identities) { identity.find(name: 'volcanic') }
+      it { expect(identities.first.name).to eq 'volcanic' }
+    end
+
+    context 'when find with name that has special character' do
+      subject(:identities) { identity.find(name: 'volcanic_ý') }
+      it { expect(identities.first.name).to eq 'volcanic_ý' }
+    end
+
+    context 'when find with name that has + character ' do
+      subject(:identities) { identity.find(name: 'volcanic+1234') }
+      it { expect(identities.first.name).to eq 'volcanic+1234' }
+    end
   end
 end

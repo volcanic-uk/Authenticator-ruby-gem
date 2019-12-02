@@ -137,6 +137,20 @@ Volcanic::Authenticator::V1::Identity.new(id: 'identity_id').token(audience: ['a
 # => return a token object
 ```
 
+To find by id. return identity object
+```ruby
+Volcanic::Authenticator::V1::Identity.find_by_id('identity_id')
+```
+
+To find by name. this return an array object
+```ruby
+principals = Volcanic::Authenticator::V1::Identity.find(name: 'volcanic')
+principals.first.name # => 'volcanic'
+```
+
+To find by collections (others options). see [here](#find)
+
+
 **Token**
 
 When initializing a token
@@ -226,8 +240,10 @@ To find principal by id
 Volcanic::Authenticator::V1::Principal.find_by_id('principal_id')
 ```
 
-To find principal in collections
+To find principal in collections <a name="find"></a>
 ```ruby
+# Note: all the options value will be URI encoded.
+
 # search for name
 principals = Volcanic::Authenticator::V1::Principal.find(query: 'principal')
 principals[0].name # => 'principal-A'
@@ -250,7 +266,17 @@ Volcanic::Authenticator::V1::Principal.find(sort: 'name') # sort by name
 # sort in order
 Volcanic::Authenticator::V1::Principal.find(sort: 'id', order: 'asc')  # in ascending order
 Volcanic::Authenticator::V1::Principal.find(sort: 'id', order: 'desc') # in descending order
-#
+
+######################################################
+# below options only work for principal and identity #
+######################################################
+
+# by name
+Volcanic::Authenticator::V1::Principal.find(name: 'volcanic')
+
+# by dataset_id
+Volcanic::Authenticator::V1::Principal.find(dataset_id: '1234')
+ 
 ```
 
 **Resource**
