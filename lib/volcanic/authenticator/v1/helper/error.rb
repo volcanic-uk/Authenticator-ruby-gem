@@ -48,9 +48,18 @@ module Volcanic::Authenticator
 
         # error message at response body
         def message(msg = body)
-          return "Authenticator service return #{status} error" unless msg.key?('message')
+          message = if msg.key?('message')
+                      msg['message']
+                    else
+                      "Authenticator service return #{status} error"
+                    end
 
-          msg['message']
+          "request_id: #{request_id}, message: #{message}"
+        end
+
+        # aws request id
+        def request_id
+          body.key?('requestId') ? body['requestId'] : 'null'
         end
 
         # error code at response body
