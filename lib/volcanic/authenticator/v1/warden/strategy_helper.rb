@@ -21,12 +21,22 @@ module Volcanic::Authenticator
         request.has_header?('HTTP_AUTHORIZATION')
       end
 
-      def authorization_header
-        request.get_header('HTTP_AUTHORIZATION').to_s.gsub('Bearer ', '')
+      def fetch_token
+        bearer, token =
+          request.get_header('HTTP_AUTHORIZATION').to_s.split(nil, 2)
+
+        # this will raise TokenError
+        return unless valid_bearer?(bearer)
+
+        token
+      end
+
+      def valid_bearer?(value)
+        value.downcase == 'bearer'
       end
 
       def token
-        @token ||= Volcanic::Authenticator::V1::Token.new(authorization_header)
+        @token ||= Volcanic::Authenticator::V1::Token.new(fetch_token)
       end
 
       def token_valid?

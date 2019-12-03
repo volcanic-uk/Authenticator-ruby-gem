@@ -1,0 +1,36 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://localhost:3004/api/v1/token/validate
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1NzEyMTA5OTQsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xLzEvMS8yIiwibmJmIjoxNTcxMjExMDU0LCJhdWRpZW5jZSI6WyJrcmFrYXRvYWV1IiwiLSJdLCJpYXQiOjE1NzEyMTEwNTQsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AaYLBCcFvl7tD5WNBxvME9HmbxTCoOGSj-4v93Gk_xqRPoZU56r_yIrtrDCxLHUMcJvdM2jN9iHQbce_NUyffT19ANsaMt1S87SbBXazWr4dLD87HJK-wXgK3w4qBlxWm14fb1CNryoOFBcmg4JXtCAPMb2z5blR9d6hn4TAYTO6NJM2
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '40'
+      Etag:
+      - W/"28-K4V9n4BzYE6B/puCSbb5ibAnaCY"
+      Date:
+      - Tue, 03 Dec 2019 09:44:07 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"response":{"exp":7574645425,"sub":"user://sandbox/-1/volcanic/volcanic","nbf":1574645425,"audience":["krakatoaeu","-"],"iat":1574645425,"iss":"volcanic_auth_service_ap2","encoded":"eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1NzQ2NDU0MjUsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTc0NjQ1NDI1LCJhdWRpZW5jZSI6WyJrcmFrYXRvYWV1IiwiLSJdLCJpYXQiOjE1NzQ2NDU0MjUsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AJaCXpR2nmKUXaFd0AMeS0XAsANk1kGntQsYMiqypPGIF7Jw0ewRlYMSQySBBwJHr0FHxobB1dJBmoy0NVLq_BwBACQEq0q816sDR3IHna8U_lHtBpisjBB7rJWyUEnTOuEKNG55dz69yNEofHM-QPuXNKUbKg2Ngu4Qwdom8gCao8Fs"}}'
+    http_version: 
+  recorded_at: Tue, 03 Dec 2019 09:44:07 GMT
+recorded_with: VCR 5.0.0
