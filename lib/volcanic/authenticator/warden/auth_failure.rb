@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Volcanic::Authenticator
-  module V1::Warden
+  module Warden
     # this class create a rack for auth strategy failure response
     # It can be customise or use as it default
     # Default is [401, { 'Content-Type' => 'application/json' }, { message: @env['warden'].message }]
