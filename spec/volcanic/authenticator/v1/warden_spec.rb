@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Volcanic::Authenticator::V1::Warden, :vcr do
+RSpec.describe Volcanic::Authenticator::Warden, :vcr do
   before { Configuration.set }
   let(:mock_request) { double 'request' }
   let(:strategy) {}
@@ -20,7 +20,7 @@ RSpec.describe Volcanic::Authenticator::V1::Warden, :vcr do
   subject { strategy.authenticate! }
 
   describe '#allow_always' do
-    let(:strategy) { Volcanic::Authenticator::V1::Warden::AllowAlways.new(nil) }
+    let(:strategy) { Volcanic::Authenticator::Warden::AllowAlways.new(nil) }
 
     context 'success' do
       it { should eq :success }
@@ -38,7 +38,7 @@ RSpec.describe Volcanic::Authenticator::V1::Warden, :vcr do
   end
 
   describe '#validate_token_always' do
-    let(:strategy) { Volcanic::Authenticator::V1::Warden::ValidateTokenAlways.new(nil) }
+    let(:strategy) { Volcanic::Authenticator::Warden::ValidateTokenAlways.new(nil) }
 
     context 'success' do
       it { should eq :success }
@@ -56,7 +56,7 @@ RSpec.describe Volcanic::Authenticator::V1::Warden, :vcr do
   end
 
   describe 'validate_token_present' do
-    let(:strategy) { Volcanic::Authenticator::V1::Warden::ValidatePresentToken.new(nil) }
+    let(:strategy) { Volcanic::Authenticator::Warden::ValidatePresentToken.new(nil) }
 
     context 'success' do
       it { should eq :success }
