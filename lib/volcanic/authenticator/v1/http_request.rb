@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require_relative '../../authenticator'
 require 'httparty'
 require 'forwardable'
 require 'down'

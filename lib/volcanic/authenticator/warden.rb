@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'warden'
 require_relative 'warden/auth_failure'
 require_relative 'warden/allow_always'
 require_relative 'warden/validate_token_always'
