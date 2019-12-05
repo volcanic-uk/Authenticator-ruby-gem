@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'warden'
 require_relative 'strategy_helper'
 
 module Volcanic::Authenticator::Warden
