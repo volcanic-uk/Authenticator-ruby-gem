@@ -1,0 +1,40 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://localhost:3004/api/v1/identity
+    body:
+      encoding: UTF-8
+      string: '{"source":"mock_source","secret":null,"skip_secret_encryption":false,"privileges":[],"roles":[],"secretless":true,"name":"mock_name","principal_id":"25f5dad773"}'
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1NzEwMzYyMTMsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xLzEvMS8yIiwibmJmIjoxNTcxMDM2MjczLCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU3MTAzNjI3MywiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AJY1zm0ekpCRjRcRCfh56m3DOknF1_Hnf1oQukIy4w4jrqWNPq9FJltAvFT42z0qe0-4mV43VG4Xhb3xj8F5B7v_AelUayqQw1lhlDsDk58gK0enqaON5GH3t_75XKyULsmClCmgUsGS4dAqArBbs7hJ5we9GAkkptSIaQr2NsbfPTBU
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 403
+      message: Forbidden
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '92'
+      Etag:
+      - W/"5c-BVMIClV/EVj7k6MsbivERRhtT3M"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Thu, 19 Dec 2019 02:59:22 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_6966813753804497","message":"Forbidden","errorCode":3001}'
+    http_version: 
+  recorded_at: Thu, 19 Dec 2019 02:59:22 GMT
+recorded_with: VCR 5.0.0

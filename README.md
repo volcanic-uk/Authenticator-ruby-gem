@@ -67,7 +67,15 @@ To create a new identity with a source option:
 ```ruby
 Volcanic::Authenticator::V1::Identity.create('name', 'principal_id', source: 'facebook')
 ```
-this options create identity without generating a secret (secretless identity). 
+
+To create a new identity with secretless option:
+ ```ruby
+ Volcanic::Authenticator::V1::Identity.create('name', 'principal_id', source: 'facebook', secretless: true)
+
+# by default if source is set to 'password', secretless is set to false
+ Volcanic::Authenticator::V1::Identity.create('name', 'principal_id', source: 'password') # secreteless false
+ Volcanic::Authenticator::V1::Identity.create('name', 'principal_id', source: 'google') # secreteless true
+ ```
 
 Method/Attr available for `Identity` are:
 ```ruby

@@ -1,0 +1,81 @@
+---
+http_interactions:
+  - request:
+      method: post
+      uri: http://localhost:3004/api/v1/identity/login
+      body:
+        encoding: UTF-8
+        string: '{"name":"volcanic","secret":"volcanic!123","dataset_id":"-1","audience":["*"]}'
+      headers:
+        Authorization:
+          - Bearer
+        Content-Type:
+          - application/json
+    response:
+      status:
+        code: 200
+        message: OK
+      headers:
+        X-Powered-By:
+          - Express
+        X-Auth-Request-Id:
+          - offline_awsRequestId_8492895718100548
+        Content-Type:
+          - application/json; charset=utf-8
+        Content-Length:
+          - '542'
+        Etag:
+          - W/"21e-pJ/f3bQC3V8uMsDFkOIzxy5lnHE"
+        Cache-Control:
+          - no-cache
+        Vary:
+          - accept-encoding
+        Date:
+          - Thu, 19 Dec 2019 02:57:26 GMT
+        Connection:
+          - keep-alive
+      body:
+        encoding: UTF-8
+        string: '{"requestID":"offline_awsRequestId_8492895718100548","response":{"token":"eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1NzY3MjQyNDYsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTc2NzI0MjQ2LCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU3NjcyNDI0NiwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AK0_V4ckMifFvEovRx3lsJkQxzVsc3lnIinWAOc3jXlPPdW_fRX8KQOjRcrnB0EygYwHCxMHjXXBksh2i5fg4OKJAa-Y5QiyjOgtJcS6ViSSqNc5ksdfOJ1b2xEqQ59Sc6pv5ZxHAD3TNSu4VV1wE_S1rgAnBT9Wld_MHoYUkyKuwJox"}}'
+      http_version:
+    recorded_at: Thu, 19 Dec 2019 02:57:26 GMT
+  - request:
+      method: post
+      uri: http://localhost:3004/api/v1/identity
+      body:
+        encoding: UTF-8
+        string: '{"source":"mock_source","secret":null,"skip_secret_encryption":false,"privileges":[],"roles":[],"secretless":true,"name":"mock_name","principal_id":"25f5dad773"}'
+      headers:
+        Authorization:
+          - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1NzY3MjQyNDYsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTc2NzI0MjQ2LCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU3NjcyNDI0NiwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AK0_V4ckMifFvEovRx3lsJkQxzVsc3lnIinWAOc3jXlPPdW_fRX8KQOjRcrnB0EygYwHCxMHjXXBksh2i5fg4OKJAa-Y5QiyjOgtJcS6ViSSqNc5ksdfOJ1b2xEqQ59Sc6pv5ZxHAD3TNSu4VV1wE_S1rgAnBT9Wld_MHoYUkyKuwJox
+        Content-Type:
+          - application/json
+    response:
+      status:
+        code: 201
+        message: Created
+      headers:
+        X-Powered-By:
+          - Express
+        X-Auth-Request-Id:
+          - offline_awsRequestId_622231259444324
+        Content-Type:
+          - application/json; charset=utf-8
+        Content-Length:
+          - '254'
+        Etag:
+          - W/"fe-vhye1RbL0W6FhH+mhFqIsx3D4bs"
+        Cache-Control:
+          - no-cache
+        Vary:
+          - accept-encoding
+        Date:
+          - Thu, 19 Dec 2019 02:57:26 GMT
+        Connection:
+          - keep-alive
+      body:
+        encoding: UTF-8
+        string: '{"requestID":"offline_awsRequestId_622231259444324","response":{"name":"mock_name","principal_id":2,"source":"mock_source","secure_id":"bd32700ee8","dataset_id":"1","updated_at":"2019-12-19T02:57:26.707Z","created_at":"2019-12-19T02:57:26.707Z","id":13}}'
+      http_version:
+    recorded_at: Thu, 19 Dec 2019 02:57:26 GMT
+recorded_with: VCR 5.0.0

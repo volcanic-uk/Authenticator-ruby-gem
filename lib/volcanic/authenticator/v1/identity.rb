@@ -126,6 +126,14 @@ module Volcanic::Authenticator
         #   # note that, this will generate a secretless identity.
         #   Identity.create('name', principal_id, source: 'google')
         #
+        #  # Secretless
+        #  # identity can be secretless, which mean it wont have a secret if this set to true
+        #  # by default if source is set to 'password', secretless will be set to false.
+        #  Identity.create('name', principal_id, source: 'google', secretless: true)
+        #   OR
+        #  Identity.create('name', principal_id, source: 'password') # secretless false
+        #  Identity.create('name', principal_id, source: 'google') # secretless true
+        #
         def create(name, principal_id, **opts)
           payload = payload_handler(**opts)
           payload[:name] = name
@@ -142,7 +150,7 @@ module Volcanic::Authenticator
 
         private
 
-        # by default identity will have source with value `password`.
+        # by default identity will have source with value `password` and secretless false.
         # if source is set to others value, secretless will force to be true.
         # if source is nil, default value will be taken.
         # if source is empty, it raise IdentityError
@@ -153,7 +161,7 @@ module Volcanic::Authenticator
             skip_secret_encryption: opts[:skip_encryption] || false,
             privileges: opts[:privilege_ids] || [],
             roles: opts[:role_ids] || [],
-            secretless: source != 'password' # secretless will be false if source is 'password'
+            secretless: opts[:secretless].nil? ? source.to_s != 'password' : opts[:secretless] # secretless will be false if source is 'password'
           }
         end
       end
