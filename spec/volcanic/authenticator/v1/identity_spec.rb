@@ -10,6 +10,7 @@ RSpec.describe Volcanic::Authenticator::V1::Identity, :vcr do
   let(:mock_privileges) { [1, 2] }
   let(:mock_roles) { [1, 2] }
   let(:mock_source) { 'mock_source' }
+  let(:mock_source_symbol) { :mock_source }
   let(:mock_random_secret) { 'cded0d177c84163f1a460f573b9b14e1b8b1e515' }
   let(:new_identity) \
     { identity.create(mock_name, mock_principal_id, secret: mock_secret) }
@@ -67,6 +68,16 @@ RSpec.describe Volcanic::Authenticator::V1::Identity, :vcr do
 
     context 'when create with source value' do
       subject { identity.create(mock_name, mock_principal_id, source: mock_source) }
+      its(:source) { should eq mock_source }
+    end
+
+    context 'when create with source value (symbol)' do
+      subject { identity.create(mock_name, mock_principal_id, source: mock_source_symbol) }
+      its(:source) { should eq mock_source }
+    end
+
+    context 'when create with source key as string' do
+      subject { identity.create(mock_name, mock_principal_id, 'source': mock_source) }
       its(:source) { should eq mock_source }
     end
   end
