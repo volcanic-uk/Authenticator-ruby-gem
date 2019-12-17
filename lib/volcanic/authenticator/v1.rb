@@ -3,7 +3,7 @@
 require_relative 'v1/exception'
 
 require_relative 'v1/http_request'
-require_relative 'v1/resource.rb'
+require_relative 'v1/active_resource.rb'
 
 require_relative 'v1/principal.rb'
 require_relative 'v1/identity.rb'
