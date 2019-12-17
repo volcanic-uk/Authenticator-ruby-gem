@@ -6,7 +6,7 @@ require 'active_resource'
 module Volcanic::Authenticator
   module V1
     # extend to ActiveResource class
-    class Resource < ActiveResource::Base
+    class ActiveResource < ActiveResource::Base
       extend SingleForwardable
       def_delegator 'Volcanic::Authenticator.config'.to_sym, :auth_enabled?
 
