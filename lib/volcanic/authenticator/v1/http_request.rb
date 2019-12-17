@@ -4,99 +4,65 @@ require 'httparty'
 require 'forwardable'
 require 'down'
 require_relative 'helper/app_token'
+require_relative 'base'
 
 module Volcanic::Authenticator
   module V1
-    # This class use HTTParty for the http request.
-    # only that it has an 'Authorization' header that is needed for auth service
+    # This class include HTTParty module and automatically generate
+    # authorization header to +headers+.
     #
-    # eg.
+    # To disable of the authorization header, add to configuration as:
     #
-    # Request.get('/api/v1/user', body: {id: '1'}.to_json, headers: {'Content-Type' => '...'})
+    #   Volcanic::Authorization.config.auth_enabled = false
     #
-    # to extend class:
+    # example:
     #
-    # VaultRequest < Request
-    #   self.base_uri = 'http://abc.com/'
-    # end
+    #   HTTPRequest.get('/api/v1/user', body: {id: '1'}.to_json, headers: {'Content-Type' => '...'})
     #
-    # VaultRequest.get('api/v1/user')
+    #   extending the class:
     #
-    class HTTPRequest
+    #   VaultRequest < HTTPRequest
+    #     base_uri 'http://vault.cloud/'
+    #   end
+    #
+    #   VaultRequest.get('api/v1/user')
+    #
+    # This class also include +download+ method on Down gem.
+    # example:
+    #
+    #   HTTPRequest.download('/api/v1/image').read
+    #
+    #   # use default base_uri
+    #   KrakatoaRequest < HTTPRequest
+    #     base_uri 'http://krakatoa.cloud/'
+    #   end
+    #
+    #   KrakatoaRequest.download('/api/v1/image').read
+    #
+    # NOTE: only support +download+ for now.
+    #
+    class HTTPRequest < Base
+      include HTTParty
       class << self
-        attr_accessor :base_uri
-
-        def get(*args, &block)
-          RequestBase.new(base_uri, *args, &block).get
-        end
-
-        def post(*args, &block)
-          RequestBase.new(base_uri, *args, &block).post
-        end
-
-        def patch(*args, &block)
-          RequestBase.new(base_uri, *args, &block).patch
-        end
-
-        def put(*args, &block)
-          RequestBase.new(base_uri, *args, &block).put
-        end
-
-        def delete(*args, &block)
-          RequestBase.new(base_uri, *args, &block).delete
-        end
-
-        def download(*args)
-          RequestBase.new(base_uri).download(*args)
-        end
-      end
-
-      # request
-      class RequestBase
-        include HTTParty
-        extend Forwardable
-
-        attr_accessor :url, :args, :block
-        def_instance_delegator 'Volcanic::Authenticator.config'.to_sym, :auth_enabled?
-
-        def initialize(base_url, *args, &block)
-          @args = args
-          @block = block
-          @url = base_url
-          self.class.base_uri url
-          self.class.headers auth_header
-        end
-
-        def get
-          self.class.get(*args, &block)
-        end
-
-        def post
-          self.class.post(*args, &block)
-        end
-
-        def put
-          self.class.put(*args, &block)
-        end
-
-        def patch
-          self.class.patch(*args, &block)
-        end
-
-        def delete
-          self.class.delete(*args, &block)
-        end
-
+        # extend this class to have +download+ method from Down gem.
+        # +base_uri+ and +headers+ is coming from HTTParty module class methods.
         def download(endpoint, **opts)
-          path = [url, endpoint].join
-          opts[:headers] = auth_header
+          path = [base_uri, endpoint].join
+          opts[:headers] = headers
           Down.download(path, opts)
+        end
+
+        # Override HTTParty +headers+ method to enable dynamic
+        # authorization header.
+        def headers(headers = {})
+          base_headers = auth_enabled? ? { 'Authorization' => auth_token } : {}
+          super base_headers.merge(headers)
         end
 
         private
 
-        def auth_header
-          { 'Authorization' => "Bearer #{AppToken.fetch_and_request}" } if auth_enabled?
+        def auth_token
+          "Bearer #{AppToken.fetch_and_request}"
         end
       end
     end

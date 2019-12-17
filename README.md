@@ -323,13 +323,14 @@ to predefine base uri:
 ```ruby
 class VaultRequest < Volcanic::Authenticator::V1::HTTPRequest
   # set base uri
-  self.base_uri = 'https://vault.aws.local'
+  base_uri 'https://vault.cloud'
 
   def get_user
      self.class.get('/v1/user')
   end
 end
 
+VaultRequest.get_user
 # OR 
 VaultRequest.get('/v1/user')
 ```
