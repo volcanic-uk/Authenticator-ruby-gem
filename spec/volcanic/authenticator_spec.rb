@@ -43,26 +43,26 @@ RSpec.describe Volcanic::Authenticator, :vcr do
     describe 'Application Token' do
       before { Configuration.set }
       let(:app_token) { Volcanic::Authenticator::V1::AppToken }
-      subject { app_token.request_app_token }
+      subject { app_token.request_new }
 
       context 'when missing app_name' do
         before { set.app_name = nil }
-        it { expect { app_token.request_app_token }.to raise_error app_token_error }
+        it { expect { app_token.request_new }.to raise_error app_token_error }
       end
 
       context 'when invalid app_name' do
         before { set.app_secret = 'wrong_name' }
-        it { expect { app_token.request_app_token }.to raise_error authorization_error }
+        it { expect { app_token.request_new }.to raise_error authorization_error }
       end
 
       context 'when missing app_secret' do
         before { set.app_secret = nil }
-        it { expect { app_token.request_app_token }.to raise_error app_token_error }
+        it { expect { app_token.request_new }.to raise_error app_token_error }
       end
 
       context 'when invalid app_secret' do
         before { set.app_secret = 'wrong_secret' }
-        it { expect { app_token.request_app_token }.to raise_error authorization_error }
+        it { expect { app_token.request_new }.to raise_error authorization_error }
       end
 
       context 'When requesting' do
@@ -76,12 +76,12 @@ RSpec.describe Volcanic::Authenticator, :vcr do
 
       context 'When app_dataset_id is nil' do
         before { set.app_dataset_id = nil }
-        it { expect { app_token.request_app_token }.to raise_error app_token_error }
+        it { expect { app_token.request_new }.to raise_error app_token_error }
       end
 
       context 'When app_dataset_id is empty' do
         before { set.app_dataset_id = '' }
-        it { expect { app_token.request_app_token }.to raise_error app_token_error }
+        it { expect { app_token.request_new }.to raise_error app_token_error }
       end
     end
 
