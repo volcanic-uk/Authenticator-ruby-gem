@@ -3,11 +3,12 @@
 require 'jwt'
 require_relative 'helper/request'
 require_relative 'helper/app_token'
+require_relative 'base'
 
 module Volcanic::Authenticator
   module V1
     # Token
-    class Token
+    class Token < Base
       include Request
 
       IDENTITY_PATH = 'api/v1/identity/'
@@ -58,6 +59,9 @@ module Volcanic::Authenticator
         path = [IDENTITY_PATH, 'logout'].join
         perform_post_and_parse EXCEPTION, path, nil, token_base64
       end
+
+      # return token string base64
+      alias to_base64 token_base64
 
       private
 
