@@ -11,7 +11,6 @@ module Volcanic::Authenticator
         # use below credentials to create key
         key = gen_key(name, secret, dataset_id, audience)
         token = cache.fetch(key, expire_in: exp_token) do
-          p key
           super(*audience)
         end
 

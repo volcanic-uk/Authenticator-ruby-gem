@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe Volcanic::Authenticator::V1::IdentityCache, :vcr do
-  let(:cache) { Volcanic::Cache::Cache }
+  let(:cache) { Volcanic::Cache::Cache.instance }
   let(:identity_cache) { Volcanic::Authenticator::V1::IdentityCache }
   let(:identity) { Volcanic::Authenticator::V1::Identity }
   let(:id) { 1 } # mock id
@@ -27,6 +27,10 @@ RSpec.describe Volcanic::Authenticator::V1::IdentityCache, :vcr do
         expect(cache.key?(gen_key(name, secret, dataset_id))).to eq true
         expect(instance.login).to eq result_values[0] # fetch from cache
       end
+
+      it('cache tll should equal to token exp') do
+        expect(cache.ttl_for(gen_key(name, secret, dataset_id))).to eq(exp - Time.now.to_i)
+      end
     end
 
     context 'when not caching' do
@@ -45,6 +49,10 @@ RSpec.describe Volcanic::Authenticator::V1::IdentityCache, :vcr do
         expect(instance.token).to eq result_values[0]
         expect(cache.key?(gen_key(id))).to eq true
         expect(instance.token).to eq result_values[0] # fetch from cache
+      end
+
+      it('cache tll should equal to token exp') do
+        expect(cache.ttl_for(gen_key(id))).to eq(exp - Time.now.to_i)
       end
     end
 
