@@ -2,10 +2,10 @@
 http_interactions:
 - request:
     method: post
-    uri: http://localhost:3004/api/v1/identity
+    uri: http://localhost:6000/api/v1/identity
     body:
       encoding: UTF-8
-      string: '{"source":"mock_source","secret":null,"skip_secret_encryption":false,"privileges":[],"roles":[],"secretless":true,"name":"mock_name","principal_id":"25f5dad773"}'
+      string: '{"source":"mock_source","secret":null,"skip_secret_encryption":false,"privileges":[],"roles":[],"secretless":true,"name":"mock_name","principal_id":"principal_id"}'
     headers:
       Authorization:
       - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1NzEwMzYyMTMsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xLzEvMS8yIiwibmJmIjoxNTcxMDM2MjczLCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU3MTAzNjI3MywiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AJY1zm0ekpCRjRcRCfh56m3DOknF1_Hnf1oQukIy4w4jrqWNPq9FJltAvFT42z0qe0-4mV43VG4Xhb3xj8F5B7v_AelUayqQw1lhlDsDk58gK0enqaON5GH3t_75XKyULsmClCmgUsGS4dAqArBbs7hJ5we9GAkkptSIaQr2NsbfPTBU

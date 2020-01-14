@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3004/api/v1/principals/1
+    uri: http://localhost:6000/api/v1/principals/1
     body:
       encoding: US-ASCII
       string: ''

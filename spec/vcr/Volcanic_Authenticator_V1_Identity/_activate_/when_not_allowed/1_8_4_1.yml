@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: http://localhost:3004/api/v1/identity/login
+    uri: http://localhost:6000/api/v1/identity/login
     body:
       encoding: UTF-8
       string: '{"name":"not-authorise-identity","secret":"secret","dataset_id":"90","audience":["*"]}'
@@ -37,10 +37,10 @@ http_interactions:
   recorded_at: Thu, 05 Dec 2019 07:26:05 GMT
 - request:
     method: post
-    uri: http://localhost:3004/api/v1/identity
+    uri: http://localhost:6000/api/v1/identity
     body:
       encoding: UTF-8
-      string: '{"source":"password","secret":"mock_secret","skip_secret_encryption":false,"privileges":[],"roles":[],"secretless":false,"name":"mock_name","principal_id":"25f5dad773"}'
+      string: '{"source":"password","secret":"mock_secret","skip_secret_encryption":false,"privileges":[],"roles":[],"secretless":false,"name":"mock_name","principal_id":"principal_id"}'
     headers:
       Authorization:
         - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1NzU1MzA3NjUsInN1YiI6InVzZXI6Ly9zYW5kYm94LzkwLzE4MmFlODdhMTUvMzc1NDkxMmQxOSIsIm5iZiI6MTU3NTUzMDc2NSwiYXVkaWVuY2UiOlsiKiJdLCJpYXQiOjE1NzU1MzA3NjUsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AUcgm4FARaPuzCQB-8ktPe3bBZY-7lMCdpCOXIu9aqI3dUYO7G0lclKoa_piy3eH8mLba2jkcJDWUZ8hX2E992ZEAP0t4O-t_4tLemCPTrhsYqFn8rCsnJyh8nNAYw3MBaco8-_cSZlCs6feh4mADrw36bGSHCkkfXLlXPuesSEgs92j
@@ -72,7 +72,7 @@ http_interactions:
   recorded_at: Thu, 05 Dec 2019 07:26:05 GMT
 - request:
     method: post
-    uri: http://localhost:3004/api/v1/identity/9d38c5a672/activate
+    uri: http://localhost:6000/api/v1/identity/9d38c5a672/activate
     body:
       encoding: UTF-8
       string: "{}"

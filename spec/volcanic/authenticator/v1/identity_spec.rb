@@ -3,7 +3,7 @@
 RSpec.describe Volcanic::Authenticator::V1::Identity, :vcr do
   before { Configuration.set }
   let(:mock_name) { 'mock_name' }
-  let(:mock_principal_id) { '25f5dad773' }
+  let(:mock_principal_id) { 'principal_id' }
   let(:mock_identity_id) { 'mock_id' }
   let(:mock_dataset_id) { 'mock_dataset_id' }
   let(:mock_secret) { 'mock_secret' }
@@ -79,6 +79,20 @@ RSpec.describe Volcanic::Authenticator::V1::Identity, :vcr do
     context 'when create with source key as string' do
       subject { identity.create(mock_name, mock_principal_id, 'source': mock_source) }
       its(:source) { should eq mock_source }
+    end
+
+    context 'when crete with secretless false and secret nil' do
+      let(:random_secret) { 'random_secret' }
+      subject { identity.create(mock_name, mock_principal_id, 'source': mock_source, secret: nil, secretless: false) }
+      its(:source) { should eq mock_source }
+      its(:secret) { should eq random_secret } # random secret created by auth service
+    end
+
+    context 'when create with source nil, secretless false and secret not nil' do
+      let(:secret) { 'my_secret' }
+      subject { identity.create(mock_name, mock_principal_id, secret: secret, secretless: false) }
+      its(:source) { should eq 'password' }
+      its(:secret) { should eq secret }
     end
   end
 

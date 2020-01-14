@@ -153,7 +153,8 @@ module Volcanic::Authenticator
         # by default identity will have source with value `password` and secretless false.
         # if source is set to others value, secretless will force to be true.
         # if source is nil, default value will be taken.
-        # if source is empty, it raise IdentityError
+        # if source is empty, it raise IdentityError.
+        # if secretless provided, it follows
         def payload_handler(**opts)
           {
             source: source = opts[:source] || 'password',

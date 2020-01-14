@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: http://localhost:3004/api/v1/identity/login
+    uri: http://localhost:6000/api/v1/identity/login
     body:
       encoding: UTF-8
       string: '{"name":"volcanic","secret":"volcanic!123","principal_id":1,"audience":["vault"]}'
@@ -39,7 +39,7 @@ http_interactions:
   recorded_at: Wed, 16 Oct 2019 15:28:02 GMT
 - request:
     method: post
-    uri: http://localhost:3004/api/v1/identity/token/generate
+    uri: http://localhost:6000/api/v1/identity/token/generate
     body:
       encoding: UTF-8
       string: '{"identity":{"id":123456789},"audience":[],"single_use":false}'

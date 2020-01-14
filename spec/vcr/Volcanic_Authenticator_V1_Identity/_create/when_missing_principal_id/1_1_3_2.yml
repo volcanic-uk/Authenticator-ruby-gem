@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: http://localhost:3004/api/v1/identity
+    uri: http://localhost:6000/api/v1/identity
     body:
       encoding: UTF-8
       string: '{"name":"mock_name","principal_id":"","skip_secret_encryption":false,"secret":null,"privileges":[],"roles":[]}'
