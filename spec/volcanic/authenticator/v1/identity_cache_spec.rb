@@ -59,8 +59,17 @@ RSpec.describe Volcanic::Authenticator::V1::IdentityCache, :vcr do
     context 'when not caching' do
       let(:instance) { identity.new(id: id) } # result is not cached
       it('return the exact result') do
-        expect(instance.login).to eq result_values[0] # return the 1st result
-        expect(instance.login).to eq result_values[1] # return the 2nd result
+        expect(instance.token).to eq result_values[0] # return the 1st result
+        expect(instance.token).to eq result_values[1] # return the 2nd result
+      end
+    end
+
+    context 'when a single use token' do
+      let(:instance) { identity_cache.new(id: id) } # using the cache class
+      it('return the exact result') do
+        # result will cache because of single use token
+        expect(instance.token(single_use: true)).to eq result_values[0] # return the 1st result
+        expect(instance.token(single_use: true)).to eq result_values[1] # return the 2nd result
       end
     end
   end

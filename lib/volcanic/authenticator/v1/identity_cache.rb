@@ -19,6 +19,9 @@ module Volcanic::Authenticator
       end
 
       def token(**opts)
+        # dont cache if single use token
+        return super(**opts) if opts[:single_use]
+
         key = gen_key(id, opts.map(&:last))
         token = cache.fetch(key, expire_in: exp_token) do
           super(**opts)
