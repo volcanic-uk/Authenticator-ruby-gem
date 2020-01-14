@@ -13,8 +13,10 @@ module Volcanic::Authenticator
     class TokenCache < Token
       # cache +remote_validate+ result
       def remote_validate
-        cache.fetch token_base64, expire_at: exp do
+        if jti # if a single use token, dont cache it
           super
+        else
+          cache.fetch(token_base64, expire_at: exp) { super }
         end
       end
 
