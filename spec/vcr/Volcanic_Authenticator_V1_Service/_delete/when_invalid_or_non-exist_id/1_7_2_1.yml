@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: delete
-    uri: http://localhost:3004/api/v1/services/wrong-id
+    uri: http://localhost:6000/api/v1/services/wrong-id
     body:
       encoding: US-ASCII
       string: ''

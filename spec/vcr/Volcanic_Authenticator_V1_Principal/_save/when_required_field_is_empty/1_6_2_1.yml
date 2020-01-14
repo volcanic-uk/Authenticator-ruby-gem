@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: http://localhost:3004/api/v1/principals
+    uri: http://localhost:6000/api/v1/principals
     body:
       encoding: UTF-8
       string: '{"name":"mock_name","dataset_id":1,"roles":[1,2],"privileges":[3,4]}'
@@ -39,7 +39,7 @@ http_interactions:
   recorded_at: Fri, 02 Aug 2019 07:26:24 GMT
 - request:
     method: post
-    uri: http://localhost:3004/api/v1/principals/23
+    uri: http://localhost:6000/api/v1/principals/23
     body:
       encoding: UTF-8
       string: '{"dataset_id":1}'

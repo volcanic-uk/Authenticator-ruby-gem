@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: http://localhost:3004/api/v1/identity/login
+    uri: http://localhost:6000/api/v1/identity/login
     body:
       encoding: UTF-8
       string: '{"name":"volcanic","secret":"volcanic!123"}'
@@ -39,7 +39,7 @@ http_interactions:
   recorded_at: Fri, 02 Aug 2019 06:51:01 GMT
 - request:
     method: post
-    uri: http://localhost:3004/api/v1/principals
+    uri: http://localhost:6000/api/v1/principals
     body:
       encoding: UTF-8
       string: '{"name":null,"dataset_id":1,"roles":[],"privileges":[]}'

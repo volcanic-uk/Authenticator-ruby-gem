@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: http://localhost:3004/api/v1/identity/login
+    uri: http://localhost:6000/api/v1/identity/login
     body:
       encoding: UTF-8
       string: '{"name":"volcanic","secret":"volcanic!123","dataset_id":"-1","audience":["*"]}'
@@ -37,7 +37,7 @@ http_interactions:
   recorded_at: Thu, 05 Dec 2019 08:23:21 GMT
 - request:
     method: post
-    uri: http://localhost:3004/api/v1/principals
+    uri: http://localhost:6000/api/v1/principals
     body:
       encoding: UTF-8
       string: '{"name":"mock_name","dataset_id":"1","roles":[1,2],"privileges":[3,4]}'
@@ -72,7 +72,7 @@ http_interactions:
   recorded_at: Thu, 05 Dec 2019 08:23:21 GMT
 - request:
     method: post
-    uri: http://localhost:3004/api/v1/principals/24e049ac74/deactivate
+    uri: http://localhost:6000/api/v1/principals/24e049ac74/deactivate
     body:
       encoding: UTF-8
       string: "{}"
@@ -107,7 +107,7 @@ http_interactions:
   recorded_at: Thu, 05 Dec 2019 08:23:21 GMT
 - request:
     method: post
-    uri: http://localhost:3004/api/v1/principals/24e049ac74/activate
+    uri: http://localhost:6000/api/v1/principals/24e049ac74/activate
     body:
       encoding: UTF-8
       string: "{}"

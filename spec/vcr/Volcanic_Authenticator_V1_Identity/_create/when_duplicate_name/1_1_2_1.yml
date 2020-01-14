@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: http://localhost:3004/api/v1/identity
+    uri: http://localhost:6000/api/v1/identity
     body:
       encoding: UTF-8
       string: '{"name":"duplicate-name","principal_id":1,"skip_secret_encryption":false,"secret":null,"privileges":[],"roles":[]}'
@@ -39,7 +39,7 @@ http_interactions:
   recorded_at: Mon, 14 Oct 2019 06:59:00 GMT
 - request:
     method: post
-    uri: http://localhost:3004/api/v1/identity
+    uri: http://localhost:6000/api/v1/identity
     body:
       encoding: UTF-8
       string: '{"name":"duplicate-name","principal_id":1,"skip_secret_encryption":false,"secret":null,"privileges":[],"roles":[]}'

@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: http://localhost:3004/api/v1/identity/login
+    uri: http://localhost:6000/api/v1/identity/login
     body:
       encoding: UTF-8
       string: '{"name":"volcanic","secret":"volcanic!123","dataset_id":"-1","audience":["*"]}'
@@ -41,10 +41,10 @@ http_interactions:
   recorded_at: Thu, 19 Dec 2019 02:46:42 GMT
 - request:
     method: post
-    uri: http://localhost:3004/api/v1/identity
+    uri: http://localhost:6000/api/v1/identity
     body:
       encoding: UTF-8
-      string: '{"source":"","secret":null,"skip_secret_encryption":false,"privileges":[],"roles":[],"secretless":true,"name":"mock_name","principal_id":"25f5dad773"}'
+      string: '{"source":"","secret":null,"skip_secret_encryption":false,"privileges":[],"roles":[],"secretless":true,"name":"mock_name","principal_id":"principal_id"}'
     headers:
       Authorization:
       - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1NzY3MjM2MDIsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTc2NzIzNjAyLCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU3NjcyMzYwMiwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AABYLtFs6a5OlYA78u5S13GrvZWkAIP_-QAjhsXLl4tksNNLyViVVkge3lh5mI6jYojN-70_FyaE04cKU3cuABqoAMUfnHs1OvBqoXs2nNRpn2mn42WN3sfk1GOg1Y4tq6uSD3mk139EoICc_bJJJVqzFYtqvvUnyZrZKzqdA2TP4uI4

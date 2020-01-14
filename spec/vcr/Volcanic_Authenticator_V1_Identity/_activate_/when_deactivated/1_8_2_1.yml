@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: http://localhost:3004/api/v1/identity/login
+    uri: http://localhost:6000/api/v1/identity/login
     body:
       encoding: UTF-8
       string: '{"name":"volcanic","secret":"volcanic!123","dataset_id":"-1","audience":["*"]}'
@@ -37,10 +37,10 @@ http_interactions:
   recorded_at: Thu, 05 Dec 2019 07:17:26 GMT
 - request:
     method: post
-    uri: http://localhost:3004/api/v1/identity
+    uri: http://localhost:6000/api/v1/identity
     body:
       encoding: UTF-8
-      string: '{"source":"password","secret":"mock_secret","skip_secret_encryption":false,"privileges":[],"roles":[],"secretless":false,"name":"mock_name","principal_id":"25f5dad773"}'
+      string: '{"source":"password","secret":"mock_secret","skip_secret_encryption":false,"privileges":[],"roles":[],"secretless":false,"name":"mock_name","principal_id":"principal_id"}'
     headers:
       Authorization:
       - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1NzU1MzAyNDUsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTc1NTMwMjQ1LCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU3NTUzMDI0NSwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AJlC7pGyRJw6YYX_cOC_Mo-l3GtGESBm8WGFdWvdI_l4PWL7-Ozmipyg-sClhXkW-ngwD2IIHuUAgucRFzharqrEAZGArszZVtSCgXh7v9ophSxyJfAVi0PKY0xkE2obUVbxArINfZI7HhnXVoghMdvjanWmJsj6cCIEjx1arTMtr2s9
@@ -72,7 +72,7 @@ http_interactions:
   recorded_at: Thu, 05 Dec 2019 07:17:26 GMT
 - request:
     method: post
-    uri: http://localhost:3004/api/v1/identity/3d64336663/deactivate
+    uri: http://localhost:6000/api/v1/identity/3d64336663/deactivate
     body:
       encoding: UTF-8
       string: "{}"
@@ -107,7 +107,7 @@ http_interactions:
   recorded_at: Thu, 05 Dec 2019 07:17:26 GMT
 - request:
     method: post
-    uri: http://localhost:3004/api/v1/identity/3d64336663/activate
+    uri: http://localhost:6000/api/v1/identity/3d64336663/activate
     body:
       encoding: UTF-8
       string: "{}"
