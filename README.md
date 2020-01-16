@@ -1,5 +1,7 @@
 # Volcanic::Authenticator
 
+[![CircleCI](https://circleci.com/gh/volcanic-uk/Authenticator-ruby-gem.svg?style=svg&circle-token=b8f1cfb1040ba8771a4c8fa75f94582ffb880fc9)](https://circleci.com/gh/volcanic-uk/Authenticator-ruby-gem)
+
 A ruby for gem for Volcanic Authenticator
 
 ## Getting Started
