@@ -1,0 +1,82 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://localhost:6000/api/v1/privileges/1
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1Nzk1OTUwNzMsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTc5NTk1MDczLCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU3OTU5NTA3MywiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AKBQH8vBHwAGhlqe9yq6IzVP4XyKYcGQR8jo2WkywWhla2q4p0mt6Ha0BydewjviUNuYp3UtQ98toFg0A5vH_bXbAE49R9y5FPzcSDHud9xoaUBX4tgj1FvsJ3qsV2qE2KF5tIFPW4-KQRj0fDXCrbDSNk1m-B_VyW0uk74weyYH7yxn
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      X-Auth-Request-Id:
+      - offline_awsRequestId_02302456312954404
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '252'
+      Etag:
+      - W/"fc-P4qSU7Qq+v3Git8vNtWFG+e5wNc"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Tue, 21 Jan 2020 08:24:33 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_02302456312954404","response":{"id":1,"scope":"vrn:stack:1:resource/*","permission_id":null,"group_id":1,"allow":true,"subject_id":null,"created_at":"2020-01-14T09:27:04.242Z","updated_at":"2020-01-21T07:36:37.414Z"}}'
+    http_version: 
+  recorded_at: Tue, 21 Jan 2020 08:24:33 GMT
+- request:
+    method: post
+    uri: http://localhost:6000/api/v1/privileges/1
+    body:
+      encoding: UTF-8
+      string: '{"scope":"vrn:stack:1:resource/*","permission_id":10000,"group_id":1,"allow":true}'
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1Nzk1OTUwNzMsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTc5NTk1MDczLCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU3OTU5NTA3MywiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AKBQH8vBHwAGhlqe9yq6IzVP4XyKYcGQR8jo2WkywWhla2q4p0mt6Ha0BydewjviUNuYp3UtQ98toFg0A5vH_bXbAE49R9y5FPzcSDHud9xoaUBX4tgj1FvsJ3qsV2qE2KF5tIFPW4-KQRj0fDXCrbDSNk1m-B_VyW0uk74weyYH7yxn
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 422
+      message: Unprocessable Entity
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '109'
+      Etag:
+      - W/"6d-J56IsUzXcLZBSuUMfdW7RRmePzc"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Tue, 21 Jan 2020 08:24:33 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_8878995985381148","message":"permission
+        does not exists","errorCode":5002}'
+    http_version: 
+  recorded_at: Tue, 21 Jan 2020 08:24:33 GMT
+recorded_with: VCR 5.0.0

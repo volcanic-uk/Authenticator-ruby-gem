@@ -100,6 +100,11 @@ module Volcanic::Authenticator
         RaiseException.new(res, TokenError)
       end
 
+      # error handler for Privilege
+      def raise_exception_privilege(res)
+        RaiseException.new(res, PrivilegeError)
+      end
+
       # error handler for not_implemented_error
       def raise_not_implemented_error(method_name)
         raise NotImplementedError, "#{method_name} must be defined by child classes"

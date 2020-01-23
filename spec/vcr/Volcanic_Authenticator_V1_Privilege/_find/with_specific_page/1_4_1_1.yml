@@ -1,0 +1,83 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://localhost:6000/api/v1/identity/login
+    body:
+      encoding: UTF-8
+      string: '{"name":"volcanic","secret":"volcanic!123","dataset_id":"-1","audience":["*"]}'
+    headers:
+      Authorization:
+      - Bearer
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      X-Auth-Request-Id:
+      - offline_awsRequestId_894097060342834
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '541'
+      Etag:
+      - W/"21d-AjtFAR7KVnQEAeqkKp6v9D2b2bs"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Tue, 21 Jan 2020 09:52:52 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_894097060342834","response":{"token":"eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1Nzk2MDAzNzIsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTc5NjAwMzcyLCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU3OTYwMDM3MiwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AUMhh4bq8y1EetJGAwSiwlHc8MV31kPwwKpjQw9pc36AbHqaSi_VVWHm7GbVfCaeiIAPJnCPTodHzkHS4rnUpnyJASy7Kd_w7JSPC_Xd8hbIUmQ0MhOHXsnM1up-PRK9wMldFj5LfIj4Y84F1hEnqc66RP34ywVP76BWp5yFOV9IRDM1"}}'
+    http_version: 
+  recorded_at: Tue, 21 Jan 2020 09:52:52 GMT
+- request:
+    method: get
+    uri: http://localhost:6000/api/v1/privileges?page=2&page_size=10
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1Nzk2MDAzNzIsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTc5NjAwMzcyLCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU3OTYwMDM3MiwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AUMhh4bq8y1EetJGAwSiwlHc8MV31kPwwKpjQw9pc36AbHqaSi_VVWHm7GbVfCaeiIAPJnCPTodHzkHS4rnUpnyJASy7Kd_w7JSPC_Xd8hbIUmQ0MhOHXsnM1up-PRK9wMldFj5LfIj4Y84F1hEnqc66RP34ywVP76BWp5yFOV9IRDM1
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      X-Auth-Request-Id:
+      - offline_awsRequestId_12818300868184007
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '2124'
+      Etag:
+      - W/"84c-yhTBA1879DJ4TFcW3DxMTXNm2yo"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Tue, 21 Jan 2020 09:52:52 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_12818300868184007","response":{"pagination":{"page":2,"pageSize":10,"rowCount":39,"pageCount":4},"data":[{"id":11,"scope":"vrn:{stack}:{dataset}:application/*","permission_id":null,"group_id":11,"allow":true,"subject_id":null,"created_at":"2020-01-14T09:27:05.252Z","updated_at":"2020-01-14T09:27:05.252Z"},{"id":12,"scope":"vrn:{stack}:{dataset}:blog/*","permission_id":null,"group_id":12,"allow":true,"subject_id":null,"created_at":"2020-01-14T09:27:05.340Z","updated_at":"2020-01-14T09:27:05.340Z"},{"id":13,"scope":"vrn:{stack}:{dataset}:chart/*","permission_id":null,"group_id":13,"allow":true,"subject_id":null,"created_at":"2020-01-14T09:27:05.430Z","updated_at":"2020-01-14T09:27:05.430Z"},{"id":14,"scope":"vrn:{stack}:{dataset}:integration/*","permission_id":null,"group_id":14,"allow":true,"subject_id":null,"created_at":"2020-01-14T09:27:05.503Z","updated_at":"2020-01-14T09:27:05.503Z"},{"id":15,"scope":"vrn:{stack}:{dataset}:auditLogs/*","permission_id":null,"group_id":15,"allow":true,"subject_id":null,"created_at":"2020-01-14T09:27:06.056Z","updated_at":"2020-01-14T09:27:06.056Z"},{"id":16,"scope":"vrn:{stack}:{dataset}:source/id","permission_id":61,"group_id":15,"allow":true,"subject_id":null,"created_at":"2020-01-17T03:11:05.431Z","updated_at":"2020-01-17T03:11:05.431Z"},{"id":17,"scope":"vrn:{stack}:{dataset}:source/id","permission_id":61,"group_id":15,"allow":true,"subject_id":null,"created_at":"2020-01-17T03:11:18.204Z","updated_at":"2020-01-17T03:11:18.204Z"},{"id":19,"scope":"vrn:{stack}:{dataset}:source/id","permission_id":61,"group_id":15,"allow":true,"subject_id":null,"created_at":"2020-01-17T03:11:47.102Z","updated_at":"2020-01-17T03:11:47.102Z"},{"id":28,"scope":"vrn:{stack}:{dataset}:source/*","permission_id":null,"group_id":null,"allow":true,"subject_id":null,"created_at":"2020-01-17T03:18:02.003Z","updated_at":"2020-01-17T03:18:02.003Z"},{"id":29,"scope":"vrn:{stack}:{dataset}:source/id","permission_id":null,"group_id":null,"allow":true,"subject_id":null,"created_at":"2020-01-17T07:11:45.328Z","updated_at":"2020-01-17T07:12:28.848Z"}]}}'
+    http_version: 
+  recorded_at: Tue, 21 Jan 2020 09:52:52 GMT
+recorded_with: VCR 5.0.0

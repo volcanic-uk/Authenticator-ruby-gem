@@ -379,3 +379,89 @@ To find service in collections:
 ```ruby
 # similar to Principal.find but without dataset_id args
 ```
+## Privilege
+**Create**
+
+Create a new Privilege.
+
+```ruby
+#
+# Privilege.create(PRIVILEGE_NAME, PERMISSION_ID, GROUP_NAME) 
+privilege = Volcanic::Authenticator::V1::Privilege.create('privilege-a', 2, 10)
+
+privilege.scope # => 'Privilege-a'
+privilege.id # => 1
+privilege.permission_id # => 2
+privilege.group_id # => 10
+```
+
+**Find**
+
+Get privileges
+```ruby
+# Default. This will return 10 service on the first page
+privileges = Volcanic::Authenticator::V1::Privilege.find
+privileges.size # => 10
+privilege = privileges[0]
+privilege.id # => 1
+privilege.name # => 'service a'
+...
+
+# Get on different page. The page size is default by 10
+privileges = Volcanic::Authenticator::V1::Privilege.find(page: 2)
+privileges.size # => 10
+privileges[0].id # => 11
+...
+
+# Get on different page size.
+privileges = Volcanic::Authenticator::V1::Privilege.find(page: 2, page_size: 5)
+privileges.size # => 5
+privileges[0].id # => 6
+
+# Search by key name.
+privileges = Volcanic::Authenticator::V1::Privilege.find(page: 2, page_size: 5, key_name: 'vol')
+privileges.size # => 5
+privileges[0].name # => 'volcanic-a'
+privileges[1].name # => 'service-volcanic'
+privileges[2].name # => 'volvo'
+```
+
+**Find by id**
+
+Get a Privilege.
+```ruby
+#
+# Privilege.find_by_id(PRIVILEGE_ID)
+privilege =  Volcanic::Authenticator::V1::Privilege.find_by_id(1)
+privilege.name # => 'Privilege-a'
+privilege.id # => 1
+privilege.permission_id # => 2
+privilege.group_id # => 10
+privilege.allow # => true
+
+```
+
+**Update**
+
+Edit/Update a Privilege.
+```ruby
+privilege = Volcanic::Authenticator::V1::Privilege.find_by_id(1)
+privilege.name = 'new-service-name'
+privilege.save
+
+Volcanic::Authenticator::V1::Privilege.find_by_id(1).name # => 'new-service-name'
+```
+
+**Delete**
+
+Delete a Privilege.
+```ruby
+
+Volcanic::Authenticator::V1::Privilege.new(id: 1).delete
+
+## OR
+ 
+privilege = Volcanic::Authenticator::V1::Privilege.find_by_id(1)
+privilege.delete 
+
+```
