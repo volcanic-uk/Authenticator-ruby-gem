@@ -138,28 +138,24 @@ module Volcanic::Authenticator
         # +token+: required a Token object
         # +service+: fetch for specific service. eg 'auth'
         # +permission+: fetch for specific permission. eg 'identity:create'. required structure "{model}:{action}"
-        # def fetch_for_token(token, service = nil, permission = nil)
-        #   raise TypeError unless token.is_a? Token
-        #
-        #   if service.nil? || permission.nil?
-        #     perform_get_and_parse exception, "#{path}/identity", token.token_base64
-        #   end
-        #
-        #   fetch_for_subject(token.sub, service, permission)
-        # end
+        def fetch_for_token(token, service, permission)
+          raise TypeError unless token.is_a? Token
+
+          fetch_for_subject(token.sub, service, permission)
+        end
 
         # fetch privileges for given  subject
         # +subject+: eg. 'user://{stack}/{dataset_id}/{principal}/{identity}'
         # +service+: name of a service. eg 'auth'
         # +permission+: name of permission. eg 'identity:create'. required structure "{model}:{action}"
-        # def fetch_for_subject(subject, service, permission)
-        #   subject_path = [path, service, "#{permission}?subject=#{subject}"].join('/')
-        #   res = perform_get_and_parse exception, subject_path
-        #   return_privileges(res, subject)
-        # end
+        def fetch_for_subject(subject, service, permission)
+          endpoint = [path, service, "#{permission}?subject=#{subject}"].join('/')
+          res = perform_get_and_parse(exception, endpoint)
+          return_privileges(res, subject)
+        end
 
-        # private
-        #
+        private
+
         # def filter_by_service(res, service)
         #   res.find { |serv| serv['name'] == service }
         # end
@@ -167,14 +163,15 @@ module Volcanic::Authenticator
         # def filter_by_permission(res, permission)
         #   res['permissions'].find { |perm| perm['name'] == permission }
         # end
-        #
-        # def return_privileges(res, subject = nil)
-        #   res.map do |prv|
-        #     instance = new(prv.transform_keys(&:to_sym))
-        #     instance.subject = subject # is needed for sorting score
-        #     instance
-        #   end
-        # end
+
+
+        def return_privileges(res, subject = nil)
+          res.map do |prv|
+            instance = new(prv.transform_keys(&:to_sym))
+            instance.subject = subject # is needed for sorting score
+            instance
+          end
+        end
       end
     end
   end
