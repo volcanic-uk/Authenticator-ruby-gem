@@ -164,7 +164,6 @@ module Volcanic::Authenticator
         #   res['permissions'].find { |perm| perm['name'] == permission }
         # end
 
-
         def return_privileges(res, subject = nil)
           res.map do |prv|
             instance = new(prv.transform_keys(&:to_sym))
