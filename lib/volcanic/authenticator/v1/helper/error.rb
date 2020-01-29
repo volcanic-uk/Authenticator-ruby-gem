@@ -59,7 +59,7 @@ module Volcanic::Authenticator
 
         # aws request id
         def request_id
-          body.key?('requestId') ? body['requestId'] : 'null'
+          body.key?('requestID') ? body['requestID'] : 'null'
         end
 
         # error code at response body
