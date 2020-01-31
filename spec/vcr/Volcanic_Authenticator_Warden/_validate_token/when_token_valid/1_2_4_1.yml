@@ -1,0 +1,44 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://localhost:6000/api/v1/token/validate
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1ODA5NzQxNzYsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTgwOTc0MTc2LCJhdWRpZW5jZSI6WyJrcmFrYXRvYWV1IiwiLSJdLCJpYXQiOjE1ODA5NzQxNzYsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.ALqDyYUUKC1IH_tumwVWuQ3av4xun4c55DWMY6TWcHFjup4SJL-QicDbVuDgjmw-wKUck1vySvopOtZQvukUJAb6ARRAIJoWkq17_2HVyHHXURG2Na3Tr6xDumRgigTxFeHVpRsa1UBdW9_vKhSvrCilO4n8h6GKsiMRBB9RZ3mJeNqF
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Access-Control-Allow-Origin:
+      - "*"
+      X-Auth-Request-Id:
+      - offline_awsRequestId_0149559974474327
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '721'
+      Etag:
+      - W/"2d1-skI+YrM23p4LYHpvv046G+J30b8"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Thu, 06 Feb 2020 07:32:15 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_0149559974474327","response":{"exp":7580974176,"sub":"user://sandbox/-1/volcanic/volcanic","nbf":1580974176,"audience":["krakatoaeu","-"],"iat":1580974176,"iss":"volcanic_auth_service_ap2","encoded":"eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1ODA5NzQxNzYsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTgwOTc0MTc2LCJhdWRpZW5jZSI6WyJrcmFrYXRvYWV1IiwiLSJdLCJpYXQiOjE1ODA5NzQxNzYsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.ALqDyYUUKC1IH_tumwVWuQ3av4xun4c55DWMY6TWcHFjup4SJL-QicDbVuDgjmw-wKUck1vySvopOtZQvukUJAb6ARRAIJoWkq17_2HVyHHXURG2Na3Tr6xDumRgigTxFeHVpRsa1UBdW9_vKhSvrCilO4n8h6GKsiMRBB9RZ3mJeNqF"}}'
+    http_version: 
+  recorded_at: Thu, 06 Feb 2020 07:32:15 GMT
+recorded_with: VCR 5.0.0

@@ -13,7 +13,7 @@ RSpec.describe Volcanic::Authenticator::V1::Token, :vcr do
   let(:tokens) { JSON.parse(Configuration.mock_tokens) }
   let(:mock_token_base64) { tokens['token'] }
   let(:mock_token_base64_2) { tokens['token_2'] }
-  let(:mock_token_base64_exp) { tokens['token_3'] }
+  let(:mock_token_base64_exp) { tokens['expired_token'] }
   let(:mock_token_base64_invalid) { tokens['token_4'] }
 
   describe '#initialize' do
