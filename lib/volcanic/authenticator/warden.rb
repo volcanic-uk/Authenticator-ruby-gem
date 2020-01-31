@@ -2,14 +2,20 @@
 
 require_relative 'warden/auth_failure'
 require_relative 'warden/allow_always'
-require_relative 'warden/validate_token_always'
+require_relative 'warden/validate_token'
 require_relative 'warden/validate_token_present'
+require_relative 'warden/validate_session_token'
 
 module Volcanic::Authenticator
-  # this class provide strategies and fail response handler
+  # this class provide strategies and failure_app
   # strategies:
   #   +AllowAlways+ allow request whether authorization exist or not
-  #   +ValidateTokenAlways+ forbid request if authorization is not exist or invalid
-  #   +ValidateTokenPresent+ forbid request when authorization header exist and invalid, if not exist request is allow
+  #   +ValidateToken+ forbid request if authorization header is invalid
+  #   +ValidateTokenPresent+ forbid request if authorization header is exist and invalid, if not exist request is pass
+  #   +ValidateSession+ forbid request if session[:auth_token] is invalid
+  #   +ValidateSessionPresent+ forbid request if session[:auth_token] is exist and invalid, if not exist request is pass
+  #
+  # failure_app:
+  #   +AuthFailure+  warden/auth_failure.rb
   module Warden; end
 end

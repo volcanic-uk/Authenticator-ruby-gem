@@ -13,24 +13,30 @@ http_interactions:
       - application/json
   response:
     status:
-      code: 200
-      message: OK
+      code: 403
+      message: Forbidden
     headers:
       X-Powered-By:
       - Express
+      Access-Control-Allow-Origin:
+      - "*"
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
-      - '40'
+      - '92'
       Etag:
-      - W/"28-K4V9n4BzYE6B/puCSbb5ibAnaCY"
+      - W/"5c-nr37YxQZaCG4jFVDoJGJsUaxGqA"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
       Date:
-      - Tue, 03 Dec 2019 09:44:07 GMT
+      - Thu, 06 Feb 2020 07:31:37 GMT
       Connection:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"response":{"exp":7574645425,"sub":"user://sandbox/-1/volcanic/volcanic","nbf":1574645425,"audience":["krakatoaeu","-"],"iat":1574645425,"iss":"volcanic_auth_service_ap2","encoded":"eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1NzQ2NDU0MjUsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTc0NjQ1NDI1LCJhdWRpZW5jZSI6WyJrcmFrYXRvYWV1IiwiLSJdLCJpYXQiOjE1NzQ2NDU0MjUsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AJaCXpR2nmKUXaFd0AMeS0XAsANk1kGntQsYMiqypPGIF7Jw0ewRlYMSQySBBwJHr0FHxobB1dJBmoy0NVLq_BwBACQEq0q816sDR3IHna8U_lHtBpisjBB7rJWyUEnTOuEKNG55dz69yNEofHM-QPuXNKUbKg2Ngu4Qwdom8gCao8Fs"}}'
+      string: '{"requestID":"offline_awsRequestId_5718635994360313","message":"Forbidden","errorCode":3001}'
     http_version: 
-  recorded_at: Tue, 03 Dec 2019 09:44:07 GMT
+  recorded_at: Thu, 06 Feb 2020 07:31:37 GMT
 recorded_with: VCR 5.0.0

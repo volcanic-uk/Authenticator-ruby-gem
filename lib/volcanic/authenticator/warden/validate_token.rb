@@ -4,23 +4,22 @@ require 'warden'
 require_relative 'strategy_helper'
 
 module Volcanic::Authenticator::Warden
-  # this strategy validate when only authorization header is presented.
-  # if present or missing, it will not fail the request.
-  # if present and invalid token, it fail request
-  class ValidatePresentToken < Warden::Strategies::Base
+  # this strategy validate token always.
+  # if authorization header not present or missing, it fail the request
+  class ValidateToken < Warden::Strategies::Base
     include StrategyHelper
 
     def valid?
-      true # allow to run strategy even auth header is nil
+      auth_header_exist? # only run strategy when auth header present
     end
 
     def authenticate!
-      # if token nil or in wrong format if raise TokenError
+      # if token nil or in wrong format it raise TokenError
       self.token = auth_token
       validate_token
     rescue Volcanic::Authenticator::V1::TokenError => e
       logger.debug("#{e.class.name}: #{e}")
-      pass
+      fail! invalid_message
     end
   end
 end
