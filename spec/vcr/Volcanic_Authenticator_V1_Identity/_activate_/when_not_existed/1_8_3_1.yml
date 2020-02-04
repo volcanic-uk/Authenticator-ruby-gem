@@ -18,32 +18,38 @@ http_interactions:
     headers:
       X-Powered-By:
       - Express
+      Access-Control-Allow-Origin:
+      - "*"
       X-Auth-Request-Id:
-      - undefined
+      - offline_awsRequestId_7044247487869997
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
-      - '490'
+      - '542'
       Etag:
-      - W/"1ea-NDaVun/SiFaLKv26WOBu49DFL6o"
+      - W/"21e-yWsYh8wqqEqxQbMoo2vs4S6p2iA"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
       Date:
-      - Thu, 05 Dec 2019 07:17:53 GMT
+      - Tue, 04 Feb 2020 07:43:19 GMT
       Connection:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"response":{"token":"eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1NzU1MzAyNzMsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTc1NTMwMjczLCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU3NTUzMDI3MywiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AH8rLHYa5WL0V56qQIOYsq0T3or2BXUH5VnWwq55BdOCxhB9i8gre4Fjs2VKChrie02wOQdFYMAzxerxptVr6vM_AMHFjlms9koVgX3d_uhCinHnK0fDLg04XWYaK32qEE1rugtf6SlXhbMEsJCYsED7C4TPxGRnnrys6r630-0YWfTu"}}'
+      string: '{"requestID":"offline_awsRequestId_7044247487869997","response":{"token":"eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1ODA4MDIxOTksInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTgwODAyMTk5LCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU4MDgwMjE5OSwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AZwUnpNVsR5Wh35lxdH4DfGz-jeTtQNpLQK2uXh-mlv7knmDfBpWOMwcXrIHtHCCMEuunPa0nE0Z8vxYA-RvADDIAN0POO3wHRYYf-3IXE-P11b7YCwlNR7a6JylLPfMU1j0ovI0jOfcBmh7uN-oNREPvNA0p9H0vX0T5tUavK34XNyy"}}'
     http_version: 
-  recorded_at: Thu, 05 Dec 2019 07:17:53 GMT
+  recorded_at: Tue, 04 Feb 2020 07:43:19 GMT
 - request:
     method: post
     uri: http://localhost:6000/api/v1/identity
     body:
       encoding: UTF-8
-      string: '{"source":"password","secret":"mock_secret","skip_secret_encryption":false,"privileges":[],"roles":[],"secretless":false,"name":"mock_name","principal_id":"principal_id"}'
+      string: '{"source":"password","secret":null,"skip_secret_encryption":false,"privileges":[],"roles":[],"secretless":false,"name":"mock_name","principal_id":"principal_id"}'
     headers:
       Authorization:
-      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1NzU1MzAyNzMsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTc1NTMwMjczLCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU3NTUzMDI3MywiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AH8rLHYa5WL0V56qQIOYsq0T3or2BXUH5VnWwq55BdOCxhB9i8gre4Fjs2VKChrie02wOQdFYMAzxerxptVr6vM_AMHFjlms9koVgX3d_uhCinHnK0fDLg04XWYaK32qEE1rugtf6SlXhbMEsJCYsED7C4TPxGRnnrys6r630-0YWfTu
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1ODA4MDIxOTksInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTgwODAyMTk5LCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU4MDgwMjE5OSwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AZwUnpNVsR5Wh35lxdH4DfGz-jeTtQNpLQK2uXh-mlv7knmDfBpWOMwcXrIHtHCCMEuunPa0nE0Z8vxYA-RvADDIAN0POO3wHRYYf-3IXE-P11b7YCwlNR7a6JylLPfMU1j0ovI0jOfcBmh7uN-oNREPvNA0p9H0vX0T5tUavK34XNyy
       Content-Type:
       - application/json
   response:
@@ -53,23 +59,29 @@ http_interactions:
     headers:
       X-Powered-By:
       - Express
+      Access-Control-Allow-Origin:
+      - "*"
       X-Auth-Request-Id:
-      - undefined
+      - offline_awsRequestId_36536002437156667
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
-      - '200'
+      - '245'
       Etag:
-      - W/"c8-Ummj1F4cgrEkfWVWGWA5Uhr0Gzw"
+      - W/"f5-+f0dVHKYmb/UI6M4lfQvqseIbF4"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
       Date:
-      - Thu, 05 Dec 2019 07:17:54 GMT
+      - Tue, 04 Feb 2020 07:43:19 GMT
       Connection:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"response":{"name":"mock_name","principal_id":2,"source":"password","secure_id":"3cf9c7c8ca","dataset_id":"90","updated_at":"2019-12-05T07:17:53.995Z","created_at":"2019-12-05T07:17:53.995Z","id":5}}'
+      string: '{"requestID":"offline_awsRequestId_36536002437156667","response":{"name":"mock_name","secret":"n})[{+W_Hw>","source":"password","dataset_id":"90","updated_at":"2020-02-04T07:43:19.406Z","created_at":"2020-02-04T07:43:19.406Z","id":"2759f731e8"}}'
     http_version: 
-  recorded_at: Thu, 05 Dec 2019 07:17:54 GMT
+  recorded_at: Tue, 04 Feb 2020 07:43:19 GMT
 - request:
     method: post
     uri: http://localhost:6000/api/v1/identity/nil/activate
@@ -78,7 +90,7 @@ http_interactions:
       string: "{}"
     headers:
       Authorization:
-      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1NzU1MzAyNzMsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTc1NTMwMjczLCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU3NTUzMDI3MywiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AH8rLHYa5WL0V56qQIOYsq0T3or2BXUH5VnWwq55BdOCxhB9i8gre4Fjs2VKChrie02wOQdFYMAzxerxptVr6vM_AMHFjlms9koVgX3d_uhCinHnK0fDLg04XWYaK32qEE1rugtf6SlXhbMEsJCYsED7C4TPxGRnnrys6r630-0YWfTu
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1ODA4MDIxOTksInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTgwODAyMTk5LCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU4MDgwMjE5OSwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AZwUnpNVsR5Wh35lxdH4DfGz-jeTtQNpLQK2uXh-mlv7knmDfBpWOMwcXrIHtHCCMEuunPa0nE0Z8vxYA-RvADDIAN0POO3wHRYYf-3IXE-P11b7YCwlNR7a6JylLPfMU1j0ovI0jOfcBmh7uN-oNREPvNA0p9H0vX0T5tUavK34XNyy
       Content-Type:
       - application/json
   response:
@@ -88,19 +100,26 @@ http_interactions:
     headers:
       X-Powered-By:
       - Express
+      Access-Control-Allow-Origin:
+      - "*"
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
-      - '54'
+      - '106'
       Etag:
-      - W/"36-b53VXmpRBTzVYdXy+QMnJ0OJOpA"
+      - W/"6a-HrMUAOJEW50R3pSof5hKlgU3960"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
       Date:
-      - Thu, 05 Dec 2019 07:17:54 GMT
+      - Tue, 04 Feb 2020 07:43:19 GMT
       Connection:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"message":"Identity does not exist","errorCode":1004}'
+      string: '{"requestID":"offline_awsRequestId_8330055234568567","message":"Identity
+        does not exist","errorCode":1004}'
     http_version: 
-  recorded_at: Thu, 05 Dec 2019 07:17:54 GMT
+  recorded_at: Tue, 04 Feb 2020 07:43:19 GMT
 recorded_with: VCR 5.0.0

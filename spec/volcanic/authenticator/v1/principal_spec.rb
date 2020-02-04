@@ -187,7 +187,7 @@ RSpec.describe Volcanic::Authenticator::V1::Principal, :vcr do
     end
 
     context 'when not allowed' do
-      before { Configuration.set_authorize_identity }
+      before { Configuration.set_unauthorize_identity }
       it { expect { princ.deactivate! }.to raise_error authorization_error }
     end
   end
@@ -210,7 +210,7 @@ RSpec.describe Volcanic::Authenticator::V1::Principal, :vcr do
     end
 
     context 'when not allowed' do
-      before { Configuration.set_authorize_identity }
+      before { Configuration.set_unauthorize_identity }
       it { expect { princ.activate! }.to raise_error authorization_error }
     end
   end

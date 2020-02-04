@@ -18,32 +18,38 @@ http_interactions:
     headers:
       X-Powered-By:
       - Express
+      Access-Control-Allow-Origin:
+      - "*"
       X-Auth-Request-Id:
-      - undefined
+      - offline_awsRequestId_12448964593663514
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
-      - '490'
+      - '543'
       Etag:
-      - W/"1ea-qcuEV5My4DnlLPGCx2a59AYk36A"
+      - W/"21f-ic100zuXQda/JFD6JzMRb689L3A"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
       Date:
-      - Thu, 05 Dec 2019 07:17:26 GMT
+      - Tue, 04 Feb 2020 07:43:05 GMT
       Connection:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"response":{"token":"eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1NzU1MzAyNDUsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTc1NTMwMjQ1LCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU3NTUzMDI0NSwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AJlC7pGyRJw6YYX_cOC_Mo-l3GtGESBm8WGFdWvdI_l4PWL7-Ozmipyg-sClhXkW-ngwD2IIHuUAgucRFzharqrEAZGArszZVtSCgXh7v9ophSxyJfAVi0PKY0xkE2obUVbxArINfZI7HhnXVoghMdvjanWmJsj6cCIEjx1arTMtr2s9"}}'
+      string: '{"requestID":"offline_awsRequestId_12448964593663514","response":{"token":"eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1ODA4MDIxODUsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTgwODAyMTg1LCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU4MDgwMjE4NSwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AHffzM2VG744IidyRU3rvWT01W1mgJixe2ZRfbifnKbOuO_KZRam0Pre_BnqL8knu-WzYPxtSQztlwg1R_5KtFGZACZ5MoeuKxuOzrXKBwo5Gzi06thWq35K7hWVnYWaq41og1LaQJPgd9d7brw-hO89R96LFIG5vp4DPC8gJgsSZiPK"}}'
     http_version: 
-  recorded_at: Thu, 05 Dec 2019 07:17:26 GMT
+  recorded_at: Tue, 04 Feb 2020 07:43:05 GMT
 - request:
     method: post
     uri: http://localhost:6000/api/v1/identity
     body:
       encoding: UTF-8
-      string: '{"source":"password","secret":"mock_secret","skip_secret_encryption":false,"privileges":[],"roles":[],"secretless":false,"name":"mock_name","principal_id":"principal_id"}'
+      string: '{"source":"password","secret":null,"skip_secret_encryption":false,"privileges":[],"roles":[],"secretless":false,"name":"mock_name","principal_id":"principal_id"}'
     headers:
       Authorization:
-      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1NzU1MzAyNDUsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTc1NTMwMjQ1LCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU3NTUzMDI0NSwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AJlC7pGyRJw6YYX_cOC_Mo-l3GtGESBm8WGFdWvdI_l4PWL7-Ozmipyg-sClhXkW-ngwD2IIHuUAgucRFzharqrEAZGArszZVtSCgXh7v9ophSxyJfAVi0PKY0xkE2obUVbxArINfZI7HhnXVoghMdvjanWmJsj6cCIEjx1arTMtr2s9
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1ODA4MDIxODUsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTgwODAyMTg1LCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU4MDgwMjE4NSwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AHffzM2VG744IidyRU3rvWT01W1mgJixe2ZRfbifnKbOuO_KZRam0Pre_BnqL8knu-WzYPxtSQztlwg1R_5KtFGZACZ5MoeuKxuOzrXKBwo5Gzi06thWq35K7hWVnYWaq41og1LaQJPgd9d7brw-hO89R96LFIG5vp4DPC8gJgsSZiPK
       Content-Type:
       - application/json
   response:
@@ -53,32 +59,38 @@ http_interactions:
     headers:
       X-Powered-By:
       - Express
+      Access-Control-Allow-Origin:
+      - "*"
       X-Auth-Request-Id:
-      - undefined
+      - offline_awsRequestId_3789286056515244
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
-      - '200'
+      - '243'
       Etag:
-      - W/"c8-9cxgW5nmmrc+ZNY5msVdUgFvM/8"
+      - W/"f3-1Cjq7HhDB9WAbvLUzghrWwm4eEg"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
       Date:
-      - Thu, 05 Dec 2019 07:17:26 GMT
+      - Tue, 04 Feb 2020 07:43:06 GMT
       Connection:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"response":{"name":"mock_name","principal_id":2,"source":"password","secure_id":"3d64336663","dataset_id":"90","updated_at":"2019-12-05T07:17:26.045Z","created_at":"2019-12-05T07:17:26.045Z","id":4}}'
+      string: '{"requestID":"offline_awsRequestId_3789286056515244","response":{"name":"mock_name","secret":"yA01/[)X<1","source":"password","dataset_id":"90","updated_at":"2020-02-04T07:43:05.930Z","created_at":"2020-02-04T07:43:05.930Z","id":"96fc2f2c12"}}'
     http_version: 
-  recorded_at: Thu, 05 Dec 2019 07:17:26 GMT
+  recorded_at: Tue, 04 Feb 2020 07:43:06 GMT
 - request:
     method: post
-    uri: http://localhost:6000/api/v1/identity/3d64336663/deactivate
+    uri: http://localhost:6000/api/v1/identity/96fc2f2c12/deactivate
     body:
       encoding: UTF-8
       string: "{}"
     headers:
       Authorization:
-      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1NzU1MzAyNDUsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTc1NTMwMjQ1LCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU3NTUzMDI0NSwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AJlC7pGyRJw6YYX_cOC_Mo-l3GtGESBm8WGFdWvdI_l4PWL7-Ozmipyg-sClhXkW-ngwD2IIHuUAgucRFzharqrEAZGArszZVtSCgXh7v9ophSxyJfAVi0PKY0xkE2obUVbxArINfZI7HhnXVoghMdvjanWmJsj6cCIEjx1arTMtr2s9
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1ODA4MDIxODUsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTgwODAyMTg1LCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU4MDgwMjE4NSwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AHffzM2VG744IidyRU3rvWT01W1mgJixe2ZRfbifnKbOuO_KZRam0Pre_BnqL8knu-WzYPxtSQztlwg1R_5KtFGZACZ5MoeuKxuOzrXKBwo5Gzi06thWq35K7hWVnYWaq41og1LaQJPgd9d7brw-hO89R96LFIG5vp4DPC8gJgsSZiPK
       Content-Type:
       - application/json
   response:
@@ -88,32 +100,39 @@ http_interactions:
     headers:
       X-Powered-By:
       - Express
+      Access-Control-Allow-Origin:
+      - "*"
       X-Auth-Request-Id:
-      - undefined
+      - offline_awsRequestId_9794046646955401
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
-      - '60'
+      - '112'
       Etag:
-      - W/"3c-H31LYNg94712UHi6SYUIF6t962Y"
+      - W/"70-MbB2YSx6o2chXm64CLAEmNcIFj0"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
       Date:
-      - Thu, 05 Dec 2019 07:17:26 GMT
+      - Tue, 04 Feb 2020 07:43:06 GMT
       Connection:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"response":{"message":"Successfully deactivated identity"}}'
+      string: '{"requestID":"offline_awsRequestId_9794046646955401","response":{"message":"Successfully
+        deactivated identity"}}'
     http_version: 
-  recorded_at: Thu, 05 Dec 2019 07:17:26 GMT
+  recorded_at: Tue, 04 Feb 2020 07:43:06 GMT
 - request:
     method: post
-    uri: http://localhost:6000/api/v1/identity/3d64336663/activate
+    uri: http://localhost:6000/api/v1/identity/96fc2f2c12/activate
     body:
       encoding: UTF-8
       string: "{}"
     headers:
       Authorization:
-      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1NzU1MzAyNDUsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTc1NTMwMjQ1LCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU3NTUzMDI0NSwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AJlC7pGyRJw6YYX_cOC_Mo-l3GtGESBm8WGFdWvdI_l4PWL7-Ozmipyg-sClhXkW-ngwD2IIHuUAgucRFzharqrEAZGArszZVtSCgXh7v9ophSxyJfAVi0PKY0xkE2obUVbxArINfZI7HhnXVoghMdvjanWmJsj6cCIEjx1arTMtr2s9
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1ODA4MDIxODUsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTgwODAyMTg1LCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU4MDgwMjE4NSwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AHffzM2VG744IidyRU3rvWT01W1mgJixe2ZRfbifnKbOuO_KZRam0Pre_BnqL8knu-WzYPxtSQztlwg1R_5KtFGZACZ5MoeuKxuOzrXKBwo5Gzi06thWq35K7hWVnYWaq41og1LaQJPgd9d7brw-hO89R96LFIG5vp4DPC8gJgsSZiPK
       Content-Type:
       - application/json
   response:
@@ -123,21 +142,28 @@ http_interactions:
     headers:
       X-Powered-By:
       - Express
+      Access-Control-Allow-Origin:
+      - "*"
       X-Auth-Request-Id:
-      - undefined
+      - offline_awsRequestId_1684552233656118
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
-      - '58'
+      - '110'
       Etag:
-      - W/"3a-SyxtQZTs5YdV1gGSNehnQhouXPs"
+      - W/"6e-wJoh2BH+fXwJG/C5egZKdFGNmOg"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
       Date:
-      - Thu, 05 Dec 2019 07:17:26 GMT
+      - Tue, 04 Feb 2020 07:43:06 GMT
       Connection:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"response":{"message":"Successfully activated Identity"}}'
+      string: '{"requestID":"offline_awsRequestId_1684552233656118","response":{"message":"Successfully
+        activated Identity"}}'
     http_version: 
-  recorded_at: Thu, 05 Dec 2019 07:17:26 GMT
+  recorded_at: Tue, 04 Feb 2020 07:43:06 GMT
 recorded_with: VCR 5.0.0

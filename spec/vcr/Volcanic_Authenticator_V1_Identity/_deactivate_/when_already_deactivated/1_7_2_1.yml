@@ -1,0 +1,167 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://localhost:6000/api/v1/identity/login
+    body:
+      encoding: UTF-8
+      string: '{"name":"volcanic","secret":"volcanic!123","dataset_id":"-1","audience":["*"]}'
+    headers:
+      Authorization:
+      - Bearer
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Access-Control-Allow-Origin:
+      - "*"
+      X-Auth-Request-Id:
+      - offline_awsRequestId_04384014017033011
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '543'
+      Etag:
+      - W/"21f-6ttokWP/0WE0FHHcrUCP3rm1IQ4"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Tue, 04 Feb 2020 07:41:02 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_04384014017033011","response":{"token":"eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1ODA4MDIwNjIsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTgwODAyMDYyLCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU4MDgwMjA2MiwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AK3jW4PQLMRIYUWbKcozW2Fi-XJ9WFBq7jFSRZmNsqjbPlh8Qx5QtXtIPF0DTPi17cnSf9gKlUWmgEf7_K89Tf24ATMTq7VHD7dq7tz9Md2En9eczcbu77VzpItYrbmRf3ooNY4_su5fNQHua8hUcODkdoYGhmElSBNiGj3PgVTgWxvX"}}'
+    http_version: 
+  recorded_at: Tue, 04 Feb 2020 07:41:02 GMT
+- request:
+    method: post
+    uri: http://localhost:6000/api/v1/identity
+    body:
+      encoding: UTF-8
+      string: '{"source":"password","secret":null,"skip_secret_encryption":false,"privileges":[],"roles":[],"secretless":false,"name":"mock_name","principal_id":"principal_id"}'
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1ODA4MDIwNjIsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTgwODAyMDYyLCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU4MDgwMjA2MiwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AK3jW4PQLMRIYUWbKcozW2Fi-XJ9WFBq7jFSRZmNsqjbPlh8Qx5QtXtIPF0DTPi17cnSf9gKlUWmgEf7_K89Tf24ATMTq7VHD7dq7tz9Md2En9eczcbu77VzpItYrbmRf3ooNY4_su5fNQHua8hUcODkdoYGhmElSBNiGj3PgVTgWxvX
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      X-Powered-By:
+      - Express
+      Access-Control-Allow-Origin:
+      - "*"
+      X-Auth-Request-Id:
+      - offline_awsRequestId_6546253781517182
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '242'
+      Etag:
+      - W/"f2-NvipkIw3NPUp8pgEf4Y6wiMMKgY"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Tue, 04 Feb 2020 07:41:02 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_6546253781517182","response":{"name":"mock_name","secret":"5K{]c>y=n","source":"password","dataset_id":"90","updated_at":"2020-02-04T07:41:02.515Z","created_at":"2020-02-04T07:41:02.515Z","id":"b46ec56934"}}'
+    http_version: 
+  recorded_at: Tue, 04 Feb 2020 07:41:02 GMT
+- request:
+    method: post
+    uri: http://localhost:6000/api/v1/identity/b46ec56934/deactivate
+    body:
+      encoding: UTF-8
+      string: "{}"
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1ODA4MDIwNjIsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTgwODAyMDYyLCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU4MDgwMjA2MiwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AK3jW4PQLMRIYUWbKcozW2Fi-XJ9WFBq7jFSRZmNsqjbPlh8Qx5QtXtIPF0DTPi17cnSf9gKlUWmgEf7_K89Tf24ATMTq7VHD7dq7tz9Md2En9eczcbu77VzpItYrbmRf3ooNY4_su5fNQHua8hUcODkdoYGhmElSBNiGj3PgVTgWxvX
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Access-Control-Allow-Origin:
+      - "*"
+      X-Auth-Request-Id:
+      - offline_awsRequestId_0911256770864759
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '112'
+      Etag:
+      - W/"70-Ce+LSqwiIINBdPRvTiS/Z8Nh/E0"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Tue, 04 Feb 2020 07:41:02 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_0911256770864759","response":{"message":"Successfully
+        deactivated identity"}}'
+    http_version: 
+  recorded_at: Tue, 04 Feb 2020 07:41:02 GMT
+- request:
+    method: post
+    uri: http://localhost:6000/api/v1/identity/b46ec56934/deactivate
+    body:
+      encoding: UTF-8
+      string: "{}"
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1ODA4MDIwNjIsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTgwODAyMDYyLCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU4MDgwMjA2MiwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AK3jW4PQLMRIYUWbKcozW2Fi-XJ9WFBq7jFSRZmNsqjbPlh8Qx5QtXtIPF0DTPi17cnSf9gKlUWmgEf7_K89Tf24ATMTq7VHD7dq7tz9Md2En9eczcbu77VzpItYrbmRf3ooNY4_su5fNQHua8hUcODkdoYGhmElSBNiGj3PgVTgWxvX
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 410
+      message: Gone
+    headers:
+      X-Powered-By:
+      - Express
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '112'
+      Etag:
+      - W/"70-hzGbNML9WncX/SwquQOxLJuQa+o"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Tue, 04 Feb 2020 07:41:02 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_02839800185067598","message":"Identity
+        already deactivated","errorCode":1004}'
+    http_version: 
+  recorded_at: Tue, 04 Feb 2020 07:41:02 GMT
+recorded_with: VCR 5.0.0
