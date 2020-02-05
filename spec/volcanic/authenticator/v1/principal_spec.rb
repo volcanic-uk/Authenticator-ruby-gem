@@ -10,7 +10,7 @@ RSpec.describe Volcanic::Authenticator::V1::Principal, :vcr do
   let(:mock_privileges) { [3, 4] }
   let(:principal_error) { Volcanic::Authenticator::V1::PrincipalError }
   let(:authorization_error) { Volcanic::Authenticator::V1::AuthorizationError }
-  
+
   describe '#create' do
     context 'when missing name' do
       it { expect { principal.create(nil, 1) }.to raise_error principal_error }
@@ -103,7 +103,7 @@ RSpec.describe Volcanic::Authenticator::V1::Principal, :vcr do
 
     context 'when valid' do
       let(:new_name) { 'new_name' }
-      before do 
+      before do
         instance.name = new_name
         instance.save
       end
@@ -122,7 +122,7 @@ RSpec.describe Volcanic::Authenticator::V1::Principal, :vcr do
     context 'when valid' do
       context 'deleted' do
         before { principal.new(id: mock_principal_id).delete }
-        it { expect{ principal.find_by_id(mock_principal_id) }.to raise_error principal_error }
+        it { expect { principal.find_by_id(mock_principal_id) }.to raise_error principal_error }
       end
 
       context 'create back deleted principal' do
@@ -133,7 +133,7 @@ RSpec.describe Volcanic::Authenticator::V1::Principal, :vcr do
           principal.find(name: mock_name).first.delete
         end
 
-        it { expect{ principal.create(mock_name, mock_dataset_id) }.to_not raise_error }
+        it { expect { principal.create(mock_name, mock_dataset_id) }.to_not raise_error }
       end
     end
   end
