@@ -121,7 +121,7 @@ RSpec.describe Volcanic::Authenticator::V1::Identity, :vcr do
 
   describe '#reset_secret' do
     subject(:klass) { identity.create(mock_name, mock_principal_id) }
-    
+
     context 'when random secret' do
       before { klass.reset_secret }
       its(:secret) { should eq mock_secret }

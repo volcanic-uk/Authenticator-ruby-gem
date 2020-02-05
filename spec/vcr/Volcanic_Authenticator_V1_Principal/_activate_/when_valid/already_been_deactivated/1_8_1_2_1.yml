@@ -1,0 +1,169 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://localhost:6000/api/v1/identity/login
+    body:
+      encoding: UTF-8
+      string: '{"name":"volcanic","secret":"volcanic!123","dataset_id":"-1","audience":["*"]}'
+    headers:
+      Authorization:
+      - Bearer
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Access-Control-Allow-Origin:
+      - "*"
+      X-Auth-Request-Id:
+      - offline_awsRequestId_04317053862608611
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '543'
+      Etag:
+      - W/"21f-s1kRmCeKzRpi4A5pIetdLFRpRg0"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Wed, 05 Feb 2020 06:01:53 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_04317053862608611","response":{"token":"eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1ODA4ODI1MTMsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTgwODgyNTEzLCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU4MDg4MjUxMywiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.APFVuv1phVyQ_COO5uKISetzDsweDhBM3QtwNECpqpR1cFIS4Xq6He5VQZ-eZBugti_WV8vvHulagP1mpsYWgOqCAS4uAhdXlVvbQP0vKIl7Rq6KYQTFCiQkJyF97DJoMm8WeE630CtvylDQjaaYPZQJCD6enexI2BDQCJ5UmH453OdC"}}'
+    http_version: 
+  recorded_at: Wed, 05 Feb 2020 06:01:53 GMT
+- request:
+    method: post
+    uri: http://localhost:6000/api/v1/principals
+    body:
+      encoding: UTF-8
+      string: '{"name":"mock_name","dataset_id":"mock_dataset_id","roles":[],"privileges":[]}'
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1ODA4ODI1MTMsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTgwODgyNTEzLCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU4MDg4MjUxMywiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.APFVuv1phVyQ_COO5uKISetzDsweDhBM3QtwNECpqpR1cFIS4Xq6He5VQZ-eZBugti_WV8vvHulagP1mpsYWgOqCAS4uAhdXlVvbQP0vKIl7Rq6KYQTFCiQkJyF97DJoMm8WeE630CtvylDQjaaYPZQJCD6enexI2BDQCJ5UmH453OdC
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      X-Powered-By:
+      - Express
+      Access-Control-Allow-Origin:
+      - "*"
+      X-Auth-Request-Id:
+      - offline_awsRequestId_1757303701285582
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '214'
+      Etag:
+      - W/"d6-tcjTGTYtcvsBImduWc9cMwNR5DQ"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Wed, 05 Feb 2020 06:01:53 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_1757303701285582","response":{"name":"mock_name","dataset_id":"mock_dataset_id","updated_at":"2020-02-05T06:01:53.884Z","created_at":"2020-02-05T06:01:53.884Z","id":"8b26215ec3"}}'
+    http_version: 
+  recorded_at: Wed, 05 Feb 2020 06:01:53 GMT
+- request:
+    method: post
+    uri: http://localhost:6000/api/v1/principals/8b26215ec3/deactivate
+    body:
+      encoding: UTF-8
+      string: "{}"
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1ODA4ODI1MTMsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTgwODgyNTEzLCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU4MDg4MjUxMywiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.APFVuv1phVyQ_COO5uKISetzDsweDhBM3QtwNECpqpR1cFIS4Xq6He5VQZ-eZBugti_WV8vvHulagP1mpsYWgOqCAS4uAhdXlVvbQP0vKIl7Rq6KYQTFCiQkJyF97DJoMm8WeE630CtvylDQjaaYPZQJCD6enexI2BDQCJ5UmH453OdC
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Access-Control-Allow-Origin:
+      - "*"
+      X-Auth-Request-Id:
+      - offline_awsRequestId_34725196001542824
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '114'
+      Etag:
+      - W/"72-nrK4bYvk80yNId/J/ifrMwOxUNI"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Wed, 05 Feb 2020 06:01:53 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_34725196001542824","response":{"message":"Successfully
+        deactivated Principal"}}'
+    http_version: 
+  recorded_at: Wed, 05 Feb 2020 06:01:53 GMT
+- request:
+    method: post
+    uri: http://localhost:6000/api/v1/principals/8b26215ec3/activate
+    body:
+      encoding: UTF-8
+      string: "{}"
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1ODA4ODI1MTMsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTgwODgyNTEzLCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU4MDg4MjUxMywiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.APFVuv1phVyQ_COO5uKISetzDsweDhBM3QtwNECpqpR1cFIS4Xq6He5VQZ-eZBugti_WV8vvHulagP1mpsYWgOqCAS4uAhdXlVvbQP0vKIl7Rq6KYQTFCiQkJyF97DJoMm8WeE630CtvylDQjaaYPZQJCD6enexI2BDQCJ5UmH453OdC
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Access-Control-Allow-Origin:
+      - "*"
+      X-Auth-Request-Id:
+      - offline_awsRequestId_8246626161323007
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '111'
+      Etag:
+      - W/"6f-Jwce0NfMGLI7DxewLdsYvYErhPk"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Wed, 05 Feb 2020 06:01:54 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_8246626161323007","response":{"message":"Successfully
+        activated Principal"}}'
+    http_version: 
+  recorded_at: Wed, 05 Feb 2020 06:01:54 GMT
+recorded_with: VCR 5.0.0
