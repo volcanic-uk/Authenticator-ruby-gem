@@ -21,8 +21,12 @@ module Volcanic::Authenticator
   # after installation of this gem, these need to be configure.
   class Config
     class << self
-      attr_accessor :app_name, :app_secret, :app_dataset_id, :service_name
+      attr_accessor :app_name, :app_secret, :app_dataset_id, :service_name, :debug
       attr_writer :auth_url
+
+      def debug?
+        !!debug
+      end
 
       # expiration time of cache tokens
       def exp_token

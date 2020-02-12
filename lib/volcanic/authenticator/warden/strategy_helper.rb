@@ -36,7 +36,7 @@ module Volcanic::Authenticator::Warden
     end
 
     def token_valid?
-      @token_valid.nil? ? @token_valid = token.remote_validate : @token_valid
+      token.remote_validate
     end
   end
 end

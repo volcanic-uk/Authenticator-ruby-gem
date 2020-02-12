@@ -85,4 +85,38 @@ RSpec.describe Volcanic::Authenticator::V1::Token, :vcr do
       it { expect(token.new(mock_token_base64_2).remote_validate).to be false }
     end
   end
+
+  describe '#get_privileges_for_service' do
+    subject { token.new(mock_token_base64_2).get_privileges_for_service(service) }
+
+    context 'when passed a valid service name' do
+      let(:service) { 'auth' }
+
+      it 'returns the correct information' do
+        expect(subject).to have_key('name')
+        expect(subject).to have_key('permissions')
+        expect(subject['name']).to eq(service)
+      end
+    end
+
+    context 'when passed an invalid service name' do
+      let(:service) { 'invalid' }
+
+      it 'raises an exception' do
+        expect { subject }.to raise_error Volcanic::Authenticator::V1::PrivilegeError, 'Could not find privileges for service "invalid"'
+      end
+    end
+
+    context 'when no service is passed in' do
+      subject { token.new(mock_token_base64_2).get_privileges_for_service }
+
+      before do
+        Volcanic::Authenticator.config.service_name = 'something_else'
+      end
+
+      it 'defaults to the service_name defined in config' do
+        expect { subject }.to raise_error Volcanic::Authenticator::V1::PrivilegeError, 'Could not find privileges for service "something_else"'
+      end
+    end
+  end
 end

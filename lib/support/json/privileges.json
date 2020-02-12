@@ -1,0 +1,789 @@
+{
+    "requestID": "offline_awsRequestId_9040810110585773",
+    "response": [
+        {
+            "id": 3,
+            "name": "ats",
+            "permissions": [
+                {
+                    "id": 49,
+                    "name": "application:create",
+                    "privileges": [
+                        {
+                            "id": 11,
+                            "scope": "vrn:local:-1:application/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 50,
+                    "name": "application:update",
+                    "privileges": [
+                        {
+                            "id": 11,
+                            "scope": "vrn:local:-1:application/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 51,
+                    "name": "application:delete",
+                    "privileges": [
+                        {
+                            "id": 11,
+                            "scope": "vrn:local:-1:application/*",
+                            "allow": true
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 1,
+            "name": "auth",
+            "permissions": [
+                {
+                    "id": 1,
+                    "name": "identity:create",
+                    "privileges": [
+                        {
+                            "id": 1,
+                            "scope": "vrn:local:-1:identity/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 2,
+                    "name": "identity:update",
+                    "privileges": [
+                        {
+                            "id": 1,
+                            "scope": "vrn:local:-1:identity/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 3,
+                    "name": "identity:deactivate",
+                    "privileges": [
+                        {
+                            "id": 1,
+                            "scope": "vrn:local:-1:identity/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 4,
+                    "name": "secret:reset",
+                    "privileges": [
+                        {
+                            "id": 1,
+                            "scope": "vrn:local:-1:identity/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 5,
+                    "name": "identity:generate_token",
+                    "privileges": [
+                        {
+                            "id": 1,
+                            "scope": "vrn:local:-1:identity/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 6,
+                    "name": "identity:update_roles",
+                    "privileges": [
+                        {
+                            "id": 1,
+                            "scope": "vrn:local:-1:identity/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 7,
+                    "name": "identity:update_privileges",
+                    "privileges": [
+                        {
+                            "id": 1,
+                            "scope": "vrn:local:-1:identity/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 8,
+                    "name": "principal:get",
+                    "privileges": [
+                        {
+                            "id": 2,
+                            "scope": "vrn:local:-1:principal/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 9,
+                    "name": "principal:list",
+                    "privileges": [
+                        {
+                            "id": 2,
+                            "scope": "vrn:local:-1:principal/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 10,
+                    "name": "principal:update",
+                    "privileges": [
+                        {
+                            "id": 2,
+                            "scope": "vrn:local:-1:principal/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 11,
+                    "name": "principal:delete",
+                    "privileges": [
+                        {
+                            "id": 2,
+                            "scope": "vrn:local:-1:principal/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 12,
+                    "name": "principal:create",
+                    "privileges": [
+                        {
+                            "id": 2,
+                            "scope": "vrn:local:-1:principal/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 13,
+                    "name": "principal:bulk_insert",
+                    "privileges": [
+                        {
+                            "id": 2,
+                            "scope": "vrn:local:-1:principal/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 14,
+                    "name": "principal:update_roles",
+                    "privileges": [
+                        {
+                            "id": 2,
+                            "scope": "vrn:local:-1:principal/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 15,
+                    "name": "principal:update_privileges",
+                    "privileges": [
+                        {
+                            "id": 2,
+                            "scope": "vrn:local:-1:principal/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 16,
+                    "name": "key:get",
+                    "privileges": [
+                        {
+                            "id": 3,
+                            "scope": "vrn:local:-1:key/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 17,
+                    "name": "key:rotate",
+                    "privileges": [
+                        {
+                            "id": 3,
+                            "scope": "vrn:local:-1:key/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 18,
+                    "name": "key:delete",
+                    "privileges": [
+                        {
+                            "id": 3,
+                            "scope": "vrn:local:-1:key/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 19,
+                    "name": "group:get",
+                    "privileges": [
+                        {
+                            "id": 4,
+                            "scope": "vrn:local:-1:group/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 20,
+                    "name": "group:list",
+                    "privileges": [
+                        {
+                            "id": 4,
+                            "scope": "vrn:local:-1:group/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 21,
+                    "name": "group:update",
+                    "privileges": [
+                        {
+                            "id": 4,
+                            "scope": "vrn:local:-1:group/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 22,
+                    "name": "group:delete",
+                    "privileges": [
+                        {
+                            "id": 4,
+                            "scope": "vrn:local:-1:group/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 23,
+                    "name": "group:create",
+                    "privileges": [
+                        {
+                            "id": 4,
+                            "scope": "vrn:local:-1:group/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 24,
+                    "name": "service:get",
+                    "privileges": [
+                        {
+                            "id": 5,
+                            "scope": "vrn:local:-1:service/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 25,
+                    "name": "service:create",
+                    "privileges": [
+                        {
+                            "id": 5,
+                            "scope": "vrn:local:-1:service/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 26,
+                    "name": "service:update",
+                    "privileges": [
+                        {
+                            "id": 5,
+                            "scope": "vrn:local:-1:service/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 27,
+                    "name": "service:delete",
+                    "privileges": [
+                        {
+                            "id": 5,
+                            "scope": "vrn:local:-1:service/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 28,
+                    "name": "service:list",
+                    "privileges": [
+                        {
+                            "id": 5,
+                            "scope": "vrn:local:-1:service/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 29,
+                    "name": "privilege:get",
+                    "privileges": [
+                        {
+                            "id": 6,
+                            "scope": "vrn:local:-1:privilege/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 30,
+                    "name": "privilege:list",
+                    "privileges": [
+                        {
+                            "id": 6,
+                            "scope": "vrn:local:-1:privilege/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 31,
+                    "name": "privilege:create",
+                    "privileges": [
+                        {
+                            "id": 6,
+                            "scope": "vrn:local:-1:privilege/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 32,
+                    "name": "privilege:update",
+                    "privileges": [
+                        {
+                            "id": 6,
+                            "scope": "vrn:local:-1:privilege/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 33,
+                    "name": "privilege:delete",
+                    "privileges": [
+                        {
+                            "id": 6,
+                            "scope": "vrn:local:-1:privilege/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 34,
+                    "name": "privilege:fetch_subject",
+                    "privileges": [
+                        {
+                            "id": 6,
+                            "scope": "vrn:local:-1:privilege/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 35,
+                    "name": "permission:get",
+                    "privileges": [
+                        {
+                            "id": 7,
+                            "scope": "vrn:local:-1:permission/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 36,
+                    "name": "permission:list",
+                    "privileges": [
+                        {
+                            "id": 7,
+                            "scope": "vrn:local:-1:permission/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 37,
+                    "name": "permission:create",
+                    "privileges": [
+                        {
+                            "id": 7,
+                            "scope": "vrn:local:-1:permission/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 38,
+                    "name": "permission:update",
+                    "privileges": [
+                        {
+                            "id": 7,
+                            "scope": "vrn:local:-1:permission/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 39,
+                    "name": "permission:delete",
+                    "privileges": [
+                        {
+                            "id": 7,
+                            "scope": "vrn:local:-1:permission/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 40,
+                    "name": "role:get",
+                    "privileges": [
+                        {
+                            "id": 8,
+                            "scope": "vrn:local:-1:role/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 41,
+                    "name": "role:create",
+                    "privileges": [
+                        {
+                            "id": 8,
+                            "scope": "vrn:local:-1:role/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 42,
+                    "name": "role:update",
+                    "privileges": [
+                        {
+                            "id": 8,
+                            "scope": "vrn:local:-1:role/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 43,
+                    "name": "role:delete",
+                    "privileges": [
+                        {
+                            "id": 8,
+                            "scope": "vrn:local:-1:role/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 44,
+                    "name": "role:list",
+                    "privileges": [
+                        {
+                            "id": 8,
+                            "scope": "vrn:local:-1:role/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 45,
+                    "name": "login_attempts:get",
+                    "privileges": [
+                        {
+                            "id": 9,
+                            "scope": "vrn:local:-1:login_attempt/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 61,
+                    "name": "identity:delete",
+                    "privileges": [
+                        {
+                            "id": 1,
+                            "scope": "vrn:local:-1:identity/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 62,
+                    "name": "identity:get_all",
+                    "privileges": [
+                        {
+                            "id": 1,
+                            "scope": "vrn:local:-1:identity/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 63,
+                    "name": "identity:get",
+                    "privileges": [
+                        {
+                            "id": 1,
+                            "scope": "vrn:local:-1:identity/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 64,
+                    "name": "principal:get_identities",
+                    "privileges": [
+                        {
+                            "id": 2,
+                            "scope": "vrn:local:-1:principal/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 65,
+                    "name": "principal:deactivate",
+                    "privileges": [
+                        {
+                            "id": 2,
+                            "scope": "vrn:local:-1:principal/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 66,
+                    "name": "principal:activate",
+                    "privileges": [
+                        {
+                            "id": 2,
+                            "scope": "vrn:local:-1:principal/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 67,
+                    "name": "identity:activate",
+                    "privileges": [
+                        {
+                            "id": 1,
+                            "scope": "vrn:local:-1:identity/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 68,
+                    "name": "auditLogs:get",
+                    "privileges": [
+                        {
+                            "id": 15,
+                            "scope": "vrn:local:-1:auditLogs/*",
+                            "allow": true
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "name": "krakatoa",
+            "permissions": [
+                {
+                    "id": 46,
+                    "name": "job:create",
+                    "privileges": [
+                        {
+                            "id": 10,
+                            "scope": "vrn:local:-1:job/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 47,
+                    "name": "job:update",
+                    "privileges": [
+                        {
+                            "id": 10,
+                            "scope": "vrn:local:-1:job/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 48,
+                    "name": "job:delete",
+                    "privileges": [
+                        {
+                            "id": 10,
+                            "scope": "vrn:local:-1:job/*",
+                            "allow": true
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "name": "vault",
+            "permissions": [
+                {
+                    "id": 52,
+                    "name": "blog:create",
+                    "privileges": [
+                        {
+                            "id": 12,
+                            "scope": "vrn:local:-1:blog/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 53,
+                    "name": "blog:update",
+                    "privileges": [
+                        {
+                            "id": 12,
+                            "scope": "vrn:local:-1:blog/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 54,
+                    "name": "blog:delete",
+                    "privileges": [
+                        {
+                            "id": 12,
+                            "scope": "vrn:local:-1:blog/*",
+                            "allow": true
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 5,
+            "name": "reporter",
+            "permissions": [
+                {
+                    "id": 55,
+                    "name": "chart:create",
+                    "privileges": [
+                        {
+                            "id": 13,
+                            "scope": "vrn:local:-1:chart/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 56,
+                    "name": "chart:update",
+                    "privileges": [
+                        {
+                            "id": 13,
+                            "scope": "vrn:local:-1:chart/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 57,
+                    "name": "chart:delete",
+                    "privileges": [
+                        {
+                            "id": 13,
+                            "scope": "vrn:local:-1:chart/*",
+                            "allow": true
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 6,
+            "name": "xenolith",
+            "permissions": [
+                {
+                    "id": 58,
+                    "name": "integration:create",
+                    "privileges": [
+                        {
+                            "id": 14,
+                            "scope": "vrn:local:-1:integration/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 59,
+                    "name": "integration:update",
+                    "privileges": [
+                        {
+                            "id": 14,
+                            "scope": "vrn:local:-1:integration/*",
+                            "allow": true
+                        }
+                    ]
+                },
+                {
+                    "id": 60,
+                    "name": "integration:delete",
+                    "privileges": [
+                        {
+                            "id": 14,
+                            "scope": "vrn:local:-1:integration/*",
+                            "allow": true
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

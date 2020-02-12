@@ -148,6 +148,16 @@ module Volcanic::Authenticator
           identity
         end
 
+        # Lookup identity by name
+        # Required parameters:
+        #   +name+: The name of identity.
+        #
+        def find_by_name(name)
+          parsed = perform_get_and_parse exception, "api/v1/identity?name=#{name}"
+          return new if parsed['data'].first.blank?
+          new(parsed['data'].first.transform_keys(&:to_sym))
+        end
+
         private
 
         # by default identity will have source with value `password` and secretless false.
