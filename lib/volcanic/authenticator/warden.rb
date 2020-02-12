@@ -4,6 +4,7 @@ require_relative 'warden/allow_always'
 require_relative 'warden/validate_token'
 require_relative 'warden/validate_token_present'
 require_relative 'warden/validate_session_token'
+require_relative 'warden/volcanic_omniauth'
 
 module Volcanic::Authenticator
   # this class provide strategies and failure_app

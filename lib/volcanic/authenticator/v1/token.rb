@@ -59,6 +59,18 @@ module Volcanic::Authenticator
         perform_post_and_parse EXCEPTION, path, nil, token_base64
       end
 
+      # Used to return privileges for this user
+      # for given service.
+      #
+      # e.g.
+      #   Token.new(token_base64).get_permissions_for_service('ats')
+      #
+      # returns:
+      #   Array
+      def get_privileges_for_service(service = Config.service_name)
+        @get_privileges_for_service ||= Privilege.find_by_service(service)
+      end
+
       private
 
       def decode!(public_key = nil, verify = true)
