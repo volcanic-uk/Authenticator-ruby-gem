@@ -30,7 +30,6 @@ module Volcanic::Authenticator
     #   opts = { status: 401, headers: { 'Content-Type' => 'application/json' }, body: { message: 'Authorization header is invalid!' } }
     #   manager.failure_app = Volcanic::Authenticator::Warden::AuthFailure.new(opts)
     #
-    # TODO: unit test need to be done
     class AuthFailure
       attr_accessor :env, :headers, :body
 
