@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require_relative 'warden/auth_failure'
 require_relative 'warden/allow_always'
 require_relative 'warden/validate_token'
 require_relative 'warden/validate_token_present'
@@ -15,7 +14,5 @@ module Volcanic::Authenticator
   #   +ValidateSession+ forbid request if session[:auth_token] is invalid
   #   +ValidateSessionPresent+ forbid request if session[:auth_token] is exist and invalid, if not exist request is pass
   #
-  # failure_app:
-  #   +AuthFailure+  warden/auth_failure.rb
   module Warden; end
 end
