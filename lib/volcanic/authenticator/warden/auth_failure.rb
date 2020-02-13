@@ -31,20 +31,20 @@ module Volcanic::Authenticator
     #   manager.failure_app = Volcanic::Authenticator::Warden::AuthFailure.new(opts)
     #
     class AuthFailure
-      attr_accessor :env, :headers, :body
+      attr_accessor :env
 
       def self.call(env)
-        new(env: env).call(env)
+        new.call(env)
       end
 
-      def initialize(**opts)
-        @env = opts[:env]
-        @status = opts[:status]
-        @headers = process_headers(opts[:headers] || {})
-        @body = opts[:body] || error_message
+      def initialize(status: nil, headers: {}, body: nil)
+        @status = status
+        @headers = headers
+        @body = body
       end
 
-      def call(_env)
+      def call(env)
+        @env = env
         [status, headers, [body&.to_json]]
       end
 
@@ -54,9 +54,17 @@ module Volcanic::Authenticator
         @status ||= redirect? ? 302 : 401
       end
 
-      def process_headers(custom_headers = {})
+      def headers
+        process_headers(@headers)
+      end
+
+      def body
+        @body ||= error_message
+      end
+
+      def process_headers(custom_headers)
         headers = redirect? ? { 'location' => redirect_url } : { 'Context-Type' => 'application/json' }
-        headers.merge!(custom_headers)
+        headers.merge!(custom_headers || {})
       end
 
       def error_message
