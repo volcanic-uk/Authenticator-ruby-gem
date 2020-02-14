@@ -7,8 +7,8 @@ module Volcanic::Authenticator
   module V1
     # Identity API
     class Identity < CommonPrincipalIdentity
-      attr_accessor :id, :name, :secret, :privilege_ids, :role_ids
-      attr_reader :secure_id, :principal_id, :dataset_id, :source, :created_at, :updated_at
+      attr_accessor :id, :name, :secret, :privilege_ids, :role_ids, :principal_id
+      attr_reader :dataset_id, :source, :created_at, :updated_at
 
       # identity base path
       def self.path
@@ -21,7 +21,7 @@ module Volcanic::Authenticator
       end
 
       def initialize(**opts)
-        %i[id secure_id name secret principal_id dataset_id source created_at updated_at].each do |key|
+        %i[id name secret dataset_id source created_at updated_at].each do |key|
           instance_variable_set("@#{key}", opts[key])
         end
       end
@@ -138,14 +138,7 @@ module Volcanic::Authenticator
           payload = payload_handler(**opts)
           payload[:name] = name
           payload[:principal_id] = principal_id
-          identity = super payload
-          # TODO: (AUTH-215) remove this when auth returning the correct id (secure_id)
-          identity.id = identity.secure_id unless identity.secure_id.nil?
-          #  set attributes that are not provided by the api response
-          identity.secret ||= payload[:secret]
-          identity.privilege_ids = payload[:privileges]
-          identity.role_ids = payload[:roles]
-          identity
+          instance_setup(super(payload), payload)
         end
 
         private
@@ -164,6 +157,15 @@ module Volcanic::Authenticator
             roles: opts[:role_ids] || [],
             secretless: opts[:secretless].nil? ? source.to_s != 'password' : opts[:secretless] # secretless will be false if source is 'password'
           }
+        end
+
+        #  set attributes that are not provided by the api response
+        def instance_setup(klass, payload)
+          klass.secret ||= payload[:secret]
+          klass.privilege_ids = payload[:privileges]
+          klass.role_ids = payload[:roles]
+          klass.principal_id = payload[:principal_id]
+          klass
         end
       end
 

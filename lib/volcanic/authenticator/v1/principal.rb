@@ -6,8 +6,8 @@ module Volcanic::Authenticator
   module V1
     # Principal api
     class Principal < CommonPrincipalIdentity
-      attr_reader :created_at, :updated_at, :active
-      attr_accessor :id, :secure_id, :name, :dataset_id, :role_ids, :privilege_ids
+      attr_reader :created_at, :updated_at, :active, :login_attempts
+      attr_accessor :id, :name, :dataset_id, :role_ids, :privilege_ids
 
       # Principal end-point
       def self.path
@@ -20,7 +20,7 @@ module Volcanic::Authenticator
       end
 
       def initialize(**opts)
-        %i[id secure_id name dataset_id active created_at updated_at].each do |key|
+        %i[id name dataset_id login_attempts active created_at updated_at].each do |key|
           instance_variable_set("@#{key}", opts[key])
         end
       end
@@ -35,8 +35,7 @@ module Volcanic::Authenticator
       #   principal.save
       #
       def save
-        payload = { name: name }
-        super payload
+        super(name: name)
       end
 
       # to create a new Principal.
@@ -50,13 +49,9 @@ module Volcanic::Authenticator
       #  principal.id # => 1
       #
       def self.create(name, dataset_id, role_ids = [], privilege_ids = [])
-        payload = { name: name,
-                    dataset_id: dataset_id,
-                    roles: role_ids,
+        payload = { name: name, dataset_id: dataset_id, roles: role_ids,
                     privileges: privilege_ids }
         principal = super payload
-        # TODO: remove this when auth returning the correct id (secure_id)
-        principal.id = principal.secure_id unless principal.secure_id.nil?
         # set information that does not provide by the api response
         principal.role_ids = role_ids
         principal.privilege_ids = privilege_ids

@@ -4,22 +4,20 @@ RSpec.describe Volcanic::Authenticator::V1::Identity, :vcr do
   before { Configuration.set }
   let(:mock_name) { 'mock_name' }
   let(:mock_principal_id) { 'principal_id' }
-  let(:mock_identity_id) { 'mock_id' }
+  let(:mock_identity_id) { 'mock_identity_id' }
   let(:mock_dataset_id) { 'mock_dataset_id' }
   let(:mock_secret) { 'mock_secret' }
   let(:mock_privileges) { [1, 2] }
   let(:mock_roles) { [1, 2] }
   let(:mock_source) { 'mock_source' }
   let(:mock_source_symbol) { :mock_source }
-  let(:mock_random_secret) { 'cded0d177c84163f1a460f573b9b14e1b8b1e515' }
-  let(:new_identity) \
-    { identity.create(mock_name, mock_principal_id, secret: mock_secret) }
+  let(:mock_random_secret) { 'mock_random_secret' }
   let(:identity) { Volcanic::Authenticator::V1::Identity }
   let(:token) { Volcanic::Authenticator::V1::Token }
   let(:identity_error) { Volcanic::Authenticator::V1::IdentityError }
   let(:authorization_error) { Volcanic::Authenticator::V1::AuthorizationError }
-  let(:mock_tokens) { JSON.parse(Configuration.mock_tokens) }
-  let(:mock_token_base64) { mock_tokens['1'] }
+  let(:mock_token_base64) { JSON.parse(Configuration.mock_tokens)['1'] }
+  let(:instance) { identity.create(mock_name, mock_principal_id) }
 
   describe '#create' do
     context 'when missing name' do
@@ -43,13 +41,13 @@ RSpec.describe Volcanic::Authenticator::V1::Identity, :vcr do
     end
 
     context 'when success' do
-      subject { new_identity }
-      its(:id) { should eq 'deb526106b' }
+      subject { instance }
+      its(:id) { should eq mock_identity_id }
       its(:name) { should eq mock_name }
       its(:secret) { should eq mock_secret }
-      its(:principal_id) { should eq 1 }
-      its(:dataset_id) { should eq '-1' }
-      its(:source) { should eq nil } # source should be nil for non-source identity
+      its(:principal_id) { should eq mock_principal_id }
+      its(:dataset_id) { should eq mock_dataset_id }
+      its(:source) { should eq 'password' } # default value if not set
     end
 
     context 'when generating a random secret' do
@@ -96,56 +94,55 @@ RSpec.describe Volcanic::Authenticator::V1::Identity, :vcr do
     end
   end
 
-  describe '#update' do
-    subject(:identity_update) { new_identity }
+  describe '#save' do
+    subject(:klass) { identity.create(mock_name, mock_principal_id) }
 
     context 'update name' do
       let(:new_name) { 'new name' }
       before do
-        identity_update.name = new_name
-        identity_update.save
+        klass.name = new_name
+        klass.save
       end
       its(:name) { should eq new_name }
     end
 
     context 'update role ids' do
       let(:new_role_ids) { [3, 4] }
-      before { identity_update.update_role_ids(new_role_ids) }
+      before { klass.update_role_ids(new_role_ids) }
       its(:role_ids) { should eq new_role_ids }
     end
 
     context 'update privilege ids' do
       let(:new_privilege_ids) { [3, 4] }
-      before { identity_update.update_privilege_ids(new_privilege_ids) }
+      before { klass.update_privilege_ids(new_privilege_ids) }
       its(:privilege_ids) { should eq new_privilege_ids }
     end
   end
 
   describe '#reset_secret' do
-    subject(:identity_secret) { new_identity }
+    subject(:klass) { identity.create(mock_name, mock_principal_id) }
+
     context 'when random secret' do
-      before { identity_secret.reset_secret }
-      its(:secret) { should eq '4af4da0f2b2af5b217cfd726b84ba76bc47d3b21' }
+      before { klass.reset_secret }
+      its(:secret) { should eq mock_secret }
     end
 
     context 'when custom secret' do
       let(:custom_secret) { 'custom_secret' }
-      before { identity_secret.reset_secret(custom_secret) }
+      before { klass.reset_secret(custom_secret) }
       its(:secret) { should eq custom_secret }
     end
   end
 
   describe '#delete' do
-    subject(:identity_delete) { new_identity }
+    subject(:klass) { identity.create(mock_name, mock_principal_id) }
     context 'when deleted' do
-      before { identity_delete.delete }
-      it { expect { identity_delete.delete }.to raise_error identity_error }
+      before { klass.delete }
+      it { expect { klass.delete }.to raise_error identity_error }
     end
   end
 
   describe '#login' do
-    subject(:identity_login) { new_identity }
-
     context 'When name is missing' do
       it { expect { identity.new(name: '').login }.to raise_error identity_error }
       it { expect { identity.new(name: nil).login }.to raise_error identity_error }
@@ -162,7 +159,7 @@ RSpec.describe Volcanic::Authenticator::V1::Identity, :vcr do
     end
 
     context 'when login' do
-      subject { identity_login.login }
+      subject { identity.new(name: mock_name, secret: mock_secret, dataset_id: mock_dataset_id).login }
       its(:token_base64) { is_expected.to eq mock_token_base64 }
     end
 
@@ -186,9 +183,8 @@ RSpec.describe Volcanic::Authenticator::V1::Identity, :vcr do
       subject { identity.find_by_id(mock_identity_id) }
       its(:id) { should eq mock_identity_id }
       its(:name) { should eq mock_name }
-      its(:principal_id) { should eq mock_principal_id }
       its(:dataset_id) { should eq mock_dataset_id }
-      its(:source) { should eq 'mock_source' }
+      its(:source) { should eq 'password' }
       its(:secret) { should eq nil } # secret will not be returning when finding
     end
 
@@ -248,48 +244,38 @@ RSpec.describe Volcanic::Authenticator::V1::Identity, :vcr do
   end
 
   describe '#deactivate!' do
-    subject(:ident) { new_identity }
+    subject(:klass) { identity.create(mock_name, mock_principal_id) }
 
-    context 'when activated' do
-      it { expect { ident.deactivate! }.not_to raise_error }
+    context 'when still activated' do
+      it { expect { klass.deactivate! }.not_to raise_error }
     end
 
-    context 'when deactivated' do
-      before { ident.deactivate! }
-      it { expect { ident.deactivate! }.to raise_error identity_error }
+    context 'when already deactivated' do
+      before { klass.deactivate! }
+      it { expect { klass.deactivate! }.to raise_error identity_error }
     end
 
     context 'when not existed' do
-      before { ident.id = 'nil' }
-      it { expect { ident.deactivate! }.to raise_error identity_error }
-    end
-
-    context 'when not allowed' do
-      before { Configuration.set_authorize_identity }
-      it { expect { ident.deactivate! }.to raise_error authorization_error }
+      before { klass.id = 'nil' }
+      it { expect { klass.deactivate! }.to raise_error identity_error }
     end
   end
 
   describe '#activate!' do
-    subject(:ident) { new_identity }
+    subject(:klass) { identity.create(mock_name, mock_principal_id) }
 
     context 'when activated' do
-      it { expect { ident.activate! }.not_to raise_error }
+      it { expect { klass.activate! }.not_to raise_error }
     end
 
     context 'when deactivated' do
-      before { ident.deactivate! }
-      it { expect { ident.activate! }.not_to raise_error }
+      before { klass.deactivate! }
+      it { expect { klass.activate! }.not_to raise_error }
     end
 
     context 'when not existed' do
-      before { ident.id = 'nil' }
-      it { expect { ident.activate! }.to raise_error identity_error }
-    end
-
-    context 'when not allowed' do
-      before { Configuration.set_authorize_identity }
-      it { expect { ident.activate! }.to raise_error authorization_error }
+      before { klass.id = 'nil' }
+      it { expect { klass.activate! }.to raise_error identity_error }
     end
   end
 end

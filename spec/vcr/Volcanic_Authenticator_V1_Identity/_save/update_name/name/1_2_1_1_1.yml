@@ -1,0 +1,127 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://localhost:6000/api/v1/identity/login
+    body:
+      encoding: UTF-8
+      string: '{"name":"volcanic","secret":"volcanic!123","dataset_id":"-1","audience":["*"]}'
+    headers:
+      Authorization:
+      - Bearer
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Access-Control-Allow-Origin:
+      - "*"
+      X-Auth-Request-Id:
+      - offline_awsRequestId_8972843652026135
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '542'
+      Etag:
+      - W/"21e-aCho0xXggEcdmeu6PTqaJy5o9wA"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Tue, 04 Feb 2020 06:34:29 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_8972843652026135","response":{"token":"eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1ODA3OTgwNjksInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTgwNzk4MDY5LCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU4MDc5ODA2OSwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AOOnJGrxHfGwCfWDyF7IxqGvR82eDEF6gdjjn8kH-_XJsKoo1O4jVWpQFQ_jkSZqq6-KtnSuElCkKg7BB1x_Ff1tAOWVxFxqOegXCI1ilsJPWXapb5R_8GzGkdj4ZRGtxbKPCOUrHljlHNMQTeOL3WzD7hCgiAWy3m4yh7OcSdukbNg7"}}'
+    http_version: 
+  recorded_at: Tue, 04 Feb 2020 06:34:29 GMT
+- request:
+    method: post
+    uri: http://localhost:6000/api/v1/identity
+    body:
+      encoding: UTF-8
+      string: '{"source":"password","secret":null,"skip_secret_encryption":false,"privileges":[],"roles":[],"secretless":false,"name":"mock_name","principal_id":"principal_id"}'
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1ODA3OTgwNjksInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTgwNzk4MDY5LCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU4MDc5ODA2OSwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AOOnJGrxHfGwCfWDyF7IxqGvR82eDEF6gdjjn8kH-_XJsKoo1O4jVWpQFQ_jkSZqq6-KtnSuElCkKg7BB1x_Ff1tAOWVxFxqOegXCI1ilsJPWXapb5R_8GzGkdj4ZRGtxbKPCOUrHljlHNMQTeOL3WzD7hCgiAWy3m4yh7OcSdukbNg7
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      X-Powered-By:
+      - Express
+      Access-Control-Allow-Origin:
+      - "*"
+      X-Auth-Request-Id:
+      - offline_awsRequestId_1196154240604006
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '241'
+      Etag:
+      - W/"f1-kUBslyaK1mpSymJjNTBLjBVQ6fE"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Tue, 04 Feb 2020 06:34:29 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_1196154240604006","response":{"name":"mock_name","secret":"f?ji{!$J","source":"password","dataset_id":"90","updated_at":"2020-02-04T06:34:29.135Z","created_at":"2020-02-04T06:34:29.135Z","id":"3bbde3036f"}}'
+    http_version: 
+  recorded_at: Tue, 04 Feb 2020 06:34:29 GMT
+- request:
+    method: post
+    uri: http://localhost:6000/api/v1/identity/3bbde3036f
+    body:
+      encoding: UTF-8
+      string: '{"name":"new name"}'
+    headers:
+      Authorization:
+      - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1ODA3OTgwNjksInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTgwNzk4MDY5LCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU4MDc5ODA2OSwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AOOnJGrxHfGwCfWDyF7IxqGvR82eDEF6gdjjn8kH-_XJsKoo1O4jVWpQFQ_jkSZqq6-KtnSuElCkKg7BB1x_Ff1tAOWVxFxqOegXCI1ilsJPWXapb5R_8GzGkdj4ZRGtxbKPCOUrHljlHNMQTeOL3WzD7hCgiAWy3m4yh7OcSdukbNg7
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Access-Control-Allow-Origin:
+      - "*"
+      X-Auth-Request-Id:
+      - offline_awsRequestId_8825925828885102
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '304'
+      Etag:
+      - W/"130-NQQXMflCNirGQOVhrNNAPesuvuc"
+      Cache-Control:
+      - no-cache
+      Vary:
+      - accept-encoding
+      Date:
+      - Tue, 04 Feb 2020 06:34:29 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"requestID":"offline_awsRequestId_8825925828885102","response":{"deleted_at":null,"id":"3bbde3036f","name":"new
+        name","dataset_id":"90","source":"password","last_active_date":null,"last_used_ip_address":null,"active":true,"created_at":"2020-02-04T06:34:29.135Z","updated_at":"2020-02-04T06:34:29.496Z"}}'
+    http_version: 
+  recorded_at: Tue, 04 Feb 2020 06:34:29 GMT
+recorded_with: VCR 5.0.0
