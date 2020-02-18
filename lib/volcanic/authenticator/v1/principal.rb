@@ -16,7 +16,7 @@ module Volcanic::Authenticator
 
       # Exception method for handling error. Please find this at helper/error.rb
       def self.exception
-        :raise_exception_principal
+        PrincipalError
       end
 
       def initialize(**opts)

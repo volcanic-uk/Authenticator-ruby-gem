@@ -12,7 +12,7 @@ module Volcanic::Authenticator
 
       IDENTITY_PATH = 'api/v1/identity/'
       TOKEN_VALIDATE_PATH = 'api/v1/token/validate'
-      EXCEPTION = :raise_exception_token
+      EXCEPTION = TokenError
       CLAIMS = %i[sub exp nbf audience iat iss jti].freeze
 
       attr_accessor :token_base64

@@ -14,7 +14,7 @@ module Volcanic::Authenticator
 
         # Public Key end-point
         PUBLIC_KEY_URL = 'api/v1/key'
-        EXCEPTION = :raise_exception_app_token
+        EXCEPTION = ApplicationTokenError
 
         def fetch_and_request(kid)
           cache.fetch kid, expire_in: exp_public_key do

@@ -75,31 +75,6 @@ module Volcanic::Authenticator
         base.extend self
       end
 
-      # error handler for application token
-      def raise_exception_app_token(res)
-        RaiseException.new(res, ApplicationTokenError)
-      end
-
-      # error handler for service
-      def raise_exception_service(res)
-        RaiseException.new(res, ServiceError)
-      end
-
-      # error handler for principal
-      def raise_exception_principal(res)
-        RaiseException.new(res, PrincipalError)
-      end
-
-      # error handler for identity
-      def raise_exception_identity(res)
-        RaiseException.new(res, IdentityError)
-      end
-
-      # error handler for token
-      def raise_exception_token(res)
-        RaiseException.new(res, TokenError)
-      end
-
       # error handler for not_implemented_error
       def raise_not_implemented_error(method_name)
         raise NotImplementedError, "#{method_name} must be defined by child classes"

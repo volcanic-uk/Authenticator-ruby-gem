@@ -45,7 +45,7 @@ module Volcanic::Authenticator
       end
 
       def exception_handler_and_parser(exception, res)
-        send(exception, res) unless res.success?
+        RaiseException.new(res, exception) unless res.success?
         JSON.parse(res.body)['response']
       end
     end

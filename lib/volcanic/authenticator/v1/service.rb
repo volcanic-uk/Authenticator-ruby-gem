@@ -14,7 +14,7 @@ module Volcanic::Authenticator
       end
 
       def self.exception
-        :raise_exception_service
+        ServiceError
       end
 
       # initialize new service

@@ -17,7 +17,7 @@ module Volcanic::Authenticator
 
       # setting the exception method
       def self.exception
-        :raise_exception_identity
+        IdentityError
       end
 
       def initialize(**opts)
