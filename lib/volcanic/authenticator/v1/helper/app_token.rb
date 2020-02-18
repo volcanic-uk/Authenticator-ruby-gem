@@ -17,7 +17,7 @@ module Volcanic::Authenticator
         APP_TOKEN = 'volcanic_application_token'
         # Token end-point
         GENERATE_TOKEN_URL = 'api/v1/identity/login'
-        EXCEPTION = :raise_exception_app_token
+        EXCEPTION = ApplicationTokenError
 
         def fetch_and_request
           cache.fetch APP_TOKEN, expire_in: exp_app_token, &method(:request_app_token)
