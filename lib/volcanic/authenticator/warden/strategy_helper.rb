@@ -14,6 +14,10 @@ module Volcanic::Authenticator::Warden
       'Authorization header is missing!'
     end
 
+    def test_message
+      'This is a test strategy. DO NOT USE IN PRODUCTION'
+    end
+
     def invalid_message
       'Authorization header is invalid!'
     end
@@ -70,6 +74,10 @@ module Volcanic::Authenticator::Warden
       @logger ||= begin
         defined?(Rails) ? Rails.logger : Logger.new(STDOUT)
       end
+    end
+
+    def token_valid?
+      token.remote_validate
     end
   end
 end
