@@ -66,9 +66,9 @@ module Volcanic::Authenticator
       #   Token.new(token_base64).get_permissions_for_service('ats')
       #
       # returns:
-      #   Array
-      def get_privileges_for_service(service = Config.service_name)
-        @get_privileges_for_service ||= Privilege.find_by_service(service)
+      #   Array[Privilege, Privilege]
+      def get_privileges_for_service(service)
+        @get_privileges_for_service ||= Subject.privileges_for(@sub, service)
       end
 
       private
