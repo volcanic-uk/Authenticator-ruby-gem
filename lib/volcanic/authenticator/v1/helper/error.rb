@@ -29,7 +29,8 @@ module Volcanic::Authenticator
           # When a requested public key does not exist in DB
           raise SignatureError, message if status == 400 && error_code == 3002
           # When token is invalid or unsuccessful login
-          raise AuthorizationError, message if [401, 403].include?(status)
+          raise AuthorizationError, message if status == 403
+          raise AuthenticationError, message if status == 401
         end
 
         # raise for unknown error occurs
