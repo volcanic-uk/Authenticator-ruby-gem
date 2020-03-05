@@ -16,16 +16,26 @@ module Volcanic::Authenticator
         base.extend self
       end
 
+      # rubocop:disable Metrics/MethodLength
       def perform_request_and_parse(verb, exception, end_point, body = nil, auth_token = :undefined)
-        if auth_token == :undefined
-                           auth_token = AppToken.fetch_and_request
-                         end
-        url = [Volcanic::Authenticator.config.auth_url, end_point].join('/')
-        res = HTTParty.send verb, url, body: body, headers: bearer_header(auth_token)
-        exception_handler_and_parser(exception, res)
+        cached_token = auth_token == :undefined
+        retries = 0
+        begin
+          auth_token = AppToken.fetch_and_request if cached_token
+          res = HTTParty.send verb, url_for(end_point), body: body, headers: bearer_header(auth_token)
+          exception_handler_and_parser(exception, res)
+        rescue Volcanic::Authenticator::V1::AuthenticationError => e
+          if retries < 2 && cached_token
+            AppToken.invalidate_cache!
+            retries += 1
+            retry
+          end
+          raise e
+        end
       rescue Timeout::Error, Errno::EINVAL, Errno::ECONNREFUSED, Errno::ECONNRESET, EOFError => e
         raise ConnectionError, e
       end
+      # rubocop:enable Metrics/MethodLength
 
       def perform_post_and_parse(exception, end_point, body = nil, auth_token = :undefined)
         perform_request_and_parse(:post, exception, end_point, body, auth_token)
@@ -44,6 +54,10 @@ module Volcanic::Authenticator
       def exception_handler_and_parser(exception, res)
         RaiseException.new(res, exception) unless res.success?
         JSON.parse(res.body)['response']
+      end
+
+      def url_for(end_point)
+        [Volcanic::Authenticator.config.auth_url, end_point].join('/')
       end
     end
   end
