@@ -47,5 +47,18 @@ RSpec.describe Volcanic::Authenticator::V1::AppToken do
         described_class.fetch_and_request
       end
     end
+
+    context 'and the token is removed from the cache' do
+      before { described_class.invalidate_cache! }
+
+      it 'retrieves a new token' do
+        expect(described_class).to \
+          receive(:perform_post_and_parse)
+          .and_return({ 'token' => token })
+          .once # a second time
+
+        described_class.fetch_and_request
+      end
+    end
   end
 end
