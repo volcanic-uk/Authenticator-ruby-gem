@@ -83,7 +83,7 @@ http_interactions:
       - application/json
   response:
     status:
-      code: 401
+      code: 403
       message: Unauthorized
     headers:
       X-Powered-By:
