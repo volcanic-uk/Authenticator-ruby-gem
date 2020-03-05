@@ -37,6 +37,10 @@ module Volcanic::Authenticator
                       audience: ['*'] }.to_json # TODO: audience should be set of to what/who the direction is. eg 'vault'
           perform_post_and_parse(EXCEPTION, GENERATE_TOKEN_URL, payload, nil)['token']
         end
+
+        def invalidate_cache!
+          cache.evict!(APP_TOKEN)
+        end
       end
     end
   end
