@@ -20,7 +20,14 @@ module Volcanic::Authenticator
         EXCEPTION = ApplicationTokenError
 
         def fetch_and_request
-          cache.fetch APP_TOKEN, expire_in: exp_app_token, &method(:request_app_token)
+          token = cache.fetch APP_TOKEN, expire_in: exp_app_token, &method(:request_app_token)
+          parsed_token = Volcanic::Authenticator::V1::Token.new(token)
+
+          cache.update_ttl_for(APP_TOKEN, expire_at: [Time.now.to_i + exp_app_token, parsed_token.exp].min - 1) do |cached_token|
+            cached_token == token
+          end
+
+          token
         end
 
         def request_app_token
