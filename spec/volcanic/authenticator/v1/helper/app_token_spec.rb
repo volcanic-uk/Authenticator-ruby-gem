@@ -6,7 +6,7 @@ RSpec.describe Volcanic::Authenticator::V1::AppToken do
   before do
     allow(described_class).to \
       receive(:perform_post_and_parse)
-      .and_return({ 'token' => token })
+      .and_return('token' => token)
 
     allow(Time).to receive(:now).and_return(current_time)
   end
@@ -22,7 +22,7 @@ RSpec.describe Volcanic::Authenticator::V1::AppToken do
     it 'obtains the token and caches for next time' do
       expect(described_class).to \
         receive(:perform_post_and_parse)
-        .and_return({ 'token' => token })
+        .and_return('token' => token)
         .once
 
       described_class.fetch_and_request
@@ -41,7 +41,7 @@ RSpec.describe Volcanic::Authenticator::V1::AppToken do
       it 'retrieves a new token' do
         expect(described_class).to \
           receive(:perform_post_and_parse)
-          .and_return({ 'token' => token })
+          .and_return('token' => token)
           .once # a second time
 
         described_class.fetch_and_request
@@ -54,7 +54,7 @@ RSpec.describe Volcanic::Authenticator::V1::AppToken do
       it 'retrieves a new token' do
         expect(described_class).to \
           receive(:perform_post_and_parse)
-          .and_return({ 'token' => token })
+          .and_return('token' => token)
           .once # a second time
 
         described_class.fetch_and_request

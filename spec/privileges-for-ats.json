@@ -1,0 +1,19 @@
+{
+    "requestID": "offline_awsRequestId_18116542739731245",
+    "response": {
+        "service": "ats",
+        "permissions": [
+            {
+                "id": 1,
+                "name": "identity:create",
+                "privileges": [
+                    {
+                        "id": 1,
+                        "scope": "vrn:local:-1:identity/*",
+                        "allow": true
+                    }
+                ]
+            }
+        ]
+    }
+}

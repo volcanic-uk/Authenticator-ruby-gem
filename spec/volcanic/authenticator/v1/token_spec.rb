@@ -85,4 +85,39 @@ RSpec.describe Volcanic::Authenticator::V1::Token, :vcr do
       it { expect(token.new(mock_token_base64_2).remote_validate).to be false }
     end
   end
+
+  describe '#get_privileges_for_service' do
+    let(:service) { 'ats' }
+    let(:sub) { 'user://stack/dataset/principal/identity' }
+    let(:all_privileges) { JSON.parse(privileges_json)['response'] }
+    let(:privileges_json) { File.read('./spec/privileges-for-ats.json') }
+
+    subject { token.new(mock_token_base64).get_privileges_for_service(service) }
+
+    context 'when a service is defined' do
+      before(:each) do
+        allow(Volcanic::Authenticator::V1::Subject).to receive(:perform_get_and_parse) do
+          all_privileges
+        end
+      end
+
+      it 'returns data' do
+        expect(subject).to be_a_kind_of(Array)
+      end
+    end
+
+    context 'when a service is not defined' do
+      before do
+        allow(Volcanic::Authenticator::V1::Subject).to receive(:perform_get_and_parse) do
+          []
+        end
+      end
+
+      let(:service) { 'not-a-service' }
+
+      it 'returns correctly' do
+        expect(subject).to eq([])
+      end
+    end
+  end
 end
