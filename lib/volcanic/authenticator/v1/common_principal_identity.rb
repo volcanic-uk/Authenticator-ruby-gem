@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'common'
+require_relative 'role'
 
 module Volcanic::Authenticator
   module V1
@@ -47,6 +48,11 @@ module Volcanic::Authenticator
       # deactivate identity.
       def deactivate!
         perform_request("/#{id}/deactivate")
+      end
+
+      def roles
+        @roles ||= perform_get_and_parse(self.class.exception, "#{self.class.path}#{id}/roles")
+        @roles.map { |role| Role.new(role.transform_keys(&:to_sym)) }
       end
 
       private

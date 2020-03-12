@@ -1,0 +1,95 @@
+---
+http_interactions:
+  - request:
+      method: post
+      uri: http://localhost:6000/api/v1/identity/login
+      body:
+        encoding: UTF-8
+        string: '{"name":"volcanic","secret":"volcanic!123","dataset_id":"-1","audience":["*"]}'
+      headers:
+        Authorization:
+          - Bearer
+        Content-Type:
+          - application/json
+        Accept-Encoding:
+          - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+        Accept:
+          - "*/*"
+        User-Agent:
+          - Ruby
+    response:
+      status:
+        code: 200
+        message: OK
+      headers:
+        X-Powered-By:
+          - Express
+        Access-Control-Allow-Origin:
+          - "*"
+        X-Auth-Request-Id:
+          - offline_awsRequestId_3741333885390936
+        Content-Type:
+          - application/json; charset=utf-8
+        Etag:
+          - W/"21e-2Q+DGkycwyXmtZntzl4uoc6lXU8"
+        Cache-Control:
+          - no-cache
+        Vary:
+          - accept-encoding
+        Date:
+          - Thu, 12 Mar 2020 09:18:01 GMT
+        Connection:
+          - keep-alive
+        Transfer-Encoding:
+          - chunked
+      body:
+        encoding: ASCII-8BIT
+        string: '{"requestID":"offline_awsRequestId_3741333885390936","response":{"token":"eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1ODQwNjQ2ODEsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTg0MDA0NjgxLCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU4NDAwNDY4MSwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AN_xWzP4hw1xIbsVLZrbIT2pI73QPXQQKK1eduFZvpKJl0uzydQ72fg7Wv2ObOGFkbZp2kR5CS6wJIcX-G_SQ7c4Abzy1OlMED0v0Dg15UC2Vq2nXVOosZhL1Bu7R0bh-dJ7RurFo3CAsq73ppjTDk7pNbjBEaTd8XDrtJbAwgxtgxY_"}}'
+      http_version:
+    recorded_at: Thu, 12 Mar 2020 09:18:01 GMT
+  - request:
+      method: get
+      uri: http://localhost:6000/api/v1/identitymock_id/roles
+      body:
+        encoding: US-ASCII
+        string: ''
+      headers:
+        Authorization:
+          - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1ODQwNjQ2ODEsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xL3ZvbGNhbmljL3ZvbGNhbmljIiwibmJmIjoxNTg0MDA0NjgxLCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU4NDAwNDY4MSwiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AN_xWzP4hw1xIbsVLZrbIT2pI73QPXQQKK1eduFZvpKJl0uzydQ72fg7Wv2ObOGFkbZp2kR5CS6wJIcX-G_SQ7c4Abzy1OlMED0v0Dg15UC2Vq2nXVOosZhL1Bu7R0bh-dJ7RurFo3CAsq73ppjTDk7pNbjBEaTd8XDrtJbAwgxtgxY_
+        Content-Type:
+          - application/json
+        Accept-Encoding:
+          - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+        Accept:
+          - "*/*"
+        User-Agent:
+          - Ruby
+    response:
+      status:
+        code: 200
+        message: OK
+      headers:
+        X-Powered-By:
+          - Express
+        Access-Control-Allow-Origin:
+          - "*"
+        Content-Type:
+          - text/html; charset=utf-8
+        Etag:
+          - W/"9-CUt2O0z8wLBeXQQFgc1RPDyggGc"
+        Cache-Control:
+          - no-cache
+        Vary:
+          - accept-encoding
+        Date:
+          - Thu, 12 Mar 2020 09:18:01 GMT
+        Connection:
+          - keep-alive
+        Transfer-Encoding:
+          - chunked
+      body:
+        encoding: ASCII-8BIT
+        string: '{"requestID":"offline_awsRequestId_7769245521963222","response":[]}'
+      http_version:
+    recorded_at: Thu, 12 Mar 2020 09:18:01 GMT
+recorded_with: VCR 5.0.0
