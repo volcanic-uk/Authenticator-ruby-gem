@@ -26,7 +26,7 @@ module Volcanic::Authenticator
       # Returns
       # => boolean
       def in_scope?(vrn)
-        Scope.new(scope).include?(vrn)
+        Scope.parse(scope).include?(vrn)
       end
 
       def permissions
