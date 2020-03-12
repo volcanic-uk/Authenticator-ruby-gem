@@ -292,4 +292,19 @@ RSpec.describe Volcanic::Authenticator::V1::Identity, :vcr do
       it { expect { ident.activate! }.to raise_error authorization_error }
     end
   end
+
+  describe '#find_roles' do
+    subject(:instance) { identity.new(id: mock_identity_id) }
+
+    context 'when found' do
+      it { expect(instance.roles).to be_a Array }
+      it { expect(instance.roles.empty?).to eq false }
+      it { expect(instance.roles.first).to be_a Volcanic::Authenticator::V1::Role }
+    end
+
+    context 'when not found' do
+      it { expect(instance.roles.empty?).to eq true }
+      it { expect(instance.roles.first).to eq nil }
+    end
+  end
 end
