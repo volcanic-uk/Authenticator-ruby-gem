@@ -3,9 +3,10 @@
 module Volcanic::Authenticator::Pundit
   # Set everything to false, we'll overwrite these later.
   class VolcanicPolicy
-    attr_reader :user, :token, :record
+    attr_reader :user_context, :user, :token, :record
 
     def initialize(user_context, record)
+      @user_context = user_context
       @user = user_context.user
       @token = user_context.token
       @record = record
