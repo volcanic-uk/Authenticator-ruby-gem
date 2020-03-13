@@ -68,7 +68,7 @@ module Volcanic::Authenticator
       # returns:
       #   Array[Privilege, Privilege]
       def get_privileges_for_service(service)
-        @get_privileges_for_service ||= Subject.privileges_for(@sub, service)
+        (@get_privileges_for_service ||= {})[service] ||= Subject.privileges_for(@sub, service)
       end
 
       private
