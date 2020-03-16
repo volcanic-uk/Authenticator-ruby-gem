@@ -16,8 +16,13 @@ module Volcanic::Authenticator::Warden
 
     def authenticate!
       # if token nil or in wrong format if raise TokenError
-      self.token = auth_token
-      validate_token
+      if auth_header_exist?
+        self.token = auth_token
+        validate_token
+      else
+        logger.debug 'No token was provided with request - not checking for auth'
+        pass
+      end
     rescue Volcanic::Authenticator::V1::TokenError => e
       logger.debug("#{e.class.name}: #{e}")
       pass
