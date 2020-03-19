@@ -6,6 +6,7 @@ module Volcanic::Authenticator
     # we need to break out the scope into core parts and validate.
     class Scope
       MATCH_RE = %r{^vrn:([a-z\d\-\*]+):([a-z\d\-\*]+):([a-z][a-z-]*|\*?)(?:\/([\da-z\.-]+|\*))?(?:\?(\S+))?$}.freeze
+      SCORES = { stack_id: 1, dataset_id: 2, resource: 3, resource_id: 4, qualifiers: 5 }.freeze
 
       class << self
         def parse(value)
@@ -42,6 +43,28 @@ module Volcanic::Authenticator
         base += "/#{resource_id}" if resource_id
         base += "?#{qualifiers}" if qualifiers
         base
+      end
+
+      def <=>(other)
+        specificity_score <=> other.specificity_score
+      end
+
+      # For each element in the VRN, assign it a value
+      # element = * (0)
+      # Stack adds 1
+      # Dataset adds 2
+      # Resource adds 3
+      # ResourceId adds 4
+      # Qualifiers adds 5
+      def specificity_score
+        %i[stack_id dataset_id resource resource_id qualifiers].reduce(0) do |acc, element|
+          val = if !send(element).blank? && send(element) != '*'
+                  SCORES.fetch(element)
+                else
+                  0
+                end
+          acc + val
+        end
       end
 
       attr_reader :stack_id, :dataset_id, :resource, :resource_id, :qualifiers

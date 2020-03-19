@@ -153,5 +153,69 @@ RSpec.describe Volcanic::Authenticator::V1::Scope do
         end
       end
     end
+
+    describe '.score' do
+      subject { described_class.parse(scope).specificity_score }
+
+      context 'for stack_id' do
+        context 'with a wildcard' do
+          let(:scope) { 'vrn:*:*:*/*' }
+
+          it { is_expected.to eq(0) }
+        end
+        context 'with a value' do
+          let(:scope) { 'vrn:local:*:*/*' }
+
+          it { is_expected.to eq(1) }
+        end
+      end
+
+      context 'for dataset_id' do
+        context 'with a wildcard' do
+          let(:scope) { 'vrn:*:*:*/*' }
+
+          it { is_expected.to eq(0) }
+        end
+        context 'with a value' do
+          let(:scope) { 'vrn:*:-1:*/*' }
+
+          it { is_expected.to eq(2) }
+        end
+      end
+
+      context 'for resource' do
+        context 'with a wildcard' do
+          let(:scope) { 'vrn:*:*:*/*' }
+
+          it { is_expected.to eq(0) }
+        end
+        context 'with a value' do
+          let(:scope) { 'vrn:*:*:jobs/*' }
+
+          it { is_expected.to eq(3) }
+        end
+      end
+
+      context 'for resource_id' do
+        context 'with a wildcard' do
+          let(:scope) { 'vrn:*:*:jobs/*' }
+
+          it { is_expected.to eq(3) }
+        end
+        context 'with a value' do
+          let(:scope) { 'vrn:*:-1:jobs/14' }
+
+          it { is_expected.to eq(9) }
+        end
+      end
+
+      context 'for resource_id with qualifiers' do
+        context 'with a value' do
+          let(:scope) { 'vrn:*:-1:jobs/14?this=that' }
+
+          it { is_expected.to eq(14.0) }
+        end
+      end
+    end
   end
 end

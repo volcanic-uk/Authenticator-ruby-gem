@@ -22,11 +22,28 @@ module Volcanic::Authenticator
         @allow = allow
       end
 
+      def <=>(other)
+        scope1 = Scope.parse(scope)
+        scope2 = Scope.parse(other.scope)
+
+        if scope1 == scope2
+          allow_bool <=> other.allow_bool
+        else
+          scope1 <=> scope2
+        end
+      end
+
       # Compare provided VRN with the scope we have
       # Returns
       # => boolean
       def in_scope?(vrn)
         Scope.parse(scope).include?(vrn)
+      end
+
+      # Without casting to an integer we get a comparison error when
+      # sorting using the spaceship (<=>) operator.
+      def allow_bool
+        allow == true ? 1 : 0
       end
 
       def permissions
