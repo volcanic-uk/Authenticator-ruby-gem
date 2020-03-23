@@ -190,6 +190,7 @@ RSpec.describe Volcanic::Authenticator::V1::Identity, :vcr do
       its(:dataset_id) { should eq mock_dataset_id }
       its(:source) { should eq 'mock_source' }
       its(:secret) { should eq nil } # secret will not be returning when finding
+      its(:active?) { should eq true }
     end
 
     context 'when find with specific page' do
