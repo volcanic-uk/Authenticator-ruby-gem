@@ -21,7 +21,7 @@ module Volcanic::Authenticator
       end
 
       def initialize(**opts)
-        %i[id secure_id name secret principal_id dataset_id source created_at updated_at].each do |key|
+        %i[id secure_id name secret principal_id dataset_id active source created_at updated_at].each do |key|
           instance_variable_set("@#{key}", opts[key])
         end
       end

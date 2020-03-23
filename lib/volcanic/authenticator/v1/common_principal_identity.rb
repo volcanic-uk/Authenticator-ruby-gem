@@ -10,6 +10,11 @@ module Volcanic::Authenticator
     # privilege and role ids. This class inherit with Common.rb, so it
     # also support all the common methods.
     class CommonPrincipalIdentity < Common
+      attr_reader :active
+
+      # if deleted, this will return false
+      alias active? active
+
       # these methods are required to be define at child classes.
       def role_ids
         raise_not_implemented_error 'role_ids'

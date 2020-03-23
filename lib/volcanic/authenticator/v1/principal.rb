@@ -6,7 +6,7 @@ module Volcanic::Authenticator
   module V1
     # Principal api
     class Principal < CommonPrincipalIdentity
-      attr_reader :created_at, :updated_at, :active
+      attr_reader :created_at, :updated_at
       attr_accessor :id, :secure_id, :name, :dataset_id, :role_ids, :privilege_ids
 
       # Principal end-point
@@ -24,9 +24,6 @@ module Volcanic::Authenticator
           instance_variable_set("@#{key}", opts[key])
         end
       end
-
-      # if deleted, this will return false
-      alias active? active
 
       # to update a principal.
       #  eg.
