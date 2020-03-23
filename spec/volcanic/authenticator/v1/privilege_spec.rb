@@ -16,6 +16,76 @@ RSpec.describe Volcanic::Authenticator::V1::Privilege do
 
   subject { described_class.new(params) }
 
+  describe 'sorting' do
+    context 'with multiple privlieges' do
+      let(:objects) do
+        [
+          described_class.new(allow: true, scope: 'vrn:*:*:jobs/*'),
+          described_class.new(allow: true, scope: 'vrn:eu-2:3:jobs/23'),
+          described_class.new(allow: true, scope: 'vrn:eu-2:*:jobs/*'),
+          described_class.new(allow: true, scope: 'vrn:eu-2:3:jobs/23?foo=bar'),
+          described_class.new(allow: true, scope: 'vrn:eu-2:3:jobs/*')
+        ]
+      end
+
+      let(:sorted) { objects.sort }
+
+      it 'sorts an array of Privilege objects' do
+        expect(sorted.map(&:scope)).to eq(['vrn:*:*:jobs/*', 'vrn:eu-2:*:jobs/*', 'vrn:eu-2:3:jobs/*', 'vrn:eu-2:3:jobs/23', 'vrn:eu-2:3:jobs/23?foo=bar'])
+      end
+    end
+
+    context 'with multiple privlieges, differing allows' do
+      let(:objects) do
+        [
+          described_class.new(allow: true, scope: 'vrn:*:*:jobs/*'),
+          described_class.new(allow: true, scope: 'vrn:eu-2:3:jobs/23'),
+          described_class.new(allow: false, scope: 'vrn:eu-2:*:jobs/*'),
+          described_class.new(allow: true, scope: 'vrn:eu-2:3:jobs/23?foo=bar'),
+          described_class.new(allow: false, scope: 'vrn:eu-2:3:jobs/*')
+        ]
+      end
+
+      let(:sorted) { objects.sort }
+
+      it 'sorts an array of Privilege objects' do
+        expect(sorted.map(&:scope)).to eq(['vrn:*:*:jobs/*', 'vrn:eu-2:*:jobs/*', 'vrn:eu-2:3:jobs/*', 'vrn:eu-2:3:jobs/23', 'vrn:eu-2:3:jobs/23?foo=bar'])
+      end
+    end
+
+    context 'two privileges, same scope, different allow' do
+      let(:objects) do
+        [
+          described_class.new(allow: true, scope: 'vrn:eu-2:3:jobs/23'),
+          described_class.new(allow: false, scope: 'vrn:eu-2:3:jobs/23')
+        ]
+      end
+
+      let(:sorted) { objects.sort }
+
+      it 'sorts an array of Privilege objects' do
+        expected = sorted.map { |p| [p.scope, p.allow] }
+        expect(expected).to eq([['vrn:eu-2:3:jobs/23', true], ['vrn:eu-2:3:jobs/23', false]])
+      end
+    end
+
+    context 'two privileges, different scopes' do
+      let(:objects) do
+        [
+          described_class.new(allow: false, scope: 'vrn:*:*:jobs/23'),
+          described_class.new(allow: true, scope: 'vrn:*:*:jobs/224527')
+        ]
+      end
+
+      let(:sorted) { objects.sort }
+
+      it 'sorts an array of Privilege objects' do
+        expected = sorted.map { |p| [p.scope, p.allow] }
+        expect(expected).to eq([['vrn:*:*:jobs/23', false], ['vrn:*:*:jobs/224527', true]])
+      end
+    end
+  end
+
   describe 'method' do
     describe '#initialise' do
       context 'with all required data' do
