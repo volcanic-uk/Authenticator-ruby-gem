@@ -7,6 +7,7 @@ require_relative 'v1/active_resource.rb'
 
 require_relative 'v1/principal.rb'
 require_relative 'v1/identity.rb'
+require_relative 'v1/identity_cache.rb'
 require_relative 'v1/token.rb'
 require_relative 'v1/service.rb'
 require_relative 'v1/subject.rb'
