@@ -1,5 +1,25 @@
 # frozen_string_literal: true
 
+RSpec::Matchers.define :be_a_scope do
+  match do |actual|
+    actual.is_a?(Volcanic::Authenticator::V1::Scope) &&
+      { stack: :stack_id, dataset: :dataset_id, resource: :resource,
+        resource_id: :resource_id, qualifiers: :qualifiers }.all? do |key, meth|
+        expected.key?(key) ? @actual.send(meth) == expected[key] : true
+      end
+  end
+
+  chain(:with_stack) { |value| expected[:stack] = value }
+  chain(:with_dataset) { |value| expected[:dataset] = value }
+  chain(:with_resource) { |value| expected[:resource] = value }
+  chain(:with_resource_id) { |value| expected[:resource_id] = value }
+  chain(:with_qualifiers) { |value| expected[:qualifiers] = value }
+
+  def expected
+    @expected ||= {}
+  end
+end
+
 RSpec.describe Volcanic::Authenticator::V1::Scope do
   let(:scope) { 'vrn:local:-1:identity/1?user_id=123' }
 
@@ -7,8 +27,63 @@ RSpec.describe Volcanic::Authenticator::V1::Scope do
 
   describe 'method' do
     describe '#parse' do
-      it 'returns correctly' do
-        expect(subject.class).to eq(described_class)
+      context 'with a Scope object' do
+        let(:scope) { described_class.new }
+        it('returns the same object') { is_expected.to be(scope) }
+      end
+
+      context 'with an empty string' do
+        let(:scope) { '' }
+        it('raises an exception') { expect { subject }.to raise_error(ArgumentError) }
+      end
+
+      context 'with a valid scope string' do
+        let(:scope) { 'vrn:local:-1:identity/1?user_id=123' }
+
+        it { is_expected.to be_a_scope.with_stack('local') }
+        it { is_expected.to be_a_scope.with_dataset('-1') }
+        it { is_expected.to be_a_scope.with_resource('identity') }
+        it { is_expected.to be_a_scope.with_resource_id('1') }
+        it { is_expected.to be_a_scope.with_qualifiers('user_id=123') }
+
+        context 'where there is no qualifier' do
+          let(:scope) { 'vrn:local:-1:identity/1' }
+
+          it 'parses correctly and sets qualifiers as nil' do
+            is_expected.to be_a_scope
+              .with_stack('local')
+              .with_dataset('-1')
+              .with_resource('identity')
+              .with_resource_id('1')
+              .with_qualifiers(nil)
+          end
+        end
+
+        context 'where there is no resource id' do
+          let(:scope) { 'vrn:local:-1:identity?user_id=123' }
+
+          it 'parses correctly and sets the resource ID as nil' do
+            is_expected.to be_a_scope
+              .with_stack('local')
+              .with_dataset('-1')
+              .with_resource('identity')
+              .with_resource_id(nil)
+              .with_qualifiers('user_id=123')
+          end
+        end
+
+        context 'where the resource id is a wildcard' do
+          let(:scope) { 'vrn:local:-1:identity/*?user_id=123' }
+
+          it 'parses correctly and sets the resource ID as *' do
+            is_expected.to be_a_scope
+              .with_stack('local')
+              .with_dataset('-1')
+              .with_resource('identity')
+              .with_resource_id('*')
+              .with_qualifiers('user_id=123')
+          end
+        end
       end
     end
 
@@ -150,6 +225,46 @@ RSpec.describe Volcanic::Authenticator::V1::Scope do
         context 'when stack, dataset and resource are wildcards' do
           let(:other) { 'vrn:*:*:*' }
           it { is_expected.to eq(false) }
+        end
+      end
+    end
+
+    describe '#==' do
+      let(:original) { described_class.parse(scope) }
+      let(:other) { described_class.parse(other_scope) }
+      let(:other_scope) { scope }
+
+      subject { original == other }
+
+      context 'when the two are the same object' do
+        let(:other) { original }
+
+        it { is_expected.to be true }
+      end
+
+      context 'when the two have the same vrn' do
+        it { is_expected.to be true }
+      end
+
+      context 'when the two have different vrns' do
+        let(:other_scope) { 'vrn:not:like:others/atall' }
+        it { is_expected.to be false }
+      end
+
+      context 'when other cannot be pared to a Scope' do
+        let(:other) { nil }
+        it { is_expected.to be false }
+      end
+
+      context 'when comparing with a vrn' do
+        context 'and the vrn is the same as the parsed value' do
+          let(:other) { other_scope }
+          it { is_expected.to be true }
+        end
+
+        context 'and the vrn is different to the parsed value' do
+          let(:other) { 'vrn:not:like:others/atall' }
+          it { is_expected.to be false }
         end
       end
     end
