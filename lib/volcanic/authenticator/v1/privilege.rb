@@ -16,20 +16,17 @@ module Volcanic::Authenticator
 
       def initialize(scope:, permission_id: nil, group_id: nil, allow:, **args)
         @id = args.fetch(:id, nil)
-        @scope = scope
+        @scope = Scope.parse(scope)
         @permission_id = permission_id
         @group_id = group_id
         @allow = allow
       end
 
       def <=>(other)
-        scope1 = Scope.parse(scope)
-        scope2 = Scope.parse(other.scope)
-
-        if scope1 == scope2
-          allow_bool <=> other.allow_bool
+        if scope == other.scope
+          (allow_bool <=> other.allow_bool) * -1
         else
-          scope1 <=> scope2
+          scope <=> other.scope
         end
       end
 
@@ -50,7 +47,12 @@ module Volcanic::Authenticator
         @permissions ||= permission_ids.map { |permission_id| Permission.find_by_id(permission_id) }
       end
 
-      attr_accessor :id, :scope, :permission_id, :group_id, :allow, :permission
+      def scope=(value)
+        @scope = Scope.parse(value)
+      end
+
+      attr_accessor :id, :permission_id, :group_id, :allow, :permission
+      attr_reader :scope
 
       private
 

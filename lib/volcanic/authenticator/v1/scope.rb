@@ -10,13 +10,17 @@ module Volcanic::Authenticator
 
       class << self
         def parse(value)
+          return value if value.is_a? Scope
+
           captures = value.match(Scope::MATCH_RE).captures
+          raise ArgumentError, message: "Invalid scope: #{value}" if captures.nil?
+
           new(
             stack_id: captures[0], dataset_id: captures[1], resource: captures[2],
             resource_id: captures[3], qualifiers: captures[4]
           )
         rescue NoMethodError
-          raise ScopeError, message: "Invalid scope: #{value}"
+          raise ArgumentError, message: "Invalid scope: #{value}"
         end
       end
 
@@ -47,6 +51,13 @@ module Volcanic::Authenticator
 
       def <=>(other)
         specificity_score <=> other.specificity_score
+      end
+
+      def ==(other)
+        other = self.class.parse(other) if other.is_a?(String)
+        %i[@stack_id @dataset_id @resource @resource_id @qualifiers].all? do |field|
+          instance_variable_get(field) == other.instance_variable_get(field)
+        end
       end
 
       # For each element in the VRN, assign it a value
