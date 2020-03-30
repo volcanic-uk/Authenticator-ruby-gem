@@ -111,6 +111,26 @@ RSpec.describe Volcanic::Authenticator::V1::Scope do
       end
     end
 
+    describe '.vrn_without_qualifiers' do
+      subject { described_class.parse(scope).vrn_without_qualifiers }
+
+      context 'with qualifiers' do
+        let(:scope) { 'vrn:local:-1:identity/2?foo=bar' }
+
+        it 'doesn\'t return qualifiers' do
+          expect(subject).to eq('vrn:local:-1:identity/2')
+        end
+      end
+
+      context 'without qualifiers' do
+        let(:scope) { 'vrn:local:-1:identity/2' }
+
+        it 'doesn\'t return qualifiers' do
+          expect(subject).to eq(scope)
+        end
+      end
+    end
+
     describe '.include?(other)' do
       subject { described_class.parse(scope).include?(other) }
 

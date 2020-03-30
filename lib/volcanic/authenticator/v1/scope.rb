@@ -49,6 +49,12 @@ module Volcanic::Authenticator
         base
       end
 
+      def vrn_without_qualifiers
+        base = "vrn:#{stack_id}:#{dataset_id}:#{resource}"
+        base += "/#{resource_id}" if resource_id
+        base
+      end
+
       def <=>(other)
         specificity_score <=> other.specificity_score
       end
