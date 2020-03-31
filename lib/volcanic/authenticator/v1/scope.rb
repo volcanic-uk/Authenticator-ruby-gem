@@ -26,9 +26,9 @@ module Volcanic::Authenticator
 
       def initialize(stack_id: '*', dataset_id: '*', resource: '*', resource_id: nil, qualifiers: nil)
         @stack_id = stack_id
-        @dataset_id = dataset_id
+        @dataset_id = dataset_id.to_s
         @resource = resource
-        @resource_id = resource_id
+        @resource_id = resource_id.nil? ? resource_id : resource_id.to_s
         @qualifiers = qualifiers
       end
 
