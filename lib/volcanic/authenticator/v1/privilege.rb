@@ -34,7 +34,7 @@ module Volcanic::Authenticator
       # Returns
       # => boolean
       def in_scope?(vrn)
-        Scope.parse(scope).include?(vrn)
+        scope.include?(vrn)
       end
 
       # Without casting to an integer we get a comparison error when
