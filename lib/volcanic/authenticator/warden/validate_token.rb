@@ -17,7 +17,7 @@ module Volcanic::Authenticator::Warden
       # if token nil or in wrong format it raise TokenError
       self.token = auth_token
       validate_token
-    rescue Volcanic::Authenticator::V1::TokenError => e
+    rescue Volcanic::Authenticator::V1::TokenError, Volcanic::Authenticator::V1::AuthenticationError => e
       logger.debug("#{e.class.name}: #{e}")
       fail! invalid_message
     end

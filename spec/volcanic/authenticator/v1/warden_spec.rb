@@ -5,6 +5,7 @@ RSpec.describe Volcanic::Authenticator::Warden, :vcr do
   let(:mock_request) { double 'request' }
   let(:strategy) {}
   let(:tokens) { JSON.parse(Configuration.mock_tokens) } # get token key
+  let(:token) { tokens.first }
   let(:invalid_token) { tokens['invalid_token'] }
   let(:invalid_token_pattern) { 'invalid_token_pattern' }
   let(:mock_auth_header) { "Bearer #{tokens['valid_token']}" }
@@ -83,6 +84,11 @@ RSpec.describe Volcanic::Authenticator::Warden, :vcr do
 
       context 'auth header forbidden' do
         let(:mock_auth_header) { invalid_auth_header }
+        it { should eq :failure }
+      end
+
+      context 'token is not authenticated by auth' do
+        let(:token) { tokens['expired_token'] }
         it { should eq :failure }
       end
     end
