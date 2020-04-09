@@ -5,19 +5,17 @@ RSpec.describe Volcanic::Authenticator::Warden, :vcr do
   let(:mock_request) { double 'request' }
   let(:strategy) {}
   let(:tokens) { JSON.parse(Configuration.mock_tokens) } # get token key
-  let(:token) { tokens.first }
+  let(:token) { tokens['valid_token'] }
   let(:invalid_token) { tokens['invalid_token'] }
-  let(:invalid_token_pattern) { 'invalid_token_pattern' }
-  let(:mock_auth_header) { "Bearer #{tokens['valid_token']}" }
-  let(:invalid_auth_header) { "Bearer #{invalid_token}" }
-  let(:invalid_auth_pattern) { "Bearer #{invalid_token_pattern}" }
+  let(:expired_token) { tokens['invalid_token'] }
   let(:session_token) { { auth_token: tokens['valid_token'] } }
   let(:has_header) { true }
+  let(:auth_header) { "Bearer #{token}" }
 
   before do
-    allow(mock_request).to receive(:headers).and_return(mock_auth_header)
+    allow(mock_request).to receive(:headers).and_return(auth_header)
     allow(mock_request).to receive(:has_header?).with('HTTP_AUTHORIZATION').and_return(has_header)
-    allow(mock_request).to receive(:get_header).with('HTTP_AUTHORIZATION').and_return(mock_auth_header)
+    allow(mock_request).to receive(:get_header).with('HTTP_AUTHORIZATION').and_return(auth_header)
     allow(strategy).to receive(:request).and_return(mock_request)
     allow(strategy).to receive(:session).and_return(session_token)
   end
@@ -48,7 +46,7 @@ RSpec.describe Volcanic::Authenticator::Warden, :vcr do
     end
 
     context 'when token is invalid' do
-      let(:mock_auth_header) { invalid_auth_header }
+      let(:token) { tokens['invalid_token'] }
       it { should eq :success }
     end
   end
@@ -68,27 +66,33 @@ RSpec.describe Volcanic::Authenticator::Warden, :vcr do
 
     context 'when token invalid' do
       context 'token is nil' do
-        let(:mock_auth_header) { nil }
+        let(:auth_header) { nil }
         it { should eq :failure }
       end
 
       context 'token is empty' do
-        let(:mock_auth_header) { '' }
+        let(:token) { '' }
         it { should eq :failure }
       end
 
       context 'invalid structure' do
-        let(:mock_auth_header) { invalid_auth_pattern }
+        let(:token) { 'invalid_auth_pattern' }
         it { should eq :failure }
       end
 
       context 'auth header forbidden' do
-        let(:mock_auth_header) { invalid_auth_header }
+        let(:token) { invalid_token }
         it { should eq :failure }
       end
 
       context 'token is not authenticated by auth' do
-        let(:token) { tokens['expired_token'] }
+        before do
+          stub_request(:post, 'http://localhost:6000/api/v1/token/validate')
+            .with(headers: { 'Authorization' => "Bearer #{token}" })
+            .to_return(status: 401)
+        end
+
+        let(:token) { expired_token }
         it { should eq :failure }
       end
     end
@@ -114,23 +118,23 @@ RSpec.describe Volcanic::Authenticator::Warden, :vcr do
     # not eq :failure because the strategy is passes
     context 'when token invalid' do
       context 'token is nil' do
-        let(:mock_auth_header) { nil }
+        let(:auth_header) { nil }
         it { should_not eq :failure }
       end
 
       context 'token is empty' do
-        let(:mock_auth_header) { '' }
+        let(:token) { '' }
         it { should_not eq :failure }
       end
 
       context 'invalid structure' do
-        let(:mock_auth_header) { invalid_auth_pattern }
+        let(:token) { 'invalid_auth_pattern' }
         it { should_not eq :failure }
       end
 
       # only valid structure is send to auth service for validation
       context 'auth header forbidden' do
-        let(:mock_auth_header) { invalid_auth_header }
+        let(:token) { invalid_token }
         it { should eq :failure }
       end
     end
@@ -156,7 +160,7 @@ RSpec.describe Volcanic::Authenticator::Warden, :vcr do
       end
 
       context 'invalid structure' do
-        let(:session_token) { { auth_token: invalid_token_pattern } }
+        let(:session_token) { { auth_token: 'invalid_token_pattern' } }
         it { should eq :failure }
       end
 
