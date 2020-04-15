@@ -120,4 +120,88 @@ RSpec.describe Volcanic::Authenticator::V1::Token, :vcr do
       end
     end
   end
+
+  describe '#identity' do
+    subject(:identity) { token.identity }
+
+    let(:token_string) { JWT.encode({ sub: sub_claim }, '') }
+    let(:token) { described_class.new(token_string) }
+
+    context 'with a subject that is an identitity' do
+      let(:sub_claim) { 'user://stack/ds/princ/ident' }
+
+      its(:stack_id) { is_expected.to eq('stack') }
+      its(:dataset_id) { is_expected.to eq('ds') }
+      its(:principal_id) { is_expected.to eq('princ') }
+      its(:id) { is_expected.to eq('ident') }
+    end
+
+    context 'with a subject that is just a principal' do
+      let(:sub_claim) { 'user://stack/ds/princ' }
+
+      it { is_expected.to be_nil }
+    end
+  end
+
+  describe '#principal' do
+    subject(:principal) { token.principal }
+
+    let(:token_string) { JWT.encode({ sub: sub_claim }, '') }
+    let(:token) { described_class.new(token_string) }
+
+    context 'with a subject that is an identitity' do
+      let(:sub_claim) { 'user://stack/ds/princ/ident' }
+
+      its(:stack_id) { is_expected.to eq('stack') }
+      its(:dataset_id) { is_expected.to eq('ds') }
+      its(:id) { is_expected.to eq('princ') }
+    end
+
+    context 'with a subject that is just a principal' do
+      let(:sub_claim) { 'user://stack/ds/princ' }
+
+      its(:stack_id) { is_expected.to eq('stack') }
+      its(:dataset_id) { is_expected.to eq('ds') }
+      its(:id) { is_expected.to eq('princ') }
+    end
+
+    context 'with a subject that does not identify as a principal or identity' do
+      let(:sub_claim) { 'user://stack/ds' }
+
+      it { is_expected.to be_nil }
+    end
+  end
+
+  describe '#subject' do
+    subject { token.subject }
+
+    let(:token_string) { JWT.encode({ sub: sub_claim }, '') }
+    let(:token) { described_class.new(token_string) }
+
+    context 'with a subject that is an identity' do
+      let(:sub_claim) { 'user://stack/ds/princ/ident' }
+
+      its(:stack_id) { is_expected.to eq('stack') }
+      its(:dataset_id) { is_expected.to eq('ds') }
+      its(:principal_id) { is_expected.to eq('princ') }
+      its(:id) { is_expected.to eq('ident') }
+      it { is_expected.to be_a(Volcanic::Authenticator::V1::Identity) }
+    end
+
+    context 'with a subject that is just a principal' do
+      let(:sub_claim) { 'user://stack/ds/princ' }
+
+      its(:stack_id) { is_expected.to eq('stack') }
+      its(:dataset_id) { is_expected.to eq('ds') }
+      its(:id) { is_expected.to eq('princ') }
+
+      it { is_expected.to be_a(Volcanic::Authenticator::V1::Principal) }
+    end
+
+    context 'with a subject that does not identify as a principal or identity' do
+      let(:sub_claim) { 'user://stack/ds' }
+
+      it { is_expected.to be_nil }
+    end
+  end
 end

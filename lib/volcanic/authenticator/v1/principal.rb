@@ -7,7 +7,7 @@ module Volcanic::Authenticator
     # Principal api
     class Principal < CommonPrincipalIdentity
       attr_reader :created_at, :updated_at
-      attr_accessor :id, :secure_id, :name, :dataset_id, :role_ids, :privilege_ids
+      attr_accessor :id, :secure_id, :name, :dataset_id, :role_ids, :privilege_ids, :stack_id
 
       # Principal end-point
       def self.path
@@ -20,7 +20,7 @@ module Volcanic::Authenticator
       end
 
       def initialize(**opts)
-        %i[id secure_id name dataset_id active created_at updated_at].each do |key|
+        %i[id secure_id name dataset_id active created_at updated_at stack_id].each do |key|
           instance_variable_set("@#{key}", opts[key])
         end
       end

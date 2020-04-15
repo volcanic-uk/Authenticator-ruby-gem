@@ -71,6 +71,22 @@ module Volcanic::Authenticator
         (@get_privileges_for_service ||= {})[service] ||= Subject.privileges_for(@sub, service)
       end
 
+      def identity
+        return nil if identity_id.nil?
+
+        Identity.new(id: identity_id, dataset_id: dataset_id, principal_id: principal_id, stack_id: stack_id)
+      end
+
+      def principal
+        return nil if principal_id.nil?
+
+        Principal.new(dataset_id: dataset_id, id: principal_id, stack_id: stack_id)
+      end
+
+      def subject
+        identity || principal
+      end
+
       private
 
       def decode!(public_key = nil, verify = true)
