@@ -15,7 +15,7 @@ module Volcanic::Authenticator::Warden
     def authenticate!
       self.token = session_token
       validate_token
-    rescue Volcanic::Authenticator::V1::TokenError => e
+    rescue Volcanic::Authenticator::V1::TokenError, Volcanic::Authenticator::V1::AuthenticationError => e
       logger.debug("#{e.class.name}: #{e}")
       fail! invalid_message
     end
