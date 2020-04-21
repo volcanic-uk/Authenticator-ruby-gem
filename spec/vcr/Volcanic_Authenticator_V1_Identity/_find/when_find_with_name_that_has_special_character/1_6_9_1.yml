@@ -37,7 +37,7 @@ http_interactions:
   recorded_at: Tue, 03 Dec 2019 02:11:16 GMT
 - request:
     method: get
-    uri: http://localhost:6000/api/v1/identity?name=volcanic_%C3%BD&page=1&page_size=10
+    uri: http://localhost:6000/api/v1/identity?name=volcanic_%C3%BD&page=1
     body:
       encoding: US-ASCII
       string: ''

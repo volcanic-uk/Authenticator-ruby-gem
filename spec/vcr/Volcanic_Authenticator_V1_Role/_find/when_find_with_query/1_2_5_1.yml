@@ -43,7 +43,7 @@ http_interactions:
   recorded_at: Mon, 17 Feb 2020 09:27:31 GMT
 - request:
     method: get
-    uri: http://localhost:6000/api/v1/roles?page=1&page_size=10&query=mock_name
+    uri: http://localhost:6000/api/v1/roles?page=1&query=mock_name
     body:
       encoding: US-ASCII
       string: ''
