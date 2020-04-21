@@ -34,15 +34,15 @@ RSpec.describe Volcanic::Authenticator::V1::Token, :vcr do
 
     context 'When token is valid' do
       # initialize token by using a mock token at spec/mock_tokens.json
-      mock_header = { kid: mock_kid = 'mock_kid'  }
+      mock_header = { kid: mock_kid = 'mock_kid' }
       mock_body = {
-          exp: mock_exp = Time.now.to_i,
-          sub: mock_sub = 'user://sandbox/mock_dataset_id/mock_principal_id/mock_identity_id',
-          nbf: mock_nbf = Time.now.to_i,
-          aud: mock_aud = ['mock_aud'],
-          iat: mock_iat = Time.now.to_i,
-          iss: mock_iss = 'mock_iss',
-          jti: mock_jti = 'mock_jti',
+        exp: mock_exp = Time.now.to_i,
+        sub: mock_sub = 'user://sandbox/mock_dataset_id/mock_principal_id/mock_identity_id',
+        nbf: mock_nbf = Time.now.to_i,
+        aud: mock_aud = ['mock_aud'],
+        iat: mock_iat = Time.now.to_i,
+        iss: mock_iss = 'mock_iss',
+        jti: mock_jti = 'mock_jti'
       }
       mock_token = JWT.encode(mock_body, nil, 'none', mock_header)
 
@@ -56,7 +56,7 @@ RSpec.describe Volcanic::Authenticator::V1::Token, :vcr do
       its(:iat) { should eq mock_iat }
       its(:iss) { should eq mock_iss }
       its(:jti) { should eq mock_jti }
-      its(:dataset_id) { should eq 'mock_dataset_id'}
+      its(:dataset_id) { should eq 'mock_dataset_id' }
       its(:principal_id) { should eq 'mock_principal_id' }
       its(:identity_id) { should eq 'mock_identity_id' }
     end
@@ -217,6 +217,4 @@ RSpec.describe Volcanic::Authenticator::V1::Token, :vcr do
   end
 end
 
-def mock_token
-
-end
+def mock_token; end
