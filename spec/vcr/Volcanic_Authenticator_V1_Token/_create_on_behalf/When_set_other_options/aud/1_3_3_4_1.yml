@@ -5,7 +5,7 @@ http_interactions:
     uri: http://localhost:6000/api/v1/identity/token/generate
     body:
       encoding: UTF-8
-      string: '{"identity":{"id":1},"audience":["auth"],"expiry_date":1571443200000,"single_use":true,"nbf":1571356800000}'
+      string: '{"identity":{"id":1},"aud":["auth"],"expiry_date":1571443200000,"single_use":true,"nbf":1571356800000}'
     headers:
       Authorization:
       - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1NzEyMzk3MjksInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xLzEvMS8yIiwibmJmIjoxNTcxMjM5Nzg5LCJhdWRpZW5jZSI6WyJ2YXVsdCJdLCJpYXQiOjE1NzEyMzk3ODksImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.ADDMDZZuvCtg6p2zcQUO7M5e_a3mWrY0aB8mvLZ6WH9YZV4bVIO3Tt3uAqdY6Pq_rGLeF3CMcOJypHB8Gg6FhSh0ARhBjdQyoHpfLIkXm6wPT6GsSDysaQhN0kXAEHBTj2bvtFfYCgVpztmSBR9wa2P98iwK9e8PSBEilu2u41eLhfQd

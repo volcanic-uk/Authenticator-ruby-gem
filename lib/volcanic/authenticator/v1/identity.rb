@@ -74,7 +74,7 @@ module Volcanic::Authenticator
       # token. retrieve token when credential is not provided
       #
       # Options:
-      #   +audience+: A set of information to tell who/what the token use for. It is a set
+      #   +aud+: A set of information to tell who/what the token use for. It is a set
       #   strings array
       #   +exp+: A token expiry time. only accept unix timestamp in milliseconds format.
       #   eg: 1571296171000
@@ -83,13 +83,13 @@ module Volcanic::Authenticator
       #   +single_use+: If set to true, token can only be use once.
       #
       # eg.
-      #   identity.token(audience: ['auth'], exp: 1571296171000, nbf: 1571296171000, single_use: true)
+      #   identity.token(aud: ['auth'], exp: 1571296171000, nbf: 1571296171000, single_use: true)
       #   # => return token object
       #
       # NOTE: exp date will only accept maximum time of 1 day from the current time.
-      def token(audience: [], exp: nil, nbf: nil, single_use: false)
+      def token(aud: [], exp: nil, nbf: nil, single_use: false)
         payload = { identity: { id: id },
-                    audience: audience,
+                    audience: aud,
                     expiry_date: exp,
                     single_use: single_use,
                     nbf: nbf }

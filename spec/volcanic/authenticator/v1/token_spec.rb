@@ -34,20 +34,31 @@ RSpec.describe Volcanic::Authenticator::V1::Token, :vcr do
 
     context 'When token is valid' do
       # initialize token by using a mock token at spec/mock_tokens.json
-      subject { token.new(mock_token_base64) }
-      # below information are claims and details extract from the mock_token
-      its(:token_key) { mock_token_base64 }
-      its(:kid) { should eq 'a5f53fa25f2f82a3843c4af11bd801a1' }
-      its(:exp) { should eq 7_571_210_994 }
-      its(:sub) { should eq 'user://sandbox/-1/1/1/2' }
-      its(:nbf) { should eq 1_571_211_054 }
-      its(:audience) { should eq %w[krakatoaeu -] }
-      its(:iat) { should eq 1_571_211_054 }
-      its(:iss) { should eq 'volcanic_auth_service_ap2' }
-      its(:jti) { should eq nil }
-      its(:dataset_id) { should eq '-1' }
-      its(:principal_id) { should eq '1' }
-      its(:identity_id) { should eq '1' }
+      mock_header = { kid: mock_kid = 'mock_kid'  }
+      mock_body = {
+          exp: mock_exp = Time.now.to_i,
+          sub: mock_sub = 'user://sandbox/mock_dataset_id/mock_principal_id/mock_identity_id',
+          nbf: mock_nbf = Time.now.to_i,
+          aud: mock_aud = ['mock_aud'],
+          iat: mock_iat = Time.now.to_i,
+          iss: mock_iss = 'mock_iss',
+          jti: mock_jti = 'mock_jti',
+      }
+      mock_token = JWT.encode(mock_body, nil, 'none', mock_header)
+
+      subject { token.new(mock_token) }
+      its(:token_key) { mock_token }
+      its(:kid) { should eq mock_kid }
+      its(:exp) { should eq mock_exp }
+      its(:sub) { should eq mock_sub }
+      its(:nbf) { should eq mock_nbf }
+      its(:aud) { should eq mock_aud }
+      its(:iat) { should eq mock_iat }
+      its(:iss) { should eq mock_iss }
+      its(:jti) { should eq mock_jti }
+      its(:dataset_id) { should eq 'mock_dataset_id'}
+      its(:principal_id) { should eq 'mock_principal_id' }
+      its(:identity_id) { should eq 'mock_identity_id' }
     end
   end
 
@@ -204,4 +215,8 @@ RSpec.describe Volcanic::Authenticator::V1::Token, :vcr do
       it { is_expected.to be_nil }
     end
   end
+end
+
+def mock_token
+
 end

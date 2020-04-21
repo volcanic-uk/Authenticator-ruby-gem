@@ -5,7 +5,7 @@ http_interactions:
     uri: http://localhost:6000/api/v1/identity/login
     body:
       encoding: UTF-8
-      string: '{"name":"not-authorise-identity","secret":"secret","dataset_id":"90","audience":["*"]}'
+      string: '{"name":"not-authorise-identity","secret":"secret","dataset_id":"90","aud":["*"]}'
     headers:
       Authorization:
         - Bearer

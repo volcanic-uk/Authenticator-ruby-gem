@@ -5,7 +5,7 @@ http_interactions:
     uri: http://localhost:6000/api/v1/identity/login
     body:
       encoding: UTF-8
-      string: '{"name":"mock_identity_name","secret":"mock_identity_secret","principal_id":1,"audience":[]}'
+      string: '{"name":"mock_identity_name","secret":"mock_identity_secret","principal_id":1,"aud":[]}'
     headers:
       Authorization:
       - Bearer
