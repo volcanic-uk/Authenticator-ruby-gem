@@ -43,7 +43,7 @@ http_interactions:
   recorded_at: Mon, 17 Feb 2020 09:28:29 GMT
 - request:
     method: get
-    uri: http://localhost:6000/api/v1/roles?page=1&page_size=10
+    uri: http://localhost:6000/api/v1/roles?page=1
     body:
       encoding: US-ASCII
       string: ''

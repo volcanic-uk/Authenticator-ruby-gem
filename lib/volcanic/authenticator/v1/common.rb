@@ -127,7 +127,6 @@ module Volcanic::Authenticator
         #
         def find(**opts)
           opts[:page] ||= 1
-          opts[:page_size] ||= 10
           find_with(opts)
         end
 

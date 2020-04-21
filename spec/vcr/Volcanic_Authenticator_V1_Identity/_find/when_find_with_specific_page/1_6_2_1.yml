@@ -37,7 +37,7 @@ http_interactions:
   recorded_at: Fri, 01 Nov 2019 04:22:21 GMT
 - request:
     method: get
-    uri: http://localhost:6000/api/v1/identity?page=1&page_size=10
+    uri: http://localhost:6000/api/v1/identity?page=1
     body:
       encoding: US-ASCII
       string: ''
