@@ -42,7 +42,7 @@ http_interactions:
     uri: http://localhost:6000/api/v1/identity/token/generate
     body:
       encoding: UTF-8
-      string: '{"identity":{"id":1},"audience":[],"single_use":false}'
+      string: '{"identity":{"id":1},"aud":[],"single_use":false}'
     headers:
       Authorization:
       - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjE1NzE2MjIwODcsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xLzEvMS8yIiwibmJmIjoxNTcxNjIxNDg3LCJhdWRpZW5jZSI6WyIqIl0sImlhdCI6MTU3MTYyMTQ4NywiaXNzIjoidm9sY2FuaWNfYXV0aF9zZXJ2aWNlX2FwMiJ9.AMJ7xSIkpt4uudZLO6LzxG4NTZRb5syXNaBbQ_TLRnWudCHJvGtKJ8rgYeChz-LzZcY40DZTl6N0ZmZII9X7ybD4ATllLZmkKkqSOQ_Uwom4G9kfGUecXwHvmR4J9__YMpwG5ny5DGAmzA8rEy0tTtNS6LYVbBaazYNrZ_zdw1orFby5

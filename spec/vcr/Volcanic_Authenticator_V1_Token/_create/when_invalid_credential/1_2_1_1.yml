@@ -5,7 +5,7 @@ http_interactions:
     uri: http://localhost:6000/api/v1/identity/login
     body:
       encoding: UTF-8
-      string: '{"name":"wrong-name","secret":"wrong-secret","principal_id":1,"audience":[]}'
+      string: '{"name":"wrong-name","secret":"wrong-secret","principal_id":1,"aud":[]}'
     headers:
       Authorization:
       - Bearer

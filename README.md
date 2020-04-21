@@ -137,11 +137,11 @@ To generate a token (login without credential)
 Volcanic::Authenticator::V1::Identity.new(id: 'identity_id').token # => return a token Object
 
 # with options
-#   +audience+: A set of information to tell who/what the token use for. It is a set strings array
+#   +aud+: A set of information to tell who/what the token use for. It is a set strings array
 #   +exp+: A token expiry time. only accept unix timestamp in milliseconds format.
 #   +nbf+: A token not before time. token will be invalid until it reach nbf time. only accept unix timestamp in milliseconds format.
 #   +single_use+: If set to true, token can only be use once. 
-Volcanic::Authenticator::V1::Identity.new(id: 'identity_id').token(audience: ['abc@123.com'], exp: 1571296171000, nbf: 1571296171000, single_use: false)
+Volcanic::Authenticator::V1::Identity.new(id: 'identity_id').token(aud: ['abc@123.com'], exp: 1571296171000, nbf: 1571296171000, single_use: false)
 # => return a token object
 ```
 
@@ -170,7 +170,7 @@ token.kid
 token.sub
 token.exp
 token.nbf
-token.audience
+token.aud
 token.iat
 token.iss
 token.jti

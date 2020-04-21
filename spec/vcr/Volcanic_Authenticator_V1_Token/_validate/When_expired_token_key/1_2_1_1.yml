@@ -5,7 +5,7 @@ http_interactions:
     uri: http://localhost:6000/api/v1/identity/login
     body:
       encoding: UTF-8
-      string: '{"name":"volcanic","secret":"volcanic!123","principal_id":1,"audience":["auth"]}'
+      string: '{"name":"volcanic","secret":"volcanic!123","principal_id":1,"aud":["auth"]}'
     headers:
       Authorization:
       - Bearer

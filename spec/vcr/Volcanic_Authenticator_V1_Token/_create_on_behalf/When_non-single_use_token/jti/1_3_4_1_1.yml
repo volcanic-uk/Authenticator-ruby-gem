@@ -5,7 +5,7 @@ http_interactions:
     uri: http://localhost:6000/api/v1/identity/login
     body:
       encoding: UTF-8
-      string: '{"name":"volcanic","secret":"volcanic!123","principal_id":1,"audience":["vault"]}'
+      string: '{"name":"volcanic","secret":"volcanic!123","principal_id":1,"aud":["vault"]}'
     headers:
       Authorization:
       - Bearer
@@ -42,7 +42,7 @@ http_interactions:
     uri: http://localhost:6000/api/v1/identity/token/generate
     body:
       encoding: UTF-8
-      string: '{"identity":{"id":1},"audience":[],"single_use":false}'
+      string: '{"identity":{"id":1},"aud":[],"single_use":false}'
     headers:
       Authorization:
       - Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE1ZjUzZmEyNWYyZjgyYTM4NDNjNGFmMTFiZDgwMWExIn0.eyJleHAiOjc1NzEyMzk4MjYsInN1YiI6InVzZXI6Ly9zYW5kYm94Ly0xLzEvMS8yIiwibmJmIjoxNTcxMjM5ODg2LCJhdWRpZW5jZSI6WyJ2YXVsdCJdLCJpYXQiOjE1NzEyMzk4ODYsImlzcyI6InZvbGNhbmljX2F1dGhfc2VydmljZV9hcDIifQ.AcBdfL_FTdT-StUDiYhuW26lvoPpdU1I4UmAc0lZx1tykjbrfzysex89bwFn979zYINza47y9a1RW-UOy0SDl1DRAV68iTg1BN_hngBJzG0trQ3rGc-qEDBMq8LhT4vCbi5Lz2uTqDMIBaHqm3vUCfP8Dm88ypyKOwW4IJiN2uKajHU9
