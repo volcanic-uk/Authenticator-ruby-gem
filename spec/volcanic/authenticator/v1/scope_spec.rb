@@ -21,7 +21,7 @@ RSpec::Matchers.define :be_a_scope do
 end
 
 RSpec.describe Volcanic::Authenticator::V1::Scope do
-  let(:scope) { 'vrn:local:-1:identity/1?user_id=123' }
+  let(:scope) { 'vrn:local:-1:resource_identity/1?user_id=123' }
 
   subject { described_class.parse(scope) }
 
@@ -38,48 +38,48 @@ RSpec.describe Volcanic::Authenticator::V1::Scope do
       end
 
       context 'with a valid scope string' do
-        let(:scope) { 'vrn:local:-1:identity/1?user_id=123' }
+        let(:scope) { 'vrn:local:-1:resource_identity/1?user_id=123' }
 
         it { is_expected.to be_a_scope.with_stack('local') }
         it { is_expected.to be_a_scope.with_dataset('-1') }
-        it { is_expected.to be_a_scope.with_resource('identity') }
+        it { is_expected.to be_a_scope.with_resource('resource_identity') }
         it { is_expected.to be_a_scope.with_resource_id('1') }
         it { is_expected.to be_a_scope.with_qualifiers('user_id=123') }
 
         context 'where there is no qualifier' do
-          let(:scope) { 'vrn:local:-1:identity/1' }
+          let(:scope) { 'vrn:local:-1:resource_identity/1' }
 
           it 'parses correctly and sets qualifiers as nil' do
             is_expected.to be_a_scope
               .with_stack('local')
               .with_dataset('-1')
-              .with_resource('identity')
+              .with_resource('resource_identity')
               .with_resource_id('1')
               .with_qualifiers(nil)
           end
         end
 
         context 'where there is no resource id' do
-          let(:scope) { 'vrn:local:-1:identity?user_id=123' }
+          let(:scope) { 'vrn:local:-1:resource_identity?user_id=123' }
 
           it 'parses correctly and sets the resource ID as nil' do
             is_expected.to be_a_scope
               .with_stack('local')
               .with_dataset('-1')
-              .with_resource('identity')
+              .with_resource('resource_identity')
               .with_resource_id(nil)
               .with_qualifiers('user_id=123')
           end
         end
 
         context 'where the resource id is a wildcard' do
-          let(:scope) { 'vrn:local:-1:identity/*?user_id=123' }
+          let(:scope) { 'vrn:local:-1:resource_identity/*?user_id=123' }
 
           it 'parses correctly and sets the resource ID as *' do
             is_expected.to be_a_scope
               .with_stack('local')
               .with_dataset('-1')
-              .with_resource('identity')
+              .with_resource('resource_identity')
               .with_resource_id('*')
               .with_qualifiers('user_id=123')
           end
@@ -92,7 +92,7 @@ RSpec.describe Volcanic::Authenticator::V1::Scope do
         expect(subject.to_s).to eq(scope)
         expect(subject.stack_id).to eq('local')
         expect(subject.dataset_id).to eq('-1')
-        expect(subject.resource).to eq('identity')
+        expect(subject.resource).to eq('resource_identity')
         expect(subject.resource_id).to eq('1')
         expect(subject.qualifiers).to eq('user_id=123')
       end
@@ -115,15 +115,15 @@ RSpec.describe Volcanic::Authenticator::V1::Scope do
       subject { described_class.parse(scope).vrn_without_qualifiers }
 
       context 'with qualifiers' do
-        let(:scope) { 'vrn:local:-1:identity/2?foo=bar' }
+        let(:scope) { 'vrn:local:-1:resource_identity/2?foo=bar' }
 
         it 'doesn\'t return qualifiers' do
-          expect(subject).to eq('vrn:local:-1:identity/2')
+          expect(subject).to eq('vrn:local:-1:resource_identity/2')
         end
       end
 
       context 'without qualifiers' do
-        let(:scope) { 'vrn:local:-1:identity/2' }
+        let(:scope) { 'vrn:local:-1:resource_identity/2' }
 
         it 'doesn\'t return qualifiers' do
           expect(subject).to eq(scope)
@@ -152,12 +152,12 @@ RSpec.describe Volcanic::Authenticator::V1::Scope do
         let(:scope) { 'vrn:*:*:*' }
 
         context 'when stack, dataset and resource set' do
-          let(:other) { 'vrn:local:-1:identity/*' }
+          let(:other) { 'vrn:local:-1:resource_identity/*' }
           it { is_expected.to eq(true) }
         end
 
         context 'when wildcard stack, dataset and resource set' do
-          let(:other) { 'vrn:*:*:identity/*' }
+          let(:other) { 'vrn:*:*:resource_identity/*' }
           it { is_expected.to eq(true) }
         end
 

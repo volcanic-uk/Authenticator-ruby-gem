@@ -5,7 +5,7 @@ module Volcanic::Authenticator
     # Given a scope will contain optional wildcards or exact values
     # we need to break out the scope into core parts and validate.
     class Scope
-      MATCH_RE = %r{^vrn:([a-z\d\-\*]+):([a-z\d\-\*]+):([a-z][a-z-]*|\*?)(?:\/([\da-z\.-]+|\*))?(?:\?(\S+))?$}.freeze
+      MATCH_RE = %r{^vrn:([\{\}a-z\d\-\*]+):([\{\}a-z\d\-\*]+):([a-z][a-z_-]*|\*?)(?:\/([\da-z\.-]+|\*))?(?:\?(\S+))?$}.freeze
       SCORES = { stack_id: 1, dataset_id: 2, resource: 3, resource_id: 4, qualifiers: 5 }.freeze
 
       class << self
