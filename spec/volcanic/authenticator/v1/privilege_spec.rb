@@ -14,7 +14,7 @@ RSpec.describe Volcanic::Authenticator::V1::Privilege do
     }
   end
 
-  subject { described_class.new(params) }
+  subject(:instance) { described_class.new(params) }
 
   describe 'sorting' do
     let(:objects) { [first, second] }
@@ -109,7 +109,7 @@ RSpec.describe Volcanic::Authenticator::V1::Privilege do
   end
 
   describe 'method' do
-    describe '#initialise' do
+    describe '#initialize' do
       context 'with all required data' do
         it 'assigns correctly' do
           expect(subject.id).to eq(id)
@@ -129,6 +129,37 @@ RSpec.describe Volcanic::Authenticator::V1::Privilege do
 
         it 'raises an error' do
           expect { subject }.to raise_error ArgumentError
+        end
+      end
+    end
+
+    describe '#==' do
+      subject { instance == other }
+      context 'to nil' do
+        let(:other) { nil }
+        it { is_expected.to be false }
+      end
+
+      context 'to the same object' do
+        let(:other) { instance }
+        it { is_expected.to be true }
+      end
+
+      context 'when all of the values are the same' do
+        let(:other) { described_class.new(other_params) }
+        let(:other_params) { params }
+        it { is_expected.to be true }
+
+        %i(id permission_id group_id allow).each do |diff|
+          context "except the #{diff}" do
+            let(:other_params) { params.merge(diff => 'different') }
+            it { is_expected.to be false }
+          end
+        end
+
+        context "except the scope" do
+          let(:other_params) { params.merge(scope: 'vrn:different:scope:for/resource') }
+          it { is_expected.to be false }
         end
       end
     end

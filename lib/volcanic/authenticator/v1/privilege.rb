@@ -54,6 +54,12 @@ module Volcanic::Authenticator
       attr_accessor :id, :permission_id, :group_id, :allow, :permission
       attr_reader :scope
 
+      def ==(other)
+        %i[@id @permission_id @group_id @allow @scope].all? do |field|
+          instance_variable_get(field) == other.instance_variable_get(field)
+        end
+      end
+
       private
 
       def permission_ids
