@@ -8,11 +8,12 @@ RSpec.describe Volcanic::Authenticator::V1::PermissionGroup do
   let(:active) { true }
   let(:created_at) { 10.minutes.ago }
   let(:updated_at) { 10.minutes.ago }
+  let(:permissions) { [{ id: :perm1, name: 'my_permission' }] }
 
   let(:params) do
     {
       id: id, name: name, description: description, subject_id: subject_id,
-      active: active, created_at: created_at, updated_at: updated_at
+      active: active, created_at: created_at, updated_at: updated_at, permissions: permissions
     }
   end
 
@@ -29,6 +30,8 @@ RSpec.describe Volcanic::Authenticator::V1::PermissionGroup do
           expect(subject.active).to eq(active)
           expect(subject.created_at).to eq(created_at)
           expect(subject.updated_at).to eq(updated_at)
+          expect(subject.permissions.size).to eq(1)
+          expect(subject.permission_ids).to eq([permissions.first[:id]])
         end
       end
 

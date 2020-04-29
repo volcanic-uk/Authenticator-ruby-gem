@@ -150,14 +150,14 @@ RSpec.describe Volcanic::Authenticator::V1::Privilege do
         let(:other_params) { params }
         it { is_expected.to be true }
 
-        %i(id permission_id group_id allow).each do |diff|
+        %i[id permission_id group_id allow].each do |diff|
           context "except the #{diff}" do
             let(:other_params) { params.merge(diff => 'different') }
             it { is_expected.to be false }
           end
         end
 
-        context "except the scope" do
+        context 'except the scope' do
           let(:other_params) { params.merge(scope: 'vrn:different:scope:for/resource') }
           it { is_expected.to be false }
         end
