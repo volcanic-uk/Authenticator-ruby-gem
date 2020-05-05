@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'jwt'
+require 'digest/md5'
 require_relative 'helper/request'
 require_relative 'helper/app_token'
 
@@ -10,8 +11,7 @@ module Volcanic::Authenticator
     class Token
       include Request
 
-      IDENTITY_PATH = 'api/v1/identity/'
-      TOKEN_VALIDATE_PATH = 'api/v1/token/validate'
+      TOKEN_PATH = 'api/v1/token/'
       EXCEPTION = TokenError
       CLAIMS = %i[sub exp nbf aud iat iss jti].freeze
 
@@ -19,9 +19,9 @@ module Volcanic::Authenticator
       attr_reader(*CLAIMS)
       attr_reader :kid, :stack_id, :dataset_id, :principal_id, :identity_id
 
-      def initialize(token)
+      def initialize(token = nil, **claims)
         @token_base64 = token
-        fetch_claims
+        fetch_claims(**claims)
       end
 
       # to validate token exists at cache or has a valid signature.
@@ -44,7 +44,8 @@ module Volcanic::Authenticator
       #   # => true/false
       #
       def remote_validate
-        perform_post_and_parse EXCEPTION, TOKEN_VALIDATE_PATH, nil, token_base64
+        path = [TOKEN_PATH, 'validate'].join
+        perform_post_and_parse EXCEPTION, path, nil, token_base64
         true
       rescue AuthorizationError
         false
@@ -55,8 +56,8 @@ module Volcanic::Authenticator
       #   Token.new(token_base64).revoke!
       #
       def revoke!
-        path = [IDENTITY_PATH, 'logout'].join
-        perform_post_and_parse EXCEPTION, path, nil, token_base64
+        path = [TOKEN_PATH, generate_checksum].join
+        perform_delete_and_parse EXCEPTION, path
       end
 
       # Used to return privileges for this user
@@ -87,6 +88,10 @@ module Volcanic::Authenticator
         identity || principal
       end
 
+      def generate_checksum
+        @generate_checksum ||= Digest::MD5.hexdigest(claims_payload.to_json)
+      end
+
       private
 
       def decode!(public_key = nil, verify = true)
@@ -96,13 +101,20 @@ module Volcanic::Authenticator
         raise TokenError, e
       end
 
-      def fetch_claims
+      def fetch_claims(**claims)
         # set claims as instance variable
-        body, header = decode! nil, false
-        @kid = header['kid']
-        CLAIMS.each do |claim|
-          instance_variable_set("@#{claim}", body[claim.to_s])
+        body = claims
+
+        if token_base64
+          p token_base64
+          body, header = decode!(nil, false)
+          @kid = header['kid'] if header
         end
+
+        CLAIMS.each do |claim|
+          instance_variable_set("@#{claim}", body[claim] || body[claim.to_s])
+        end
+
         extract_subject
       end
 
@@ -117,6 +129,16 @@ module Volcanic::Authenticator
         _, @dataset_id, @principal_id, @identity_id, = subject
       rescue ArgumentError => e
         raise TokenError, e
+      end
+
+      def claims_payload
+        payload = {}
+        CLAIMS.each do |claim|
+          instance_variable = instance_variable_get("@#{claim}")
+          payload[claim] = instance_variable if instance_variable
+        end
+
+        payload.sort.to_h
       end
     end
   end

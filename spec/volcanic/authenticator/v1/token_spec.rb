@@ -15,6 +15,7 @@ RSpec.describe Volcanic::Authenticator::V1::Token, :vcr do
   let(:mock_token_base64_2) { tokens['token_2'] }
   let(:mock_token_base64_exp) { tokens['expired_token'] }
   let(:mock_token_base64_invalid) { tokens['token_4'] }
+  let(:mock_claims) { { sub: 'user://si/ds/princ/ident', exp: 12_345, nbf: 12_345, aud: ['*'], iat: 12_345, iss: 'some_id', jti: 'some_id' } }
 
   describe '#initialize' do
     context 'When token is nil/empty' do
@@ -91,9 +92,30 @@ RSpec.describe Volcanic::Authenticator::V1::Token, :vcr do
   end
 
   describe '#revoke' do
-    context 'When success' do
-      before { token.new(mock_token_base64_2).revoke! }
-      it { expect(token.new(mock_token_base64_2).remote_validate).to be false }
+    let(:token_params) {}
+    let(:token_instance) { token.new(token_params) }
+    let(:response) { { 'messages': 'token destroyed successfully' } }
+
+    subject { token_instance.revoke! }
+
+    context 'success revoke!' do
+      before(:each) { allow(token_instance).to receive(:perform_delete_and_parse).and_return(response) }
+
+      context 'by token_base64' do
+        let(:token_params) { mock_token_base64 }
+        it { should eq response }
+      end
+
+      context 'by claims' do
+        let(:token_params) { mock_claims }
+        it { should eq response }
+      end
+    end
+
+    context 'revoke failed due to unknown/blacklisted token' do
+      let(:token_params) { mock_token_base64 }
+      before { allow(token_instance).to receive(:perform_delete_and_parse).and_raise(token_error) }
+      it { expect { token_instance.revoke! }.to raise_error token_error }
     end
   end
 
