@@ -3,12 +3,5 @@
 
 require 'bundler/setup'
 require 'volcanic/authenticator'
-require 'volcanic/cache'
 require 'pry'
-Volcanic::Authenticator.config do |config|
-  config.auth_url = 'http://localhost:8000'
-  config.app_name = 'volcanic'
-  config.app_secret = 'volcanic!123'
-  config.app_dataset_id = '-1'
-end
 Pry.start
