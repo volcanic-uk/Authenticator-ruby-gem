@@ -29,23 +29,28 @@ module Volcanic::Authenticator
         @dataset_id = dataset_id.to_s
         @resource = resource
         @resource_id = resource_id.nil? ? resource_id : resource_id.to_s
-        self.qualifiers = qualifiers
+        self.qualifiers = qualifiers.nil? ? {} : qualifiers
       end
 
       def include?(other)
-        other = Scope.parse(other) if other.is_a? String
-        return false unless other.is_a? Scope
+        other = Scope.parse(other)
 
-        stack_included?(other) &&
-          dataset_included?(other) &&
-          resource_included?(other) &&
-          resource_id_included?(other)
+        res = stack_included?(other) &&
+              dataset_included?(other) &&
+              resource_included?(other) &&
+              resource_id_included?(other)
+
+        if res && block_given?
+          yield qualifiers
+        else
+          res
+        end
       end
 
       def to_s
         base = "vrn:#{stack_id}:#{dataset_id}:#{resource}"
         base += "/#{resource_id}" if resource_id
-        base += "?#{qualifiers.map { |k, v| "#{k}=#{v}" }.join('&')}" if qualifiers
+        base += "?#{qualifiers.map { |k, v| "#{k}=#{v}" }.join('&')}" unless qualifiers.empty?
         base
       end
 

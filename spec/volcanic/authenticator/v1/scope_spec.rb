@@ -26,6 +26,8 @@ RSpec.describe Volcanic::Authenticator::V1::Scope do
   subject { described_class.parse(scope) }
 
   describe 'method' do
+    subject(:instance) { described_class.parse(scope) }
+
     describe '#parse' do
       context 'with a Scope object' do
         let(:scope) { described_class.new }
@@ -49,13 +51,13 @@ RSpec.describe Volcanic::Authenticator::V1::Scope do
         context 'where there is no qualifier' do
           let(:scope) { 'vrn:local:-1:resource_identity/1' }
 
-          it 'parses correctly and sets qualifiers as nil' do
+          it 'parses correctly and sets qualifiers as empty' do
             is_expected.to be_a_scope
               .with_stack('local')
               .with_dataset('-1')
               .with_resource('resource_identity')
               .with_resource_id('1')
-              .with_qualifiers(nil)
+              .with_qualifiers({})
           end
         end
 
@@ -106,13 +108,13 @@ RSpec.describe Volcanic::Authenticator::V1::Scope do
           expect(subject.dataset_id).to eq('*')
           expect(subject.resource).to eq('*')
           expect(subject.resource_id).to be_nil
-          expect(subject.qualifiers).to be_nil
+          expect(subject.qualifiers).to eq({})
         end
       end
     end
 
     describe '.vrn_without_qualifiers' do
-      subject { described_class.parse(scope).vrn_without_qualifiers }
+      subject { instance.vrn_without_qualifiers }
 
       context 'with qualifiers' do
         let(:scope) { 'vrn:local:-1:resource_identity/2?foo=bar' }
@@ -132,7 +134,7 @@ RSpec.describe Volcanic::Authenticator::V1::Scope do
     end
 
     describe '.include?(other)' do
-      subject { described_class.parse(scope).include?(other) }
+      subject { instance.include?(other) }
 
       context 'with an exact match' do
         let(:scope) { 'vrn:local:-1:jobs/5' }
@@ -245,6 +247,31 @@ RSpec.describe Volcanic::Authenticator::V1::Scope do
         context 'when stack, dataset and resource are wildcards' do
           let(:other) { 'vrn:*:*:*' }
           it { is_expected.to eq(false) }
+        end
+      end
+
+      context 'when provided a block' do
+        subject { instance.include?(other) }
+
+        context 'and something before the qualifier does not match' do
+          let(:other) { 'vrn:local:-1:different' }
+          it { is_expected.to eq(false) }
+
+          it 'does not yield' do
+            expect { |b| instance.include?(other, &b) }.not_to yield_control
+          end
+        end
+
+        context 'and everything before the qualifier matches' do
+          let(:other) { 'vrn:local:-1:resource_identity/1' }
+
+          it 'yields the qualifiers' do
+            expect { |b| instance.include?(other, &b) }.to yield_with_args('user_id' => '123')
+          end
+
+          it 'returns the truthy result of the block' do
+            expect(instance.include?(other) { true }).to be true
+          end
         end
       end
     end
