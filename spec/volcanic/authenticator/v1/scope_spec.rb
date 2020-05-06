@@ -44,7 +44,7 @@ RSpec.describe Volcanic::Authenticator::V1::Scope do
         it { is_expected.to be_a_scope.with_dataset('-1') }
         it { is_expected.to be_a_scope.with_resource('resource_identity') }
         it { is_expected.to be_a_scope.with_resource_id('1') }
-        it { is_expected.to be_a_scope.with_qualifiers('user_id=123') }
+        it { is_expected.to be_a_scope.with_qualifiers('user_id' => '123') }
 
         context 'where there is no qualifier' do
           let(:scope) { 'vrn:local:-1:resource_identity/1' }
@@ -68,7 +68,7 @@ RSpec.describe Volcanic::Authenticator::V1::Scope do
               .with_dataset('-1')
               .with_resource('resource_identity')
               .with_resource_id(nil)
-              .with_qualifiers('user_id=123')
+              .with_qualifiers('user_id' => '123')
           end
         end
 
@@ -81,7 +81,7 @@ RSpec.describe Volcanic::Authenticator::V1::Scope do
               .with_dataset('-1')
               .with_resource('resource_identity')
               .with_resource_id('*')
-              .with_qualifiers('user_id=123')
+              .with_qualifiers('user_id' => '123')
           end
         end
       end
@@ -94,7 +94,7 @@ RSpec.describe Volcanic::Authenticator::V1::Scope do
         expect(subject.dataset_id).to eq('-1')
         expect(subject.resource).to eq('resource_identity')
         expect(subject.resource_id).to eq('1')
-        expect(subject.qualifiers).to eq('user_id=123')
+        expect(subject.qualifiers).to eq('user_id' => '123')
       end
 
       context 'missing elements have defaults' do

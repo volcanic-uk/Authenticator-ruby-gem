@@ -29,7 +29,7 @@ module Volcanic::Authenticator
         @dataset_id = dataset_id.to_s
         @resource = resource
         @resource_id = resource_id.nil? ? resource_id : resource_id.to_s
-        @qualifiers = qualifiers
+        self.qualifiers = qualifiers
       end
 
       def include?(other)
@@ -45,7 +45,7 @@ module Volcanic::Authenticator
       def to_s
         base = "vrn:#{stack_id}:#{dataset_id}:#{resource}"
         base += "/#{resource_id}" if resource_id
-        base += "?#{qualifiers}" if qualifiers
+        base += "?#{qualifiers.map { |k, v| "#{k}=#{v}" }.join('&')}" if qualifiers
         base
       end
 
@@ -81,6 +81,17 @@ module Volcanic::Authenticator
                   0
                 end
           acc + val
+        end
+      end
+
+      def qualifiers=(value)
+        case value
+        when Hash
+          @qualifiers = value
+        when String
+          @qualifiers = Hash[value.split('&').map { |item| item.split('=') }]
+        when nil
+          @qualifiers = nil
         end
       end
 
