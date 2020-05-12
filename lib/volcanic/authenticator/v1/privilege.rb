@@ -14,12 +14,13 @@ module Volcanic::Authenticator
         end
       end
 
-      def initialize(scope:, permission_id: nil, group_id: nil, allow:, **args)
+      def initialize(scope:, permission_id: nil, group_id: nil, allow:, cache: nil, **args)
         @id = args.fetch(:id, nil)
         @scope = Scope.parse(scope)
         @permission_id = permission_id
         @group_id = group_id
         @allow = allow
+        @cache = cache || Volcanic::Cache::Cache.new
       end
 
       def <=>(other)
@@ -43,16 +44,29 @@ module Volcanic::Authenticator
         allow == true ? 1 : 0
       end
 
-      def permissions
-        @permissions ||= permission_ids.map { |permission_id| Permission.find_by_id(permission_id) }
-      end
-
       def scope=(value)
         @scope = Scope.parse(value)
       end
 
-      attr_accessor :id, :permission_id, :group_id, :allow, :permission
-      attr_reader :scope
+      attr_accessor :id, :allow
+      attr_reader :scope, :permission, :permission_id, :group_id
+      attr_writer :cache
+
+      def permission=(value)
+        clear_dirty
+        @permission_id = value.id
+        @permission = value
+      end
+
+      def permission_id=(value)
+        clear_dirty
+        @permission_id = value
+      end
+
+      def group_id=(value)
+        clear_dirty
+        @group_id = value
+      end
 
       def ==(other)
         %i[@id @permission_id @group_id @allow @scope].all? do |field|
@@ -60,10 +74,34 @@ module Volcanic::Authenticator
         end
       end
 
-      private
+      def group
+        return nil unless group_id
+
+        cache.fetch("permission_group_#{group_id}") { PermissionGroup.find_by_id(group_id) }
+      end
 
       def permission_ids
-        @permission_ids ||= [permission_id, PermissionGroup.find_by_id(group_id).permission_ids].flatten.compact
+        @permission_ids ||= [permission_id, group&.permission_ids].flatten.compact
+      end
+
+      def permissions
+        @permissions ||= permission_ids.map do |perm_id|
+          cache.fetch("permission_#{perm_id}") { Permission.find_by_id(perm_id) }
+        end
+      end
+
+      def permission_names
+        permissions.map(&:name)
+      end
+
+      private
+
+      attr_reader :cache
+
+      def clear_dirty
+        @permission = nil
+        @permissions = nil
+        @permission_ids = nil
       end
     end
   end

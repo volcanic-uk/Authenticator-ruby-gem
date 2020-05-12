@@ -2,6 +2,7 @@ AllCops:
   Exclude:
     - 'bin/**/*'
     - 'vendor/**/*'
+  TargetRubyVersion: 2.5
 
 Metrics/LineLength:
   Enabled: false
