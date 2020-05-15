@@ -49,13 +49,17 @@ module Volcanic::Authenticator
       end
 
       attr_accessor :id, :allow
-      attr_reader :scope, :permission, :permission_id, :group_id
+      attr_reader :scope, :permission_id, :group_id
       attr_writer :cache
 
       def permission=(value)
         clear_dirty
         @permission_id = value.id
         @permission = value
+      end
+
+      def permission
+        permissions.first
       end
 
       def permission_id=(value)
