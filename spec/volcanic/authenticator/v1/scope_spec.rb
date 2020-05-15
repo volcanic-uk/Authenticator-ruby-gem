@@ -111,6 +111,21 @@ RSpec.describe Volcanic::Authenticator::V1::Scope do
           expect(subject.qualifiers).to eq({})
         end
       end
+
+      context 'with invalid data' do
+        {
+          stack_id: [nil, '**', '', ' whitespace '],
+          dataset_id: [nil, '**', '', ' whitespace '],
+          resource: [nil, '**', '', ' whitespace ', '_first_underscore', 'UpperCase']
+        }.each do |key, values|
+          values.each do |value|
+            context "#{key} => #{value}" do
+              subject { -> { described_class.new(key => value) } }
+              it { is_expected.to raise_error }
+            end
+          end
+        end
+      end
     end
 
     describe '.vrn_without_qualifiers' do

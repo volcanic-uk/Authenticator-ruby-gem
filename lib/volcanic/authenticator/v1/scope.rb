@@ -5,22 +5,21 @@ module Volcanic::Authenticator
     # Given a scope will contain optional wildcards or exact values
     # we need to break out the scope into core parts and validate.
     class Scope
-      MATCH_RE = %r{^vrn:([\{\}a-z\d\-\*]+):([\{\}a-z\d\-\*]+):([a-z][a-z_-]*|\*?)(?:\/([\da-z\.-]+|\*))?(?:\?(\S+))?$}.freeze
       SCORES = { stack_id: 1, dataset_id: 2, resource: 3, resource_id: 4, qualifiers: 5 }.freeze
 
       class << self
         def parse(value)
           return value if value.is_a? Scope
+          raise ArgumentError, "Invalid scope: #{value}" unless value.is_a?(String)
 
-          captures = value.match(Scope::MATCH_RE).captures
-          raise ArgumentError, message: "Invalid scope: #{value}" if captures.nil?
+          _, stack_id, dataset_id, resource = *value.split(':', 4)
+          raise ArgumentError, "Invalid scope: #{value}" if resource.nil?
 
-          new(
-            stack_id: captures[0], dataset_id: captures[1], resource: captures[2],
-            resource_id: captures[3], qualifiers: captures[4]
-          )
-        rescue NoMethodError
-          raise ArgumentError, message: "Invalid scope: #{value}"
+          resource, qualifiers = *resource.split('?', 2)
+          resource_name, resource_id = *resource.split('/', 2)
+
+          new(stack_id: stack_id, dataset_id: dataset_id, resource: resource_name,
+              resource_id: resource_id, qualifiers: qualifiers)
         end
       end
 
@@ -30,15 +29,17 @@ module Volcanic::Authenticator
         @resource = resource
         @resource_id = resource_id.nil? ? resource_id : resource_id.to_s
         self.qualifiers = qualifiers.nil? ? {} : qualifiers
+        { stack_id: stack_id, dataset_id: dataset_id,
+          resource: resource, resource_id: resource_id }.each do |key, value|
+          raise ArgumentError, "#{value} is not a valid #{key}" unless send("valid_#{key}?", value)
+        end
       end
 
       def include?(other)
         other = Scope.parse(other)
 
-        res = stack_included?(other) &&
-              dataset_included?(other) &&
-              resource_included?(other) &&
-              resource_id_included?(other)
+        res = stack_included?(other) && dataset_included?(other) &&
+              resource_included?(other) && resource_id_included?(other)
 
         if res && block_given?
           yield qualifiers
@@ -48,8 +49,7 @@ module Volcanic::Authenticator
       end
 
       def to_s
-        base = "vrn:#{stack_id}:#{dataset_id}:#{resource}"
-        base += "/#{resource_id}" if resource_id
+        base = vrn_without_qualifiers
         base += "?#{qualifiers.map { |k, v| "#{k}=#{v}" }.join('&')}" unless qualifiers.empty?
         base
       end
@@ -118,6 +118,23 @@ module Volcanic::Authenticator
 
       def resource_id_included?(other)
         (resource == '*' && resource_id.blank?) || resource_id == '*' || resource_id == other.resource_id
+      end
+
+      def valid_stack_id?(value)
+        !value.nil? && value.match(/^[a-z\d\-]+$/) || value == '*' || value == '{stack}'
+      end
+
+      def valid_dataset_id?(value)
+        !value.nil? && value.match(/^[a-z\d\-]+$/) || value == '*' || value == '{dataset}'
+      end
+
+      def valid_resource?(value)
+        !value.nil? && value.match(/^[a-z\d][a-z\d\-_]*$/) || value == '*'
+      end
+
+      def valid_resource_id?(value)
+        value.nil? || value.match(/^[a-z\d\-]+$/) || value == '*' ||
+          %w[{self} {identity} {principal}].include?(value)
       end
     end
   end
