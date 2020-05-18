@@ -9,6 +9,7 @@
 /vendor/
 .idea
 Gemfile.lock
+.byebug_history
 
 # rspec failure tracking
 .rspec_status

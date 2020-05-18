@@ -9,3 +9,5 @@ gemspec
 gem 'activeresource-response',
     git: 'https://github.com/victorperez/activeresource-response', branch: 'master'
 gem 'volcanic-cache', git: 'git@github.com:volcanic-uk/ruby-cache.git'
+
+gem 'byebug', group: :development
