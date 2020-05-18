@@ -1,7 +1,11 @@
 # frozen_string_literal: true
 
-RSpec.describe Volcanic::Authenticator::V1::Role, :vcr do
-  before { Configuration.set }
+RSpec.describe Volcanic::Authenticator::V1::Role, vcr: { match_requests_on: [:method, :uri]} do
+  before do
+    Configuration.set
+    allow(Volcanic::Authenticator::V1::AppToken).to receive(:fetch_and_request).and_return('')
+  end
+
   let(:role) { Volcanic::Authenticator::V1::Role }
   let(:role_error) { Volcanic::Authenticator::V1::RoleError }
   let(:mock_name) { 'mock_name' }

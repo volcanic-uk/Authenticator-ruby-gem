@@ -6,8 +6,8 @@ module Volcanic::Authenticator
   module V1
     # Role API
     class Role < Common
-      attr_accessor :name
-      attr_reader :id, :parent_id, :created_at, :updated_at
+      attr_reader :id, :parent_id, :created_at, :updated_at, :name
+      attr_writer :cache
 
       def self.path
         'api/v1/roles'
@@ -18,15 +18,63 @@ module Volcanic::Authenticator
       end
 
       # initialize new role
-      def initialize(id:, **opts)
+      def initialize(id:, cache: nil, **opts)
         @id = id
-        %i[name parent_id created_at updated_at].each do |key|
+        %i[name parent_id created_at updated_at privilege_ids].each do |key|
           instance_variable_set("@#{key}", opts[key])
         end
+        @dirty = Hash.new { |h, k| h[k] = false }
+        @cache = cache || Volcanic::Cache::Cache.new
+        @privilege_ids ||= []
       end
 
       def save
-        super(name: name)
+        opts = {}
+        dirty.each do |key, value|
+          if value
+            opts[key] = send(key)
+            dirty[key] = false
+          end
+        end
+        opts[:privileges] = opts.delete(:privilege_ids) if opts.key?(:privilege_ids)
+        opts[:name] = name
+        super(**opts) unless opts.empty?
+      end
+
+      def privileges
+        @privileges ||= privilege_ids.map do |priv_id|
+          cache.fetch("privilege_#{priv_id}") { Privilege.find_by_id(priv_id) }
+        end.freeze
+      end
+
+      def name=(value)
+        dirty[:name] = true
+        @name = value
+      end
+
+      def privilege_ids=(value)
+        dirty[:privilege_ids] = true
+        @privileges = nil
+        @privlege_ids = value.frozen? ? value : value.dup.freeze
+      end
+
+      def privilege_ids
+        @privilege_ids.freeze
+      end
+
+      def add_privilege(value)
+        dirty[:privilege_ids] = true
+        @privileges = nil
+        @privilege_ids = @privilege_ids.dup
+        @privilege_ids << if value.is_a?(Privilege)
+                            value.id
+                          else
+                            value
+                          end
+      end
+
+      def dirty?
+        dirty.values.all?
       end
 
       class << self
@@ -34,6 +82,10 @@ module Volcanic::Authenticator
           super({ name: name, privileges: privilege_ids, parent_role_id: parent_id })
         end
       end
+
+      private
+
+      attr_reader :dirty, :cache
     end
   end
 end
