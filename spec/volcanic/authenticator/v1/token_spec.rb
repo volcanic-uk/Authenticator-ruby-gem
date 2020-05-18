@@ -93,7 +93,7 @@ RSpec.describe Volcanic::Authenticator::V1::Token, :vcr do
   describe '#revoke!' do
     let(:mock_claims) { { exp: 1_589_587_408, sub: 'user://sandbox/-1/volcanic/volcanic', nbf: 1_589_527_409, aud: ['*'], iat: 1_589_527_409, iss: 'volcanic_auth_service_ap2' } }
     let(:mock_token_base64) { tokens['mock_token'] }
-    let(:expected_path) { 'api/v1/token/cb40523b3039081d36d86d37b3723e0f' }
+    let(:expected_path) { 'api/v1/token/7fb0bb4a56db25e88c5080e9412993b3' }
     let(:token_instance) {}
     let(:response) { { 'messages': 'token destroyed successfully' } }
 
