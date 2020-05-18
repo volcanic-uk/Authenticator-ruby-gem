@@ -15,7 +15,6 @@ RSpec.describe Volcanic::Authenticator::V1::Token, :vcr do
   let(:mock_token_base64_2) { tokens['token_2'] }
   let(:mock_token_base64_exp) { tokens['expired_token'] }
   let(:mock_token_base64_invalid) { tokens['token_4'] }
-  let(:mock_claims) { { sub: 'user://si/ds/princ/ident', exp: 12_345, nbf: 12_345, aud: ['*'], iat: 12_345, iss: 'some_id', jti: 'some_id' } }
 
   describe '#initialize' do
     context 'When token is nil/empty' do
@@ -91,31 +90,41 @@ RSpec.describe Volcanic::Authenticator::V1::Token, :vcr do
     end
   end
 
-  describe '#revoke' do
-    let(:token_params) {}
-    let(:token_instance) { token.new(token_params) }
+  describe '#revoke!' do
+    let(:mock_claims) { { exp: 1_589_587_408, sub: 'user://sandbox/-1/volcanic/volcanic', nbf: 1_589_527_409, aud: ['*'], iat: 1_589_527_409, iss: 'volcanic_auth_service_ap2' } }
+    let(:mock_token_base64) { tokens['mock_token'] }
+    let(:expected_path) { 'api/v1/token/cb40523b3039081d36d86d37b3723e0f' }
+    let(:token_instance) {}
     let(:response) { { 'messages': 'token destroyed successfully' } }
 
-    subject { token_instance.revoke! }
+    before { allow(token_instance).to receive(:perform_delete_and_parse).with(anything, expected_path).and_return(response) }
 
-    context 'success revoke!' do
-      before(:each) { allow(token_instance).to receive(:perform_delete_and_parse).and_return(response) }
+    context 'valid params' do
+      subject { token_instance.revoke! }
 
-      context 'by token_base64' do
-        let(:token_params) { mock_token_base64 }
+      context 'by token_base64 string' do
+        let(:token_instance) { token.new(mock_token_base64) }
         it { should eq response }
       end
 
-      context 'by claims' do
-        let(:token_params) { mock_claims }
+      context 'by token claims' do
+        let(:token_instance) { token.new(mock_claims) }
         it { should eq response }
       end
     end
 
-    context 'revoke failed due to unknown/blacklisted token' do
-      let(:token_params) { mock_token_base64 }
-      before { allow(token_instance).to receive(:perform_delete_and_parse).and_raise(token_error) }
-      it { expect { token_instance.revoke! }.to raise_error token_error }
+    context 'incorrect params' do
+      context 'by token_base64 string' do
+        let(:invalid_mock_token_base64) { tokens['invalid_token'] }
+        let(:token_instance) { token.new(invalid_mock_token_base64) }
+        it { expect { token_instance.revoke! }.to raise_error RSpec::Mocks::MockExpectationError }
+      end
+
+      context 'by token claims' do
+        let(:invalid_mock_claims) { { sub: 'user://sandbox/-1/volcanic/volcanic' } }
+        let(:token_instance) { token.new(invalid_mock_claims) }
+        it { expect { token_instance.revoke! }.to raise_error RSpec::Mocks::MockExpectationError }
+      end
     end
   end
 

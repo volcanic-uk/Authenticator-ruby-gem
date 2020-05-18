@@ -106,7 +106,6 @@ module Volcanic::Authenticator
         body = claims
 
         if token_base64
-          p token_base64
           body, header = decode!(nil, false)
           @kid = header['kid'] if header
         end
