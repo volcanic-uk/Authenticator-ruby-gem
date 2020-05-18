@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Volcanic::Authenticator::V1::Role, vcr: { match_requests_on: [:method, :uri]} do
+RSpec.describe Volcanic::Authenticator::V1::Role, vcr: { match_requests_on: %i[method uri] } do
   before do
     Configuration.set
     allow(Volcanic::Authenticator::V1::AppToken).to receive(:fetch_and_request).and_return('')
