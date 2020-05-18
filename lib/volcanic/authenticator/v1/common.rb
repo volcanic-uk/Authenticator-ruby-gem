@@ -125,9 +125,23 @@ module Volcanic::Authenticator
         #   obj.row_count = 1
         #   obj.page_size = 1
         #
-        def find(**opts)
-          opts[:page] ||= 1
-          find_with(opts)
+        def find(all: false, **opts)
+          if all
+            opts[:page] = 1
+            opts[:page_size] = 100
+            pages = nil
+            loop do
+              page = find_with(opts)
+              pages = pages.nil? ? page : pages.concat(page)
+              break if opts[:page] == page.page_count
+
+              opts[:page] += 1
+            end
+            pages
+          else
+            opts[:page] ||= 1
+            find_with(opts)
+          end
         end
 
         def find_by_id(id)

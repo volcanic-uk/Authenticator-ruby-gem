@@ -17,6 +17,11 @@ module Volcanic::Authenticator
         super array
       end
 
+      def concat(other)
+        @page = @page_size = @page_count = nil
+        super other
+      end
+
       # converting camel case to a snake case style
       def self.from_auth_service(array, **args)
         KEYS_FROM_AUTH_SERVICE.each do |svc_key, ruby_key|
