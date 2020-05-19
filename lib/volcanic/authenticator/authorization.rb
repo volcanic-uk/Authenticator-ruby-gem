@@ -10,3 +10,4 @@ module Volcanic::Authenticator
 end
 
 require_relative 'authorization/user_privilege_cache'
+require_relative 'authorization/policy_item_registry'
