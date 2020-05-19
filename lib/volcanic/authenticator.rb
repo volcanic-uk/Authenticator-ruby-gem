@@ -6,4 +6,7 @@ require_relative 'authenticator/base'
 module Volcanic
   # Authenticator
   module Authenticator; end
+  Auth = Authenticator
 end
+
+Vol = Volcanic

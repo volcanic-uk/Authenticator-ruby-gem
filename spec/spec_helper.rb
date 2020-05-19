@@ -17,6 +17,10 @@ RSpec.configure do |config|
   config.expect_with :rspec do |c|
     c.syntax = :expect
   end
+
+  config.before do
+    Volcanic::Authenticator::Authorization::UserPrivilegeCache._reset_instance
+  end
 end
 
 VCR.configure do |c|
