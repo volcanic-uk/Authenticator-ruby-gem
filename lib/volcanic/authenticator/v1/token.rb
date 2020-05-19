@@ -19,9 +19,10 @@ module Volcanic::Authenticator
       attr_reader(*CLAIMS)
       attr_reader :kid, :stack_id, :dataset_id, :principal_id, :identity_id
 
-      def initialize(token = nil, **claims)
+      def initialize(token = nil, checksum: nil, **claims)
         @token_base64 = token
-        fetch_claims(**claims)
+        fetch_claims(**claims) unless checksum
+        @generate_checksum = checksum
       end
 
       # to validate token exists at cache or has a valid signature.
@@ -90,6 +91,12 @@ module Volcanic::Authenticator
 
       def generate_checksum
         @generate_checksum ||= Digest::MD5.hexdigest(claims_payload.to_json)
+      end
+
+      alias checksum generate_checksum
+
+      def self.revoke(checksum)
+        new(checksum: checksum).revoke!
       end
 
       private

@@ -128,6 +128,57 @@ RSpec.describe Volcanic::Authenticator::V1::Token, :vcr do
     end
   end
 
+  describe '.revoke' do
+    let(:mock_checksum) { '7fb0bb4a56db25e88c5080e9412993b3' }
+    let(:expected_path) { "api/v1/token/#{mock_checksum}" }
+    let(:token_instance) { token.new(checksum: mock_checksum) }
+    let(:response) { { 'messages': 'token destroyed successfully' } }
+
+    before do
+      allow(token_instance).to receive(:perform_delete_and_parse).with(anything, expected_path).and_return(response)
+      allow(token).to receive(:new).with(checksum: mock_checksum).and_return(token_instance)
+    end
+
+    context 'should revoke token' do
+      it { expect(token.revoke(mock_checksum)).to eq response }
+    end
+
+    context 'should failed to revoke token' do
+      it { expect { token.revoke(nil) }.to raise_error RSpec::Mocks::MockExpectationError }
+      it { expect { token.revoke('123456') }.to raise_error RSpec::Mocks::MockExpectationError }
+
+      context 'due to auth return failed response' do
+        before { allow(token_instance).to receive(:perform_delete_and_parse).with(anything, expected_path).and_raise(token_error) }
+        it { expect { token.revoke(mock_checksum) }.to raise_error token_error }
+      end
+    end
+  end
+
+  describe '#checksum' do
+    let(:mock_token_base64) { tokens['mock_token'] }
+    let(:mock_claims) { { exp: 1_589_587_408, sub: 'user://sandbox/-1/volcanic/volcanic', nbf: 1_589_527_409, aud: ['*'], iat: 1_589_527_409, iss: 'volcanic_auth_service_ap2' } }
+    let(:expected_checksum) { '7fb0bb4a56db25e88c5080e9412993b3' }
+    let(:token_params) {}
+
+    subject { token.new(token_params).checksum }
+
+    context 'by token_base64 string' do
+      let(:token_params) { mock_token_base64 }
+      it { should eq expected_checksum }
+    end
+
+    context 'by token claims' do
+      let(:token_params) { mock_claims }
+      it { should eq expected_checksum }
+    end
+
+    context 'should return different checksum' do
+      let(:modified_mock_claims) { mock_claims.slice(:exp, :sub) }
+      let(:token_params) { modified_mock_claims }
+      it { should_not eq expected_checksum }
+    end
+  end
+
   describe '#get_privileges_for_service' do
     let(:service) { 'ats' }
     let(:sub) { 'user://stack/dataset/principal/identity' }
