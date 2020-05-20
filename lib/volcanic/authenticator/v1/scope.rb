@@ -29,8 +29,8 @@ module Volcanic::Authenticator
         @resource = resource
         @resource_id = resource_id.nil? ? resource_id : resource_id.to_s
         self.qualifiers = qualifiers.nil? ? {} : qualifiers
-        { stack_id: stack_id, dataset_id: dataset_id,
-          resource: resource, resource_id: resource_id }.each do |key, value|
+        { stack_id: stack_id, dataset_id: @dataset_id,
+          resource: resource, resource_id: @resource_id }.each do |key, value|
           raise ArgumentError, "#{value} is not a valid #{key}" unless send("valid_#{key}?", value)
         end
       end
@@ -38,10 +38,10 @@ module Volcanic::Authenticator
       def include?(other)
         other = Scope.parse(other)
 
-        res = stack_included?(other) && dataset_included?(other) &&
-              resource_included?(other) && resource_id_included?(other)
+        res = [stack_included?(other), dataset_included?(other),
+               resource_included?(other), resource_id_included?(other)].all?
 
-        if res && block_given?
+        if res && !qualifiers.empty? && block_given?
           yield qualifiers
         else
           res
