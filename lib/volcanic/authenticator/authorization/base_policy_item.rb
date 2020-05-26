@@ -43,6 +43,12 @@ module Volcanic::Authenticator::Authorization
       # rubocop:enable Style/EmptyElse
     end
 
+    # Scope is the scope of the request being passed in. It should be added to or removed from prior
+    # to the scope being passed on to be resolved by the adapter.
+    def scope(scope)
+      scope
+    end
+
     # This should be overridden by policies that care about the qualifiers
     # It will be called with a hash of qualifiers for every valid privilege
     # and needs to be fast (i.e. not call to Vault each time)

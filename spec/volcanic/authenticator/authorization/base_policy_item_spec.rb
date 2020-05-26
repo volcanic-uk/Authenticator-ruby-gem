@@ -111,4 +111,12 @@ RSpec.describe Vol::Auth::Z::BasePolicyItem do
       end
     end
   end
+
+  describe 'scope' do
+    # this is mostly here to assert the interface; logic should be provided by extending classes
+    let(:scope) { double(:scope) }
+    subject { instance.scope(scope) }
+
+    it { is_expected.to be(scope) }
+  end
 end
