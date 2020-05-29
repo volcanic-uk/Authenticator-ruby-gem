@@ -23,6 +23,7 @@ module Volcanic::Authenticator
         %i[name parent_id created_at updated_at privilege_ids].each do |key|
           instance_variable_set("@#{key}", opts[key])
         end
+        parse_privileges(opts[:privileges])
         @dirty = Hash.new { |h, k| h[k] = false }
         @cache = cache || Volcanic::Cache::Cache.new
         @privilege_ids ||= []
@@ -86,6 +87,19 @@ module Volcanic::Authenticator
       private
 
       attr_reader :dirty, :cache
+
+      def parse_privileges(privs)
+        return unless privs && !privs.empty?
+
+        case privs.first
+        when Integer
+          @privilege_ids = privs
+        when Hash
+          @privilege_ids = privs.map { |priv| priv['id'] }
+        when Privilege
+          @privilege_ids = privs.map(&:id)
+        end
+      end
     end
   end
 end
