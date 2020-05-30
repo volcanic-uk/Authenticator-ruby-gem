@@ -20,7 +20,7 @@ RSpec.describe Vol::Auth::Z::BasePolicyItem do
 
   before do
     allow(Vol::Auth::Z::UserPrivilegeCache).to receive(:privileges_for)
-      .with(current_user.urn, service_name, permission_name)
+      .with(current_user&.urn, service_name, permission_name)
       .and_return(all_privileges)
   end
 
@@ -33,6 +33,11 @@ RSpec.describe Vol::Auth::Z::BasePolicyItem do
   describe '#privileges' do
     subject { instance.privileges }
     it('is all of the privileges that user has for that permission') { is_expected.to eq(all_privileges) }
+
+    context 'when the current user is nil (guest)' do
+      let(:current_user) { nil }
+      it { is_expected.to eq([]) }
+    end
   end
 
   describe '#qualified_privileges' do

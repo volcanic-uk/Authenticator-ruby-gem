@@ -80,7 +80,11 @@ module Volcanic::Authenticator::Authorization
     # Obtain all of the relevant privileges for this service and permision
     # This is useful when generating scopes
     def privileges
-      UserPrivilegeCache.privileges_for(current_user.urn, service_name, permission_name)
+      if current_user.nil?
+        []
+      else
+        UserPrivilegeCache.privileges_for(current_user.urn, service_name, permission_name)
+      end
     end
 
     # Obtain only those privileges which are relevant to the requested target
