@@ -62,7 +62,7 @@ module Volcanic::Authenticator::Authorization
       # this is provided to support resetting the singleton for testing purposes
       # it should not be used in a production setting
       def _reset_instance
-        _instance = nil
+        self._instance = nil
       end
 
       # this is provided to support injecting the instance for testing purposes
