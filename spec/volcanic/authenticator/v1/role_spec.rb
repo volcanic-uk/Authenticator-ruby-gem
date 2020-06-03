@@ -121,4 +121,54 @@ RSpec.describe Volcanic::Authenticator::V1::Role, vcr: { match_requests_on: %i[m
       it { expect { instance.delete }.to_not raise_error }
     end
   end
+
+  describe '#add_privileges!' do
+    let(:privileges) {}
+    let(:expected_payload) { { privilege_ids: privileges } }
+    let(:instance) { described_class.new(id: 1) }
+    let(:privilege) { Volcanic::Authenticator::V1::Privilege }
+
+    subject { instance }
+
+    context 'when success attached privileges to auth service' do
+      before { allow(instance).to receive(:perform_post_and_parse).and_return('') }
+
+      context 'when adding by ids' do
+        it { expect(instance.add_privileges!(1, 2, [3])).to eq [1, 2, 3] }
+      end
+
+      context 'when adding by object' do
+        let(:priv1) { privilege.new(id: 1, scope: 'vrn:st:ds:res', allow: true) }
+        let(:priv2) { privilege.new(id: 2, scope: 'vrn:st:ds:res', allow: true) }
+        let(:priv3) { privilege.new(id: 3, scope: 'vrn:st:ds:res', allow: true) }
+        it { expect(instance.add_privileges!(priv1, priv2, [priv3])).to eq [1, 2, 3] }
+
+        context 'when add with both type' do
+          it { expect(instance.add_privileges!(1, priv2, [priv3])).to eq [1, 2, 3] }
+        end
+      end
+
+      context '#privilege_ids returning the new attached ids' do
+        before { instance.add_privileges!(1, 2, 3) }
+        its(:privilege_ids) { should eq [1, 2, 3] }
+      end
+
+      context 'Should only attach the new ids' do
+        let(:expected_id_to_be_attach) { 3 }
+        let(:expected_payload) { { 'privilege_ids': [expected_id_to_be_attach] } }
+        let(:instance) { described_class.new(id: 1, privilege_ids: [1, 2]) }
+        before { allow(instance).to receive(:perform_post_and_parse).with(anything, anything, expected_payload).and_return('') }
+
+        its(:privilege_ids) { should eq [1, 2] } # current privilege_ids attached
+        it { expect(instance.add_privileges!(2)).to eq [1, 2] }
+        it { expect(instance.add_privileges!(2, expected_id_to_be_attach)).to eq [1, 2, expected_id_to_be_attach] }
+      end
+    end
+
+    context 'when failed to attach to auth service' do
+      before { allow(instance).to receive(:perform_post_and_parse).and_raise(role_error) }
+
+      it { expect { instance.add_privileges!(1, 2) }.to raise_error role_error }
+    end
+  end
 end
