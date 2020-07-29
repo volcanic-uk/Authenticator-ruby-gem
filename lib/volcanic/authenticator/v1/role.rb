@@ -89,9 +89,7 @@ module Volcanic::Authenticator
       attr_reader :dirty, :cache
 
       def parse_privileges(privs)
-        return unless privs && !privs.empty?
-
-        case privs.first
+        case privs&.first
         when Integer
           @privilege_ids = privs
         when Hash

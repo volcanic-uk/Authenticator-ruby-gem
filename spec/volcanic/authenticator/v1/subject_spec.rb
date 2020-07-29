@@ -5,15 +5,19 @@ RSpec.describe Volcanic::Authenticator::V1::Subject do
   let(:privileges_json) { File.read('./spec/privileges-for-ats.json') }
   let(:sub) { 'user://stack/dataset/principal/identity' }
   let(:permission) { double(:permission) }
+  let(:exception) {  Volcanic::Authenticator::V1::SubjectError }
+  let(:path) {}
 
   describe 'method' do
     before(:each) do
-      allow(Volcanic::Authenticator::V1::Subject).to receive(:perform_get_and_parse) do
+      allow(Volcanic::Authenticator::V1::Subject)
+        .to(receive(:perform_get_and_parse).with(exception, path, any_args)) do
         all_privileges
       end
     end
 
     describe '#privileges_for' do
+      let(:path) { "api/v1/subject/privileges?filter[subject]=#{sub}&filter[service]=#{service}" }
       subject { Volcanic::Authenticator::V1::Subject.privileges_for(sub, service) }
 
       context 'when privileges are returned' do

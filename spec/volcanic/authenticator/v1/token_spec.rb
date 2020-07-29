@@ -12,7 +12,6 @@ RSpec.describe Volcanic::Authenticator::V1::Token, :vcr do
   let(:authorization_error) { Volcanic::Authenticator::V1::AuthorizationError }
   let(:tokens) { JSON.parse(Configuration.mock_tokens) }
   let(:mock_token_base64) { tokens['token'] }
-  let(:mock_token_base64_2) { tokens['token_2'] }
   let(:mock_token_base64_exp) { tokens['expired_token'] }
   let(:mock_token_base64_invalid) { tokens['token_4'] }
 
@@ -42,7 +41,9 @@ RSpec.describe Volcanic::Authenticator::V1::Token, :vcr do
         aud: mock_aud = ['mock_aud'],
         iat: mock_iat = Time.now.to_i,
         iss: mock_iss = 'mock_iss',
-        jti: mock_jti = 'mock_jti'
+        jti: mock_jti = 'mock_jti',
+        scope: mock_scope = [1, 2]
+
       }
       mock_token = JWT.encode(mock_body, nil, 'none', mock_header)
 
@@ -59,6 +60,7 @@ RSpec.describe Volcanic::Authenticator::V1::Token, :vcr do
       its(:dataset_id) { should eq 'mock_dataset_id' }
       its(:principal_id) { should eq 'mock_principal_id' }
       its(:identity_id) { should eq 'mock_identity_id' }
+      its(:scope) { should eq mock_scope }
     end
   end
 
@@ -184,8 +186,9 @@ RSpec.describe Volcanic::Authenticator::V1::Token, :vcr do
     let(:sub) { 'user://stack/dataset/principal/identity' }
     let(:all_privileges) { JSON.parse(privileges_json)['response'] }
     let(:privileges_json) { File.read('./spec/privileges-for-ats.json') }
+    let(:instance) { token.new(mock_token_base64) }
 
-    subject { token.new(mock_token_base64).get_privileges_for_service(service) }
+    subject { instance.get_privileges_for_service(service) }
 
     context 'when a service is defined' do
       before(:each) do
@@ -210,6 +213,19 @@ RSpec.describe Volcanic::Authenticator::V1::Token, :vcr do
 
       it 'returns correctly' do
         expect(subject).to eq([])
+      end
+    end
+
+    context 'when a scope is defined for the token' do
+      before do
+        instance.instance_variable_set(:@scope, [1])
+        allow(Volcanic::Authenticator::V1::Token).to receive(:perform_get_and_parse) do
+          all_privileges
+        end
+      end
+
+      it 'returns data' do
+        expect(subject).to be_a_kind_of(Array)
       end
     end
   end

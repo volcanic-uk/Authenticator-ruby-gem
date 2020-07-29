@@ -12,6 +12,19 @@ module Volcanic::Authenticator
         def exception
           PrivilegeError
         end
+
+        def parser(array)
+          return [] if array.blank?
+
+          privileges = []
+          array['permissions'].each do |perm|
+            perm.fetch('privileges', []).each do |priv|
+              privileges << new(scope: priv['scope'], allow: priv['allow'],
+                                id: priv['id'], permission_id: perm['id'])
+            end
+          end
+          privileges
+        end
       end
 
       def initialize(scope:, permission_id: nil, group_id: nil, allow:, cache: nil, **args)

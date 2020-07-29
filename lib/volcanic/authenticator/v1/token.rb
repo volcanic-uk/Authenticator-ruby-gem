@@ -4,6 +4,7 @@ require 'jwt'
 require 'digest/md5'
 require_relative 'helper/request'
 require_relative 'helper/app_token'
+require_relative 'privilege'
 
 module Volcanic::Authenticator
   module V1
@@ -13,7 +14,7 @@ module Volcanic::Authenticator
 
       TOKEN_PATH = 'api/v1/token/'
       EXCEPTION = TokenError
-      CLAIMS = %i[sub exp nbf aud iat iss jti].freeze
+      CLAIMS = %i[sub exp nbf aud iat iss scope jti].freeze
 
       attr_accessor :token_base64
       attr_reader(*CLAIMS)
@@ -62,7 +63,7 @@ module Volcanic::Authenticator
       end
 
       # Used to return privileges for this user
-      # for given service.
+      # for given service or scope.
       #
       # e.g.
       #   Token.new(token_base64).get_permissions_for_service('ats')
@@ -70,7 +71,12 @@ module Volcanic::Authenticator
       # returns:
       #   Array[Privilege, Privilege]
       def get_privileges_for_service(service)
-        (@get_privileges_for_service ||= {})[service] ||= Subject.privileges_for(@sub, service)
+        (@get_privileges_for_service ||= {})[service] ||=
+          if @scope
+            self.class.privileges_for(@token_base64, service)
+          else
+            Subject.privileges_for(@sub, service)
+          end
       end
 
       def identity
@@ -97,6 +103,11 @@ module Volcanic::Authenticator
 
       def self.revoke(checksum)
         new(checksum: checksum).revoke!
+      end
+
+      def self.privileges_for(token_base64, service)
+        response = perform_get_and_parse(EXCEPTION, "api/v1/privileges/identity?filter[service]=#{service}", token_base64)
+        Privilege.parser(response)
       end
 
       private
