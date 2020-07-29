@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative 'privilege'
+
 module Volcanic::Authenticator
   module V1
     # Subject api
@@ -23,18 +25,7 @@ module Volcanic::Authenticator
             exception,
             "#{path}/privileges?filter[subject]=#{subject}&filter[service]=#{service}"
           )
-          return [] if response.blank?
-
-          privileges = []
-          response['permissions'].each do |perm|
-            perm.fetch('privileges', []).each do |priv|
-              privileges << Privilege.new(scope: priv['scope'],
-                                          allow: priv['allow'],
-                                          id: priv['id'],
-                                          permission_id: perm['id'])
-            end
-          end
-          privileges
+          Privilege.parser(response)
         end
       end
     end

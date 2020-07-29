@@ -76,6 +76,8 @@ module Volcanic::Authenticator
       # Options:
       #   +aud+: A set of information to tell who/what the token use for. It is a set
       #   strings array
+      #   +privilege_ids+: To set custom privileges on the fly to the token.
+      #   Accept arrays of integer
       #   +exp+: A token expiry time. only accept unix timestamp in milliseconds format.
       #   eg: 1571296171000
       #   +nbf+: A token not before time. token will be invalid until it reach nbf time.
@@ -83,16 +85,17 @@ module Volcanic::Authenticator
       #   +single_use+: If set to true, token can only be use once.
       #
       # eg.
-      #   identity.token(aud: ['auth'], exp: 1571296171000, nbf: 1571296171000, single_use: true)
+      #   identity.token(aud: ['auth'], privilege_ids: [1,2], exp: 1571296171000, nbf: 1571296171000, single_use: true)
       #   # => return token object
       #
       # NOTE: exp date will only accept maximum time of 1 day from the current time.
-      def token(aud: [], exp: nil, nbf: nil, single_use: false)
+      def token(aud: [], privilege_ids: [], exp: nil, nbf: nil, single_use: false)
         payload = { identity: { id: id },
                     audience: aud,
                     expiry_date: exp,
                     single_use: single_use,
-                    nbf: nbf }
+                    nbf: nbf,
+                    privileges_ids: privilege_ids }
         request_token '/token/generate', payload
       end
 
