@@ -8,6 +8,7 @@ module Volcanic::Authenticator
     class ApplicationTokenError < AuthenticatorError; end
     ##
     class ConnectionError < AuthenticatorError; end
+    class AccountBlocked < AuthenticatorError; end
     class AuthorizationError < AuthenticatorError; end
     class AuthenticationError < AuthenticatorError; end
     class SignatureError < AuthenticatorError; end
