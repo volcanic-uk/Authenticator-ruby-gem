@@ -12,11 +12,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: ruby/setup-ruby@v1
-        env:
-          BUNDLE_GITHUB__COM: ${{ secrets.BUNDLE_GITHUB__COM }}:x-oauth-basic
         with:
           ruby-version: '2.5'
       - name: install
+        env:
+          BUNDLE_GITHUB__COM: ${{ secrets.BUNDLE_GITHUB__COM }}:x-oauth-basic
         run: |
           bundle install --jobs 4 --retry 3
       - name: Rubocop
