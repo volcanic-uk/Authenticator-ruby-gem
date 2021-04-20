@@ -1,0 +1,22 @@
+name: Volcanic Authenticator build
+
+on:
+  pull_request:
+    branches:
+      - develop
+      - master
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '2.5'
+          bundler-cache: true
+      - name: Rubocop
+        run: bundle exec rubocop
+      - name: Spec
+        run: bundle exec rake
+
