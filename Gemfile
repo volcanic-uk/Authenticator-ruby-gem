@@ -8,6 +8,6 @@ git_source(:github) { |repo_name| "https://github.com/#{repo_name}" }
 gemspec
 gem 'activeresource-response',
     git: 'https://github.com/victorperez/activeresource-response', branch: 'master'
-gem 'volcanic-cache', git: 'git@github.com:volcanic-uk/ruby-cache.git'
+gem 'volcanic-cache', git: 'https://github.com/volcanic-uk/ruby-cache'
 
 gem 'byebug', group: :development
