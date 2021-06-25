@@ -85,6 +85,10 @@ module Volcanic::Authenticator
       def raise_not_implemented_error(method_name)
         raise NotImplementedError, "#{method_name} must be defined by child classes"
       end
+
+      def raise_type_error(method_name, exp_type, received)
+        raise TypeError, "#{method_name} must be a #{exp_type}, but received #{received}"
+      end
     end
   end
 end

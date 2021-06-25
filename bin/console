@@ -4,4 +4,16 @@
 require 'bundler/setup'
 require 'volcanic/authenticator'
 require 'pry'
+require 'volcanic/cache'
+
+# uncomment and configure below details to test it locally
+# run bin/console at app root directory
+#
+# Volcanic::Authenticator.config do |config|
+#   config.app_dataset_id = '-1'
+#   config.app_name = 'volcanic'
+#   config.app_secret = 'volcanic!123'
+#   config.auth_url = 'http://localhost:8000'
+# end
+
 Pry.start

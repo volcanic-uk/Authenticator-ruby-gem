@@ -187,6 +187,18 @@ RSpec.describe Volcanic::Authenticator::V1::Identity, :vcr do
 
   describe '.find' do
     context 'when find by id' do
+      let(:response_obj) do
+        {
+          id: mock_identity_id,
+          name: mock_name,
+          principal_id: mock_principal_id,
+          dataset_id: mock_dataset_id,
+          source: 'mock_source',
+          secret: nil,
+          active: true
+        }
+      end
+      before { allow(identity).to receive(:perform_get_and_parse).with(identity_error, %r{api/v1/identity/.*\?include=roles%2Cprivileges}).and_return(response_obj) }
       subject { identity.find_by_id(mock_identity_id) }
       its(:id) { should eq mock_identity_id }
       its(:name) { should eq mock_name }
@@ -298,18 +310,49 @@ RSpec.describe Volcanic::Authenticator::V1::Identity, :vcr do
     end
   end
 
-  describe '#find_roles' do
+  describe '#roles' do
     subject(:instance) { identity.new(id: mock_identity_id) }
+    let(:path) { %r{api/v1/identity/.*/roles} }
+    let(:role_id) { 'mock_id' }
+    let(:response_obj) { { id: role_id, parent_id: 2, name: 'role_name' } }
 
     context 'when found' do
+      before { allow(instance).to receive(:perform_get_and_parse).with(identity_error, path).and_return([response_obj]) }
+
       it { expect(instance.roles).to be_a Array }
-      it { expect(instance.roles.empty?).to eq false }
       it { expect(instance.roles.first).to be_a Volcanic::Authenticator::V1::Role }
+      context 'should contains role_ids' do
+        before { instance.roles }
+        its(:role_ids) { should eq [role_id] }
+      end
     end
 
     context 'when not found' do
-      it { expect(instance.roles.empty?).to eq true }
+      before { allow(instance).to receive(:perform_get_and_parse).with(identity_error, path).and_return([]) }
       it { expect(instance.roles.first).to eq nil }
+    end
+  end
+
+  describe '#privileges' do
+    subject(:instance) { identity.new(id: mock_identity_id) }
+    let(:path) { %r{api/v1/identity/.*/privileges} }
+    let(:privilege_id) { 'mock_id' }
+    let(:response_obj) { { id: privilege_id, permission_id: 2, scope: 'vrn:*:*:*', allow: true } }
+
+    context 'when found' do
+      before { allow(instance).to receive(:perform_get_and_parse).with(identity_error, path).and_return([response_obj]) }
+
+      it { expect(instance.privileges).to be_a Array }
+      it { expect(instance.privileges.first).to be_a Volcanic::Authenticator::V1::Privilege }
+      context 'should contains privilege_ids' do
+        before { instance.privileges }
+        its(:privilege_ids) { should eq [privilege_id] }
+      end
+    end
+
+    context 'when not found' do
+      before { allow(instance).to receive(:perform_get_and_parse).with(identity_error, path).and_return([]) }
+      it { expect(instance.privileges.first).to eq nil }
     end
   end
 end
