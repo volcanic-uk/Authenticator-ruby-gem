@@ -144,22 +144,25 @@ module Volcanic::Authenticator
           end
         end
 
-        def find_by_id(id)
+        def find_by_id(id, **opts)
           raise ArgumentError, 'id is empty or nil' if id.nil? || id == ''
 
-          parsed = perform_get_and_parse exception, "#{path}/#{id}"
+          parsed = perform_get_and_parse exception, "#{path}/#{id}?#{query_params(opts)}"
           new(parsed.transform_keys!(&:to_sym))
         end
 
         private
 
         def find_with(**opts)
-          params = opts.map { |key, val| "#{key}=#{CGI.escape(val.to_s)}" }.join('&') # convert to query string
-          url = "#{path}?#{params}"
+          url = "#{path}?#{query_params(opts)}"
           parsed = perform_get_and_parse exception, url
           page_information = parsed['pagination'].transform_keys(&:to_sym)
           Collection.from_auth_service(parsed['data'].map { |d| new(d.transform_keys(&:to_sym)) },
                                        page_information) # return as collections (object array)
+        end
+
+        def query_params(**opts)
+          opts.map { |key, val| "#{key}=#{CGI.escape(val.to_s)}" }.join('&') # convert to query string
         end
       end
     end

@@ -5,9 +5,10 @@ require_relative 'common_principal_identity'
 module Volcanic::Authenticator
   module V1
     # Principal api
+    # TODO: principal_spec is missing!
     class Principal < CommonPrincipalIdentity
-      attr_reader :created_at, :updated_at
-      attr_accessor :id, :secure_id, :name, :dataset_id, :role_ids, :privilege_ids, :stack_id
+      attr_reader :created_at, :updated_at, :privilege_ids, :role_ids
+      attr_accessor :id, :secure_id, :name, :dataset_id, :stack_id
 
       # Principal end-point
       def self.path
@@ -20,7 +21,7 @@ module Volcanic::Authenticator
       end
 
       def initialize(**opts)
-        %i[id secure_id name dataset_id active created_at updated_at stack_id].each do |key|
+        %i[id secure_id name dataset_id role_ids privilege_ids active created_at updated_at stack_id].each do |key|
           instance_variable_set("@#{key}", opts[key])
         end
       end
@@ -32,7 +33,7 @@ module Volcanic::Authenticator
       #   principal.save
       #
       def save
-        payload = { name: name }
+        payload = { name: name, privileges: privilege_ids, roles: role_ids }
         super payload
       end
 

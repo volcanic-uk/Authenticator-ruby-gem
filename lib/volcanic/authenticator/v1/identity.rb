@@ -7,8 +7,8 @@ module Volcanic::Authenticator
   module V1
     # Identity API
     class Identity < CommonPrincipalIdentity
-      attr_accessor :id, :name, :secret, :privilege_ids, :role_ids
-      attr_reader :secure_id, :principal_id, :dataset_id, :source, :created_at, :updated_at, :stack_id
+      attr_accessor :id, :name, :secret
+      attr_reader :secure_id, :principal_id, :dataset_id, :source, :privilege_ids, :role_ids, :created_at, :updated_at, :stack_id
 
       # identity base path
       def self.path
@@ -21,7 +21,7 @@ module Volcanic::Authenticator
       end
 
       def initialize(**opts)
-        %i[id secure_id name secret principal_id dataset_id active source created_at updated_at stack_id].each do |key|
+        %i[id secure_id name secret principal_id dataset_id privilege_ids role_ids active source created_at updated_at stack_id].each do |key|
           instance_variable_set("@#{key}", opts[key])
         end
       end
@@ -35,7 +35,7 @@ module Volcanic::Authenticator
       #
       # NOTE: Only use for updating identity. Not creating
       def save
-        super name: name
+        super name: name, privileges: privilege_ids, roles: role_ids
       end
 
       # reset secret
