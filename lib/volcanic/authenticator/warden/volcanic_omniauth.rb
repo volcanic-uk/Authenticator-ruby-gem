@@ -17,7 +17,7 @@ module Volcanic::Authenticator::Warden
     end
 
     def authenticate!
-      fail! 'not authorised for your domain!' unless omniauth.info.email.match(/@volcanic.co.uk$/)
+      fail! 'not authorised for your domain!' unless omniauth.info.email =~ /@volcanic.co.uk$/
       success! token if token_valid?
       fail! invalid_message
     rescue Volcanic::Authenticator::V1::TokenError

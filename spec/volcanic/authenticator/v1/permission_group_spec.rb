@@ -6,8 +6,8 @@ RSpec.describe Volcanic::Authenticator::V1::PermissionGroup do
   let(:description) { '' }
   let(:subject_id) { 1 }
   let(:active) { true }
-  let(:created_at) { 10.minutes.ago }
-  let(:updated_at) { 10.minutes.ago }
+  let(:created_at) { Time.now - 10 * 60 }
+  let(:updated_at) { Time.now - 10 * 60 }
   let(:permissions) { [{ id: :perm1, name: 'my_permission' }] }
 
   let(:params) do

@@ -7,8 +7,8 @@ RSpec.describe Volcanic::Authenticator::V1::Permission do
   let(:subject_id) { 1 }
   let(:service_id) { 1 }
   let(:active) { true }
-  let(:created_at) { 10.minutes.ago }
-  let(:updated_at) { 10.minutes.ago }
+  let(:created_at) { Time.now - 10 * 60 }
+  let(:updated_at) { Time.now - 10 * 60 }
 
   let(:params) do
     {
