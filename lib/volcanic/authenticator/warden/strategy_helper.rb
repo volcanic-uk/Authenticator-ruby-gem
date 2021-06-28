@@ -35,7 +35,7 @@ module Volcanic::Authenticator::Warden
         request.get_header('HTTP_AUTHORIZATION').to_s.split(nil, 2)
 
       # this will raise TokenError
-      return unless bearer.to_s.downcase == 'bearer'
+      return unless bearer.to_s.casecmp('bearer').zero?
 
       token
     end

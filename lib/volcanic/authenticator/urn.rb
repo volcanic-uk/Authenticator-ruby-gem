@@ -3,7 +3,7 @@
 module Volcanic::Authenticator
   # URN provides all of the support needed to generated and parse urns
   class URN
-    MATCH_RE = %r{^user:\/\/([a-z\d-]+)\/([a-z\d-]+)\/([a-z\d]+)\/?([a-z\d]+)?$}.freeze
+    MATCH_RE = %r{^user:\/\/([a-z\d-]+)\/([a-z\d-]+)\/([a-z\d]+)\/?([a-z\d]+)?$}
 
     class << self
       def parse(value)

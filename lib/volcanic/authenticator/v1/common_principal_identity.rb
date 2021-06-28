@@ -2,6 +2,7 @@
 
 require_relative 'common'
 require_relative 'role'
+require_relative 'privilege'
 
 module Volcanic::Authenticator
   module V1
@@ -24,12 +25,24 @@ module Volcanic::Authenticator
         raise_not_implemented_error 'privilege_ids'
       end
 
+      def role_ids=(ids)
+        raise_type_error(:role_ids, 'Array', ids) unless ids.is_a? Array
+        @role_ids = ids
+        @role = nil
+      end
+
+      def privilege_ids=(ids)
+        raise_type_error(:privilege_ids, 'Array', ids) unless ids.is_a? Array
+        @privilege_ids = ids
+        @privilege = nil
+      end
+
       # updating role ids
       #  eg.
-      #   obj = Object.find_by_id(1)
-      #   obj.role_ids = [1, 2]
-      #   obj.update_role_ids(3, '4', [5], nil)
-      #   obj.role_ids = [3, 4, 5]
+      #     obj = Object.find_by_id(1)
+      #     obj.role_ids   #=> [1, 2]
+      #     obj.update_role_ids(3, '4', [5], nil)
+      #     obj.role_ids   #=> [3, 4, 5]
       def update_role_ids(*ids)
         perform_request "/#{id}/roles", roles: ids.flatten.compact
         self.role_ids = ids.flatten.compact.map!(&:to_i)
@@ -37,10 +50,10 @@ module Volcanic::Authenticator
 
       # updating privilege ids
       #  eg.
-      #   obj = Object.find_by_id(1)
-      #   obj.privilege_ids = [1, 2]
-      #   obj.update_privilege_ids(3, '4', [5], nil)
-      #   obj.privilege_ids = [3, 4, 5]
+      #     obj = Object.find_by_id(1)
+      #     obj.privilege_ids   #=> [1, 2]
+      #     obj.update_privilege_ids(3, '4', [5], nil)
+      #     obj.privilege_ids   #=> [3, 4, 5]
       def update_privilege_ids(*ids)
         perform_request "/#{id}/privileges", privileges: ids.flatten.compact
         self.privilege_ids = ids.flatten.compact.map!(&:to_i)
@@ -56,8 +69,34 @@ module Volcanic::Authenticator
       end
 
       def roles
-        @roles ||= perform_get_and_parse(self.class.exception, "#{self.class.path}#{id}/roles")
-        @roles.map { |role| Role.new(role.transform_keys(&:to_sym)) }
+        @roles ||= begin
+         res = perform_get_and_parse(self.class.exception, "#{self.class.path}/#{id}/roles")
+         self.role_ids = []
+         res.map do |role|
+           obj = role.transform_keys(&:to_sym)
+           role_ids << obj[:id]
+           Role.new(obj)
+         end
+       end
+      end
+
+      def privileges
+        @privileges ||= begin
+          res = perform_get_and_parse(self.class.exception, "#{self.class.path}/#{id}/privileges")
+          self.privilege_ids = []
+          res.map do |privilege|
+            obj = privilege.transform_keys(&:to_sym)
+            privilege_ids << privilege[:id]
+            Privilege.new(obj)
+          end
+        end
+      end
+
+      # by default principal and identity will fetch roles and privileges,
+      # if wanted to disable this just pass nil for +include+ object
+      def self.find_by_id(id, **opts)
+        params = { include: 'roles,privileges' }
+        super id, params.update(opts)
       end
 
       private
