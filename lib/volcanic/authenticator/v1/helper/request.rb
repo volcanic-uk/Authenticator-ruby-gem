@@ -22,7 +22,8 @@ module Volcanic::Authenticator
         retries = 0
         begin
           auth_token = AppToken.fetch_and_request if cached_token
-          res = HTTParty.send verb, url_for(end_point), body: body, headers: bearer_header(auth_token)
+          res = HTTParty.send verb, url_for(end_point), body: body, headers: bearer_header(auth_token),
+            debug_output: $stdout
           exception_handler_and_parser(exception, res)
         rescue Volcanic::Authenticator::V1::AuthenticationError => e
           if retries < 2 && cached_token
