@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require_relative 'base'
 require_relative 'helper/request'
 require_relative 'helper/error'
 require_relative 'helper/collection'
@@ -9,7 +10,7 @@ module Volcanic::Authenticator
     # This is a common class where it contains all the common methods
     # for all the features in auth service. For now this class support for:
     # Identity, Principal, Service, Permission, GroupPermission, Role and Privileges
-    class Common
+    class Common < Base
       include Request
 
       def self.path
