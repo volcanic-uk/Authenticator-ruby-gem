@@ -21,7 +21,7 @@ module Volcanic::Authenticator
         %i[description subject_id created_at updated_at].each do |arg|
           send("#{arg}=", args.fetch(arg, ''))
         end
-        @permissions = permissions.map { |d| Permission.new(d.transform_keys(&:to_sym)) }
+        @permissions = permissions.map { |d| Permission.new(**d.transform_keys(&:to_sym)) }
         @dirty_permissions = []
       end
 
