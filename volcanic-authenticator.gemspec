@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.version       = Volcanic::Authenticator::VERSION
   spec.authors       = ['Faridul Azmi']
   spec.email         = ['ahmadfaridulazmi@gmail.com']
-  spec.required_ruby_version = '~> 2.7'
+  spec.required_ruby_version = '~> 3.0'
 
   spec.summary       = 'Ruby gem for Volcanic Authenticator'
   spec.description   = spec.summary
@@ -15,8 +15,6 @@ Gem::Specification.new do |spec|
   spec.files         = Dir.glob 'lib/**/*.rb'
   spec.require_paths = %w[lib]
 
-  spec.add_runtime_dependency 'activeresource'
-  spec.add_runtime_dependency 'activeresource-response'
   spec.add_runtime_dependency 'down'
   spec.add_runtime_dependency 'httparty'
   spec.add_runtime_dependency 'jwt'
