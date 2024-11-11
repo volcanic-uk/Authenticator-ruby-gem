@@ -17,8 +17,7 @@ module Volcanic::Authenticator
       CLAIMS = %i[sub exp nbf aud iat iss scope jti].freeze
 
       attr_accessor :token_base64
-      attr_reader(*CLAIMS)
-      attr_reader :kid, :stack_id, :dataset_id, :principal_id, :identity_id
+      attr_reader(*CLAIMS, :kid, :stack_id, :dataset_id, :principal_id, :identity_id)
 
       def initialize(token = nil, checksum: nil, **claims)
         @token_base64 = token
