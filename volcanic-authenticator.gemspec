@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.version       = Volcanic::Authenticator::VERSION
   spec.authors       = ['Faridul Azmi']
   spec.email         = ['ahmadfaridulazmi@gmail.com']
-  spec.required_ruby_version = '~> 3.0'
+  spec.required_ruby_version = '~> 3.1'
 
   spec.summary       = 'Ruby gem for Volcanic Authenticator'
   spec.description   = spec.summary
@@ -28,7 +28,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rake', '~> 13'
   spec.add_development_dependency 'rspec', '~> 3.0'
   spec.add_development_dependency 'rspec-its', '~> 1.3'
-  spec.add_development_dependency 'rubocop', '~> 0.79'
+  spec.add_development_dependency 'rubocop', '~> 1.14.0'
   spec.add_development_dependency 'vcr'
   spec.add_development_dependency 'webmock'
 end
