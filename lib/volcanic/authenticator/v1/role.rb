@@ -19,6 +19,7 @@ module Volcanic::Authenticator
 
       # initialize new role
       def initialize(id:, cache: nil, **opts)
+        super()
         @id = id
         %i[name parent_id created_at updated_at privilege_ids].each do |key|
           instance_variable_set("@#{key}", opts[key])

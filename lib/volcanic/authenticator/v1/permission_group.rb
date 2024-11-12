@@ -15,6 +15,7 @@ module Volcanic::Authenticator
       end
 
       def initialize(name:, active:, permissions: [], **args)
+        super()
         @id = args.fetch(:id, nil)
         @name = name
         @active = active
