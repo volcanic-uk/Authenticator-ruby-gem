@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.version       = Volcanic::Authenticator::VERSION
   spec.authors       = ['Faridul Azmi']
   spec.email         = ['ahmadfaridulazmi@gmail.com']
-  spec.required_ruby_version = '~> 3.0'
+  spec.required_ruby_version = '~> 3'
 
   spec.summary       = 'Ruby gem for Volcanic Authenticator'
   spec.description   = spec.summary
