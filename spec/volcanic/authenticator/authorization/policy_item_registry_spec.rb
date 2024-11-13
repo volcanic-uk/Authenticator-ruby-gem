@@ -67,8 +67,7 @@ RSpec.describe Vol::Auth::Z::PolicyItemRegistry do
     end
 
     context 'when there is no policy registered for that permission' do
-      subject { -> { instance.policy_for(:nothing) } }
-      it { is_expected.to raise_error(Vol::Auth::Z::PolicyItemRegistry::PolicyItemNotFound) }
+      it { expect { instance.policy_for(:nothing) }.to raise_error(Vol::Auth::Z::PolicyItemRegistry::PolicyItemNotFound) }
     end
   end
 end
