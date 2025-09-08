@@ -35,7 +35,7 @@ module Volcanic::Authenticator
       #
       def save
         payload = { name: name, privileges: privilege_ids, roles: role_ids }
-        super payload
+        super(**payload)
       end
 
       # to create a new Principal.
