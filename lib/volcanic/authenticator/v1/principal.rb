@@ -21,7 +21,6 @@ module Volcanic::Authenticator
       end
 
       def initialize(**opts)
-        super()
         %i[id secure_id name dataset_id role_ids privilege_ids active created_at updated_at stack_id].each do |key|
           instance_variable_set("@#{key}", opts[key])
         end
@@ -35,7 +34,7 @@ module Volcanic::Authenticator
       #
       def save
         payload = { name: name, privileges: privilege_ids, roles: role_ids }
-        super(**payload)
+        super payload
       end
 
       # to create a new Principal.

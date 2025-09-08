@@ -17,7 +17,8 @@ module Volcanic::Authenticator
       CLAIMS = %i[sub exp nbf aud iat iss scope jti].freeze
 
       attr_accessor :token_base64
-      attr_reader(*CLAIMS, :kid, :stack_id, :dataset_id, :principal_id, :identity_id)
+      attr_reader(*CLAIMS)
+      attr_reader :kid, :stack_id, :dataset_id, :principal_id, :identity_id
 
       def initialize(token = nil, checksum: nil, **claims)
         @token_base64 = token
@@ -32,7 +33,7 @@ module Volcanic::Authenticator
       #
       def validate
         # fetch a signature/public key that use for decoding token
-        decode!(public_key: Key.fetch_and_request(kid))
+        decode! Key.fetch_and_request(kid)
         true
       rescue TokenError
         false
@@ -111,7 +112,7 @@ module Volcanic::Authenticator
 
       private
 
-      def decode!(public_key: nil, verify: true)
+      def decode!(public_key = nil, verify = true)
         # public key is required if verify is set to true
         JWT.decode token_base64, public_key, verify, algorithm: 'ES512'
       rescue JWT::DecodeError, JWT::ImmatureSignature, JWT::ExpiredSignature => e
@@ -123,7 +124,7 @@ module Volcanic::Authenticator
         body = claims
 
         if token_base64
-          body, header = decode!(public_key: nil, verify: false)
+          body, header = decode!(nil, false)
           @kid = header['kid'] if header
         end
 

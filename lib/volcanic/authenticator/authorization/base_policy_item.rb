@@ -92,7 +92,7 @@ module Volcanic::Authenticator::Authorization
       @qualified_privileges ||= begin
         vrn_string = target_vrn.to_s
         privileges.dup.delete_if do |priv|
-          !priv.scope.include?(vrn_string) { |qualifiers| qualifiers_valid?(**qualifiers) }
+          !priv.scope.include?(vrn_string) { |qualifiers| qualifiers_valid?(qualifiers) }
         end.sort
       end
     end

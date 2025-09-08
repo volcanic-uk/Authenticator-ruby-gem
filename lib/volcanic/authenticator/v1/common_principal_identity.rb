@@ -70,14 +70,14 @@ module Volcanic::Authenticator
 
       def roles
         @roles ||= begin
-          res = perform_get_and_parse(self.class.exception, "#{self.class.path}/#{id}/roles")
-          self.role_ids = []
-          res.map do |role|
-            obj = role.transform_keys(&:to_sym)
-            role_ids << obj[:id]
-            Role.new(**obj)
-          end
-        end
+         res = perform_get_and_parse(self.class.exception, "#{self.class.path}/#{id}/roles")
+         self.role_ids = []
+         res.map do |role|
+           obj = role.transform_keys(&:to_sym)
+           role_ids << obj[:id]
+           Role.new(obj)
+         end
+       end
       end
 
       def privileges
@@ -87,7 +87,7 @@ module Volcanic::Authenticator
           res.map do |privilege|
             obj = privilege.transform_keys(&:to_sym)
             privilege_ids << privilege[:id]
-            Privilege.new(**obj)
+            Privilege.new(obj)
           end
         end
       end
@@ -96,7 +96,7 @@ module Volcanic::Authenticator
       # if wanted to disable this just pass nil for +include+ object
       def self.find_by_id(id, **opts)
         params = { include: 'roles,privileges' }
-        super id, **params.update(**opts)
+        super id, params.update(opts)
       end
 
       private

@@ -53,7 +53,7 @@ module Volcanic::Authenticator
         #   ...
         def create(payload)
           parsed = perform_post_and_parse exception, path, payload.to_json
-          new(**parsed.transform_keys(&:to_sym))
+          new(parsed.transform_keys(&:to_sym))
         end
 
         # search or find objects
@@ -131,7 +131,7 @@ module Volcanic::Authenticator
             opts[:page_size] = 100
             pages = nil
             loop do
-              page = find_with(**opts)
+              page = find_with(opts)
               pages = pages.nil? ? page : pages.concat(page)
               break if opts[:page] == page.page_count
 
@@ -140,25 +140,25 @@ module Volcanic::Authenticator
             pages
           else
             opts[:page] ||= 1
-            find_with(**opts)
+            find_with(opts)
           end
         end
 
         def find_by_id(id, **opts)
           raise ArgumentError, 'id is empty or nil' if id.nil? || id == ''
 
-          parsed = perform_get_and_parse exception, "#{path}/#{id}?#{query_params(**opts)}"
-          new(**parsed.transform_keys!(&:to_sym))
+          parsed = perform_get_and_parse exception, "#{path}/#{id}?#{query_params(opts)}"
+          new(parsed.transform_keys!(&:to_sym))
         end
 
         private
 
         def find_with(**opts)
-          url = "#{path}?#{query_params(**opts)}"
+          url = "#{path}?#{query_params(opts)}"
           parsed = perform_get_and_parse exception, url
           page_information = parsed['pagination'].transform_keys(&:to_sym)
-          Collection.from_auth_service(parsed['data'].map { |d| new(**d.transform_keys(&:to_sym)) },
-                                       **page_information) # return as collections (object array)
+          Collection.from_auth_service(parsed['data'].map { |d| new(d.transform_keys(&:to_sym)) },
+                                       page_information) # return as collections (object array)
         end
 
         def query_params(**opts)

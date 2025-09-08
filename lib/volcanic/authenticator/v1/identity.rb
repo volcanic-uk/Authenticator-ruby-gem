@@ -21,7 +21,6 @@ module Volcanic::Authenticator
       end
 
       def initialize(**opts)
-        super()
         %i[id secure_id name secret principal_id dataset_id privilege_ids role_ids active source created_at updated_at stack_id].each do |key|
           instance_variable_set("@#{key}", opts[key])
         end
@@ -36,7 +35,7 @@ module Volcanic::Authenticator
       #
       # NOTE: Only use for updating identity. Not creating
       def save
-        super(name: name, privileges: privilege_ids, roles: role_ids)
+        super name: name, privileges: privilege_ids, roles: role_ids
       end
 
       # reset secret

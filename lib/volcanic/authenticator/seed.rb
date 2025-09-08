@@ -9,7 +9,7 @@ module Volcanic::Authenticator
 
     def initialize(service_name:)
       @service_name = service_name
-      @logger = defined?(Rails.logger) ? Rails.logger : Logger.new($stdout)
+      @logger = defined?(Rails.logger) ? Rails.logger : Logger.new(STDOUT)
       @roles ||= IndexedCollection.new(:id, :name)
     end
 

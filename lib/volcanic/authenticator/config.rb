@@ -15,7 +15,6 @@ module Volcanic::Authenticator
     yield Volcanic::Authenticator::Config if block_given?
     Volcanic::Authenticator::Config
   end
-
   ##
   # Configuration class
   #

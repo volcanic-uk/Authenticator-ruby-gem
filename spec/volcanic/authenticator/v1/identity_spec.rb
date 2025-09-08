@@ -180,7 +180,7 @@ RSpec.describe Volcanic::Authenticator::V1::Identity, :vcr do
         { aud: mock_aud, privilege_ids: mock_privilege_id,
           nbf: mock_nbf, exp: mock_exp, single_use: true }
       end
-      subject { identity.new(id: mock_identity_id).token(**args) }
+      subject { identity.new(id: mock_identity_id).token(args) }
       its(:token_base64) { is_expected.to eq mock_token_base64 }
     end
   end
