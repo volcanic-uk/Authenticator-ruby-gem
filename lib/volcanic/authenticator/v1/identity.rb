@@ -36,7 +36,7 @@ module Volcanic::Authenticator
       #
       # NOTE: Only use for updating identity. Not creating
       def save
-        super name: name, privileges: privilege_ids, roles: role_ids
+        super(name: name, privileges: privilege_ids, roles: role_ids)
       end
 
       # reset secret
