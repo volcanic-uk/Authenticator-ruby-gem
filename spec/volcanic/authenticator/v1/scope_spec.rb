@@ -120,8 +120,7 @@ RSpec.describe Volcanic::Authenticator::V1::Scope do
         }.each do |key, values|
           values.each do |value|
             context "#{key} => #{value}" do
-              subject { -> { described_class.new(key => value) } }
-              it { is_expected.to raise_error }
+              it { expect { described_class.new(key => value) }.to raise_error }
             end
           end
         end
