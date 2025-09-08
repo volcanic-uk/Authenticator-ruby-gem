@@ -110,7 +110,7 @@ RSpec.describe Volcanic::Authenticator::V1::Token, :vcr do
       end
 
       context 'by token claims' do
-        let(:token_instance) { token.new(**mock_claims) }
+        let(:token_instance) { token.new(mock_claims) }
         it { should eq response }
       end
     end
@@ -124,7 +124,7 @@ RSpec.describe Volcanic::Authenticator::V1::Token, :vcr do
 
       context 'by token claims' do
         let(:invalid_mock_claims) { { sub: 'user://sandbox/-1/volcanic/volcanic' } }
-        let(:token_instance) { token.new(**invalid_mock_claims) }
+        let(:token_instance) { token.new(invalid_mock_claims) }
         it { expect { token_instance.revoke! }.to raise_error RSpec::Mocks::MockExpectationError }
       end
     end
@@ -170,13 +170,13 @@ RSpec.describe Volcanic::Authenticator::V1::Token, :vcr do
     end
 
     context 'by token claims' do
-      subject { token.new(**mock_claims).checksum }
+      let(:token_params) { mock_claims }
       it { should eq expected_checksum }
     end
 
     context 'should return different checksum' do
       let(:modified_mock_claims) { mock_claims.slice(:exp, :sub) }
-      subject { token.new(**modified_mock_claims).checksum }
+      let(:token_params) { modified_mock_claims }
       it { should_not eq expected_checksum }
     end
   end

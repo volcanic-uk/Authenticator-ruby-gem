@@ -17,7 +17,7 @@ RSpec.describe Volcanic::Authenticator::V1::Permission do
     }
   end
 
-  subject { described_class.new(**params) }
+  subject { described_class.new(params) }
 
   describe 'method' do
     describe '#initialise' do

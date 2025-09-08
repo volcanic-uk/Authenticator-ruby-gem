@@ -71,7 +71,9 @@ module Volcanic::Authenticator::Warden
     end
 
     def logger
-      @logger ||= defined?(Rails) ? Rails.logger : Logger.new($stdout)
+      @logger ||= begin
+        defined?(Rails) ? Rails.logger : Logger.new(STDOUT)
+      end
     end
 
     def token_valid?

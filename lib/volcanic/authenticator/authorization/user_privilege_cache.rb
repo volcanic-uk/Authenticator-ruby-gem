@@ -44,13 +44,13 @@ module Volcanic::Authenticator::Authorization
       def_delegators :instance, :privileges_for, :permission_expiry=, :privilege_expiry=
 
       def instance
-        @_singleton_mutex.synchronize { @instance ||= new }
+        @_singleton_mutex.synchronize { @_singleton_instance ||= new }
       end
 
       # this is provided to support resetting the singleton for testing purposes
       # it should not be used in a production setting
       def _reset_instance
-        @_singleton_mutex.synchronize { @instance = nil }
+        @_singleton_mutex.synchronize { @_singleton_instance = nil }
       end
     end
 

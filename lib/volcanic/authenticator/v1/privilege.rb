@@ -27,8 +27,7 @@ module Volcanic::Authenticator
         end
       end
 
-      def initialize(scope:, allow:, permission_id: nil, group_id: nil, cache: nil, **args)
-        super()
+      def initialize(scope:, permission_id: nil, group_id: nil, allow:, cache: nil, **args)
         @id = args.fetch(:id, nil)
         @scope = Scope.parse(scope)
         @permission_id = permission_id
