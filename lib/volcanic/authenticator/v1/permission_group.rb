@@ -15,13 +15,14 @@ module Volcanic::Authenticator
       end
 
       def initialize(name:, active:, permissions: [], **args)
+        super()
         @id = args.fetch(:id, nil)
         @name = name
         @active = active
         %i[description subject_id created_at updated_at].each do |arg|
           send("#{arg}=", args.fetch(arg, ''))
         end
-        @permissions = permissions.map { |d| Permission.new(d.transform_keys(&:to_sym)) }
+        @permissions = permissions.map { |d| Permission.new(**d.transform_keys(&:to_sym)) }
         @dirty_permissions = []
       end
 

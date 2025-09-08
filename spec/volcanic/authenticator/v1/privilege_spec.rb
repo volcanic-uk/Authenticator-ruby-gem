@@ -14,7 +14,7 @@ RSpec.describe Volcanic::Authenticator::V1::Privilege do
     }
   end
 
-  subject(:instance) { described_class.new(params) }
+  subject(:instance) { described_class.new(**params) }
 
   describe 'sorting' do
     let(:objects) { [first, second] }
@@ -146,7 +146,7 @@ RSpec.describe Volcanic::Authenticator::V1::Privilege do
       end
 
       context 'when all of the values are the same' do
-        let(:other) { described_class.new(other_params) }
+        let(:other) { described_class.new(**other_params) }
         let(:other_params) { params }
         it { is_expected.to be true }
 

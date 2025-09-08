@@ -46,10 +46,10 @@ module Volcanic::Authenticator
         # response body
         def body
           @body ||= begin
-                      JSON.parse(raw_body)
-                    rescue JSON::ParserError
-                      {} # return an empty hash if not json
-                    end
+            JSON.parse(raw_body)
+          rescue JSON::ParserError
+            {} # return an empty hash if not json
+          end
         end
 
         # error message at response body

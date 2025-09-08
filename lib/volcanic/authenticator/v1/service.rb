@@ -19,6 +19,7 @@ module Volcanic::Authenticator
 
       # initialize new service
       def initialize(id:, **opts)
+        super()
         @id = id
         %i[name subject_id created_at updated_at].each do |key|
           instance_variable_set("@#{key}", opts[key])
