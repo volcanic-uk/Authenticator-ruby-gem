@@ -75,6 +75,25 @@ module Volcanic::Authenticator
                           end
       end
 
+      def add_privileges!(*values)
+        values = values.flatten.compact
+        @privileges = nil
+        privilege_ids_tmp = @privilege_ids.dup
+        values.each do |value|
+          id = if value.is_a?(Privilege)
+                 value.id
+               else
+                 value
+               end
+
+          next if privilege_ids_tmp.include?(id)
+
+          privilege_ids_tmp << id
+        end
+        attach_privileges_ids!(privilege_ids_tmp)
+        @privilege_ids = privilege_ids_tmp
+      end
+
       def dirty?
         dirty.values.all?
       end
@@ -98,6 +117,12 @@ module Volcanic::Authenticator
         when Privilege
           @privilege_ids = privs.map(&:id)
         end
+      end
+
+      def attach_privileges_ids!(*values)
+        path = "#{self.class.path}/#{id}/privileges/attach"
+        payload = { privilege_ids: values.flatten }
+        perform_post_and_parse self.class.exception, path, payload.to_json
       end
     end
   end
