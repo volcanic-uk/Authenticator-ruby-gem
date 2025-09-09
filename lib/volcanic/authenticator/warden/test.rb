@@ -10,8 +10,8 @@ module Volcanic::Authenticator::Warden
 
     def authenticate!
       return fail! test_message if defined?(Rails) && Rails.env.production?
-      return fail! missing_message unless token_exist?
-      return fail! invalid_message unless fetch_token == 'test'
+      return fail! missing_message unless auth_header_exist?
+      return fail! invalid_message unless fetch_auth_token == 'test'
 
       success! 'test'
     end
